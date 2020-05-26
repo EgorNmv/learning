@@ -1,32 +1,55 @@
-import { ApolloServer } from 'apollo-server';
+import "reflect-metadata";
 import * as path from "path";
-import { buildSchemaSync } from "type-graphql";
 import { GraphQLSchema } from "graphql";
-import {createConnection, Connection} from "typeorm";
+import { buildSchema } from "type-graphql";
+import { ApolloServer } from 'apollo-server';
+import { config as dotenvConfig } from "dotenv";
 import { resolvers } from "../../api/src/resolvers/index";
+import { getLocallyConnection } from ".//database-connection/database-connection";
 
-const startServer = async () => {
-    const connection = await createConnection({
-        type: "postgres",
-        host: "localhost",
-        port: 5432,
-        username: "postgres",
-        password: "1234",
-        database: "test"
+// const startServer = async (): Promise<void> => {
+//     dotenvConfig({ path: "../.env" });
+//     createConnection({
+//         logger: "advanced-console",
+//         logging: "all",
+//         type: "postgres",
+//         host: process.env.DATABASE_HOST,
+//         port: Number(process.env.DATABASE_PORT),
+//         username: process.env.DATABASE_USERNAME,
+//         password: process.env.DATABASE_PASSWORD,
+//         database: process.env.DATABASE_NAME,
+//         entities,
+//         synchronize: true,
+//     }).then(async connection => {
+//         connection && console.info("1) Database connected");
+
+//         const schema: GraphQLSchema = await buildSchema({
+//             resolvers,
+//             emitSchemaFile: path.resolve(__dirname, "../", "schema.gql")
+//         });
+//         const server: ApolloServer = new ApolloServer({ schema });
+
+//         await server.listen(process.env.SERVER_PORT);
+//         console.log(`2) Server has been started at ${process.env.SERVER_PORT} port`);
+
+//         const b = await getRepository(UserEntity).find();
+//         console.info(b);
+
+//     }).catch(error => console.log(`!) Starting server failed: ${error}`));
+// };
+
+const startServer = async (): Promise<void> => {
+    dotenvConfig({ path: "../.env" });
+    await getLocallyConnection();
+
+    const schema: GraphQLSchema = await buildSchema({
+        resolvers,
+        emitSchemaFile: path.resolve(__dirname, "../", "schema.gql")
     });
+    const server: ApolloServer = new ApolloServer({ schema });
 
-    connection.connect();
-}
+    await server.listen(process.env.SERVER_PORT);
+    console.log(`Server has been started at ${process.env.SERVER_PORT} port`);
+};
 
 startServer();
-
-const schema: GraphQLSchema = buildSchemaSync({
-    resolvers,
-    emitSchemaFile: path.resolve(__dirname, "../", "schema.gql"),
-});
-
-const server: ApolloServer = new ApolloServer({ schema });
-
-server.listen().then(({ url }) => {
-    console.log(`Server ready at ${url}`);
-});
