@@ -5,5 +5,7 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 export const findAllTrainings = async (): Promise<TrainingEntity[]> => {
     const connection: Connection = await getLocallyConnection();
 
-    return await connection.getRepository(TrainingEntity).find();
+    return await connection.getRepository(TrainingEntity).find({
+        relations: ["format", "organizer", "audience"]
+    });
 }

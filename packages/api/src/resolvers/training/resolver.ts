@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg } from "type-graphql";
+import { Resolver, Query, Arg, FieldResolver, Root } from "type-graphql";
 import { TrainingEntity } from "../../objects/entities/training/entity";
 import { findTrainingById } from "./queries/findTrainingById";
 import { findAllTrainings } from "./queries/findAllTrainings";

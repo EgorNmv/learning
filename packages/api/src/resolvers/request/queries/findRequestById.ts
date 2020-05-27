@@ -5,5 +5,8 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 export const findRequestById = async (id: number): Promise<RequestEntity> => {
     const connection: Connection = await getLocallyConnection();
 
-    return connection.getRepository(RequestEntity).findOne(id);
+    return connection.getRepository(RequestEntity).findOne({
+        where: { id },
+        relations: ["training"]
+    });
 }
