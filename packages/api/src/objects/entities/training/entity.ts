@@ -2,7 +2,7 @@ import { ObjectType, Field } from "type-graphql";
 import { FormatEntity } from "../format/entity";
 import { OrganizerEntity } from "../oraganizer/entity";
 import { TargetAudienceEntity } from "../target-audience/entity";
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany, JoinTable } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
 import { Training } from "./type";
 
 @Entity({ name: "Training" })
@@ -42,7 +42,7 @@ export class TrainingEntity extends BaseEntity implements Training {
         nullable: false,
         description: "формат обучения"
     })
-    @ManyToOne(type => FormatEntity)
+    @ManyToOne(type => FormatEntity, format => format.id)
     @JoinColumn()
     public format: FormatEntity;
 
@@ -50,7 +50,7 @@ export class TrainingEntity extends BaseEntity implements Training {
         nullable: false,
         description: "организатор обучения"
     })
-    @ManyToOne(type => OrganizerEntity)
+    @ManyToOne(type => OrganizerEntity, organizer => organizer.id)
     @JoinColumn()
     public organizer: OrganizerEntity;
 
@@ -68,13 +68,13 @@ export class TrainingEntity extends BaseEntity implements Training {
     @Column()
     public end: string;
 
-    @Field(() => TargetAudienceEntity, {
+    @Field(() => [TargetAudienceEntity], {
         nullable: false,
         description: "целевая аудитория обучения"
     })
-    @ManyToMany(type => TargetAudienceEntity)
-    @JoinTable()
-    public audience: TargetAudienceEntity;
+    @OneToMany(type => TargetAudienceEntity, audience => audience.id)
+    @JoinColumn()
+    public audience: TargetAudienceEntity[];
 
     @Field(() => String, {
         nullable: false,
@@ -92,7 +92,7 @@ export class TrainingEntity extends BaseEntity implements Training {
         organizer: OrganizerEntity,
         start: string,
         end: string,
-        audience: TargetAudienceEntity,
+        audience: TargetAudienceEntity[],
         site: string
     ) {
         super();

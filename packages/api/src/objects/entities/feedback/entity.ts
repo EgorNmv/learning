@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, ManyToMany, JoinTable } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "typeorm";
 import { Feedback } from "./type";
 import { UserEntity } from "../user/entity";
 import { TrainingEntity } from "../training/entity";
@@ -20,7 +20,7 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
         nullable: false,
         description: "пользователь, оставивиший отзыв"
     })
-    @ManyToOne(type => UserEntity)
+    @ManyToOne(type => UserEntity, user => user.id)
     @JoinColumn()
     public user: UserEntity;
 
@@ -35,8 +35,8 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
         nullable: false,
         description: "курс, на который оставлен отзыв"
     })
-    @ManyToMany(type => TrainingEntity)
-    @JoinTable()
+    @ManyToOne(type => TrainingEntity, training => training.id)
+    @JoinColumn()
     public training: TrainingEntity;
 
     @Field(() => String, {

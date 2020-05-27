@@ -1,7 +1,7 @@
 import { ObjectType, Field } from "type-graphql";
 import { UserEntity } from "../user/entity";
 import { TrainingEntity } from "../training/entity";
-import { Entity, BaseEntity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Request } from "./type";
 
 @Entity({ name: "Request" })
@@ -33,8 +33,8 @@ export class RequestEntity extends BaseEntity implements Request {
         nullable: false,
         description: "id обучния"
     })
-    @ManyToMany(type => TrainingEntity)
-    @JoinTable()
+    @ManyToOne(type => TrainingEntity, training => training.id)
+    @JoinColumn()
     public training: TrainingEntity;
 
     constructor(

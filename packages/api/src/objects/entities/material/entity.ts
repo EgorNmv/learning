@@ -19,7 +19,7 @@ export class MaterialEntity extends BaseEntity implements Material {
         nullable: false,
         description: "идентификатор обучения"
     })
-    @OneToOne(type => TrainingEntity)
+    @OneToOne(type => TrainingEntity, training => training.id)
     @JoinColumn()
     public training: TrainingEntity;
 
