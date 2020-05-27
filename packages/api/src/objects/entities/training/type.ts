@@ -11,6 +11,6 @@ export interface Training {
     organizer: Organizer;
     start: string;
     end: string;
-    audience: TargetAudience[];
+    audience: TargetAudience;
     site: string;
 }

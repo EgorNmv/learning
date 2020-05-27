@@ -7,6 +7,6 @@ export const findFeedbackById = async (id: number): Promise<FeedbackEntity> => {
 
     return await connection.getRepository(FeedbackEntity).findOne({
         where: { id },
-        relations: ["user", "training"]
+        relations: ["user", "training", "training.format", "training.organizer", "training.audience"]
     });
 }

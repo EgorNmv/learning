@@ -6,6 +6,6 @@ export const findAllFeedbacks = async (): Promise<FeedbackEntity[]> => {
     const connection: Connection = await getLocallyConnection()
 
     return await connection.getRepository(FeedbackEntity).find({
-        relations: ["user", "training"]
+        relations: ["user", "training", "training.format", "training.organizer", "training.audience"]
     });
 }

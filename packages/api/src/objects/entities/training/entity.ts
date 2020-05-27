@@ -2,7 +2,7 @@ import { ObjectType, Field } from "type-graphql";
 import { FormatEntity } from "../format/entity";
 import { OrganizerEntity } from "../oraganizer/entity";
 import { TargetAudienceEntity } from "../target-audience/entity";
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
 import { Training } from "./type";
 
 @Entity({ name: "Training" })
@@ -68,13 +68,13 @@ export class TrainingEntity extends BaseEntity implements Training {
     @Column()
     public end: string;
 
-    @Field(() => [TargetAudienceEntity], {
+    @Field(() => TargetAudienceEntity, {
         nullable: false,
         description: "целевая аудитория обучения"
     })
-    @OneToMany(type => TargetAudienceEntity, audience => audience.id)
+    @ManyToOne(type => TargetAudienceEntity, audience => audience.id)
     @JoinColumn()
-    public audience: TargetAudienceEntity[];
+    public audience: TargetAudienceEntity;
 
     @Field(() => String, {
         nullable: false,
@@ -92,7 +92,7 @@ export class TrainingEntity extends BaseEntity implements Training {
         organizer: OrganizerEntity,
         start: string,
         end: string,
-        audience: TargetAudienceEntity[],
+        audience: TargetAudienceEntity,
         site: string
     ) {
         super();
