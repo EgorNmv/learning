@@ -13,4 +13,7 @@ export interface Training {
     end: string;
     audience: TargetAudience;
     site: string;
+    formatId: number;
+    organizerId: number;
+    audienceId: number;
 }

@@ -4,4 +4,5 @@ export interface Material {
     id: number;
     training: Training;
     link: string;
+    trainingId: number;
 }

@@ -1,6 +1,6 @@
 import { ObjectType, Field } from "type-graphql";
 import { TrainingEntity } from "../training/entity";
-import { Entity, BaseEntity, PrimaryGeneratedColumn, OneToOne, JoinColumn, Column } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, OneToOne, JoinColumn, Column, RelationId } from "typeorm";
 import { Material } from "./type";
 
 @Entity({ name: "Material" })
@@ -22,6 +22,10 @@ export class MaterialEntity extends BaseEntity implements Material {
     @OneToOne(type => TrainingEntity, training => training.id)
     @JoinColumn()
     public training: TrainingEntity;
+
+    @Column()
+    @RelationId((material: MaterialEntity) => material.training)
+    public trainingId: number;
 
     @Field(() => String, {
         nullable: false,

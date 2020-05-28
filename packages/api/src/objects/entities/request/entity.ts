@@ -1,7 +1,7 @@
 import { ObjectType, Field } from "type-graphql";
 import { UserEntity } from "../user/entity";
 import { TrainingEntity } from "../training/entity";
-import { Entity, BaseEntity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, RelationId } from "typeorm";
 import { Request } from "./type";
 
 @Entity({ name: "Request" })
@@ -23,6 +23,10 @@ export class RequestEntity extends BaseEntity implements Request {
     @ManyToOne(type => UserEntity, user => user.id)
     public user: UserEntity;
 
+    @Column()
+    @RelationId((request: RequestEntity) => request.user)
+    public userId: number;
+
     @Field(() => String, {
         nullable: false,
         description: "дата подачи заявки на обучение"
@@ -36,6 +40,10 @@ export class RequestEntity extends BaseEntity implements Request {
     @ManyToOne(type => TrainingEntity, training => training.id)
     @JoinColumn()
     public training: TrainingEntity;
+
+    @Column()
+    @RelationId((request: RequestEntity) => request.training)
+    public trainingId: number;
 
     constructor(
         id: number,

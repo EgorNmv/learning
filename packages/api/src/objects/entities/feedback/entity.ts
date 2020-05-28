@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, RelationId } from "typeorm";
 import { Feedback } from "./type";
 import { UserEntity } from "../user/entity";
 import { TrainingEntity } from "../training/entity";
@@ -24,6 +24,10 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
     @JoinColumn()
     public user: UserEntity;
 
+    @Column()
+    @RelationId((feedback: FeedbackEntity) => feedback.user)
+    public userId: number;
+
     @Field(() => Number, {
         nullable: false,
         description: "тип(1-рекомендация, 2-отзыв)"
@@ -38,6 +42,10 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
     @ManyToOne(type => TrainingEntity, training => training.id)
     @JoinColumn()
     public training: TrainingEntity;
+
+    @Column()
+    @RelationId((feedback: FeedbackEntity) => feedback.training)
+    public trainingId: number;
 
     @Field(() => String, {
         nullable: false,
