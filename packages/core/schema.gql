@@ -33,6 +33,49 @@ type FormatEntity {
   id: Float!
 }
 
+input InputFeedback {
+  date: String!
+  text: String!
+  trainingId: Float!
+  type: Float!
+  userId: Float!
+}
+
+input InputMaterial {
+  link: String!
+  trainingId: Float!
+}
+
+input InputOrganizer {
+  address: String!
+  name: String!
+  site: String!
+  type: Float!
+}
+
+input InputRequest {
+  date: String!
+  trainingId: Float!
+  userId: Float!
+}
+
+input InputTraining {
+  audienceId: Float!
+  description: String!
+  end: String!
+  formatId: Float!
+  label: String!
+  name: String!
+  organizerId: Float!
+  site: String!
+  start: String!
+}
+
+input InputUser {
+  fullname: String!
+  login: String!
+}
+
 """Материалы обучения"""
 type MaterialEntity {
   """id материала"""
@@ -43,6 +86,29 @@ type MaterialEntity {
 
   """идентификатор обучения"""
   training: TrainingEntity!
+}
+
+type Mutation {
+  createFeedback(data: InputFeedback!): FeedbackEntity!
+  createFormat(description: String!): FormatEntity!
+  createMaterial(data: InputMaterial!): MaterialEntity!
+  createOrganizer(data: InputOrganizer!): OrganizerEntity!
+  createRequest(data: InputRequest!): RequestEntity!
+  createTargetAudience(description: String!): TargetAudienceEntity!
+  createTraining(data: InputTraining!): TrainingEntity!
+  createUser(data: InputUser!): UserEntity!
+  deleteFeedbackById(id: Float!): Boolean!
+  deleteFormatById(id: Float!): Boolean!
+  deleteMaterialById(id: Float!): Boolean!
+  deleteOrganizerById(id: Float!): Boolean!
+  deleteTargetAudienceById(id: Float!): Boolean!
+  deleteTrainingById(id: Float!): Boolean!
+  updateFeedbackById(data: InputFeedback!, id: Float!): FeedbackEntity!
+  updateFormatById(description: String!, id: Float!): FormatEntity!
+  updateMaterialById(data: InputMaterial!, id: Float!): MaterialEntity!
+  updateOrganizerById(data: InputOrganizer!, id: Float!): OrganizerEntity!
+  updateTargetAudienceById(description: String!, id: Float!): TargetAudienceEntity!
+  updateTrainingById(data: InputTraining!, id: Float!): TrainingEntity!
 }
 
 """Организатор обучения"""
