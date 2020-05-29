@@ -11,9 +11,9 @@ import { deleteUserById } from "./queries/deleteUserById";
 
 @Resolver(UserEntity)
 export class UserResolver {
-    @Query(() => UserEntity)
+    @Query(() => UserEntity, { nullable: true })
     public async user(@Arg("id") id: number) {
-        const user: User = await findUserById(id);
+        const user: User | null = await findUserById(id);
 
         return user;
     }
