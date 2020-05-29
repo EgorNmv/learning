@@ -48,10 +48,11 @@
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
-    "react": "^16.13.1",
+    "react": "^0.0.0-experimental-33c3af284",
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "^0.0.0-experimental-33c3af284",
+    "react-relay": "^0.0.0-experimental-94e87455",
     "resolve": "1.15.0",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.2",
@@ -59,7 +60,7 @@
     "style-loader": "0.23.1",
     "terser-webpack-plugin": "2.3.5",
     "ts-pnp": "1.1.6",
-    "typescript": "~3.7.2",
+    "typescript": "^3.9.3",
     "url-loader": "2.3.0",
     "webpack": "4.42.0",
     "webpack-dev-server": "3.10.3",
@@ -69,7 +70,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "relay": "relay-compiler --src ./src --schema schema.gql --language typescript"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -140,5 +142,11 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-relay": "^9.1.0",
+    "graphql": "^15.0.0",
+    "relay-compiler": "^9.1.0",
+    "relay-compiler-language-typescript": "^12.0.3"
   }
 }
