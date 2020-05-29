@@ -46,7 +46,10 @@ const startServer = async (): Promise<void> => {
         resolvers,
         emitSchemaFile: path.resolve(__dirname, "../", "schema.gql")
     });
-    const server: ApolloServer = new ApolloServer({ schema });
+    const server: ApolloServer = new ApolloServer({
+        schema,
+        // formatError: (error: any) => ({ message: error.message, statusCode: error.statusCode })
+    });
 
     await server.listen(process.env.SERVER_PORT);
     console.log(`Server has been started at ${process.env.SERVER_PORT} port`);

@@ -103,12 +103,14 @@ type Mutation {
   deleteOrganizerById(id: Float!): Boolean!
   deleteTargetAudienceById(id: Float!): Boolean!
   deleteTrainingById(id: Float!): Boolean!
+  deleteUserById(id: Float!): Boolean!
   updateFeedbackById(data: InputFeedback!, id: Float!): FeedbackEntity!
   updateFormatById(description: String!, id: Float!): FormatEntity!
   updateMaterialById(data: InputMaterial!, id: Float!): MaterialEntity!
   updateOrganizerById(data: InputOrganizer!, id: Float!): OrganizerEntity!
   updateTargetAudienceById(description: String!, id: Float!): TargetAudienceEntity!
   updateTrainingById(data: InputTraining!, id: Float!): TrainingEntity!
+  updateUserById(data: InputUser!, id: Float!): UserEntity!
 }
 
 """Организатор обучения"""
@@ -144,7 +146,7 @@ type Query {
   targetAudiences: [TargetAudienceEntity!]!
   training(id: Float!): TrainingEntity!
   trainings: [TrainingEntity!]!
-  user(id: Float!): UserEntity!
+  user(id: Float!): UserEntity
   users: [UserEntity!]!
 }
 
