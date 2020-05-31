@@ -1,42 +1,36 @@
 import "reflect-metadata";
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
-import { FormatEntity } from "../../objects/entities/format/entity";
-import { findFormatById } from "./queries/findFormatById";
-import { findAllFormats } from "./queries/findAllFormats";
-import { createFormat } from "./queries/createFormat";
-import { updateFormatById } from "./queries/updateFormatById";
-import { deleteFormatById } from "./queries/deleteFormatById";
+import {Arg, Mutation, Query, Resolver} from "type-graphql";
+import {FormatEntity} from "../../objects/entities/format/entity";
+import {findFormatById} from "./queries/findFormatById";
+import {findAllFormats} from "./queries/findAllFormats";
+import {createFormat} from "./queries/createFormat";
+import {updateFormatById} from "./queries/updateFormatById";
+import {deleteFormatById} from "./queries/deleteFormatById";
 
 @Resolver(FormatEntity)
 export class FormatResolver {
-    @Query(() => FormatEntity)
+    @Query(() => FormatEntity || null, {
+        nullable: true
+    })
     async format(@Arg("id") id: number) {
-        const format = await findFormatById(id);
-
-        return format;
+        return await findFormatById(id);
     }
 
     @Query(() => [FormatEntity])
     async formats() {
-        const formats: FormatEntity[] = await findAllFormats();
-
-        return formats;
+        return await findAllFormats();
     }
 
     @Mutation(() => FormatEntity)
     async createFormat(@Arg("description") description: string) {
-        const format: FormatEntity = await createFormat(description);
-
-        return format;
+        return await createFormat(description);
     }
 
     @Mutation(() => FormatEntity)
     async updateFormatById(
         @Arg("id") id: number,
         @Arg("description") description: string) {
-        const updatedFormtat: FormatEntity = await updateFormatById(id, description);
-
-        return updatedFormtat;
+        return await updateFormatById(id, description);
     }
 
     @Mutation(() => Boolean)

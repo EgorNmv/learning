@@ -1,33 +1,29 @@
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
-import { RequestEntity } from "../../objects/entities/request/entity";
-import { findRequestById } from "./queries/findRequestById";
-import { findAllRequests } from "./queries/findAllRequests";
-import { InputRequest } from "../../objects/input-objects/inputRequest";
-import { createRequest } from "./queries/createRequest";
-import { updateRequestById } from "./queries/updateRequestById";
-import { deleteRequestById } from "./queries/deleteRequestById";
+import {Arg, Mutation, Query, Resolver} from "type-graphql";
+import {RequestEntity} from "../../objects/entities/request/entity";
+import {findRequestById} from "./queries/findRequestById";
+import {findAllRequests} from "./queries/findAllRequests";
+import {InputRequest} from "../../objects/input-objects/inputRequest";
+import {createRequest} from "./queries/createRequest";
+import {updateRequestById} from "./queries/updateRequestById";
+import {deleteRequestById} from "./queries/deleteRequestById";
 
 @Resolver(RequestEntity)
 export class RequestResolver {
-    @Query(() => RequestEntity)
+    @Query(() => RequestEntity || null, {
+        nullable: true
+    })
     public async request(@Arg("id") id: number) {
-        const request: RequestEntity = await findRequestById(id);
-
-        return request;
+        return await findRequestById(id);
     }
 
     @Query(() => [RequestEntity])
     public async requests() {
-        const requests: RequestEntity[] = await findAllRequests();
-
-        return requests;
+        return await findAllRequests();
     }
 
     @Mutation(() => RequestEntity)
     public async createRequest(@Arg("data") data: InputRequest) {
-        const request: RequestEntity = await createRequest(data);
-
-        return request;
+        return await createRequest(data);
     }
 
     @Mutation(() => RequestEntity)
@@ -35,9 +31,7 @@ export class RequestResolver {
         @Arg("id") id: number,
         @Arg("data") data: InputRequest
     ) {
-        const updatedOrganizer: RequestEntity = await updateRequestById(id, data);
-
-        return updatedOrganizer;
+        return await updateRequestById(id, data);
     }
 
     @Mutation(() => Boolean)

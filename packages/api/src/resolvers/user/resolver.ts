@@ -1,35 +1,30 @@
 import "reflect-metadata";
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
-import { User } from "../../objects/entities/user/type";
-import { UserEntity } from "../../objects/entities/user/entity";
-import { findAllUsers } from "./queries/findAllUsers";
-import { findUserById } from "./queries/findUserById";
-import { InputUser } from "../../objects/input-objects/inputUser";
-import { createUser } from "./queries/createUser";
-import { updateUserById } from "./queries/updateUserById";
-import { deleteUserById } from "./queries/deleteUserById";
+import {Arg, Mutation, Query, Resolver} from "type-graphql";
+import {UserEntity} from "../../objects/entities/user/entity";
+import {findAllUsers} from "./queries/findAllUsers";
+import {findUserById} from "./queries/findUserById";
+import {InputUser} from "../../objects/input-objects/inputUser";
+import {createUser} from "./queries/createUser";
+import {updateUserById} from "./queries/updateUserById";
+import {deleteUserById} from "./queries/deleteUserById";
 
 @Resolver(UserEntity)
 export class UserResolver {
-    @Query(() => UserEntity, { nullable: true })
+    @Query(() => UserEntity || null, {
+        nullable: true
+    })
     public async user(@Arg("id") id: number) {
-        const user: User | null = await findUserById(id);
-
-        return user;
+        return await findUserById(id);
     }
 
     @Query(() => [UserEntity])
     public async users() {
-        const users: UserEntity[] = await findAllUsers();
-
-        return users || [];
+        return await findAllUsers();
     }
 
     @Mutation(() => UserEntity)
     public async createUser(@Arg("data") data: InputUser) {
-        const user: UserEntity = await createUser(data);
-
-        return user;
+        return await createUser(data);
     }
 
     @Mutation(() => UserEntity)
@@ -37,9 +32,7 @@ export class UserResolver {
         @Arg("id") id: number,
         @Arg("data") data: InputUser
     ) {
-        const updatedUser: UserEntity = await updateUserById(id, data);
-
-        return updatedUser;
+        return await updateUserById(id, data);
     }
 
     @Mutation(() => Boolean)
