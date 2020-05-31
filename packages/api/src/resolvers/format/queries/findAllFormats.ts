@@ -2,8 +2,9 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { Connection } from "typeorm";
 import { FormatEntity } from "../../../objects/entities/format/entity";
 
-export const findAllFormats = async (): Promise<FormatEntity[]> => {
-    const connection: Connection = await getLocallyConnection();
+export const findAllFormats = async (
+    connection: Connection
+): Promise<FormatEntity[]> => {
 
     return await connection.getRepository(FormatEntity).find();
 }

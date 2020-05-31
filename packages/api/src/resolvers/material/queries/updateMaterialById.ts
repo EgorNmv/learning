@@ -5,11 +5,11 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { findMaterialById } from "./findMaterialById";
 
 export const updateMaterialById = async (
+    connection: Connection,
     id: number,
     data: InputMaterial
 ): Promise<MaterialEntity> => {
-    const connection: Connection = await getLocallyConnection();
-    const material: MaterialEntity = await findMaterialById(id);
+    const material: MaterialEntity = await findMaterialById(connection, id);
 
     if (!material) {
         throw new Error(`Material with id ${id} not found`);

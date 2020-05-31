@@ -3,9 +3,10 @@ import { Connection } from "typeorm";
 import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 import { InputOrganizer } from "../../../objects/input-objects/inputOrganizer";
 
-export const createOrganizer = async (data: InputOrganizer): Promise<OrganizerEntity> => {
-    const connection: Connection = await getLocallyConnection();
-
+export const createOrganizer = async (
+    connection: Connection,
+    data: InputOrganizer
+): Promise<OrganizerEntity> => {
     const formatFromData: OrganizerEntity = await connection.getRepository(OrganizerEntity)
         .save(data);
 

@@ -3,9 +3,11 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { FeedbackEntity } from "../../../objects/entities/feedback/entity";
 import { findFeedbackById } from "./findFeedbackById";
 
-export const deleteFeedbackById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const feedback: FeedbackEntity = await findFeedbackById(id);
+export const deleteFeedbackById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const feedback: FeedbackEntity = await findFeedbackById(connection, id);
     let isFeedbackRemoved: boolean = false;
 
     if (!feedback) {

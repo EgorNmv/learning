@@ -3,9 +3,11 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { findTrainingById } from "./findTrainingById";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
 
-export const deleteTrainingById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const training: TrainingEntity = await findTrainingById(id);
+export const deleteTrainingById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const training: TrainingEntity = await findTrainingById(connection, id);
     let isTrainingRemoved: boolean = false;
 
     if (!training) {

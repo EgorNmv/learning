@@ -4,9 +4,11 @@ import { MaterialEntity } from "../../../objects/entities/material/entity";
 import { findMaterialById } from "./findMaterialById";
 
 
-export const deleteMaterialById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const material: MaterialEntity = await findMaterialById(id);
+export const deleteMaterialById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const material: MaterialEntity = await findMaterialById(connection, id);
     let isMaterialRemoved: boolean = false;
 
     if (!material) {

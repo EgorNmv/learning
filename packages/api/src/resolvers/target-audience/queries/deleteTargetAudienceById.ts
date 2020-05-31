@@ -3,9 +3,11 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { TargetAudienceEntity } from "../../../objects/entities/target-audience/entity";
 import { findTargetAudienceById } from "./findTargetAudienceById";
 
-export const deleteTargetAudienceById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const targetAudience: TargetAudienceEntity = await findTargetAudienceById(id);
+export const deleteTargetAudienceById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const targetAudience: TargetAudienceEntity = await findTargetAudienceById(connection, id);
     let isTargetAudienceRemoved: boolean = false;
 
     if (!targetAudience) {

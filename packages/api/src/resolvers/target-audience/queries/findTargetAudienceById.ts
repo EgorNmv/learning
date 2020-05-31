@@ -1,11 +1,11 @@
-import {TargetAudienceEntity} from "../../../objects/entities/target-audience/entity";
-import {Connection} from "typeorm";
-import {getLocallyConnection} from "../../../../../core/src/database-connection/database-connection";
+import { TargetAudienceEntity } from "../../../objects/entities/target-audience/entity";
+import { Connection } from "typeorm";
+import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 
 export const findTargetAudienceById = async (
+    connection: Connection,
     id: number
 ): Promise<TargetAudienceEntity | null> => {
-    const connection: Connection = await getLocallyConnection();
     const targetAudience: TargetAudienceEntity = await connection
         .getRepository(TargetAudienceEntity).findOne(id);
 

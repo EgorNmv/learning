@@ -4,11 +4,13 @@ import { InputRequest } from "../../../objects/input-objects/inputRequest";
 import { RequestEntity } from "../../../objects/entities/request/entity";
 import { findRequestById } from "./findRequestById";
 
-export const createRequest = async (data: InputRequest): Promise<RequestEntity> => {
-    const connection: Connection = await getLocallyConnection();
+export const createRequest = async (
+    connection: Connection,
+    data: InputRequest
+): Promise<RequestEntity> => {
     const { id }: RequestEntity = await connection.getRepository(RequestEntity)
         .save({ ...data });
-    const newFeedback: RequestEntity = await findRequestById(id);
+    const newFeedback: RequestEntity = await findRequestById(connection, id);
 
     return newFeedback;
 }

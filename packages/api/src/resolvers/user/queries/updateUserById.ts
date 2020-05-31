@@ -4,9 +4,10 @@ import { findUserById } from "./findUserById";
 import { InputUser } from "../../../objects/input-objects/inputUser";
 import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 
-export const updateUserById = async (id: number, data: InputUser): Promise<UserEntity> => {
-    const connection: Connection = await getLocallyConnection();
-    const user: UserEntity = await findUserById(id);
+export const updateUserById = async (
+    connection: Connection,
+    id: number, data: InputUser): Promise<UserEntity> => {
+    const user: UserEntity = await findUserById(connection, id);
 
     if (!user) {
         throw new Error(`User with id ${id} not found`);

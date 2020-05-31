@@ -1,13 +1,13 @@
-import {TrainingEntity} from "../../../objects/entities/training/entity";
-import {Connection} from "typeorm";
-import {getLocallyConnection} from "../../../../../core/src/database-connection/database-connection";
+import { TrainingEntity } from "../../../objects/entities/training/entity";
+import { Connection } from "typeorm";
+import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 
 export const findTrainingById = async (
+    connection: Connection,
     id: number
 ): Promise<TrainingEntity | null> => {
-    const connection: Connection = await getLocallyConnection();
     const training: TrainingEntity = await connection.getRepository(TrainingEntity).findOne({
-        where: {id},
+        where: { id },
         relations: ["format", "organizer", "audience"]
     });
 

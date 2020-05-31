@@ -4,11 +4,13 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { InputMaterial } from "../../../objects/input-objects/inputMaterial";
 import { findMaterialById } from "./findMaterialById";
 
-export const createMaterial = async (data: InputMaterial): Promise<MaterialEntity> => {
-    const connection: Connection = await getLocallyConnection();
+export const createMaterial = async (
+    connection: Connection,
+    data: InputMaterial
+): Promise<MaterialEntity> => {
     const { id }: MaterialEntity = await connection.getRepository(MaterialEntity)
         .save({ ...data });
-    const newMaterial: MaterialEntity = await findMaterialById(id);
+    const newMaterial: MaterialEntity = await findMaterialById(connection, id);
 
     return newMaterial;
 }

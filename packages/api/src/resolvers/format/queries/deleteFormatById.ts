@@ -3,9 +3,11 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { FormatEntity } from "../../../objects/entities/format/entity";
 import { findFormatById } from "./findFormatById";
 
-export const deleteFormatById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const format: FormatEntity = await findFormatById(id);
+export const deleteFormatById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const format: FormatEntity = await findFormatById(connection, id);
     let isFormatRemoved: boolean = false;
 
     if (!format) {

@@ -3,9 +3,11 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 import { findRequestById } from "./findRequestById";
 import { RequestEntity } from "../../../objects/entities/request/entity";
 
-export const deleteRequestById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const request: RequestEntity = await findRequestById(id);
+export const deleteRequestById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const request: RequestEntity = await findRequestById(connection, id);
     let isRequestRemoved: boolean = false;
 
     if (!request) {

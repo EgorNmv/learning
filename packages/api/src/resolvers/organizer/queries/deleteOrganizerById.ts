@@ -3,9 +3,11 @@ import { Connection } from "typeorm";
 import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 import { findOrganizerById } from "./findOrganizerById";
 
-export const deleteOrganizerById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const organizer: OrganizerEntity = await findOrganizerById(id);
+export const deleteOrganizerById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const organizer: OrganizerEntity = await findOrganizerById(connection, id);
     let isOrganizerRemoved: boolean = false;
 
     if (!organizer) {

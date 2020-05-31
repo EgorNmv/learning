@@ -4,11 +4,11 @@ import { TargetAudienceEntity } from "../../../objects/entities/target-audience/
 import { findTargetAudienceById } from "./findTargetAudienceById";
 
 export const updateTargetAudienceById = async (
+    connection: Connection,
     id: number,
     description: string
 ): Promise<TargetAudienceEntity> => {
-    const connection: Connection = await getLocallyConnection();
-    const targetAudience: TargetAudienceEntity = await findTargetAudienceById(id);
+    const targetAudience: TargetAudienceEntity = await findTargetAudienceById(connection, id);
 
     if (!targetAudience) {
         throw new Error(`Target audience with id:${id} not found`);

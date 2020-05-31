@@ -4,9 +4,12 @@ import { InputTraining } from "../../../objects/input-objects/inputTraining";
 import { findTrainingById } from "./findTrainingById";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
 
-export const updateTrainingById = async (id: number, data: Partial<InputTraining>): Promise<TrainingEntity> => {
-    const connection: Connection = await getLocallyConnection();
-    const training: TrainingEntity = await findTrainingById(id);
+export const updateTrainingById = async (
+    connection: Connection,
+    id: number,
+    data: Partial<InputTraining>
+): Promise<TrainingEntity> => {
+    const training: TrainingEntity = await findTrainingById(connection, id);
 
     if (!training) {
         throw new Error(`Training with id ${id} not found`);

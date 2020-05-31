@@ -4,9 +4,11 @@ import { findUserById } from "./findUserById";
 import { UserEntity } from "../../../objects/entities/user/entity";
 
 
-export const deleteUserById = async (id: number): Promise<boolean> => {
-    const connection: Connection = await getLocallyConnection();
-    const user: UserEntity = await findUserById(id);
+export const deleteUserById = async (
+    connection: Connection,
+    id: number
+): Promise<boolean> => {
+    const user: UserEntity = await findUserById(connection, id);
     let isUserRemoved: boolean = false;
 
     if (!user) {

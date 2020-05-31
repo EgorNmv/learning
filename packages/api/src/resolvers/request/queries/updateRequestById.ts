@@ -4,9 +4,12 @@ import { InputRequest } from "../../../objects/input-objects/inputRequest";
 import { RequestEntity } from "../../../objects/entities/request/entity";
 import { findRequestById } from "./findRequestById";
 
-export const updateRequestById = async (id: number, data: Partial<InputRequest>): Promise<RequestEntity> => {
-    const connection: Connection = await getLocallyConnection();
-    const request: RequestEntity = await findRequestById(id);
+export const updateRequestById = async (
+    connection: Connection,
+    id: number,
+    data: Partial<InputRequest>
+): Promise<RequestEntity> => {
+    const request: RequestEntity = await findRequestById(connection, id);
 
     if (!request) {
         throw new Error(`Request with id ${id} not found`);
