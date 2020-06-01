@@ -8,7 +8,7 @@ const Help = React.lazy(() => import("../../pages/Help"));
 const AllCategories = React.lazy(() => import("../../pages/AllCategories"));
 
 export const Content: React.FC = () => (
-  <Layout.Content>
+  <Layout.Content style={{ padding: "2rem" }}>
     <Suspense fallback={<Spin />}>
       <Route path="/" exact component={Main} />
       <Route path="/category" exact component={AllCategories} />
