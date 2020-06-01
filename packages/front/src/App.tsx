@@ -1,4 +1,3 @@
-import React from "react";
 // import {
 //   Network,
 //   Environment,
@@ -33,12 +32,25 @@ import React from "react";
 //   {},
 //   { fetchPolicy: "store-or-network" }
 // );
+import React from "react";
+import { Layout } from "antd";
+import { BrowserRouter } from "react-router-dom";
+import { Sider } from "./components/Sider/Sider";
+import { Header } from "./components/Header/Header";
+import { Content } from "./components/Content/Content";
 
 function App() {
   return (
     // <RelayEnvironmentProvider environment={environment}>
-    <div>content</div>
-    // </RelayEnvironmentProvider>
+    <BrowserRouter>
+      <Layout>
+        <Sider />
+        <Layout>
+          <Header />
+          <Content />
+        </Layout>
+      </Layout>
+    </BrowserRouter>
   );
 }
 

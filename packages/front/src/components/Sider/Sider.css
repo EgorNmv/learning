@@ -1,0 +1,26 @@
+.sider-content {
+  padding: 1rem;
+  color: white;
+}
+
+.sider-title-circle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.sider-content > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 2rem;
+}
+
+.sider-title-text {
+  font-size: 1rem;
+}
+
+.sider-content > main > ul > li > a {
+  color: rgb(146, 232, 255);
+}

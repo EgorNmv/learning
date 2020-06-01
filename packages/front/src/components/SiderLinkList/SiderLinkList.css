@@ -1,0 +1,6 @@
+.ant-menu.ant-menu-sub.ant-menu-inline {
+  background: rgb(0, 136, 186);
+}
+.ant-menu.ant-menu-sub.ant-menu-inline > li > a {
+  color: rgb(146, 232, 255);
+}
