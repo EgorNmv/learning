@@ -1,25 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+// import {
+//   Network,
+//   Environment,
+//   RecordSource,
+//   Store,
+//   graphql,
+// } from "relay-runtime";
+// import { RelayEnvironmentProvider, preloadQuery } from "react-relay/hooks";
+// import getFetch from "./utils/fetch";
+// import { AppQuery } from "./__generated__/AppQuery.graphql";
+
+// const source = new RecordSource();
+// const store = new Store(source);
+// const environment = new Environment({
+//   network: Network.create(getFetch("http://localhost:4000/")),
+//   store,
+// });
+
+// export const query = graphql`
+//   query AppQuery {
+//     users {
+//       id
+//       fullname
+//       login
+//     }
+//   }
+// `;
+
+// export const result = preloadQuery<AppQuery>(
+//   environment,
+//   query,
+//   {},
+//   { fetchPolicy: "store-or-network" }
+// );
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <RelayEnvironmentProvider environment={environment}>
+    <div>content</div>
+    // </RelayEnvironmentProvider>
   );
 }
 
