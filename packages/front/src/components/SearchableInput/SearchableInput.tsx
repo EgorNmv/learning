@@ -11,8 +11,10 @@ export const SearchableInput: React.FC = () => {
         style={{ width: "50%" }}
       />
       <Select defaultValue="Поиск по: контексту">
-        <Select.Option value="Zhejiang">Zhejiang</Select.Option>
-        <Select.Option value="Jiangsu">Jiangsu</Select.Option>
+        <Select.Option value="date">дате</Select.Option>
+        <Select.Option value="format">формату</Select.Option>
+        <Select.Option value="category">категории</Select.Option>
+        <Select.Option value="audience">аудитории</Select.Option>
       </Select>
     </Input.Group>
   );

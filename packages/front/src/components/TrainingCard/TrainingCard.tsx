@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "antd";
+import { Link } from "react-router-dom";
 
 export const TrainingCard: React.FC = () => (
   <div style={{ display: "flex" }}>
@@ -10,7 +11,7 @@ export const TrainingCard: React.FC = () => (
       }}
     />
     <Card title="Default size card">
-      <h5>Основы Python</h5>
+      <Link to="/category/1/training/1"><h5>Основы Python</h5></Link>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, neque
         harum laborum commodi voluptatum enim aspernatur molestiae vitae

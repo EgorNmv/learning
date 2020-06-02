@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "antd";
+import { Layout, Select } from "antd";
 import { SearchableInput } from "../SearchableInput/SearchableInput";
 import { Menu } from "antd";
 
@@ -21,14 +21,12 @@ export const Header: React.FC = () => (
         <SearchableInput />
       </div>
       <div>
-        <Menu mode="inline">
-          <Menu.SubMenu key="sub1" title="Мальцева Полина">
-            <Menu.Item key="1">Option 1</Menu.Item>
-            <Menu.Item key="2">Option 2</Menu.Item>
-            <Menu.Item key="3">Option 3</Menu.Item>
-            <Menu.Item key="4">Option 4</Menu.Item>
-          </Menu.SubMenu>
-        </Menu>
+        <Select defaultValue="Мальцева Полина" bordered={false}>
+          <Select.Option value="1">Мой профиль</Select.Option>
+          <Select.Option value="2">Мои заявки</Select.Option>
+          <Select.Option value="3">Мои отзывы</Select.Option>
+          <Select.Option value="4">Выход</Select.Option>
+        </Select>
       </div>
     </section>
   </Layout.Header>
