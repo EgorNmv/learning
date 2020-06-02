@@ -5,7 +5,14 @@ import { SiderLinkList } from "../SiderLinkList/SiderLinkList";
 import { THEME } from "../../constants/theme";
 
 export const Sider: React.FC = () => (
-  <Layout.Sider style={{ background: THEME.mainColor }}>
+  <Layout.Sider
+    style={{
+      background: THEME.mainColor,
+      minHeight: "100vh",
+      position: "fixed",
+      zIndex: 1,
+    }}
+  >
     <div className="sider-content">
       <header>
         <div className="sider-title-circle"></div>

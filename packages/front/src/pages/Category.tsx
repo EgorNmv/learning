@@ -9,7 +9,7 @@ const Category: React.FC = () => {
         <h2>Программирование</h2>
         <SortableTrainingList />
       </section>
-      <section>
+      <section style={{ marginLeft: "2rem" }}>
         <CalendarWithEvents />
       </section>
     </div>

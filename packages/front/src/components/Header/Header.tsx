@@ -8,6 +8,11 @@ export const Header: React.FC = () => (
     style={{
       background: "white",
       borderBottom: "1px solid rgb(109, 109, 109)",
+      position: "fixed",
+      marginLeft: "200px",
+      width: "100%",
+      zIndex: 1,
+      paddingRight: "200px",
     }}
   >
     <section
