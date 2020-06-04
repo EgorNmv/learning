@@ -1,0 +1,16 @@
+section > header.all-main-header {
+  background: white;
+  border-bottom: 1px solid rgb(109, 109, 109);
+  position: fixed;
+  margin-left: 200px;
+  width: 100%;
+  z-index: 1;
+  padding-right: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section > header.all-main-header > div:first-child {
+    flex: 1;
+}

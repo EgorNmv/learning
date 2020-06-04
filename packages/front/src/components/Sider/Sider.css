@@ -1,3 +1,10 @@
+section > aside.all-sider-layout {
+  background: rgb(0, 136, 186);
+  min-height: 100vh;
+  position: fixed;
+  z-index: 1;
+}
+
 .sider-content {
   padding: 1rem;
   color: white;
@@ -10,7 +17,7 @@
   border: 2px solid white;
 }
 
-.sider-content > header {
+.sider-content > div {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -21,6 +28,6 @@
   font-size: 1rem;
 }
 
-.sider-content > main > ul > li > a {
+.sider-content > div > ul > li > a {
   color: rgb(146, 232, 255);
 }

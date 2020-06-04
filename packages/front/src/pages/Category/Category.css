@@ -1,0 +1,8 @@
+.category-page-content {
+  display: flex;
+}
+
+.category-page-content-calendar {
+  margin-left: 2rem;
+  width: min-content;
+}

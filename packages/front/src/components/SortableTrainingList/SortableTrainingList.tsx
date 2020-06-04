@@ -1,14 +1,16 @@
 import React from "react";
+import "./SortableTrainingList.css";
 import { TrainingCard } from "../TrainingCard/TrainingCard";
+import { constants } from "../../constants/constants";
 
 export const SortableTrainingList: React.FC = () => {
   return (
     <div>
-      <div style={{ marginBottom: "1rem" }}>
-        <span>Сортировать по:</span>
-        <span style={{ padding: "1rem" }}>Названию</span>
-        <span style={{ padding: "1rem" }}>Дате</span>
-        <span style={{ padding: "1rem" }}>Рекомендациям</span>
+      <div className="sortable-training-list-filters">
+        <span>{constants["SORTBY"]}</span>
+        <span>{constants["BYNAME"]}</span>
+        <span>{constants["BYDATE"]}</span>
+        <span>{constants["BYRECOMENDATIONS"]}</span>
       </div>
       <div>
         {new Array(10).fill("").map((_, index) => (

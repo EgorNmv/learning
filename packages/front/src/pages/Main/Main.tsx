@@ -1,11 +1,11 @@
 import React from "react";
 import { Carousel } from "antd";
-import { TrainingCard } from "../components/TrainingCard/TrainingCard";
-import { CategoryCard } from "../components/CategoryCard/CategoryCard";
+import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
+import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
 
 const Main: React.FC = () => {
   return (
-    <div>
+    <>
       <section>
         <h2>Новые события</h2>
         <Carousel dotPosition="bottom">
@@ -83,7 +83,7 @@ const Main: React.FC = () => {
           <CategoryCard />
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

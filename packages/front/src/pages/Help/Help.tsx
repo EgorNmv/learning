@@ -3,7 +3,7 @@ import { Collapse } from "antd";
 
 const Help: React.FC = () => {
   return (
-    <div>
+    <>
       <h2>Помощь</h2>
       <section>
         <Collapse defaultActiveKey={["1"]}>
@@ -33,7 +33,7 @@ const Help: React.FC = () => {
           </Collapse.Panel>
         </Collapse>
       </section>
-    </div>
+    </>
   );
 };
 

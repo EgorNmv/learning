@@ -4,7 +4,7 @@ import { UserCard } from "../UserCard/UserCard";
 
 export const TrainingRecommendations: React.FC = () => {
   return (
-    <div>
+    <>
       <h2>Рекомендации</h2>
       <Carousel>
         <UserCard />
@@ -13,6 +13,6 @@ export const TrainingRecommendations: React.FC = () => {
         <UserCard />
         <UserCard />
       </Carousel>
-    </div>
+    </>
   );
 };

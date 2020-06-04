@@ -1,9 +1,9 @@
 import React from "react";
-import { TrainingCard } from "../components/TrainingCard/TrainingCard";
+import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
 import { Card } from "antd";
-import { TrainingMaterials } from "../components/TrainingMaterials/TrainingMaterials";
-import { TrainingRecommendations } from "../components/TrainingRecommendations/TrainingRecommendations";
-import { TrainingReviews } from "../components/TrainingReviews/TrainingReviews";
+import { TrainingMaterials } from "../../components/TrainingMaterials/TrainingMaterials";
+import { TrainingRecommendations } from "../../components/TrainingRecommendations/TrainingRecommendations";
+import { TrainingReviews } from "../../components/TrainingReviews/TrainingReviews";
 
 const Training: React.FC = () => {
   return (

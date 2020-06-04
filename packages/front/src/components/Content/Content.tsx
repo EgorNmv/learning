@@ -1,21 +1,18 @@
 import React, { Suspense } from "react";
 import { Layout, Spin } from "antd";
 import { Route } from "react-router-dom";
+import "./Content.css";
 
-const Main = React.lazy(() => import("../../pages/Main"));
-const Category = React.lazy(() => import("../../pages/Category"));
-const Training = React.lazy(() => import("../../pages/Training"));
-const Help = React.lazy(() => import("../../pages/Help"));
-const AllCategories = React.lazy(() => import("../../pages/AllCategories"));
+const Main = React.lazy(() => import("../../pages/Main/Main"));
+const Category = React.lazy(() => import("../../pages/Category/Category"));
+const Training = React.lazy(() => import("../../pages/Training/Training"));
+const Help = React.lazy(() => import("../../pages/Help/Help"));
+const AllCategories = React.lazy(() =>
+  import("../../pages/AllCategories/AllCategories")
+);
 
 export const Content: React.FC = () => (
-  <Layout.Content
-    style={{
-      padding: "2rem",
-      margin: "70px 0 0 200px",
-      minHeight: "calc(100vh - 70px)",
-    }}
-  >
+  <Layout.Content className="all-main-content">
     <Suspense fallback={<Spin />}>
       <Route path="/" exact component={Main} />
       <Route path="/category" exact component={AllCategories} />

@@ -2,27 +2,20 @@ import React from "react";
 import "./Sider.css";
 import { Layout } from "antd";
 import { SiderLinkList } from "../SiderLinkList/SiderLinkList";
-import { THEME } from "../../constants/theme";
+import { constants } from "../../constants/constants";
 
 export const Sider: React.FC = () => (
-  <Layout.Sider
-    style={{
-      background: THEME.mainColor,
-      minHeight: "100vh",
-      position: "fixed",
-      zIndex: 1,
-    }}
-  >
+  <Layout.Sider className="all-sider-layout">
     <div className="sider-content">
-      <header>
+      <div>
         <div className="sider-title-circle"></div>
         <div className="sider-title-text">
-          <span>Банк России</span>
+          <span>{constants["BANK"]}</span>
         </div>
-      </header>
-      <main>
+      </div>
+      <div>
         <SiderLinkList />
-      </main>
+      </div>
     </div>
   </Layout.Sider>
 );

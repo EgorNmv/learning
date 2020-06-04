@@ -1,11 +1,12 @@
 import React from "react";
-import { Card, Carousel } from "antd";
+import { Card } from "antd";
+import "./UserCard.css";
 
 export const UserCard: React.FC = () => {
   return (
     <Card>
-      <div style={{ display: "flex" }}>
-        <div style={{ display: "flex" }}>
+      <div className="user-card-body">
+        <div className="user-card-body-user">
           <div
             style={{
               width: "2rem",
