@@ -10,6 +10,9 @@ const Help = React.lazy(() => import("../../pages/Help/Help"));
 const AllCategories = React.lazy(() =>
   import("../../pages/AllCategories/AllCategories")
 );
+const CreateTraining = React.lazy(() =>
+  import("../../pages/CreateTraining/CreateTraining")
+);
 
 export const Content: React.FC = () => (
   <Layout.Content className="all-main-content">
@@ -18,6 +21,11 @@ export const Content: React.FC = () => (
       <Route path="/category" exact component={AllCategories} />
       <Route path="/category/:id" exact component={Category} />
       <Route path="/category/:id/training/:id" exact component={Training} />
+      <Route
+        path="/profile/trainings/create"
+        exact
+        component={CreateTraining}
+      />
       <Route path="/help" exact component={Help} />
     </Suspense>
   </Layout.Content>
