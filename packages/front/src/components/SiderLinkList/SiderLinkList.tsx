@@ -33,7 +33,7 @@ export const SiderLinkList: React.FC = () => {
           </Menu.Item>
         ))}
         <Menu.Item>
-          <Link to="/category">{constants["SEEALLCATEGORY"]}</Link>
+          <Link to="/categories">{constants["SEEALLCATEGORY"]}</Link>
         </Menu.Item>
       </SubMenu>
       <Menu.Item>

@@ -1,10 +1,14 @@
 import React, { Suspense } from "react";
 import { Layout, Spin } from "antd";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "./Content.css";
 
 //TODO: EVENT aka TRAINING
 
+const Auth = React.lazy(() => import("../../pages/Auth/Auth"));
+const Registration = React.lazy(() =>
+  import("../../pages/Registration/Registration")
+);
 const Main = React.lazy(() => import("../../pages/Main/Main"));
 const Category = React.lazy(() => import("../../pages/Category/Category"));
 const Training = React.lazy(() => import("../../pages/Training/Training"));
@@ -36,35 +40,43 @@ const UserProfileEvents = React.lazy(() =>
 const UserProfileDirectories = React.lazy(() =>
   import("../../pages/UserProfileDirectories/UserProfileDirectories")
 );
+const NotFoundPage = React.lazy(() =>
+  import("../../pages/NotFoundPage/NotFoundPage")
+);
 
 export const Content: React.FC = () => (
   <Layout.Content className="all-main-content">
     <Suspense fallback={<Spin />}>
-      <Route path="/" exact component={Main} />
-      <Route path="/category" exact component={AllCategories} />
-      <Route path="/category/:id" exact component={Category} />
-      <Route path="/category/:id/training/:id" exact component={Training} />
-      <Route path="/profile" exact component={UserProfile} />
-      <Route path="/profile/editing" exact component={UserProfileEditing} />
-      <Route path="/profile/requests" exact component={UserProfileRequests} />
-      <Route path="/profile/reviews" exact component={UserProfileReviews} />
-      <Route
-        path="/profile/recomendations"
-        exact
-        component={UserProfileRecomendations}
-      />
-      <Route path="/profile/trainings" exact component={UserProfileEvents} />
-      <Route
-        path="/profile/directories"
-        exact
-        component={UserProfileDirectories}
-      />
-      <Route
-        path="/profile/trainings/create"
-        exact
-        component={CreateTraining}
-      />
-      <Route path="/help" exact component={Help} />
+      <Switch>
+        <Route path="/auth" exact component={Auth} />
+        <Route path="/register" exact component={Registration} />
+        <Route path="/" exact component={Main} />
+        <Route path="/categories" exact component={AllCategories} />
+        <Route path="/category/:id" exact component={Category} />
+        <Route path="/category/:id/training/:id" exact component={Training} />
+        <Route path="/profile" exact component={UserProfile} />
+        <Route path="/profile/editing" exact component={UserProfileEditing} />
+        <Route path="/profile/requests" exact component={UserProfileRequests} />
+        <Route path="/profile/reviews" exact component={UserProfileReviews} />
+        <Route
+          path="/profile/recomendations"
+          exact
+          component={UserProfileRecomendations}
+        />
+        <Route path="/profile/trainings" exact component={UserProfileEvents} />
+        <Route
+          path="/profile/directories"
+          exact
+          component={UserProfileDirectories}
+        />
+        <Route
+          path="/profile/trainings/create"
+          exact
+          component={CreateTraining}
+        />
+        <Route path="/help" exact component={Help} />
+        <Route component={NotFoundPage} />
+      </Switch>
     </Suspense>
   </Layout.Content>
 );
