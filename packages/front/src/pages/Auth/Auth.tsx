@@ -12,6 +12,7 @@ const Auth: React.FC = () => {
           <h1>Авторизоваться</h1>
           <Form
             name="auth-form"
+            layout="vertical"
             onFinish={() => console.info("onFinish")}
             onFinishFailed={() => console.info("onFinishFailed")}
           >
