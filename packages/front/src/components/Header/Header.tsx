@@ -9,7 +9,7 @@ export const Header: React.FC = () => (
     <div>
       <SearchableInput />
     </div>
-    <div>
+    <div className="all-main-header-user-links">
       <UserMenuWithLinks />
     </div>
   </Layout.Header>

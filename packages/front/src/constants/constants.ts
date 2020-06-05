@@ -7,6 +7,9 @@ export const constants: { [key: string]: string } = {
     MYPROFILE: "Мой профиль",
     MYREQUESTS: "Мои заявки",
     MYREVIEWS: "Мои отзывы",
+    MYRECOMENDATIONS: "Мои рекомендации",
+    EVENTS: "События",
+    DIRECTORIES: "Справочники",
     EXIT: "Выход",
     /**
      * Header

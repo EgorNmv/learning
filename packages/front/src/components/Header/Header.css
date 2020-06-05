@@ -12,5 +12,9 @@ section > header.all-main-header {
 }
 
 section > header.all-main-header > div:first-child {
-    flex: 1;
+  flex: 1;
+}
+
+.all-main-header-user-links {
+  padding-right: 1rem;
 }
