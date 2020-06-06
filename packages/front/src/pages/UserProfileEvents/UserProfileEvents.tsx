@@ -27,7 +27,7 @@ const UserProfileEvents: React.FC = () => {
       render: (text: string, record: any) => (
         <>
           <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
-            <Link to="/">
+            <Link to={`/profile/trainings/edit/${record.id}`}>
               <EditOutlined />
             </Link>
           </span>

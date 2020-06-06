@@ -13,7 +13,7 @@ const trainigFormats: string[] = [
   "Онлайн практики с проверкой",
 ];
 
-const CreateTraining: React.FC = () => {
+const TrainingCreate: React.FC = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values: Store) => {
@@ -184,4 +184,4 @@ const CreateTraining: React.FC = () => {
   );
 };
 
-export default CreateTraining;
+export default TrainingCreate;

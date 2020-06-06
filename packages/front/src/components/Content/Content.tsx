@@ -16,8 +16,11 @@ const Help = React.lazy(() => import("../../pages/Help/Help"));
 const AllCategories = React.lazy(() =>
   import("../../pages/AllCategories/AllCategories")
 );
-const CreateTraining = React.lazy(() =>
-  import("../../pages/CreateTraining/CreateTraining")
+const TrainingCreate = React.lazy(() =>
+  import("../../pages/TrainingCreate/TrainingCreate")
+);
+const TrainingEdit = React.lazy(() =>
+  import("../../pages/TrainingEdit/TrainingEdit")
 );
 const UserProfile = React.lazy(() =>
   import("../../pages/UserProfile/UserProfile")
@@ -72,7 +75,12 @@ export const Content: React.FC = () => (
         <Route
           path="/profile/trainings/create"
           exact
-          component={CreateTraining}
+          component={TrainingCreate}
+        />
+        <Route
+          path="/profile/trainings/edit/:id"
+          exact
+          component={TrainingEdit}
         />
         <Route path="/help" exact component={Help} />
         <Route component={NotFoundPage} />
