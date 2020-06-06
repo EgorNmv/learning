@@ -147,7 +147,7 @@ const CreateTraining: React.FC = () => {
                   />
                   <Upload name="logo" action="/upload.do" listType="picture">
                     <Button>
-                      <PictureFilled /> Click to upload
+                      <PictureFilled /> Выбрать файл
                     </Button>
                   </Upload>
                 </Form.Item>
