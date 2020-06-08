@@ -43,6 +43,9 @@ const UserProfileEvents = React.lazy(() =>
 const UserProfileDirectories = React.lazy(() =>
   import("../../pages/UserProfileDirectories/UserProfileDirectories")
 );
+const UserProfileDirectoriesUsers = React.lazy(() =>
+  import("../../pages/UserProfileDirectories/Directories/Users/Users")
+);
 const NotFoundPage = React.lazy(() =>
   import("../../pages/NotFoundPage/NotFoundPage")
 );
@@ -71,6 +74,11 @@ export const Content: React.FC = () => (
           path="/profile/directories"
           exact
           component={UserProfileDirectories}
+        />
+        <Route
+          path="/profile/directories/users"
+          exact
+          component={UserProfileDirectoriesUsers}
         />
         <Route
           path="/profile/trainings/create"
