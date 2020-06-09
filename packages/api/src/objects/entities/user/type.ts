@@ -5,5 +5,6 @@ export interface User {
     fullname: string;
     login: string;
     role: Role;
+    roleId: number;
     photo: string;
 }
