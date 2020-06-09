@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, RelationId } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, RelationId } from "typeorm";
 import { User } from "./type";
 import { RoleEntity } from "../role/entity";
 
@@ -33,11 +33,11 @@ export class UserEntity extends BaseEntity implements User {
         nullable: false,
         description: "роль пользователя"
     })
-    @OneToOne(type => RoleEntity, role => role.id)
+    @ManyToOne(type => RoleEntity, role => role.id)
     @JoinColumn()
     public role: RoleEntity;
-
-    @Column()
+    // TODO: заменить nullable на дефолт в новой базе!!!
+    @Column({ nullable: true })
     @RelationId((user: UserEntity) => user.role)
     public roleId: number;
 
@@ -45,7 +45,7 @@ export class UserEntity extends BaseEntity implements User {
         nullable: true,
         description: "аватар пользователя"
     })
-    @Column()
+    @Column({ nullable: true })
     public photo: string;
 
     constructor(

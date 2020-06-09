@@ -7,6 +7,7 @@ import { TrainingResolver } from "./training/resolver";
 import { FeedbackResolver } from "./feedback/resolver";
 import { OrganizerResolver } from "./organizer/resolver";
 import { TargetAudienceResolver } from "./target-audience/resolver";
+import { CategoryResolver } from "./category/resolver";
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     FeedbackResolver,
@@ -17,4 +18,5 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
     TargetAudienceResolver,
     TrainingResolver,
     UserResolver,
+    CategoryResolver
 ];

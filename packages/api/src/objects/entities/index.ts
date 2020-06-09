@@ -7,6 +7,8 @@ import { RequestEntity } from "./request/entity";
 import { TargetAudienceEntity } from "./target-audience/entity";
 import { TrainingEntity } from "./training/entity";
 import { UserEntity } from "./user/entity";
+import { RoleEntity } from "./role/entity";
+import { CategoryEntity } from "./category/entity";
 
 export const entities: (string | Function | EntitySchema<any>)[] = [
     FeedbackEntity,
@@ -16,5 +18,7 @@ export const entities: (string | Function | EntitySchema<any>)[] = [
     RequestEntity,
     TargetAudienceEntity,
     TrainingEntity,
-    UserEntity
+    UserEntity,
+    RoleEntity,
+    CategoryEntity
 ];
