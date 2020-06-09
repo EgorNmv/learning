@@ -6,5 +6,7 @@ export const findAllUsers = async (
     connection: Connection
 ): Promise<UserEntity[]> => {
 
-    return await connection.getRepository(UserEntity).find();
+    return await connection.getRepository(UserEntity).find({
+        relations: ["role"]
+    });
 }
