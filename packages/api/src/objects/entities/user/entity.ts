@@ -41,16 +41,25 @@ export class UserEntity extends BaseEntity implements User {
     @RelationId((user: UserEntity) => user.role)
     public roleId: number;
 
+    @Field(() => String, {
+        nullable: true,
+        description: "аватар пользователя"
+    })
+    @Column()
+    public photo: string;
+
     constructor(
         id: number,
         fullname: string,
         login: string,
-        role: RoleEntity
+        role: RoleEntity,
+        photo: string | null
     ) {
         super();
         this.id = id;
         this.fullname = fullname;
         this.login = login;
         this.role = role;
+        this.photo = photo;
     }
 }
