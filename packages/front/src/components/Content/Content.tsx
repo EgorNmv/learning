@@ -46,6 +46,14 @@ const UserProfileDirectories = React.lazy(() =>
 const UserProfileDirectoriesUsers = React.lazy(() =>
   import("../../pages/UserProfileDirectories/Directories/Users/Users")
 );
+const UserProfileDirectoriesCategories = React.lazy(() =>
+  import("../../pages/UserProfileDirectories/Directories/Categories/Categories")
+);
+const UserProfileDirectoriesCategoriesCreate = React.lazy(() =>
+  import(
+    "../../pages/UserProfileDirectories/Directories/Categories/CategoriesCreate"
+  )
+);
 const NotFoundPage = React.lazy(() =>
   import("../../pages/NotFoundPage/NotFoundPage")
 );
@@ -79,6 +87,16 @@ export const Content: React.FC = () => (
           path="/profile/directories/users"
           exact
           component={UserProfileDirectoriesUsers}
+        />
+        <Route
+          path="/profile/directories/categories"
+          exact
+          component={UserProfileDirectoriesCategories}
+        />
+        <Route
+          path="/profile/directories/categories/create"
+          exact
+          component={UserProfileDirectoriesCategoriesCreate}
         />
         <Route
           path="/profile/trainings/create"

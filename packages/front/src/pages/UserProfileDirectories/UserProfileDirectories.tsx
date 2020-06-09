@@ -20,7 +20,12 @@ const UserProfileDirectories: React.FC = () => {
   ];
   const data = [
     { key: 1, id: 1, name: "Пользователи", link: "/profile/directories/users" },
-    { key: 2, id: 2, name: "Категории" },
+    {
+      key: 2,
+      id: 2,
+      name: "Категории",
+      link: "/profile/directories/categories",
+    },
     { key: 2, id: 2, name: "Организаторы" },
     { key: 2, id: 2, name: "Целевая аудитория" },
     { key: 2, id: 2, name: "Формат обучения" },

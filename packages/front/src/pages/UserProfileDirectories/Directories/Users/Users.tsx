@@ -6,6 +6,7 @@ import {
   UsersQuery,
   UsersQueryResponse,
 } from "./__generated__/UsersQuery.graphql";
+import { Writeable } from "../../../../utils/genericTypes";
 
 type User = {
   userId: number;
@@ -42,7 +43,7 @@ const Users: React.FC = () => {
       dataIndex: "access",
     },
   ];
-  const data: User[] = users as any;
+  const data: User[] = users as Writeable<User[]>;
 
   return (
     <section>
