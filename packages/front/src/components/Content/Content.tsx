@@ -59,6 +59,21 @@ const UserProfileDirectoriesCategoriesEdit = React.lazy(() =>
     "../../pages/UserProfileDirectories/Directories/CategoriesEdit/CategoriesEdit"
   )
 );
+const UserProfileDirectoriesTargetAudiences = React.lazy(() =>
+  import(
+    "../../pages/UserProfileDirectories/Directories/TargetAudiences/TargetAudience"
+  )
+);
+const UserProfileDirectoriesTargetAudiencesCreate = React.lazy(() =>
+  import(
+    "../../pages/UserProfileDirectories/Directories/TargetAudiencesCreate/TargetAudiencesCreate"
+  )
+);
+const UserProfileDirectoriesTargetAudiencesEdit = React.lazy(() =>
+  import(
+    "../../pages/UserProfileDirectories/Directories/TargetAudiencesEdit/TargetAudiencesEdit"
+  )
+);
 const NotFoundPage = React.lazy(() =>
   import("../../pages/NotFoundPage/NotFoundPage")
 );
@@ -107,6 +122,21 @@ export const Content: React.FC = () => (
           path="/profile/directories/categories/edit/:id"
           exact
           component={UserProfileDirectoriesCategoriesEdit}
+        />
+        <Route
+          path="/profile/directories/targetaudiences"
+          exact
+          component={UserProfileDirectoriesTargetAudiences}
+        />
+        <Route
+          path="/profile/directories/targetaudiences/create"
+          exact
+          component={UserProfileDirectoriesTargetAudiencesCreate}
+        />
+        <Route
+          path="/profile/directories/targetaudiences/edit/:id"
+          exact
+          component={UserProfileDirectoriesTargetAudiencesEdit}
         />
         <Route
           path="/profile/trainings/create"
