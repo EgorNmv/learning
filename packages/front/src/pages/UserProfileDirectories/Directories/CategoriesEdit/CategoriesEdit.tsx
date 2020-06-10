@@ -3,15 +3,29 @@ import { Card, Form, Input, Select, Upload, Button, Spin } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
 import { PictureFilled } from "@ant-design/icons";
 import { Store } from "antd/lib/form/interface";
-import { graphql, useMutation } from "react-relay/hooks";
+import { graphql, useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import {
-  CategoriesCreateMutation,
-  CategoriesCreateMutationResponse,
-} from "./__generated__/CategoriesCreateMutation.graphql";
+  CategoriesEditQuery,
+  CategoriesEditQueryResponse,
+} from "./__generated__/CategoriesEditQuery.graphql";
+import { useParams } from "react-router-dom";
+import {
+  CategoriesEditMutation,
+  CategoriesEditMutationResponse,
+} from "./__generated__/CategoriesEditMutation.graphql";
+
+const query = graphql`
+  query CategoriesEditQuery($categoryId: Float!) {
+    category(id: $categoryId) {
+      categoryId: id
+      description
+    }
+  }
+`;
 
 const mutation = graphql`
-  mutation CategoriesCreateMutation($description: String!) {
-    createCategory(description: $description) {
+  mutation CategoriesEditMutation($categoryId: Float!, $description: String!) {
+    updateCategoryById(id: $categoryId, description: $description) {
       categoryId: id
       description
     }
@@ -19,41 +33,29 @@ const mutation = graphql`
 `;
 
 const CategoriesCreate: React.FC = () => {
+  const params = useParams<{ id: string }>();
+  const id = Number(params.id);
+  const { category }: CategoriesEditQueryResponse = useLazyLoadQuery<
+    CategoriesEditQuery
+  >(query, { categoryId: id });
+  const [commit, isInFlight] = useMutation<CategoriesEditMutation>(mutation);
   const [form] = Form.useForm();
-  const [commit, isInFlight] = useMutation<CategoriesCreateMutation>(mutation);
-
-  const onFinish = (values: Store) => {
-    console.log(values);
+  const onFinish = ({ name, photo }: Store) => {
     commit({
-      variables: { description: form.getFieldValue("name") },
-      onCompleted(category: CategoriesCreateMutationResponse) {
-        console.log(category);
+      variables: { categoryId: id, description: name },
+      onCompleted(response: CategoriesEditMutationResponse) {
+        console.log(response);
       },
     });
   };
 
-  const onReset = () => {
-    form.resetFields();
-  };
-
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const onFill = () => {
-    form.setFieldsValue({
-      note: "Hello world!",
-      gender: "male",
-    });
-  };
-
-  if (isInFlight) {
-    return <Spin />;
-  }
+  React.useEffect(
+    () =>
+      form.setFieldsValue({
+        name: category?.description,
+      }),
+    [category]
+  );
 
   return (
     <section>
@@ -63,7 +65,6 @@ const CategoriesCreate: React.FC = () => {
           form={form}
           name="training-create"
           onFinish={onFinish}
-          onChange={() => console.info(form)}
         >
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ flex: 1 }}>
@@ -80,7 +81,6 @@ const CategoriesCreate: React.FC = () => {
                 name="photo"
                 label="Загрузите фотографию:"
                 valuePropName="fileList"
-                getValueFromEvent={normFile}
               >
                 <div
                   style={{
@@ -100,14 +100,10 @@ const CategoriesCreate: React.FC = () => {
           </div>
           <CenteredText>
             <Form.Item>
-              <Button
-                htmlType="button"
-                onClick={onReset}
-                style={{ marginRight: "1rem" }}
-              >
+              <Button htmlType="button" style={{ marginRight: "1rem" }}>
                 Отмена
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={isInFlight}>
                 Создать
               </Button>
             </Form.Item>
