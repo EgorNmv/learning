@@ -10,6 +10,7 @@ import { Context } from "../../api/src/objects/context";
 // import { ApolloServer } from "apollo-server-express";
 import { graphqlUploadExpress } from "graphql-upload";
 import express = require('express');
+// import { FileUploadResolver } from "./resolver";
 
 
 const startServer = async (): Promise<void> => {

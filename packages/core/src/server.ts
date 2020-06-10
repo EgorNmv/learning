@@ -22,6 +22,7 @@ const startServer = async (): Promise<void> => {
     const server: ApolloServer = new ApolloServer({
         schema,
         context,
+        uploads: { maxFieldSize: 10000000, maxFiles: 20 }
     });
 
     await server.listen(process.env.SERVER_PORT || 4000);
