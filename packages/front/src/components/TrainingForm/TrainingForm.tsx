@@ -32,7 +32,7 @@ const query = graphql`
 
 type TrainingFormProps = {
   formValues?: TrainingFormValues;
-  onFinish?: (data: InputTraining) => void;
+  onFinish: (data: InputTraining) => void;
 };
 
 export const TrainingForm: React.FC<TrainingFormProps> = ({
