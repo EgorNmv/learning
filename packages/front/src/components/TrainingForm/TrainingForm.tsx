@@ -3,21 +3,73 @@ import { Form, Input, Select, Upload, Button } from "antd";
 import { PictureFilled } from "@ant-design/icons";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery } from "react-relay/hooks";
+import { TrainingFormQuery } from "./__generated__/TrainingFormQuery.graphql";
+import { InputTraining } from "../../pages/TrainingCreate/__generated__/TrainingCreateMutation.graphql";
+import { TrainingFormValues } from "../../utils/types";
 
-const targetAudiences: string[] = ["Джуниоры", "Мидлы", "Сеньеры"];
-const organizers: string[] = ["ВШЭМ", "УРфУ", "ЦБ", "СКБ"];
-const trainigFormats: string[] = [
-  "Онлайн лекции",
-  "Онлайн лекции+практики",
-  "Онлайн практики",
-  "Онлайн практики с проверкой",
-];
+const query = graphql`
+  query TrainingFormQuery {
+    targetAudiences {
+      targetAudienceId: id
+      description
+    }
+    organizers {
+      organizerId: id
+      name
+    }
+    formats {
+      formatId: id
+      description
+    }
+    categories {
+      categoryId: id
+      description
+    }
+  }
+`;
 
-export const TrainingForm: React.FC = () => {
+type TrainingFormProps = {
+  formValues?: TrainingFormValues;
+  onFinish?: (data: InputTraining) => void;
+};
+
+export const TrainingForm: React.FC<TrainingFormProps> = ({
+  formValues,
+  onFinish,
+}) => {
   const [form] = Form.useForm();
+  const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
+    TrainingFormQuery
+  >(query, {});
 
-  const onFinish = (values: Store) => {
-    console.log(values);
+  const onFinishHandler = ({
+    name,
+    category,
+    startDate,
+    targetAudience,
+    organizer,
+    endDate,
+    trainingFormat,
+    tags,
+    description,
+    countOfSeats,
+    site,
+  }: Store) => {
+    const data: InputTraining = {
+      audienceId: targetAudience,
+      end: endDate,
+      description,
+      formatId: trainingFormat,
+      label: "",
+      name,
+      organizerId: organizer,
+      site: site || "",
+      start: startDate,
+    };
+
+    onFinish && onFinish(data);
   };
 
   const onReset = () => {
@@ -39,12 +91,18 @@ export const TrainingForm: React.FC = () => {
     });
   };
 
+  React.useEffect(() => {
+    form.setFieldsValue({
+      ...formValues,
+    });
+  }, [formValues]);
+
   return (
     <Form
       layout={"vertical"}
       form={form}
       name="training-create"
-      onFinish={onFinish}
+      onFinish={onFinishHandler}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 1 }}>
@@ -58,7 +116,13 @@ export const TrainingForm: React.FC = () => {
                 label="Категория:"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Select>
+                  {categories.map((category) => (
+                    <Select.Option value={category.categoryId}>
+                      {category.description}
+                    </Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
               <Form.Item
                 name="startDate"
@@ -73,8 +137,10 @@ export const TrainingForm: React.FC = () => {
                 rules={[{ required: true }]}
               >
                 <Select>
-                  {targetAudiences.map((option) => (
-                    <Select.Option value={option}>{option}</Select.Option>
+                  {targetAudiences.map((targetAudience) => (
+                    <Select.Option value={targetAudience.targetAudienceId}>
+                      {targetAudience.description}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -85,7 +151,9 @@ export const TrainingForm: React.FC = () => {
               >
                 <Select>
                   {organizers.map((organizer) => (
-                    <Select.Option value={organizer}>{organizer}</Select.Option>
+                    <Select.Option value={organizer.organizerId}>
+                      {organizer.name}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -107,15 +175,15 @@ export const TrainingForm: React.FC = () => {
                 rules={[{ required: true }]}
               >
                 <Select>
-                  {trainigFormats.map((trainingFormat) => (
-                    <Select.Option value={trainingFormat}>
-                      {trainingFormat}
+                  {formats.map((format) => (
+                    <Select.Option value={format.formatId}>
+                      {format.description}
                     </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
               <Form.Item name="site" label="Ссылка на сайт:">
-                <Input />
+                <Input defaultValue="" />
               </Form.Item>
             </div>
           </div>

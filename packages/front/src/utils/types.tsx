@@ -25,3 +25,23 @@ export type User = {
   userId: number;
   fullname: string;
 };
+
+export type Event = {
+  trainingId: number;
+  name: string;
+  start: string;
+  end: string;
+};
+
+export type TrainingFormValues = {
+  name: string | undefined;
+  category: number | undefined;
+  startDate: string | undefined;
+  targetAudience: number | undefined;
+  organizer: number | undefined;
+  endDate: string | undefined;
+  trainingFormat: number | undefined;
+  tags?: string | undefined;
+  description: string | undefined;
+  countOfSeats?: number | undefined;
+};

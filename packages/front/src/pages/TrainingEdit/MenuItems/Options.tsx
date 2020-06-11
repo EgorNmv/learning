@@ -1,10 +1,15 @@
 import React from "react";
 import { TrainingForm } from "../../../components/TrainingForm/TrainingForm";
+import { TrainingFormValues } from "../../../utils/types";
 
-export const Options: React.FC = () => {
+type OptionsProps = {
+  dataForTrainingForm: TrainingFormValues;
+};
+
+export const Options: React.FC<OptionsProps> = ({ dataForTrainingForm }) => {
   return (
     <div>
-      <TrainingForm />;
+      <TrainingForm formValues={dataForTrainingForm} />
     </div>
   );
 };

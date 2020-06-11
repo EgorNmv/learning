@@ -2,12 +2,29 @@ import React from "react";
 import { Table, Card, Button } from "antd";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery } from "react-relay/hooks";
+import { UserProfileEventsQuery } from "./__generated__/UserProfileEventsQuery.graphql";
+import { Writeable } from "../../utils/genericTypes";
+import { Event } from "../../utils/types";
+
+const query = graphql`
+  query UserProfileEventsQuery {
+    trainings {
+      trainingId: id
+      name
+      start
+      end
+    }
+  }
+`;
 
 const UserProfileEvents: React.FC = () => {
+  const { trainings } = useLazyLoadQuery<UserProfileEventsQuery>(query, {});
   const columns = [
     {
       title: "№",
-      dataIndex: "id",
+      dataIndex: "trainingId",
     },
     {
       title: "Название",
@@ -15,7 +32,10 @@ const UserProfileEvents: React.FC = () => {
     },
     {
       title: "Даты",
-      dataIndex: "dates",
+      dataIndex: "start",
+      render: (text: string, record: Event) => (
+        <span>{`${text} - ${record.end}`}</span>
+      ),
     },
     {
       title: "Заявки / Отзывы / Рекомендации",
@@ -24,10 +44,10 @@ const UserProfileEvents: React.FC = () => {
     {
       title: "Действия",
       dataIndex: "actions",
-      render: (text: string, record: any) => (
+      render: (text: string, record: Event) => (
         <>
           <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
-            <Link to={`/profile/trainings/edit/${record.id}`}>
+            <Link to={`/profile/trainings/edit/${record.trainingId}`}>
               <EditOutlined />
             </Link>
           </span>
@@ -40,15 +60,7 @@ const UserProfileEvents: React.FC = () => {
       ),
     },
   ];
-  const data = [
-    {
-      key: 1,
-      id: 1,
-      name: "Основы Python",
-      dates: "14 мая 2020 - 16 мая 2020",
-      trainingStatus: "87 / 15 / 9",
-    },
-  ];
+  const data = trainings as Writeable<Event[]>;
 
   return (
     <section>

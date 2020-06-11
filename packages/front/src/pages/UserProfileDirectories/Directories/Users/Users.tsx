@@ -7,11 +7,7 @@ import {
   UsersQueryResponse,
 } from "./__generated__/UsersQuery.graphql";
 import { Writeable } from "../../../../utils/genericTypes";
-
-type User = {
-  userId: number;
-  fullname: string;
-};
+import { User } from "../../../../utils/types";
 
 const query = graphql`
   query UsersQuery {
