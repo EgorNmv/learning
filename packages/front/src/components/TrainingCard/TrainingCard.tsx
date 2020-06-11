@@ -3,27 +3,56 @@ import { Card } from "antd";
 import { Link } from "react-router-dom";
 import "./TrainingCard.css";
 
-export const TrainingCard: React.FC = () => (
-  <Card title="Default size card">
-    <Link to="/category/1/training/1">
-      <h5>Основы Python</h5>
-    </Link>
-    <div className="training-card-body">
-      <div
-        style={{
-          width: "100px",
-          height: "150px",
-          background: "gray",
-        }}
-      />
-      <div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, neque
-          harum laborum commodi voluptatum enim aspernatur molestiae vitae
-          inventore? Aperiam totam, dolores soluta excepturi autem illo sed
-          tenetur tempore quo?
-        </p>
-      </div>
-    </div>
-  </Card>
-);
+type TrainingCardProps = {
+  training?: {
+    trainingId?: number;
+    name?: string;
+    organizer?: { name: string };
+    start?: string;
+    end?: string;
+    description?: string;
+  };
+};
+
+export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
+  if (training) {
+    console.info(training);
+    const { trainingId, name, organizer, start, end, description } = training;
+
+    return (
+      <Card style={{ marginBottom: "1rem" }}>
+        <div className="training-card-body">
+          <div
+            style={{
+              width: "100px",
+              height: "150px",
+              background: "gray",
+            }}
+          />
+          <div>
+            <div>
+              <Link to={`/category/1/training/${trainingId}`}>
+                <h2>{name}</h2>
+              </Link>
+            </div>
+            <div style={{ maxHeight: "2rem" }}>
+              <p>{description}</p>
+            </div>
+            <div>
+              <span style={{ fontWeight: "bold" }}>Организатор: </span>
+              <span>{organizer?.name}</span>
+            </div>
+            <div>
+              <span style={{ fontWeight: "bold" }}>Дата: </span>
+              <span>
+                {start} - {end}
+              </span>
+            </div>
+          </div>
+        </div>
+      </Card>
+    );
+  } else {
+    return <Card>Нет трайнинга</Card>;
+  }
+};

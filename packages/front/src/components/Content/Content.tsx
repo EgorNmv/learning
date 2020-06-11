@@ -115,7 +115,7 @@ export const Content: React.FC = () => (
         <Route path="/" exact component={Main} />
         <Route path="/categories" exact component={AllCategories} />
         <Route path="/category/:id" exact component={Category} />
-        <Route path="/category/:id/training/:id" exact component={Training} />
+        <Route path="/category/:categoryId/training/:trainingId" exact component={Training} />
         <Route path="/profile" exact component={UserProfile} />
         <Route path="/profile/editing" exact component={UserProfileEditing} />
         <Route path="/profile/requests" exact component={UserProfileRequests} />

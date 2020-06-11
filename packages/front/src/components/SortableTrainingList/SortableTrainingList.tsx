@@ -3,7 +3,21 @@ import "./SortableTrainingList.css";
 import { TrainingCard } from "../TrainingCard/TrainingCard";
 import { constants } from "../../constants/constants";
 
-export const SortableTrainingList: React.FC = () => {
+type SortableTrainingListProps = {
+  trainings?: {
+    trainingId?: number;
+    name?: string;
+    organizer?: { name: string };
+    start?: string;
+    end?: string;
+    description?: string;
+  }[];
+};
+
+export const SortableTrainingList: React.FC<SortableTrainingListProps> = ({
+  trainings,
+}) => {
+  console.info(trainings);
   return (
     <div>
       <div className="sortable-training-list-filters">
@@ -13,9 +27,10 @@ export const SortableTrainingList: React.FC = () => {
         <span>{constants["BYRECOMENDATIONS"]}</span>
       </div>
       <div>
-        {new Array(10).fill("").map((_, index) => (
-          <TrainingCard key={index} />
-        ))}
+        {trainings &&
+          trainings.map((training, index) => (
+            <TrainingCard key={index} training={training} />
+          ))}
       </div>
     </div>
   );

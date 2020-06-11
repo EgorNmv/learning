@@ -7,8 +7,12 @@ export type AllCategoriesQueryResponse = {
     readonly trainings: ReadonlyArray<{
         readonly trainingId: number;
         readonly name: string;
-        readonly label: string;
         readonly description: string;
+        readonly start: string;
+        readonly end: string;
+        readonly organizer: {
+            readonly name: string;
+        };
     }>;
 };
 export type AllCategoriesQuery = {
@@ -23,14 +27,25 @@ query AllCategoriesQuery {
   trainings {
     trainingId: id
     name
-    label
     description
+    start
+    end
+    organizer {
+      name
+    }
   }
 }
 */
 
 const node: ConcreteRequest = (function(){
-var v0 = [
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v1 = [
   {
     "alias": null,
     "args": null,
@@ -46,25 +61,38 @@ var v0 = [
         "name": "id",
         "storageKey": null
       },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "label",
-        "storageKey": null
-      },
+      (v0/*: any*/),
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
         "name": "description",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "start",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "end",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "OrganizerEntity",
+        "kind": "LinkedField",
+        "name": "organizer",
+        "plural": false,
+        "selections": [
+          (v0/*: any*/)
+        ],
         "storageKey": null
       }
     ],
@@ -77,7 +105,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "AllCategoriesQuery",
-    "selections": (v0/*: any*/),
+    "selections": (v1/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -85,16 +113,16 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "AllCategoriesQuery",
-    "selections": (v0/*: any*/)
+    "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "AllCategoriesQuery",
     "operationKind": "query",
-    "text": "query AllCategoriesQuery {\n  trainings {\n    trainingId: id\n    name\n    label\n    description\n  }\n}\n"
+    "text": "query AllCategoriesQuery {\n  trainings {\n    trainingId: id\n    name\n    description\n    start\n    end\n    organizer {\n      name\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'a728768ec8bb5c28236410fbd79b856b';
+(node as any).hash = '998731d5b95f84d3584070dd98939114';
 export default node;
