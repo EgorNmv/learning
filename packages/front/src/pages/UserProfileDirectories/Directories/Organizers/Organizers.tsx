@@ -6,14 +6,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { OrganizersQuery } from "./__generated__/OrganizersQuery.graphql";
-
-type Organizer = {
-  organizerId: number;
-  name: string;
-  address: string;
-  site: string;
-  type: number;
-};
+import { Organizer } from "../../../../utils/types";
 
 const query = graphql`
   query OrganizersQuery {

@@ -9,11 +9,7 @@ import {
 } from "./__generated__/CategoriesQuery.graphql";
 import { Writeable } from "../../../../utils/genericTypes";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
-type Category = {
-  categoryId: number;
-  description: string;
-};
+import { Category } from "../../../../utils/types";
 
 const query: GraphQLTaggedNode = graphql`
   query CategoriesQuery {

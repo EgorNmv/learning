@@ -6,11 +6,7 @@ import { useLazyLoadQuery } from "react-relay/hooks";
 import { Writeable } from "../../../../utils/genericTypes";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { TrainingFormatsQuery } from "./__generated__/TrainingFormatsQuery.graphql";
-
-type TrainingFormat = {
-  trainingFormatId: number;
-  description: string;
-};
+import { TrainingFormat } from "../../../../utils/types";
 
 const query: GraphQLTaggedNode = graphql`
   query TrainingFormatsQuery {

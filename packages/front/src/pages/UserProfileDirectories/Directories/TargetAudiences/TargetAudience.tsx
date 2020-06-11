@@ -9,11 +9,7 @@ import {
   TargetAudiencesQueryResponse,
   TargetAudiencesQuery,
 } from "./__generated__/TargetAudiencesQuery.graphql";
-
-type TargetAudience = {
-  targetAudienceId: number;
-  description: string;
-};
+import { TargetAudience } from "../../../../utils/types";
 
 const query: GraphQLTaggedNode = graphql`
   query TargetAudiencesQuery {
