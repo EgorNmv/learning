@@ -89,6 +89,19 @@ const UserProfileDirectoriesTrainingFormatsEdit = React.lazy(() =>
     "../../pages/UserProfileDirectories/Directories/TrainingFormatsEdit/TrainingFormatsEdit"
   )
 );
+const UserProfileDirectoriesOrganizers = React.lazy(() =>
+  import("../../pages/UserProfileDirectories/Directories/Organizers/Organizers")
+);
+const UserProfileDirectoriesOrganizersCreate = React.lazy(() =>
+  import(
+    "../../pages/UserProfileDirectories/Directories/OrganizersCreate/OrganizersCreate"
+  )
+);
+const UserProfileDirectoriesOrganizersEdit = React.lazy(() =>
+  import(
+    "../../pages/UserProfileDirectories/Directories/OrganizersEdit/OrganizersEdit"
+  )
+);
 const NotFoundPage = React.lazy(() =>
   import("../../pages/NotFoundPage/NotFoundPage")
 );
@@ -167,6 +180,21 @@ export const Content: React.FC = () => (
           path="/profile/directories/trainingformats/edit/:id"
           exact
           component={UserProfileDirectoriesTrainingFormatsEdit}
+        />
+        <Route
+          path="/profile/directories/organizers"
+          exact
+          component={UserProfileDirectoriesOrganizers}
+        />
+        <Route
+          path="/profile/directories/organizers/create"
+          exact
+          component={UserProfileDirectoriesOrganizersCreate}
+        />
+        <Route
+          path="/profile/directories/organizers/edit/:id"
+          exact
+          component={UserProfileDirectoriesOrganizersEdit}
         />
         <Route
           path="/profile/trainings/create"
