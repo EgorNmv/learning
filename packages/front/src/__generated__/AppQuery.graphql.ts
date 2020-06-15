@@ -4,10 +4,9 @@
 import { ConcreteRequest } from "relay-runtime";
 export type AppQueryVariables = {};
 export type AppQueryResponse = {
-    readonly users: ReadonlyArray<{
-        readonly id: number;
-        readonly fullname: string;
-        readonly login: string;
+    readonly categories: ReadonlyArray<{
+        readonly categoryId: number;
+        readonly description: string;
     }>;
 };
 export type AppQuery = {
@@ -19,10 +18,9 @@ export type AppQuery = {
 
 /*
 query AppQuery {
-  users {
-    id
-    fullname
-    login
+  categories {
+    categoryId: id
+    description
   }
 }
 */
@@ -32,13 +30,13 @@ var v0 = [
   {
     "alias": null,
     "args": null,
-    "concreteType": "UserEntity",
+    "concreteType": "CategoryEntity",
     "kind": "LinkedField",
-    "name": "users",
+    "name": "categories",
     "plural": true,
     "selections": [
       {
-        "alias": null,
+        "alias": "categoryId",
         "args": null,
         "kind": "ScalarField",
         "name": "id",
@@ -48,14 +46,7 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "fullname",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "login",
+        "name": "description",
         "storageKey": null
       }
     ],
@@ -83,9 +74,9 @@ return {
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery {\n  users {\n    id\n    fullname\n    login\n  }\n}\n"
+    "text": "query AppQuery {\n  categories {\n    categoryId: id\n    description\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'c4847b04ca522da40e178cd69bbeaef3';
+(node as any).hash = '44f636010464f16e0b074e53ac47dcad';
 export default node;

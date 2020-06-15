@@ -108,107 +108,109 @@ const NotFoundPage = React.lazy(() =>
 
 export const Content: React.FC = () => (
   <Layout.Content className="all-main-content">
-    <Suspense fallback={<Spin />}>
-      <Switch>
-        <Route path="/auth" exact component={Auth} />
-        <Route path="/register" exact component={Registration} />
-        <Route path="/" exact component={Main} />
-        <Route path="/categories" exact component={AllCategories} />
-        <Route path="/category/:id" exact component={Category} />
-        <Route path="/category/:categoryId/training/:trainingId" exact component={Training} />
-        <Route path="/profile" exact component={UserProfile} />
-        <Route path="/profile/editing" exact component={UserProfileEditing} />
-        <Route path="/profile/requests" exact component={UserProfileRequests} />
-        <Route path="/profile/reviews" exact component={UserProfileReviews} />
-        <Route
-          path="/profile/recomendations"
-          exact
-          component={UserProfileRecomendations}
-        />
-        <Route path="/profile/trainings" exact component={UserProfileEvents} />
-        <Route
-          path="/profile/directories"
-          exact
-          component={UserProfileDirectories}
-        />
-        <Route
-          path="/profile/directories/users"
-          exact
-          component={UserProfileDirectoriesUsers}
-        />
-        <Route
-          path="/profile/directories/categories"
-          exact
-          component={UserProfileDirectoriesCategories}
-        />
-        <Route
-          path="/profile/directories/categories/create"
-          exact
-          component={UserProfileDirectoriesCategoriesCreate}
-        />
-        <Route
-          path="/profile/directories/categories/edit/:id"
-          exact
-          component={UserProfileDirectoriesCategoriesEdit}
-        />
-        <Route
-          path="/profile/directories/targetaudiences"
-          exact
-          component={UserProfileDirectoriesTargetAudiences}
-        />
-        <Route
-          path="/profile/directories/targetaudiences/create"
-          exact
-          component={UserProfileDirectoriesTargetAudiencesCreate}
-        />
-        <Route
-          path="/profile/directories/targetaudiences/edit/:id"
-          exact
-          component={UserProfileDirectoriesTargetAudiencesEdit}
-        />
-        <Route
-          path="/profile/directories/trainingformats"
-          exact
-          component={UserProfileDirectoriesTrainingFormats}
-        />
-        <Route
-          path="/profile/directories/trainingformats/create"
-          exact
-          component={UserProfileDirectoriesTrainingFormatsCreate}
-        />
-        <Route
-          path="/profile/directories/trainingformats/edit/:id"
-          exact
-          component={UserProfileDirectoriesTrainingFormatsEdit}
-        />
-        <Route
-          path="/profile/directories/organizers"
-          exact
-          component={UserProfileDirectoriesOrganizers}
-        />
-        <Route
-          path="/profile/directories/organizers/create"
-          exact
-          component={UserProfileDirectoriesOrganizersCreate}
-        />
-        <Route
-          path="/profile/directories/organizers/edit/:id"
-          exact
-          component={UserProfileDirectoriesOrganizersEdit}
-        />
-        <Route
-          path="/profile/trainings/create"
-          exact
-          component={TrainingCreate}
-        />
-        <Route
-          path="/profile/trainings/edit/:id"
-          exact
-          component={TrainingEdit}
-        />
-        <Route path="/help" exact component={Help} />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </Suspense>
+    <Switch>
+      <Route path="/auth" exact component={Auth} />
+      <Route path="/register" exact component={Registration} />
+      <Route path="/" exact component={Main} />
+      <Route path="/categories" exact component={AllCategories} />
+      <Route path="/category/:id" exact component={Category} />
+      <Route
+        path="/category/:categoryId/training/:trainingId"
+        exact
+        component={Training}
+      />
+      <Route path="/profile" exact component={UserProfile} />
+      <Route path="/profile/editing" exact component={UserProfileEditing} />
+      <Route path="/profile/requests" exact component={UserProfileRequests} />
+      <Route path="/profile/reviews" exact component={UserProfileReviews} />
+      <Route
+        path="/profile/recomendations"
+        exact
+        component={UserProfileRecomendations}
+      />
+      <Route path="/profile/trainings" exact component={UserProfileEvents} />
+      <Route
+        path="/profile/directories"
+        exact
+        component={UserProfileDirectories}
+      />
+      <Route
+        path="/profile/directories/users"
+        exact
+        component={UserProfileDirectoriesUsers}
+      />
+      <Route
+        path="/profile/directories/categories"
+        exact
+        component={UserProfileDirectoriesCategories}
+      />
+      <Route
+        path="/profile/directories/categories/create"
+        exact
+        component={UserProfileDirectoriesCategoriesCreate}
+      />
+      <Route
+        path="/profile/directories/categories/edit/:id"
+        exact
+        component={UserProfileDirectoriesCategoriesEdit}
+      />
+      <Route
+        path="/profile/directories/targetaudiences"
+        exact
+        component={UserProfileDirectoriesTargetAudiences}
+      />
+      <Route
+        path="/profile/directories/targetaudiences/create"
+        exact
+        component={UserProfileDirectoriesTargetAudiencesCreate}
+      />
+      <Route
+        path="/profile/directories/targetaudiences/edit/:id"
+        exact
+        component={UserProfileDirectoriesTargetAudiencesEdit}
+      />
+      <Route
+        path="/profile/directories/trainingformats"
+        exact
+        component={UserProfileDirectoriesTrainingFormats}
+      />
+      <Route
+        path="/profile/directories/trainingformats/create"
+        exact
+        component={UserProfileDirectoriesTrainingFormatsCreate}
+      />
+      <Route
+        path="/profile/directories/trainingformats/edit/:id"
+        exact
+        component={UserProfileDirectoriesTrainingFormatsEdit}
+      />
+      <Route
+        path="/profile/directories/organizers"
+        exact
+        component={UserProfileDirectoriesOrganizers}
+      />
+      <Route
+        path="/profile/directories/organizers/create"
+        exact
+        component={UserProfileDirectoriesOrganizersCreate}
+      />
+      <Route
+        path="/profile/directories/organizers/edit/:id"
+        exact
+        component={UserProfileDirectoriesOrganizersEdit}
+      />
+      <Route
+        path="/profile/trainings/create"
+        exact
+        component={TrainingCreate}
+      />
+      <Route
+        path="/profile/trainings/edit/:id"
+        exact
+        component={TrainingEdit}
+      />
+      <Route path="/help" exact component={Help} />
+      <Route component={NotFoundPage} />
+    </Switch>
   </Layout.Content>
 );

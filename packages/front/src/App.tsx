@@ -8,8 +8,8 @@ import {
 import { RelayEnvironmentProvider, preloadQuery } from "react-relay/hooks";
 import getFetch from "./utils/fetch";
 import { AppQuery } from "./__generated__/AppQuery.graphql";
-import React from "react";
-import { Layout } from "antd";
+import React, { Suspense } from "react";
+import { Layout, Spin } from "antd";
 import { BrowserRouter } from "react-router-dom";
 import { Sider } from "./components/Sider/Sider";
 import { Header } from "./components/Header/Header";
@@ -22,34 +22,35 @@ const environment = new Environment({
   store,
 });
 
-// export const query = graphql`
-//   query AppQuery {
-//     users {
-//       id
-//       fullname
-//       login
-//     }
-//   }
-// `;
+export const appQuery = graphql`
+  query AppQuery {
+    categories {
+      categoryId: id
+      description
+    }
+  }
+`;
 
-// export const result = preloadQuery<AppQuery>(
-//   environment,
-//   query,
-//   {},
-//   { fetchPolicy: "store-or-network" }
-// );
+export const resultOfPreloadQuery = preloadQuery<AppQuery>(
+  environment,
+  appQuery,
+  {},
+  { fetchPolicy: "store-or-network" }
+);
 
 function App() {
   return (
     <RelayEnvironmentProvider environment={environment}>
       <BrowserRouter>
-        <Layout>
-          <Sider />
+        <Suspense fallback={<Spin />}>
           <Layout>
-            <Header />
-            <Content />
+            <Sider />
+            <Layout>
+              <Header />
+              <Content />
+            </Layout>
           </Layout>
-        </Layout>
+        </Suspense>
       </BrowserRouter>
     </RelayEnvironmentProvider>
   );
