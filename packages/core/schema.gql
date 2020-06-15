@@ -70,6 +70,7 @@ input InputRequest {
 
 input InputTraining {
   audienceId: Float!
+  categoryId: Float!
   description: String!
   end: String!
   formatId: Float!
@@ -163,6 +164,7 @@ type Query {
   targetAudiences: [TargetAudienceEntity!]!
   training(id: Float!): TrainingEntity
   trainings: [TrainingEntity!]!
+  trainingsByCategoryId(categoryId: Float!): [TrainingEntity!]!
   user(id: Float!): UserEntity
   users: [UserEntity!]!
 }
@@ -204,6 +206,9 @@ type TargetAudienceEntity {
 type TrainingEntity {
   """целевая аудитория обучения"""
   audience: TargetAudienceEntity!
+
+  """категория обучения"""
+  category: CategoryEntity!
 
   """описание обучения"""
   description: String!

@@ -104,7 +104,7 @@ export class TrainingEntity extends BaseEntity implements Training {
     @JoinColumn()
     public category: CategoryEntity;
 
-    @Column()
+    @Column({ nullable: true })
     @RelationId((training: TrainingEntity) => training.category)
     public categoryId: number;
 
