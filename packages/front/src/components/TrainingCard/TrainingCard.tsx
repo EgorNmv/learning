@@ -35,7 +35,7 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
                 <h2>{name}</h2>
               </Link>
             </div>
-            <div style={{ maxHeight: "2rem" }}>
+            <div style={{ maxHeight: "3rem", overflow: "hidden" }}>
               <p>{description}</p>
             </div>
             <div>

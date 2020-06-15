@@ -4,6 +4,7 @@
 import { ConcreteRequest } from "relay-runtime";
 export type InputTraining = {
     audienceId: number;
+    categoryId: number;
     description: string;
     end: string;
     formatId: number;

@@ -67,6 +67,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       organizerId: organizer,
       site: site || "",
       start: startDate,
+      categoryId: category,
     };
 
     onFinish && onFinish(data);
