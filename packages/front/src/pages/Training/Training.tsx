@@ -8,6 +8,7 @@ import { graphql } from "react-relay";
 import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMutation } from "./__generated__/TrainingMutation.graphql";
 import { TrainingQuery } from "./__generated__/TrainingQuery.graphql";
+import { formatDate } from "../../utils/utils";
 
 const mutation = graphql`
   mutation TrainingMutation($data: InputRequest!) {
@@ -51,7 +52,9 @@ const Training: React.FC = () => {
 
   const clickHandler = () => {
     commit({
-      variables: { data: { trainingId: id, userId: 2, date: "12.06.2020" } },
+      variables: {
+        data: { trainingId: id, userId: 2, date: formatDate(new Date()) },
+      },
     });
   };
 
