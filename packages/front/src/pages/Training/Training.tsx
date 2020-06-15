@@ -108,10 +108,10 @@ const Training: React.FC = () => {
         <TrainingMaterials />
       </section>
       <section>
-        <TrainingRecommendations />
+        <TrainingRecommendations trainingId={id} />
       </section>
       <section>
-        <TrainingReviews />
+        <TrainingReviews trainingId={id} />
       </section>
     </>
   );

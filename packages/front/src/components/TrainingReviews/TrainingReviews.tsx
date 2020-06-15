@@ -1,11 +1,44 @@
 import React from "react";
 import { UserCard } from "../UserCard/UserCard";
 import { Button, Form, Input, Modal, Rate } from "antd";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery } from "react-relay/hooks";
+import { TrainingReviewsQuery } from "./__generated__/TrainingReviewsQuery.graphql";
 
-export const TrainingReviews: React.FC = () => {
+const query = graphql`
+  query TrainingReviewsQuery($trainingId: Float!, $feedbackType: Float!) {
+    feedbacksByTrainingId(
+      feedbackType: $feedbackType
+      trainingId: $trainingId
+    ) {
+      feedbackId: id
+      user {
+        fullname
+        photo
+      }
+      text
+      date
+    }
+  }
+`;
+
+type TrainingReviewsProps = {
+  trainingId: number;
+};
+
+export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
+  trainingId,
+}) => {
   const [isVisibleModal, setIsVisibleModal] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [form] = Form.useForm();
+  const { feedbacksByTrainingId } = useLazyLoadQuery<TrainingReviewsQuery>(
+    query,
+    {
+      trainingId,
+      feedbackType: 2,
+    }
+  );
 
   return (
     <>
@@ -46,11 +79,9 @@ export const TrainingReviews: React.FC = () => {
           </Form>
         </Modal>
       </div>
-      <UserCard />
-      <UserCard />
-      <UserCard />
-      <UserCard />
-      <UserCard />
+      {feedbacksByTrainingId.map((review) => (
+        <UserCard feedback={review} />
+      ))}
     </>
   );
 };

@@ -2,12 +2,46 @@ import React from "react";
 import { Carousel, Modal, Button, Input, Form } from "antd";
 import "./TrainingRecomendations.css";
 import { UserCard } from "../UserCard/UserCard";
-import { Store } from "antd/lib/form/interface";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery } from "react-relay/hooks";
+import { TrainingRecommendationsQuery } from "./__generated__/TrainingRecommendationsQuery.graphql";
 
-export const TrainingRecommendations: React.FC = () => {
+const query = graphql`
+  query TrainingRecommendationsQuery(
+    $trainingId: Float!
+    $feedbackType: Float!
+  ) {
+    feedbacksByTrainingId(
+      feedbackType: $feedbackType
+      trainingId: $trainingId
+    ) {
+      feedbackId: id
+      user {
+        fullname
+        photo
+      }
+      text
+      date
+    }
+  }
+`;
+
+type TrainingRecommendationsProps = {
+  trainingId: number;
+};
+
+export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = ({
+  trainingId,
+}) => {
   const [isVisibleModal, setIsVisibleModal] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [form] = Form.useForm();
+  const { feedbacksByTrainingId } = useLazyLoadQuery<
+    TrainingRecommendationsQuery
+  >(query, {
+    trainingId,
+    feedbackType: 1,
+  });
 
   return (
     <>
@@ -46,11 +80,9 @@ export const TrainingRecommendations: React.FC = () => {
         </Modal>
       </div>
       <Carousel>
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
+        {feedbacksByTrainingId.map((recomendation) => (
+          <UserCard feedback={recomendation} />
+        ))}
       </Carousel>
     </>
   );

@@ -2,7 +2,18 @@ import React from "react";
 import { Card } from "antd";
 import "./UserCard.css";
 
-export const UserCard: React.FC = () => {
+type UserCardProps = {
+  feedback: {
+    user: {
+      fullname: string;
+      photo: string | null;
+    };
+    text: string;
+    date: string;
+  };
+};
+
+export const UserCard: React.FC<UserCardProps> = ({ feedback }) => {
   return (
     <Card>
       <div className="user-card-body">
@@ -15,17 +26,12 @@ export const UserCard: React.FC = () => {
               background: "grey",
             }}
           />
-          <div>
-            <span>Мальцева Полина</span>
-            <span>14 мая 2020</span>
+          <div style={{ padding: "0 1rem" }}>
+            <p>{feedback.user.fullname}</p>
+            <p>{feedback.date}</p>
           </div>
         </div>
-        <div>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-          sed officia libero enim expedita. Laborum assumenda quisquam fuga
-          cumque, perspiciatis culpa necessitatibus eum sit libero nobis id
-          labore corporis porro.
-        </div>
+        <div>{feedback.text}</div>
       </div>
     </Card>
   );
