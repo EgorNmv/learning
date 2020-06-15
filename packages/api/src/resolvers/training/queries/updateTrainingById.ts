@@ -1,5 +1,4 @@
 import { Connection } from "typeorm";
-import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 import { InputTraining } from "../../../objects/input-objects/inputTraining";
 import { findTrainingById } from "./findTrainingById";
 import { TrainingEntity } from "../../../objects/entities/training/entity";

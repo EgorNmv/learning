@@ -1,6 +1,5 @@
 import { TrainingEntity } from "../../../objects/entities/training/entity";
 import { Connection } from "typeorm";
-import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 
 export const findTrainingById = async (
     connection: Connection,
@@ -8,7 +7,7 @@ export const findTrainingById = async (
 ): Promise<TrainingEntity | null> => {
     const training: TrainingEntity = await connection.getRepository(TrainingEntity).findOne({
         where: { id },
-        relations: ["format", "organizer", "audience"]
+        relations: ["format", "organizer", "audience", "category"]
     });
 
     if (!training) {

@@ -7,6 +7,7 @@ import { updateTrainingById } from "./queries/updateTrainingById";
 import { deleteTrainingById } from "./queries/deleteTrainingById";
 import { createTraining } from "./queries/createTraining";
 import { Context } from "../../objects/context";
+import { findAllTrainingsByCategoryId } from "./queries/findAllTrainingsByCategoryId";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -24,6 +25,14 @@ export class TrainingResolver {
         @Ctx() { connection }: Context,
     ) {
         return await findAllTrainings(connection);
+    }
+
+    @Query(() => [TrainingEntity])
+    public async trainingsByCategoryId(
+        @Ctx() { connection }: Context,
+        @Arg("categoryId") categoryId: number
+    ) {
+        return await findAllTrainingsByCategoryId(connection, categoryId);
     }
 
     @Mutation(() => TrainingEntity)

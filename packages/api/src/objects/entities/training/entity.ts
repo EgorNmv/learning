@@ -4,6 +4,7 @@ import { OrganizerEntity } from "../oraganizer/entity";
 import { TargetAudienceEntity } from "../target-audience/entity";
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, RelationId } from "typeorm";
 import { Training } from "./type";
+import { CategoryEntity } from "../category/entity";
 
 @Entity({ name: "Training" })
 @ObjectType({
@@ -94,6 +95,18 @@ export class TrainingEntity extends BaseEntity implements Training {
     })
     @Column()
     public site: string;
+
+    @Field(() => CategoryEntity, {
+        nullable: false,
+        description: "категория обучения"
+    })
+    @ManyToOne(type => CategoryEntity, category => category.id)
+    @JoinColumn()
+    public category: CategoryEntity;
+
+    @Column()
+    @RelationId((training: TrainingEntity) => training.category)
+    public categoryId: number;
 
     constructor(
         id: number,
