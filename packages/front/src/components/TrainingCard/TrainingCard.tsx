@@ -16,7 +16,6 @@ type TrainingCardProps = {
 
 export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
   if (training) {
-    console.info(training);
     const { trainingId, name, organizer, start, end, description } = training;
 
     return (

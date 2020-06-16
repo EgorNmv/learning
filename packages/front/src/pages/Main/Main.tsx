@@ -2,66 +2,63 @@ import React from "react";
 import { Carousel } from "antd";
 import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
 import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery, usePreloadedQuery } from "react-relay/hooks";
+import { MainQuery } from "./__generated__/MainQuery.graphql";
+import { AppQuery } from "../../__generated__/AppQuery.graphql";
+import { appQuery, resultOfPreloadQuery } from "../../App";
+
+const query = graphql`
+  query MainQuery {
+    newTrainings {
+      trainingId: id
+      name
+      organizer {
+        name
+      }
+      start
+      end
+      description
+    }
+    comingTrainings {
+      trainingId: id
+      name
+      organizer {
+        name
+      }
+      start
+      end
+      description
+    }
+  }
+`;
 
 const Main: React.FC = () => {
+  const { newTrainings, comingTrainings } = useLazyLoadQuery<MainQuery>(
+    query,
+    {}
+  );
+  const { categories } = usePreloadedQuery<AppQuery>(
+    appQuery,
+    resultOfPreloadQuery
+  );
+
   return (
     <>
       <section>
         <h2>Новые события</h2>
-        <Carousel dotPosition="bottom">
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
+        <Carousel autoplay>
+          {newTrainings.map((training) => (
+            <TrainingCard training={training} />
+          ))}
         </Carousel>
       </section>
       <section>
         <h2>Ближайшие события</h2>
-        <Carousel dotPosition="bottom">
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <TrainingCard />
-              <TrainingCard />
-            </div>
-          </div>
+        <Carousel autoplay>
+          {comingTrainings.map((training) => (
+            <TrainingCard training={training} />
+          ))}
         </Carousel>
       </section>
       <section>
@@ -73,14 +70,9 @@ const Main: React.FC = () => {
             justifyContent: "space-around",
           }}
         >
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
+          {categories.map((category) => (
+            <CategoryCard category={category} />
+          ))}
         </div>
       </section>
     </>

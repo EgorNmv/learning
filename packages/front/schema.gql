@@ -150,6 +150,7 @@ type OrganizerEntity {
 type Query {
   categories: [CategoryEntity!]!
   category(id: Float!): CategoryEntity
+  comingTrainings: [TrainingEntity!]!
   feedback(id: Float!): FeedbackEntity
   feedbacks: [FeedbackEntity!]!
   feedbacksByTrainingId(
@@ -161,6 +162,7 @@ type Query {
   formats: [FormatEntity!]!
   material(id: Float!): MaterialEntity
   materials: [MaterialEntity!]!
+  newTrainings: [TrainingEntity!]!
   organizer(id: Float!): OrganizerEntity
   organizers: [OrganizerEntity!]!
   request(id: Float!): RequestEntity
@@ -214,6 +216,9 @@ type TrainingEntity {
 
   """категория обучения"""
   category: CategoryEntity!
+
+  """дата создания обучения"""
+  createDate: String
 
   """описание обучения"""
   description: String!

@@ -18,7 +18,6 @@ export const SiderLinkList: React.FC = () => {
   const allAvailableCategories: Category[] = categories as Writeable<
     Category[]
   >;
-  console.info("allAvailableCategories", allAvailableCategories);
 
   return (
     <Menu className="sider-link-list-menu" mode="inline" theme="light">

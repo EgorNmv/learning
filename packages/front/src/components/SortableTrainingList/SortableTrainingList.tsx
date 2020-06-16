@@ -17,7 +17,6 @@ type SortableTrainingListProps = {
 export const SortableTrainingList: React.FC<SortableTrainingListProps> = ({
   trainings,
 }) => {
-  console.info(trainings);
   return (
     <div>
       <div className="sortable-training-list-filters">

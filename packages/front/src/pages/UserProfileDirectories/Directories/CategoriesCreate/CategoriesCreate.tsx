@@ -22,7 +22,6 @@ const mutation = graphql`
 
 const CategoriesCreate: React.FC = () => {
   const location = useLocation();
-  console.info(location);
   const [form] = Form.useForm();
   const [commit, isInFlight] = useMutation<CategoriesCreateMutation>(mutation);
   let file: any;
