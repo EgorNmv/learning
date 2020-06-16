@@ -7,6 +7,7 @@ export const findAllRequests = async (
 ): Promise<RequestEntity[]> => {
 
     return await connection.getRepository(RequestEntity).find({
-        relations: ["training"]
+        relations: ["training"],
+        order: { id: "ASC" }
     });
 }

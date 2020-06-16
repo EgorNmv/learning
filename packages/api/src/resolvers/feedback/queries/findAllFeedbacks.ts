@@ -6,6 +6,7 @@ export const findAllFeedbacks = async (
 ): Promise<FeedbackEntity[]> => {
 
     return await connection.getRepository(FeedbackEntity).find({
-        relations: ["user", "training", "training.format", "training.organizer", "training.audience"]
+        relations: ["user", "training", "training.format", "training.organizer", "training.audience"],
+        order: { id: "ASC" }
     });
 }

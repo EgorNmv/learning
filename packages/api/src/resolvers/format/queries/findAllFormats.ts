@@ -6,5 +6,5 @@ export const findAllFormats = async (
     connection: Connection
 ): Promise<FormatEntity[]> => {
 
-    return await connection.getRepository(FormatEntity).find();
+    return await connection.getRepository(FormatEntity).find({ order: { id: "ASC" } });
 }

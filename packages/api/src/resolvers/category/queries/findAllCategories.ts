@@ -5,5 +5,5 @@ export const findAllCategories = async (
     connection: Connection
 ): Promise<CategoryEntity[]> => {
 
-    return await connection.getRepository(CategoryEntity).find();
+    return await connection.getRepository(CategoryEntity).find({ order: { id: "ASC" } });
 }

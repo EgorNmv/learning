@@ -6,5 +6,5 @@ export const findAllOrganizers = async (
     connection: Connection
 ): Promise<OrganizerEntity[]> => {
 
-    return await connection.getRepository(OrganizerEntity).find();
+    return await connection.getRepository(OrganizerEntity).find({ order: { id: "ASC" } });
 }

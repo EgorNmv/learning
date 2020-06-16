@@ -6,6 +6,7 @@ export const findAllTrainings = async (
 ): Promise<TrainingEntity[]> => {
 
     return await connection.getRepository(TrainingEntity).find({
-        relations: ["format", "organizer", "audience", "category"]
+        relations: ["format", "organizer", "audience", "category"],
+        order: { id: "ASC" }
     });
 }

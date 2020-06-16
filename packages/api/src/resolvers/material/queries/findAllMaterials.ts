@@ -7,6 +7,7 @@ export const findAllMaterials = async (
 ): Promise<MaterialEntity[]> => {
 
     return await connection.getRepository(MaterialEntity).find({
-        relations: ["training", "training.format", "training.organizer", "training.audience"]
+        relations: ["training", "training.format", "training.organizer", "training.audience"],
+        order: { id: "ASC" }
     });
 }
