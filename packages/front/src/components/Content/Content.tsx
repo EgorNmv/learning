@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import { Layout, Spin } from "antd";
+import React from "react";
+import { Layout } from "antd";
 import { Route, Switch } from "react-router-dom";
 import "./Content.css";
 

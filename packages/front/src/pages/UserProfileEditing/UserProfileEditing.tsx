@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Input, Select, Upload, Button, Form } from "antd";
+import { Card, Input, Upload, Button, Form } from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { PictureFilled } from "@ant-design/icons";
