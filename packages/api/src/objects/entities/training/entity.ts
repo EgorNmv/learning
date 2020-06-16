@@ -5,6 +5,7 @@ import { TargetAudienceEntity } from "../target-audience/entity";
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, RelationId } from "typeorm";
 import { Training } from "./type";
 import { CategoryEntity } from "../category/entity";
+import { formatDate } from "../../../utils/utils";
 
 @Entity({ name: "Training" })
 @ObjectType({
@@ -107,6 +108,13 @@ export class TrainingEntity extends BaseEntity implements Training {
     @Column({ nullable: true })
     @RelationId((training: TrainingEntity) => training.category)
     public categoryId: number;
+
+    @Field(() => String, {
+        nullable: true,
+        description: "дата создания обучения"
+    })
+    @Column({ default: formatDate(new Date()) })
+    public createDate: string;
 
     constructor(
         id: number,

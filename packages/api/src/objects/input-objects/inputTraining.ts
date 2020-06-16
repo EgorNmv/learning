@@ -2,7 +2,9 @@ import { Training } from "../entities/training/type";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
-export class InputTraining implements Omit<Training, "id" | "format" | "organizer" | "audience" | "category">{
+export class InputTraining implements Omit<
+Training, "id" | "format" | "organizer" | "audience" | "category" | "createDate"
+>{
     @Field()
     public name: string;
 

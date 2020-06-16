@@ -19,4 +19,5 @@ export interface Training {
     audienceId: number;
     category: Category;
     categoryId: number;
+    createDate: string;
 }

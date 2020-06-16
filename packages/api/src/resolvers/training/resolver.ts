@@ -8,6 +8,8 @@ import { deleteTrainingById } from "./queries/deleteTrainingById";
 import { createTraining } from "./queries/createTraining";
 import { Context } from "../../objects/context";
 import { findAllTrainingsByCategoryId } from "./queries/findAllTrainingsByCategoryId";
+import { findAllNewTrainings } from "./queries/findAllNewTrainings";
+import { findAllComingTrainings } from "./queries/findAllComingTrainings";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -33,6 +35,20 @@ export class TrainingResolver {
         @Arg("categoryId") categoryId: number
     ) {
         return await findAllTrainingsByCategoryId(connection, categoryId);
+    }
+
+    @Query(() => [TrainingEntity])
+    public async newTrainings(
+        @Ctx() { connection }: Context
+    ) {
+        return await findAllNewTrainings(connection);
+    }
+
+    @Query(() => [TrainingEntity])
+    public async comingTrainings(
+        @Ctx() { connection }: Context
+    ) {
+        return await findAllComingTrainings(connection);
     }
 
     @Mutation(() => TrainingEntity)
