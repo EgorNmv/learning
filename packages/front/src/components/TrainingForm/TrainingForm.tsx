@@ -1,4 +1,4 @@
-import React, { ChangeEvent, EventHandler } from "react";
+import React, { ChangeEvent, EventHandler, useState } from "react";
 import { Form, Input, Select, Upload, Button } from "antd";
 import { PictureFilled } from "@ant-design/icons";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
@@ -9,6 +9,7 @@ import { TrainingFormQuery } from "./__generated__/TrainingFormQuery.graphql";
 import { InputTraining } from "../../pages/TrainingCreate/__generated__/TrainingCreateMutation.graphql";
 import { TrainingFormValues } from "../../utils/types";
 import { TrainingFormMutation } from "./__generated__/TrainingFormMutation.graphql";
+import { useFileUpload } from "../../utils/utils";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -92,25 +93,32 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const onChange = (e: any) => {
     // console.info(e, form.getFieldValue("photo"));
   };
-
+  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
+  const [response, setResponse] = useState<{ filename: string }>();
+  React.useEffect(() => console.info(isLoadingFile, response), [
+    isLoadingFile,
+    response,
+  ]);
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     let file: File;
 
     if (event.target.files) {
       file = event.target.files[0];
-      const formData: FormData = new FormData();
-      formData.append("type", "1");
-      formData.append("id", "1");
-      formData.append("file", file);
+      // const formData: FormData = new FormData();
+      // formData.append("type", "1");
+      // formData.append("id", "1");
+      // formData.append("file", file);
 
-      const response = await fetch("http://localhost:4000/file/upload", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
-      });
-      console.info(response);
+      // const response = await fetch("http://localhost:4000/file/upload", {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //   },
+      //   body: formData,
+      // });
+      // console.info(response);
+
+      setResponse(await sendFile(file, "training"));
 
       // console.info("Uploaded file: ", file);
       // commit({ uploadables: { file: file }, variables: { file } });
