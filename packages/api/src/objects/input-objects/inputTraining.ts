@@ -8,7 +8,7 @@ Training, "id" | "format" | "organizer" | "audience" | "category" | "createDate"
     @Field()
     public name: string;
 
-    @Field()
+    @Field({ nullable: true })
     public label: string;
 
     @Field()

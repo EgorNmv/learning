@@ -10,7 +10,7 @@ const cache = new QueryResponseCache({ size: 250, ttl: cacheTimeMs });
 const getFetchQueryFunction = (endpoint: string): FetchFunction => async (
     operation,
     variables,
-    cacheConfig,
+    cacheConfig
 ) => {
     const queryID = operation.text;
     const isMutation = operation.operationKind === 'mutation';

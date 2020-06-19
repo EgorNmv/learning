@@ -6,7 +6,8 @@ import { getLocallyConnection } from "../../../../../core/src/database-connectio
 
 export const updateUserById = async (
     connection: Connection,
-    id: number, data: InputUser): Promise<UserEntity> => {
+    id: number, data: InputUser
+): Promise<UserEntity> => {
     const user: UserEntity = await findUserById(connection, id);
 
     if (!user) {

@@ -20,10 +20,10 @@ export class TrainingEntity extends BaseEntity implements Training {
     public id: number;
 
     @Field(() => String, {
-        nullable: false,
+        nullable: true,
         description: "ярлык(картинка) обучения"
     })
-    @Column()
+    @Column({ nullable: true })
     public label: string;
 
     @Field(() => String, {

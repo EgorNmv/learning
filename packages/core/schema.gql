@@ -10,6 +10,9 @@ type CategoryEntity {
 
   """id категории"""
   id: Float!
+
+  """изображение категории"""
+  label: String
 }
 
 """Рекомендации и отзывы"""
@@ -74,7 +77,7 @@ input InputTraining {
   description: String!
   end: String!
   formatId: Float!
-  label: String!
+  label: String
   name: String!
   organizerId: Float!
   site: String!
@@ -101,7 +104,7 @@ type MaterialEntity {
 }
 
 type Mutation {
-  createCategory(description: String!): CategoryEntity!
+  createCategory(description: String!, label: String): CategoryEntity!
   createFeedback(data: InputFeedback!): FeedbackEntity!
   createFormat(description: String!): FormatEntity!
   createMaterial(data: InputMaterial!): MaterialEntity!
@@ -118,7 +121,7 @@ type Mutation {
   deleteTargetAudienceById(id: Float!): Boolean!
   deleteTrainingById(id: Float!): Boolean!
   deleteUserById(id: Float!): Boolean!
-  updateCategoryById(description: String!, id: Float!): CategoryEntity!
+  updateCategoryById(description: String!, id: Float!, label: String): CategoryEntity!
   updateFeedbackById(data: InputFeedback!, id: Float!): FeedbackEntity!
   updateFormatById(description: String!, id: Float!): FormatEntity!
   updateMaterialById(data: InputMaterial!, id: Float!): MaterialEntity!
@@ -126,7 +129,6 @@ type Mutation {
   updateTargetAudienceById(description: String!, id: Float!): TargetAudienceEntity!
   updateTrainingById(data: InputTraining!, id: Float!): TrainingEntity!
   updateUserById(data: InputUser!, id: Float!): UserEntity!
-  uploadFile(file: Upload!): Boolean!
 }
 
 """Организатор обучения"""
@@ -233,7 +235,7 @@ type TrainingEntity {
   id: Float!
 
   """ярлык(картинка) обучения"""
-  label: String!
+  label: String
 
   """имя обучения"""
   name: String!
@@ -247,9 +249,6 @@ type TrainingEntity {
   """дата начала обучения"""
   start: String!
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
 
 """Пользователь"""
 type UserEntity {

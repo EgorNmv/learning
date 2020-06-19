@@ -30,16 +30,18 @@ export class CategoryResolver {
     @Mutation(() => CategoryEntity)
     public async createCategory(
         @Ctx() { connection }: Context,
-        @Arg("description") description: string) {
-        return await createCategory(connection, description);
+        @Arg("description") description: string,
+        @Arg("label", { nullable: true }) label: string) {
+        return await createCategory(connection, description, label);
     }
 
     @Mutation(() => CategoryEntity)
     public async updateCategoryById(
         @Ctx() { connection }: Context,
         @Arg("id") id: number,
-        @Arg("description") description: string) {
-        return await updateCategoryById(connection, id, description);
+        @Arg("description") description: string,
+        @Arg("label", { nullable: true }) label: string) {
+        return await updateCategoryById(connection, id, description, label);
     }
 
     @Mutation(() => Boolean)

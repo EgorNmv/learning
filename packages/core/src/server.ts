@@ -21,6 +21,12 @@ const startServer = async (): Promise<void> => {
     });
     const server: ApolloServer = new ApolloServer({
         schema,
+        // context: ({ req, res }) => {
+        //     console.info(req.url);
+        //     res.body = { "das": "as" };
+        //     console.info("res", res.body);
+        //     return { ...context };
+        // },
         context,
         uploads: { maxFieldSize: 10000000, maxFiles: 20 }
     });

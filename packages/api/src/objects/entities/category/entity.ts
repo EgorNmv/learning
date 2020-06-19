@@ -21,12 +21,21 @@ export class CategoryEntity extends BaseEntity implements Category {
     @Column()
     public description: string;
 
+    @Field(() => String, {
+        nullable: true,
+        description: "изображение категории"
+    })
+    @Column({ nullable: true })
+    public label: string;
+
     constructor(
         id: number,
         description: string,
+        label: string,
     ) {
         super();
         this.id = id;
         this.description = description;
+        this.label = label;
     }
 }

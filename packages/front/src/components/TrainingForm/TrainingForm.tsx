@@ -1,13 +1,14 @@
-import React from "react";
+import React, { ChangeEvent, EventHandler } from "react";
 import { Form, Input, Select, Upload, Button } from "antd";
 import { PictureFilled } from "@ant-design/icons";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay/hooks";
+import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { TrainingFormQuery } from "./__generated__/TrainingFormQuery.graphql";
 import { InputTraining } from "../../pages/TrainingCreate/__generated__/TrainingCreateMutation.graphql";
 import { TrainingFormValues } from "../../utils/types";
+import { TrainingFormMutation } from "./__generated__/TrainingFormMutation.graphql";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -30,6 +31,12 @@ const query = graphql`
   }
 `;
 
+const mutation = graphql`
+  mutation TrainingFormMutation($file: Upload!) {
+    uploadFile(file: $file)
+  }
+`;
+
 type TrainingFormProps = {
   formValues?: TrainingFormValues;
   onFinish: (data: InputTraining) => void;
@@ -43,6 +50,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     TrainingFormQuery
   >(query, {});
+  const [commit, isInFlight] = useMutation<TrainingFormMutation>(mutation);
 
   const onFinishHandler = ({
     name,
@@ -73,10 +81,6 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     onFinish && onFinish(data);
   };
 
-  const onReset = () => {
-    form.resetFields();
-  };
-
   const normFile = (e: any) => {
     console.log("Upload event:", e);
     if (Array.isArray(e)) {
@@ -85,11 +89,32 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     return e && e.fileList;
   };
 
-  const onFill = () => {
-    form.setFieldsValue({
-      note: "Hello world!",
-      gender: "male",
-    });
+  const onChange = (e: any) => {
+    // console.info(e, form.getFieldValue("photo"));
+  };
+
+  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    let file: File;
+
+    if (event.target.files) {
+      file = event.target.files[0];
+      const formData: FormData = new FormData();
+      formData.append("type", "1");
+      formData.append("id", "1");
+      formData.append("file", file);
+
+      const response = await fetch("http://localhost:4000/file/upload", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+      console.info(response);
+
+      // console.info("Uploaded file: ", file);
+      // commit({ uploadables: { file: file }, variables: { file } });
+    }
   };
 
   React.useEffect(() => {
@@ -104,8 +129,12 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       form={form}
       name="training-create"
       onFinish={onFinishHandler}
+      onChange={onChange}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <form>
+          <input type="file" id="file" onChange={uploadFile} />
+        </form>
         <div style={{ flex: 1 }}>
           <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
             <Input />
@@ -204,7 +233,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 marginBottom: "2.8rem",
               }}
             />
-            <Upload name="logo" action="/upload.do" listType="picture">
+            <Upload name="logo" listType="picture">
               <Button>
                 <PictureFilled /> Выбрать файл
               </Button>
@@ -224,11 +253,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       </Form.Item>
       <CenteredText>
         <Form.Item>
-          <Button
-            htmlType="button"
-            onClick={onReset}
-            style={{ marginRight: "1rem" }}
-          >
+          <Button htmlType="button" style={{ marginRight: "1rem" }}>
             Отмена
           </Button>
           <Button type="primary" htmlType="submit">

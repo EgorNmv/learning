@@ -2,22 +2,20 @@ import "reflect-metadata";
 import * as path from "path";
 import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
-import { ApolloServer } from 'apollo-server';
 import { config as dotenvConfig } from "dotenv";
 import { resolvers } from "../../api/src/resolvers";
 import { getLocallyConnection } from "./database-connection/database-connection";
 import { Context } from "../../api/src/objects/context";
-// import { ApolloServer } from "apollo-server-express";
-import { graphqlUploadExpress } from "graphql-upload";
+import { ApolloServer } from "apollo-server-express";
 import express = require('express');
-// import { FileUploadResolver } from "./resolver";
-
+import fileRoutes from "../../api/src/routes/file.routes";
+import cors = require("cors");
 
 const startServer = async (): Promise<void> => {
     dotenvConfig({ path: "../.env" });
 
     const context: Context = {
-        connection: await getLocallyConnection()
+        connection: await getLocallyConnection(),
     };
     const schema: GraphQLSchema = await buildSchema({
         resolvers,
@@ -27,16 +25,20 @@ const startServer = async (): Promise<void> => {
         schema,
         context,
         introspection: true,
-        uploads: { maxFieldSize: 10000000, maxFiles: 20 } // disable apollo upload property
-        // formatError: (error: any) => ({ message: error.message, statusCode: error.statusCode })
+        // uploads: { maxFieldSize: 10000000, maxFiles: 20 } // disable apollo upload property
     });
-    // const app = express();
-    // app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
-    // server.applyMiddleware({
-    //     app
-    // });
+    const app = express();
 
-    server.listen(process.env.SERVER_PORT || 4000);
+    app.use(cors());
+    app.use("/file", fileRoutes);
+    app.use(express.static("../../../uploads"));
+
+    server.applyMiddleware({
+        app, path: "/"
+    });
+
+
+    app.listen(process.env.SERVER_PORT || 4000);
     console.log(`Server has been started at ${process.env.SERVER_PORT} port`);
 };
 

@@ -5,7 +5,6 @@ import { graphql } from "react-relay";
 import { useMutation } from "react-relay/hooks";
 import {
   TrainingCreateMutation,
-  TrainingCreateMutationVariables,
   InputTraining,
 } from "./__generated__/TrainingCreateMutation.graphql";
 import { useHistory } from "react-router-dom";

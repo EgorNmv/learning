@@ -5,7 +5,8 @@ import { findCategoryById } from "./findCategoryById";
 export const updateCategoryById = async (
     connection: Connection,
     id: number,
-    description: string
+    description: string,
+    label: string
 ): Promise<CategoryEntity> => {
     const category: CategoryEntity = await findCategoryById(connection, id);
 
@@ -14,7 +15,7 @@ export const updateCategoryById = async (
     }
 
     const updatedCategory: CategoryEntity = await connection.getRepository(CategoryEntity)
-        .save({ ...category, description })
+        .save({ ...category, description, label })
 
     return updatedCategory;
 }
