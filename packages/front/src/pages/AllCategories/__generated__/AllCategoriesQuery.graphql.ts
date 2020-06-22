@@ -7,6 +7,7 @@ export type AllCategoriesQueryResponse = {
     readonly trainings: ReadonlyArray<{
         readonly trainingId: number;
         readonly name: string;
+        readonly label: string | null;
         readonly description: string;
         readonly start: string;
         readonly end: string;
@@ -27,6 +28,7 @@ query AllCategoriesQuery {
   trainings {
     trainingId: id
     name
+    label
     description
     start
     end
@@ -62,6 +64,13 @@ v1 = [
         "storageKey": null
       },
       (v0/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "label",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -120,9 +129,9 @@ return {
     "metadata": {},
     "name": "AllCategoriesQuery",
     "operationKind": "query",
-    "text": "query AllCategoriesQuery {\n  trainings {\n    trainingId: id\n    name\n    description\n    start\n    end\n    organizer {\n      name\n    }\n  }\n}\n"
+    "text": "query AllCategoriesQuery {\n  trainings {\n    trainingId: id\n    name\n    label\n    description\n    start\n    end\n    organizer {\n      name\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '998731d5b95f84d3584070dd98939114';
+(node as any).hash = 'ca9623fbf59010f13faad5b8ab59d329';
 export default node;

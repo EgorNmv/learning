@@ -9,6 +9,7 @@ const query = graphql`
     trainings {
       trainingId: id
       name
+      label
       description
       start
       end
