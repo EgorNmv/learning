@@ -13,6 +13,7 @@ const query = graphql`
     newTrainings {
       trainingId: id
       name
+      label
       organizer {
         name
       }
@@ -23,6 +24,7 @@ const query = graphql`
     comingTrainings {
       trainingId: id
       name
+      label
       organizer {
         name
       }

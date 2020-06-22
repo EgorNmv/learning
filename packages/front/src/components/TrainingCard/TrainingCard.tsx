@@ -2,11 +2,13 @@ import React from "react";
 import { Card } from "antd";
 import { Link } from "react-router-dom";
 import "./TrainingCard.css";
+import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 
 type TrainingCardProps = {
   training?: {
     trainingId?: number;
     name?: string;
+    label: string | null;
     organizer?: { name: string };
     start?: string;
     end?: string;
@@ -21,13 +23,24 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
     return (
       <Card style={{ marginBottom: "1rem" }}>
         <div className="training-card-body">
-          <div
-            style={{
-              width: "100px",
-              height: "150px",
-              background: "gray",
-            }}
-          />
+          {training.label
+            ? <UploadedPicture
+              style={{
+                width: "100%",
+                height: "100%",
+                maxHeight: "20rem",
+                maxWidth: "20rem"
+              }}
+              filename={training.label}
+              imgType="training"
+            />
+            : <div
+              style={{
+                width: "100px",
+                height: "150px",
+                background: "gray",
+              }}
+            />}
           <div>
             <div>
               <Link to={`/category/1/training/${trainingId}`}>

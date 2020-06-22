@@ -7,6 +7,7 @@ type SortableTrainingListProps = {
   trainings?: {
     trainingId?: number;
     name?: string;
+    label: string | null;
     organizer?: { name: string };
     start?: string;
     end?: string;

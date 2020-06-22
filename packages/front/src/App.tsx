@@ -27,6 +27,7 @@ export const appQuery = graphql`
     categories {
       categoryId: id
       description
+      label
     }
   }
 `;

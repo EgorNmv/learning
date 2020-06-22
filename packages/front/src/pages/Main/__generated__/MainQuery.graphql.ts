@@ -7,6 +7,7 @@ export type MainQueryResponse = {
     readonly newTrainings: ReadonlyArray<{
         readonly trainingId: number;
         readonly name: string;
+        readonly label: string | null;
         readonly organizer: {
             readonly name: string;
         };
@@ -17,6 +18,7 @@ export type MainQueryResponse = {
     readonly comingTrainings: ReadonlyArray<{
         readonly trainingId: number;
         readonly name: string;
+        readonly label: string | null;
         readonly organizer: {
             readonly name: string;
         };
@@ -37,6 +39,7 @@ query MainQuery {
   newTrainings {
     trainingId: id
     name
+    label
     organizer {
       name
     }
@@ -47,6 +50,7 @@ query MainQuery {
   comingTrainings {
     trainingId: id
     name
+    label
     organizer {
       name
     }
@@ -74,6 +78,13 @@ v1 = [
     "storageKey": null
   },
   (v0/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "label",
+    "storageKey": null
+  },
   {
     "alias": null,
     "args": null,
@@ -151,9 +162,9 @@ return {
     "metadata": {},
     "name": "MainQuery",
     "operationKind": "query",
-    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n}\n"
+    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'cfbaddfa9cfb46c9b84cebcf1a186d3a';
+(node as any).hash = '54d3cf190fb28ffb868f657e6472b689';
 export default node;

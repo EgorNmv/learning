@@ -7,6 +7,7 @@ export type AppQueryResponse = {
     readonly categories: ReadonlyArray<{
         readonly categoryId: number;
         readonly description: string;
+        readonly label: string | null;
     }>;
 };
 export type AppQuery = {
@@ -21,6 +22,7 @@ query AppQuery {
   categories {
     categoryId: id
     description
+    label
   }
 }
 */
@@ -48,6 +50,13 @@ var v0 = [
         "kind": "ScalarField",
         "name": "description",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "label",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -74,9 +83,9 @@ return {
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery {\n  categories {\n    categoryId: id\n    description\n  }\n}\n"
+    "text": "query AppQuery {\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '44f636010464f16e0b074e53ac47dcad';
+(node as any).hash = '4b68dd0ec459eaee7971955c1586294c';
 export default node;

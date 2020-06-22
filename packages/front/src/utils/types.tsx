@@ -1,6 +1,7 @@
 export type Category = {
   categoryId: number;
   description: string;
+  label: string | null
 };
 
 export type Organizer = {
