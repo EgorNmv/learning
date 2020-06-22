@@ -9,6 +9,7 @@ export type CategoryQueryResponse = {
     readonly trainingsByCategoryId: ReadonlyArray<{
         readonly trainingId: number;
         readonly name: string;
+        readonly label: string | null;
         readonly start: string;
         readonly end: string;
         readonly description: string;
@@ -31,6 +32,7 @@ query CategoryQuery(
   trainingsByCategoryId(categoryId: $categoryId) {
     trainingId: id
     name
+    label
     start
     end
     description
@@ -80,6 +82,13 @@ v2 = [
         "storageKey": null
       },
       (v1/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "label",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -138,9 +147,9 @@ return {
     "metadata": {},
     "name": "CategoryQuery",
     "operationKind": "query",
-    "text": "query CategoryQuery(\n  $categoryId: Float!\n) {\n  trainingsByCategoryId(categoryId: $categoryId) {\n    trainingId: id\n    name\n    start\n    end\n    description\n    organizer {\n      name\n    }\n  }\n}\n"
+    "text": "query CategoryQuery(\n  $categoryId: Float!\n) {\n  trainingsByCategoryId(categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    description\n    organizer {\n      name\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '439cae06ed96fcb5d8eb50226ad80e52';
+(node as any).hash = 'a169e55a81b003a87aa7de0f890fb421';
 export default node;

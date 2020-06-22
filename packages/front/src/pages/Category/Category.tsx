@@ -18,6 +18,7 @@ const query = graphql`
     trainingsByCategoryId(categoryId: $categoryId) {
       trainingId: id
       name
+      label
       start
       end
       description
@@ -50,7 +51,7 @@ const Category: React.FC = () => {
 
   return (
     <div className="category-page-content">
-      <section>
+      <section style={{ flex: 1 }}>
         <h2>{currentCategory.description}</h2>
         <SortableTrainingList trainings={trainingsByCategoryId as any} />
       </section>

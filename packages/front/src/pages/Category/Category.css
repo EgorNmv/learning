@@ -1,5 +1,6 @@
 .category-page-content {
   display: flex;
+  justify-content: space-between;
 }
 
 .category-page-content-calendar {
