@@ -8,7 +8,7 @@ export type TrainingEditQueryVariables = {
 export type TrainingEditQueryResponse = {
     readonly training: {
         readonly trainingId: number;
-        readonly label: string;
+        readonly label: string | null;
         readonly name: string;
         readonly description: string;
         readonly format: {

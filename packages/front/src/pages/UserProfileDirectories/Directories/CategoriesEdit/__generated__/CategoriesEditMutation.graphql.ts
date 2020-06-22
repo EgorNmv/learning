@@ -5,11 +5,13 @@ import { ConcreteRequest } from "relay-runtime";
 export type CategoriesEditMutationVariables = {
     categoryId: number;
     description: string;
+    label?: string | null;
 };
 export type CategoriesEditMutationResponse = {
     readonly updateCategoryById: {
         readonly categoryId: number;
         readonly description: string;
+        readonly label: string | null;
     };
 };
 export type CategoriesEditMutation = {
@@ -23,10 +25,12 @@ export type CategoriesEditMutation = {
 mutation CategoriesEditMutation(
   $categoryId: Float!
   $description: String!
+  $label: String
 ) {
-  updateCategoryById(id: $categoryId, description: $description) {
+  updateCategoryById(id: $categoryId, description: $description, label: $label) {
     categoryId: id
     description
+    label
   }
 }
 */
@@ -44,6 +48,12 @@ var v0 = [
     "kind": "LocalArgument",
     "name": "description",
     "type": "String!"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "label",
+    "type": "String"
   }
 ],
 v1 = [
@@ -59,6 +69,11 @@ v1 = [
         "kind": "Variable",
         "name": "id",
         "variableName": "categoryId"
+      },
+      {
+        "kind": "Variable",
+        "name": "label",
+        "variableName": "label"
       }
     ],
     "concreteType": "CategoryEntity",
@@ -78,6 +93,13 @@ v1 = [
         "args": null,
         "kind": "ScalarField",
         "name": "description",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "label",
         "storageKey": null
       }
     ],
@@ -105,9 +127,9 @@ return {
     "metadata": {},
     "name": "CategoriesEditMutation",
     "operationKind": "mutation",
-    "text": "mutation CategoriesEditMutation(\n  $categoryId: Float!\n  $description: String!\n) {\n  updateCategoryById(id: $categoryId, description: $description) {\n    categoryId: id\n    description\n  }\n}\n"
+    "text": "mutation CategoriesEditMutation(\n  $categoryId: Float!\n  $description: String!\n  $label: String\n) {\n  updateCategoryById(id: $categoryId, description: $description, label: $label) {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '08a4d9ece501a1c93241f89f4e96a2e0';
+(node as any).hash = '6109403a00bcd841a6793f0d2acf2a64';
 export default node;

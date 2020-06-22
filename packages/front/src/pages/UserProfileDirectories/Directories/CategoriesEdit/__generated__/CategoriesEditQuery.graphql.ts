@@ -9,6 +9,7 @@ export type CategoriesEditQueryResponse = {
     readonly category: {
         readonly categoryId: number;
         readonly description: string;
+        readonly label: string | null;
     } | null;
 };
 export type CategoriesEditQuery = {
@@ -25,6 +26,7 @@ query CategoriesEditQuery(
   category(id: $categoryId) {
     categoryId: id
     description
+    label
   }
 }
 */
@@ -66,6 +68,13 @@ v1 = [
         "kind": "ScalarField",
         "name": "description",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "label",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -92,9 +101,9 @@ return {
     "metadata": {},
     "name": "CategoriesEditQuery",
     "operationKind": "query",
-    "text": "query CategoriesEditQuery(\n  $categoryId: Float!\n) {\n  category(id: $categoryId) {\n    categoryId: id\n    description\n  }\n}\n"
+    "text": "query CategoriesEditQuery(\n  $categoryId: Float!\n) {\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '78e84adb3ee7aaa3699f1b68a7d6affe';
+(node as any).hash = '4e8b996a734a1aca71d4dc784b681f8e';
 export default node;

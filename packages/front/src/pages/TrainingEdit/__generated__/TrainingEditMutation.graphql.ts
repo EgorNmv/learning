@@ -8,7 +8,7 @@ export type InputTraining = {
     description: string;
     end: string;
     formatId: number;
-    label: string;
+    label?: string | null;
     name: string;
     organizerId: number;
     site: string;
@@ -21,7 +21,7 @@ export type TrainingEditMutationVariables = {
 export type TrainingEditMutationResponse = {
     readonly updateTrainingById: {
         readonly trainingId: number;
-        readonly label: string;
+        readonly label: string | null;
         readonly name: string;
         readonly description: string;
         readonly format: {

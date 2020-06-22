@@ -4,7 +4,7 @@ type UploadedPictureProps = {
     imgType: "user" | "training" | "category",
     style?: { [key: string]: string },
     className?: string,
-    filename: string | undefined,
+    filename: string | null,
     size?: "small" | "medium"
 };
 

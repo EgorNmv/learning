@@ -4,11 +4,13 @@
 import { ConcreteRequest } from "relay-runtime";
 export type CategoriesCreateMutationVariables = {
     description: string;
+    label?: string | null;
 };
 export type CategoriesCreateMutationResponse = {
     readonly createCategory: {
         readonly categoryId: number;
         readonly description: string;
+        readonly label: string | null;
     };
 };
 export type CategoriesCreateMutation = {
@@ -21,10 +23,12 @@ export type CategoriesCreateMutation = {
 /*
 mutation CategoriesCreateMutation(
   $description: String!
+  $label: String
 ) {
-  createCategory(description: $description) {
+  createCategory(description: $description, label: $label) {
     categoryId: id
     description
+    label
   }
 }
 */
@@ -36,6 +40,12 @@ var v0 = [
     "kind": "LocalArgument",
     "name": "description",
     "type": "String!"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "label",
+    "type": "String"
   }
 ],
 v1 = [
@@ -46,6 +56,11 @@ v1 = [
         "kind": "Variable",
         "name": "description",
         "variableName": "description"
+      },
+      {
+        "kind": "Variable",
+        "name": "label",
+        "variableName": "label"
       }
     ],
     "concreteType": "CategoryEntity",
@@ -65,6 +80,13 @@ v1 = [
         "args": null,
         "kind": "ScalarField",
         "name": "description",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "label",
         "storageKey": null
       }
     ],
@@ -92,9 +114,9 @@ return {
     "metadata": {},
     "name": "CategoriesCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation CategoriesCreateMutation(\n  $description: String!\n) {\n  createCategory(description: $description) {\n    categoryId: id\n    description\n  }\n}\n"
+    "text": "mutation CategoriesCreateMutation(\n  $description: String!\n  $label: String\n) {\n  createCategory(description: $description, label: $label) {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'ff2fee1e3468b2125b073400c6d2dc75';
+(node as any).hash = '7c85e54ed6f6af9dd679f16a3b75453a';
 export default node;

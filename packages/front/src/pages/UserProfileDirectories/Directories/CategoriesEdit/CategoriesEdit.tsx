@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Form, Input, Select, Upload, Button, Spin } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
 import { PictureFilled } from "@ant-design/icons";
@@ -13,21 +13,25 @@ import {
   CategoriesEditMutation,
   CategoriesEditMutationResponse,
 } from "./__generated__/CategoriesEditMutation.graphql";
+import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
+import { useFileUpload } from "../../../../utils/utils";
 
 const query = graphql`
   query CategoriesEditQuery($categoryId: Float!) {
     category(id: $categoryId) {
       categoryId: id
       description
+      label
     }
   }
 `;
 
 const mutation = graphql`
-  mutation CategoriesEditMutation($categoryId: Float!, $description: String!) {
-    updateCategoryById(id: $categoryId, description: $description) {
+  mutation CategoriesEditMutation($categoryId: Float!, $description: String!, $label: String) {
+    updateCategoryById(id: $categoryId, description: $description, label: $label) {
       categoryId: id
       description
+      label
     }
   }
 `;
@@ -40,13 +44,25 @@ const CategoriesCreate: React.FC = () => {
   >(query, { categoryId: id });
   const [commit, isInFlight] = useMutation<CategoriesEditMutation>(mutation);
   const [form] = Form.useForm();
+  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
+  const [fileResponse, setFileResponse] = useState<{ filename: string }>();
+
   const onFinish = ({ name, photo }: Store) => {
     commit({
-      variables: { categoryId: id, description: name },
+      variables: { categoryId: id, description: name, label: fileResponse?.filename },
       onCompleted(response: CategoriesEditMutationResponse) {
         console.log(response);
       },
     });
+  };
+
+  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    let file: File;
+
+    if (event.target.files) {
+      file = event.target.files[0];
+      setFileResponse(await sendFile(file, "category"));
+    }
   };
 
   React.useEffect(
@@ -82,19 +98,31 @@ const CategoriesCreate: React.FC = () => {
                 label="Загрузите фотографию:"
                 valuePropName="fileList"
               >
-                <div
-                  style={{
-                    width: 300,
-                    height: 300,
-                    background: "grey",
-                    marginBottom: "2.8rem",
-                  }}
+                {category?.label
+                  ? <UploadedPicture
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      maxHeight: "20rem",
+                      maxWidth: "20rem"
+                    }}
+                    imgType="category"
+                    filename={category.label}
+                  />
+                  : <div
+                    style={{
+                      width: 300,
+                      height: 300,
+                      background: "grey",
+                      marginBottom: "2.8rem",
+                    }}
+                  />}
+                <input
+                  disabled={isLoadingFile}
+                  type="file"
+                  id="file"
+                  onChange={uploadFile}
                 />
-                <Upload name="logo" action="/upload.do" listType="picture">
-                  <Button>
-                    <PictureFilled /> Выбрать файл
-                  </Button>
-                </Upload>
               </Form.Item>
             </div>
           </div>

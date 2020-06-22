@@ -1,5 +1,5 @@
-import React from "react";
-import { Card, Form, Input, Select, Upload, Button, Spin } from "antd";
+import React, { useState } from "react";
+import { Card, Form, Input, Upload, Button, Spin } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
 import { PictureFilled } from "@ant-design/icons";
 import { Store } from "antd/lib/form/interface";
@@ -8,56 +8,45 @@ import {
   CategoriesCreateMutation,
   CategoriesCreateMutationResponse,
 } from "./__generated__/CategoriesCreateMutation.graphql";
-import { useLocation } from "react-router-dom";
+import { useFileUpload } from "../../../../utils/utils";
+import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
 
 const mutation = graphql`
-  mutation CategoriesCreateMutation($description: String!) {
-    createCategory(description: $description) {
+  mutation CategoriesCreateMutation($description: String!, $label: String) {
+    createCategory(description: $description, label: $label) {
       categoryId: id
       description
+      label
     }
-    # uploadFile(file: $file) , $file: Upload!
   }
 `;
 
 const CategoriesCreate: React.FC = () => {
-  const location = useLocation();
   const [form] = Form.useForm();
   const [commit, isInFlight] = useMutation<CategoriesCreateMutation>(mutation);
-  let file: any;
+  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
+  const [fileResponse, setFileResponse] = useState<{ filename: string }>();
+
   const onFinish = ({ name }: Store) => {
     commit({
-      variables: { description: name },
+      variables: { description: name, label: fileResponse?.filename },
       onCompleted(response: CategoriesCreateMutationResponse) {
-        console.log(response);
       },
     });
+  };
+
+  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    let file: File;
+
+    if (event.target.files) {
+      file = event.target.files[0];
+      setFileResponse(await sendFile(file, "category"));
+    }
   };
 
   const onReset = () => {
     form.resetFields();
   };
-
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const onFill = () => {
-    form.setFieldsValue({
-      note: "Hello world!",
-      gender: "male",
-    });
-  };
-
-  // const onChange = (e: any) => {
-  //   file = e.currentTarget.files[0];
-  //   console.info("file", file);
-  //   console.info(e.currentTarget.files[0]);
-  // };
 
   if (isInFlight) {
     return <Spin />;
@@ -88,21 +77,32 @@ const CategoriesCreate: React.FC = () => {
                 name="photo"
                 label="Загрузите фотографию:"
                 valuePropName="fileList"
-                getValueFromEvent={normFile}
               >
-                <div
-                  style={{
-                    width: 300,
-                    height: 300,
-                    background: "grey",
-                    marginBottom: "2.8rem",
-                  }}
+                {fileResponse?.filename
+                  ? <UploadedPicture
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      maxHeight: "20rem",
+                      maxWidth: "20rem"
+                    }}
+                    filename={fileResponse.filename}
+                    imgType="category"
+                  />
+                  : <div
+                    style={{
+                      width: 300,
+                      height: 300,
+                      background: "grey",
+                      marginBottom: "2.8rem",
+                    }}
+                  />}
+                <input
+                  disabled={isLoadingFile}
+                  type="file"
+                  id="file"
+                  onChange={uploadFile}
                 />
-                <Upload name="logo" action="/upload.do" listType="picture">
-                  <Button>
-                    <PictureFilled /> Выбрать файл
-                  </Button>
-                </Upload>
               </Form.Item>
             </div>
           </div>
@@ -121,7 +121,6 @@ const CategoriesCreate: React.FC = () => {
             </Form.Item>
           </CenteredText>
         </Form>
-        {/* <input type="file" required onChange={onChange} /> */}
       </Card>
     </section>
   );

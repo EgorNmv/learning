@@ -1,17 +1,13 @@
-import React, { ChangeEvent, EventHandler, useState } from "react";
-import { Form, Input, Select, Upload, Button } from "antd";
-import { PictureFilled } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Form, Input, Select, Button } from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
+import { useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingFormQuery } from "./__generated__/TrainingFormQuery.graphql";
 import { InputTraining } from "../../pages/TrainingCreate/__generated__/TrainingCreateMutation.graphql";
 import { TrainingFormValues } from "../../utils/types";
-import { TrainingFormMutation } from "./__generated__/TrainingFormMutation.graphql";
 import { useFileUpload } from "../../utils/utils";
-import { UploadChangeParam } from "antd/lib/upload";
-import { UploadFile } from "antd/lib/upload/interface";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 
 const query = graphql`
@@ -35,12 +31,6 @@ const query = graphql`
   }
 `;
 
-const mutation = graphql`
-  mutation TrainingFormMutation($file: Upload!) {
-    uploadFile(file: $file)
-  }
-`;
-
 type TrainingFormProps = {
   formValues?: TrainingFormValues;
   onFinish: (data: InputTraining) => void;
@@ -54,7 +44,6 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     TrainingFormQuery
   >(query, {});
-  const [commit, isInFlight] = useMutation<TrainingFormMutation>(mutation);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = useState<{ filename: string }>();
 
@@ -205,7 +194,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 maxHeight: "20rem",
                 maxWidth: "20rem"
               }}
-              filename={formValues?.label}
+              filename={formValues?.label || null}
               imgType="training"
             />
             <input
