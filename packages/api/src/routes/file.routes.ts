@@ -1,5 +1,6 @@
 import { Router } from "express";
-import multer = require("multer");
+import * as multer from "multer";
+import * as path from "path";
 import { Connection } from "typeorm";
 import { getLocallyConnection } from "../../../core/src/database-connection/database-connection";
 import { UserEntity } from "../objects/entities/user/entity";
@@ -13,7 +14,8 @@ import { findCategoryById } from "../resolvers/category/queries/findCategoryById
 const router: Router = Router();
 const storage: multer.StorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        let uploadFolder: string = "../../../uploads/";
+        // let uploadFolder: string = "../../../uploads/";
+        let uploadFolder: string = path.join(__dirname, "../../../uploads/");
 
         try {
             switch (req.body.type) {

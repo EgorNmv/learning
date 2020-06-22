@@ -12,7 +12,7 @@ import fileRoutes from "../../api/src/routes/file.routes";
 import cors = require("cors");
 
 const startServer = async (): Promise<void> => {
-    dotenvConfig({ path: "../.env" });
+    dotenvConfig();
 
     const context: Context = {
         connection: await getLocallyConnection(),
@@ -31,7 +31,7 @@ const startServer = async (): Promise<void> => {
 
     app.use(cors());
     app.use("/file", fileRoutes);
-    app.use(express.static("../../../uploads"));
+    app.use(express.static(path.join(__dirname, "../../uploads/")));
 
     server.applyMiddleware({
         app, path: "/"
