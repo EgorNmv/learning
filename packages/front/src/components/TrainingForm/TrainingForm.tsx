@@ -10,6 +10,9 @@ import { InputTraining } from "../../pages/TrainingCreate/__generated__/Training
 import { TrainingFormValues } from "../../utils/types";
 import { TrainingFormMutation } from "./__generated__/TrainingFormMutation.graphql";
 import { useFileUpload } from "../../utils/utils";
+import { UploadChangeParam } from "antd/lib/upload";
+import { UploadFile } from "antd/lib/upload/interface";
+import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -52,6 +55,8 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     TrainingFormQuery
   >(query, {});
   const [commit, isInFlight] = useMutation<TrainingFormMutation>(mutation);
+  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
+  const [response, setResponse] = useState<{ filename: string }>();
 
   const onFinishHandler = ({
     name,
@@ -71,7 +76,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       end: endDate,
       description,
       formatId: trainingFormat,
-      label: "",
+      label: response?.filename || "",
       name,
       organizerId: organizer,
       site: site || "",
@@ -82,46 +87,12 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     onFinish && onFinish(data);
   };
 
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const onChange = (e: any) => {
-    // console.info(e, form.getFieldValue("photo"));
-  };
-  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
-  const [response, setResponse] = useState<{ filename: string }>();
-  React.useEffect(() => console.info(isLoadingFile, response), [
-    isLoadingFile,
-    response,
-  ]);
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     let file: File;
 
     if (event.target.files) {
       file = event.target.files[0];
-      // const formData: FormData = new FormData();
-      // formData.append("type", "1");
-      // formData.append("id", "1");
-      // formData.append("file", file);
-
-      // const response = await fetch("http://localhost:4000/file/upload", {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //   },
-      //   body: formData,
-      // });
-      // console.info(response);
-
       setResponse(await sendFile(file, "training"));
-
-      // console.info("Uploaded file: ", file);
-      // commit({ uploadables: { file: file }, variables: { file } });
     }
   };
 
@@ -137,12 +108,8 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       form={form}
       name="training-create"
       onFinish={onFinishHandler}
-      onChange={onChange}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <form>
-          <input type="file" id="file" onChange={uploadFile} />
-        </form>
         <div style={{ flex: 1 }}>
           <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
             <Input />
@@ -228,24 +195,25 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         </div>
         <div style={{ padding: "0 1rem" }}>
           <Form.Item
-            name="photo"
+            name="label"
             label="Загрузите фотографию:"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
           >
-            <div
+            <UploadedPicture
               style={{
-                width: 300,
-                height: 300,
-                background: "grey",
-                marginBottom: "2.8rem",
+                width: "100%",
+                height: "100%",
+                maxHeight: "20rem",
+                maxWidth: "20rem"
               }}
+              filename={formValues?.label}
+              imgType="training"
             />
-            <Upload name="logo" listType="picture">
-              <Button>
-                <PictureFilled /> Выбрать файл
-              </Button>
-            </Upload>
+            <input
+              disabled={isLoadingFile}
+              type="file"
+              id="file"
+              onChange={uploadFile}
+            />
           </Form.Item>
         </div>
       </div>
@@ -264,7 +232,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
           <Button htmlType="button" style={{ marginRight: "1rem" }}>
             Отмена
           </Button>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" disabled={isLoadingFile}>
             Создать
           </Button>
         </Form.Item>

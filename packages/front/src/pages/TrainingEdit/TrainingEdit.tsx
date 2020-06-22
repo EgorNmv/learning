@@ -86,6 +86,7 @@ const TrainingEdit: React.FC = () => {
     TrainingFormValues
   >({
     category: 1,
+    label: training?.label,
     description: training?.description,
     endDate: training?.end,
     name: training?.name,
@@ -123,6 +124,7 @@ const TrainingEdit: React.FC = () => {
   React.useEffect(() => {
     setDataForTrainingForm({
       category: 1,
+      label: training?.label,
       description: training?.description,
       endDate: training?.end,
       name: training?.name,

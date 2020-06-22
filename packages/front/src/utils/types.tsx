@@ -34,6 +34,7 @@ export type Event = {
 };
 
 export type TrainingFormValues = {
+  label: string | undefined;
   name: string | undefined;
   category: number | undefined;
   startDate: string | undefined;
