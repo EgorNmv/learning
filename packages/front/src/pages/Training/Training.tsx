@@ -9,6 +9,7 @@ import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMutation } from "./__generated__/TrainingMutation.graphql";
 import { TrainingQuery } from "./__generated__/TrainingQuery.graphql";
 import { formatDate } from "../../utils/utils";
+import { UploadedPicture } from "../../components/UploadedPicture/UploadedPicture";
 
 const mutation = graphql`
   mutation TrainingMutation($data: InputRequest!) {
@@ -63,9 +64,16 @@ const Training: React.FC = () => {
       <section>
         <Card loading={isInFlight}>
           <div style={{ display: "flex" }}>
-            <div
-              style={{ height: "15rem", width: "20rem", background: "grey" }}
-            ></div>
+            <UploadedPicture
+              style={{
+                width: "100%",
+                height: "100%",
+                maxHeight: "20rem",
+                maxWidth: "20rem"
+              }}
+              filename={training?.label || null}
+              imgType="training"
+            />
             <div
               style={{
                 paddingLeft: "2rem",
