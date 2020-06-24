@@ -10,10 +10,12 @@ import getFetch from "./utils/fetch";
 import { AppQuery } from "./__generated__/AppQuery.graphql";
 import React, { Suspense } from "react";
 import { Layout, Spin } from "antd";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useHistory } from "react-router-dom";
 import { Sider } from "./components/Sider/Sider";
 import { Header } from "./components/Header/Header";
 import { Content } from "./components/Content/Content";
+import { Security } from "@okta/okta-react";
+import config from "./oktaConfig";
 
 const source = new RecordSource();
 const store = new Store(source);
@@ -39,19 +41,37 @@ export const resultOfPreloadQuery = preloadQuery<AppQuery>(
   { fetchPolicy: "store-or-network" }
 );
 
-function App() {
+const HasAccessToHistory = () => {
+  const history = useHistory();
+
+  const customAuthHandler = () => {
+    history.push('/auth');
+  };
+
+  return (
+    <Suspense fallback={<Spin />}>
+      <Security
+        {...config}
+        onAuthRequired={customAuthHandler}
+      >
+        <Layout>
+          <Sider />
+          <Layout>
+            <Header />
+            <Content />
+          </Layout>
+        </Layout>
+      </Security>
+    </Suspense>
+  );
+};
+
+const App = () => {
+
   return (
     <RelayEnvironmentProvider environment={environment}>
       <BrowserRouter>
-        <Suspense fallback={<Spin />}>
-          <Layout>
-            <Sider />
-            <Layout>
-              <Header />
-              <Content />
-            </Layout>
-          </Layout>
-        </Suspense>
+        <HasAccessToHistory />
       </BrowserRouter>
     </RelayEnvironmentProvider>
   );
