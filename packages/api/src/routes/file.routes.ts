@@ -9,6 +9,8 @@ import { TrainingEntity } from "../objects/entities/training/entity";
 import { findTrainingById } from "../resolvers/training/queries/findTrainingById";
 import { CategoryEntity } from "../objects/entities/category/entity";
 import { findCategoryById } from "../resolvers/category/queries/findCategoryById";
+import { MaterialEntity } from "../objects/entities/material/entity";
+import { findMaterialById } from "../resolvers/material/queries/findMaterialById";
 
 
 const router: Router = Router();
@@ -37,6 +39,11 @@ const storage: multer.StorageEngine = multer.diskStorage({
                 case "2":
                     uploadFolder += "category/"
                     break;
+                /**
+                 * Training material
+                 */
+                case "3":
+                    uploadFolder += "material/"
             }
         } catch (e) {
             console.error("Ошибка при попытке загрузки файла", e);
@@ -81,6 +88,12 @@ export default router.post("/upload", upload.single("file"), async (req, res) =>
 
                     res.status(201).json({ category: updatedCategory });
                     break;
+                case "3":
+                    const material: MaterialEntity = await findMaterialById(connection, id);
+                    const updatedMaterial: MaterialEntity = await connection
+                        .getRepository(MaterialEntity).save({ ...material, link: filename });
+
+                    res.status(201).json({ material: updatedMaterial });
             }
         } else {
             res.status(201).json({ filename });
