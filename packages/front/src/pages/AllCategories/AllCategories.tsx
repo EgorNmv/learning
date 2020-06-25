@@ -27,6 +27,7 @@ const AllCategories: React.FC = () => {
 
   console.info("authState", authState);
   console.info("authService", authService);
+  authService.getUser().then((res: any) => console.info(res));
 
   return (
     <section>

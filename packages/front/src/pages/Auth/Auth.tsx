@@ -3,7 +3,6 @@ import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Card, Form, Input, Button } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import "./Auth.css";
-import ReactDOM from 'react-dom';
 import OktaSignIn from '@okta/okta-signin-widget';
 import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
 import config from "../../oktaConfig";
