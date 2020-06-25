@@ -10,10 +10,18 @@ import { ApolloServer } from "apollo-server-express";
 import express = require('express');
 import fileRoutes from "../../api/src/routes/file.routes";
 import cors = require("cors");
+import OktaJwtVerifier = require('@okta/jwt-verifier');
 
 const startServer = async (): Promise<void> => {
     dotenvConfig();
 
+    const oktaJwtVerifier = new OktaJwtVerifier({
+        issuer: 'https://dev-417692.okta.com/oauth2/default',
+        clientId: '0oagqwp45W4HIpio94x6',
+        assertClaims: {
+            aud: 'api://default',
+        },
+    });
     const context: Context = {
         connection: await getLocallyConnection(),
     };
@@ -23,7 +31,29 @@ const startServer = async (): Promise<void> => {
     });
     const server: ApolloServer = new ApolloServer({
         schema,
-        context,
+        context: ({ req, res }) => {
+            const authHeader = req.headers.authorization || '';
+            const match = authHeader.match(/Bearer (.+)/);
+            let _jwt;
+
+            // if (!match) {
+            //     throw new Error("You must be logged in");
+            // }
+
+            // const accessToken = match[1];
+            // const expectedAudience = 'api://default';
+
+            // try {
+            //     oktaJwtVerifier.verifyAccessToken(accessToken, expectedAudience)
+            //         .then((jwt) => {
+            //             _jwt = jwt;
+            //         })
+            // } catch (e) {
+            //     throw new Error("Error in verifyAccessToken");
+            // }
+
+            return { ...context, _jwt };
+        },
         introspection: true,
         // uploads: { maxFieldSize: 10000000, maxFiles: 20 } // disable apollo upload property
     });
