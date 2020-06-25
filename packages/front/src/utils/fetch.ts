@@ -7,7 +7,7 @@ import errorHandler from './errorHandler';
 const cacheTimeMs = 1 * 1000;
 const cache = new QueryResponseCache({ size: 250, ttl: cacheTimeMs });
 
-const getFetchQueryFunction = (endpoint: string): FetchFunction => async (
+const getFetchQueryFunction = (endpoint: string, accessToken: string): FetchFunction => async (
     operation,
     variables,
     cacheConfig
@@ -30,6 +30,7 @@ const getFetchQueryFunction = (endpoint: string): FetchFunction => async (
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({
             query: operation.text,

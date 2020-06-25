@@ -8,6 +8,8 @@ import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
 import config from "../../oktaConfig";
 
 const Auth: React.FC = () => {
+  const history = useHistory();
+
   React.useEffect(() => {
     const { pkce, issuer, clientId, redirectUri, scopes } = config;
     const widget = new OktaSignIn({

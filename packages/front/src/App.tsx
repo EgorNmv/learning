@@ -16,13 +16,8 @@ import { Header } from "./components/Header/Header";
 import { Content } from "./components/Content/Content";
 import { Security } from "@okta/okta-react";
 import config from "./oktaConfig";
-
-const source = new RecordSource();
-const store = new Store(source);
-const environment = new Environment({
-  network: Network.create(getFetch("http://localhost:4000/")),
-  store,
-});
+import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
+import { useOktaAuth } from '@okta/okta-react';
 
 export const appQuery = graphql`
   query AppQuery {
@@ -34,14 +29,39 @@ export const appQuery = graphql`
   }
 `;
 
-export const resultOfPreloadQuery = preloadQuery<AppQuery>(
-  environment,
-  appQuery,
-  {},
-  { fetchPolicy: "store-or-network" }
-);
+export let resultOfPreloadQuery: PreloadedQuery<AppQuery, any>;
 
-const HasAccessToHistory = () => {
+const Logic = () => {
+  const { authState } = useOktaAuth();
+
+  const source = new RecordSource();
+  const store = new Store(source);
+  const environment = new Environment({
+    network: Network.create(getFetch("http://localhost:4000/", authState.accessToken)),
+    store,
+  });
+
+  resultOfPreloadQuery = preloadQuery<AppQuery>(
+    environment,
+    appQuery,
+    {},
+    { fetchPolicy: "store-or-network" }
+  );
+
+  return (
+    <RelayEnvironmentProvider environment={environment}>
+      <Layout>
+        <Sider />
+        <Layout>
+          <Header />
+          <Content />
+        </Layout>
+      </Layout>
+    </RelayEnvironmentProvider>
+  );
+}
+
+const ComponentWithAccessToHistory = () => {
   const history = useHistory();
 
   const customAuthHandler = () => {
@@ -54,26 +74,17 @@ const HasAccessToHistory = () => {
         {...config}
         onAuthRequired={customAuthHandler}
       >
-        <Layout>
-          <Sider />
-          <Layout>
-            <Header />
-            <Content />
-          </Layout>
-        </Layout>
+        <Logic />
       </Security>
-    </Suspense>
+    </Suspense >
   );
 };
 
 const App = () => {
-
   return (
-    <RelayEnvironmentProvider environment={environment}>
-      <BrowserRouter>
-        <HasAccessToHistory />
-      </BrowserRouter>
-    </RelayEnvironmentProvider>
+    <BrowserRouter>
+      <ComponentWithAccessToHistory />
+    </BrowserRouter>
   );
 }
 
