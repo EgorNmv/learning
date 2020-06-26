@@ -23,11 +23,6 @@ const query = graphql`
 
 const AllCategories: React.FC = () => {
   const { trainings } = useLazyLoadQuery<AllCategoriesQuery>(query, {});
-  const { authState, authService } = useOktaAuth();
-
-  console.info("authState", authState);
-  console.info("authService", authService);
-  authService.getUser().then((res: any) => console.info(res));
 
   return (
     <section>

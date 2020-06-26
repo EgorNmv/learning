@@ -1,35 +1,43 @@
 import React from "react";
+import { useOktaAuth } from "@okta/okta-react";
 
 export const formatDate = (date: Date): string => {
-    const dd: string = date.getDate() < 10
-        ? "0" + date.getDate().toString()
-        : date.getDate().toString();
-    const mm: string = (date.getMonth() + 1) < 10
-        ? "0" + (date.getMonth() + 1).toString()
-        : (date.getMonth() + 1).toString();
-    const yy: string = (date.getFullYear() % 100) < 10
-        ? "0" + (date.getFullYear() % 100).toString()
-        : (date.getFullYear() % 100).toString();
+    const dd: string =
+        date.getDate() < 10
+            ? "0" + date.getDate().toString()
+            : date.getDate().toString();
+    const mm: string =
+        date.getMonth() + 1 < 10
+            ? "0" + (date.getMonth() + 1).toString()
+            : (date.getMonth() + 1).toString();
+    const yy: string =
+        date.getFullYear() % 100 < 10
+            ? "0" + (date.getFullYear() % 100).toString()
+            : (date.getFullYear() % 100).toString();
 
     return `${dd}.${mm}.${yy}`;
-}
+};
 
-export function useFileUpload<T>(
-): [boolean, (
-    file: File,
-    type: "user" | "training" | "category",
-    id?: string
-) => Promise<T>] {
+export function useFileUpload<T>(): [
+    boolean,
+    (
+        file: File,
+        type: "user" | "training" | "category" | "material",
+        id?: string
+    ) => Promise<T>
+] {
     const typeMap: { [key: string]: string } = {
-        "user": "0",
-        "training": "1",
-        "category": "2"
+        user: "0",
+        training: "1",
+        category: "2",
+        material: "3",
     };
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const { authState } = useOktaAuth();
 
     const sendFile = async (
         file: File,
-        type: "user" | "training" | "category",
+        type: "user" | "training" | "category" | "material",
         id?: string
     ): Promise<T> => {
         const formData: FormData = new FormData();
@@ -44,13 +52,14 @@ export function useFileUpload<T>(
             method: "POST",
             headers: {
                 Accept: "application/json",
+                Authorization: `Bearer ${authState.accessToken}`,
             },
             body: formData,
         });
 
         setIsLoading(false);
-        // console.info(await response.json());
-        return await response.json() as T;
+
+        return (await response.json()) as T;
     };
 
     return [isLoading, sendFile];
