@@ -3,13 +3,15 @@ import { Menu, Dropdown, Button } from "antd";
 import { constants } from "../../constants/constants";
 import { DownOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useOktaAuth } from '@okta/okta-react';
+import { useOktaAuth } from "@okta/okta-react";
+import { UserContext } from "../../hoc/UserContext/UserContext";
 
 export const UserMenuWithLinks: React.FC = () => {
   const { authState, authService } = useOktaAuth();
+  const user = React.useContext(UserContext);
 
-  const login = async () => authService.login('/');
-  const logout = async () => authService.logout('/');
+  const login = async () => authService.login("/");
+  const logout = async () => authService.logout("/");
 
   const menu = (
     <Menu>
@@ -35,19 +37,12 @@ export const UserMenuWithLinks: React.FC = () => {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="6">
-        {
-          !authState.isPending
-          && !authState.isAuthenticated
-          && <span onClick={login}>
-            Войти
-          </span>
-        }
-        {
-          authState.isAuthenticated
-          && <span onClick={logout}>
-            {constants["EXIT"]}
-          </span>
-        }
+        {!authState.isPending && !authState.isAuthenticated && (
+          <span onClick={login}>Войти</span>
+        )}
+        {authState.isAuthenticated && (
+          <span onClick={logout}>{constants["EXIT"]}</span>
+        )}
       </Menu.Item>
     </Menu>
   );
@@ -56,7 +51,8 @@ export const UserMenuWithLinks: React.FC = () => {
     <>
       <Dropdown overlay={menu}>
         <span>
-          Мальцева Полина <DownOutlined />
+          {(user && user.name) || "Ошибка загрузки пользователя"}
+          <DownOutlined />
         </span>
       </Dropdown>
     </>

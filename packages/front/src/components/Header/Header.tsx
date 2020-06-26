@@ -7,6 +7,7 @@ import { useOktaAuth } from "@okta/okta-react";
 
 export const Header: React.FC = () => {
   const { authState } = useOktaAuth();
+
   return (
     <Layout.Header className="all-main-header">
       {authState.isAuthenticated

@@ -18,6 +18,7 @@ import { Security } from "@okta/okta-react";
 import config from "./oktaConfig";
 import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
 import { useOktaAuth } from '@okta/okta-react';
+import { UserContext } from "./hoc/UserContext/UserContext";
 
 export const appQuery = graphql`
   query AppQuery {
@@ -32,7 +33,8 @@ export const appQuery = graphql`
 export let resultOfPreloadQuery: PreloadedQuery<AppQuery, any>;
 
 const Logic = () => {
-  const { authState } = useOktaAuth();
+  const { authState, authService } = useOktaAuth();
+  const [user, setUser] = React.useState<any | null>(null);
 
   const source = new RecordSource();
   const store = new Store(source);
@@ -48,15 +50,27 @@ const Logic = () => {
     { fetchPolicy: "store-or-network" }
   );
 
+  React.useEffect(() => {
+    if (!authState.isAuthenticated) {
+      setUser(null);
+    } else {
+      authService.getUser().then((info: any) => {
+        setUser(info);
+      });
+    }
+  }, [authState, authService]);
+
   return (
     <RelayEnvironmentProvider environment={environment}>
-      <Layout>
-        <Sider />
+      <UserContext.Provider value={user}>
         <Layout>
-          <Header />
-          <Content />
+          <Sider />
+          <Layout>
+            <Header />
+            <Content />
+          </Layout>
         </Layout>
-      </Layout>
+      </UserContext.Provider>
     </RelayEnvironmentProvider>
   );
 }
