@@ -1,16 +1,16 @@
 import "reflect-metadata";
 import * as path from "path";
+import cors = require("cors");
+import express = require('express');
+import { Connection } from "typeorm";
 import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import { config as dotenvConfig } from "dotenv";
 import { resolvers } from "../../api/src/resolvers";
-import { getLocallyConnection } from "./database-connection/database-connection";
-import { Context } from "../../api/src/objects/context";
 import { ApolloServer } from "apollo-server-express";
-import express = require('express');
-import fileRoutes from "../../api/src/routes/file.routes";
-import cors = require("cors");
 import OktaJwtVerifier = require('@okta/jwt-verifier');
+import fileRoutes from "../../api/src/routes/file.routes";
+import { getLocallyConnection } from "./database-connection/database-connection";
 
 const startServer = async (): Promise<void> => {
     dotenvConfig();
@@ -22,40 +22,36 @@ const startServer = async (): Promise<void> => {
             aud: 'api://default',
         },
     });
-    const context: Context = {
-        connection: await getLocallyConnection(),
-    };
+    const connection: Connection = await getLocallyConnection();
     const schema: GraphQLSchema = await buildSchema({
         resolvers,
         emitSchemaFile: path.resolve(__dirname, "../", "schema.gql")
     });
     const server: ApolloServer = new ApolloServer({
         schema,
-        context: ({ req, res }) => {
+        context: async ({ req }) => {
             const authHeader = req.headers.authorization || '';
             const match = authHeader.match(/Bearer (.+)/);
-            let _jwt;
+            let token = null;
 
-            // if (!match) {
-            //     throw new Error("You must be logged in");
-            // }
+            if (!match) {
+                throw new Error("You must be logged in");
+            }
 
-            // const accessToken = match[1];
-            // const expectedAudience = 'api://default';
+            const accessToken = match[1];
+            const expectedAudience = 'api://default';
 
-            // try {
-            //     oktaJwtVerifier.verifyAccessToken(accessToken, expectedAudience)
-            //         .then((jwt) => {
-            //             _jwt = jwt;
-            //         })
-            // } catch (e) {
-            //     throw new Error("Error in verifyAccessToken");
-            // }
+            try {
+                const jwt = await oktaJwtVerifier.verifyAccessToken(accessToken, expectedAudience);
+                token = jwt;
+            } catch (e) {
+                console.info("authHeader", authHeader);
+                throw new Error("Error in verifyAccessToken");
+            }
 
-            return { ...context, _jwt };
+            return { connection, token };
         },
         introspection: true,
-        // uploads: { maxFieldSize: 10000000, maxFiles: 20 } // disable apollo upload property
     });
     const app = express();
 
