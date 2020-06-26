@@ -7,7 +7,7 @@ type CategoryCardProps = {
   category?: {
     categoryId?: number;
     description?: string;
-    label: string | null;
+    label?: string | null;
   };
 };
 
@@ -17,7 +17,11 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
       <Card
         bordered={false}
         className="category-card"
-        style={{ backgroundImage: `url(http://localhost:4000/category/${category.label})` }}
+        style={
+          category?.label
+            ? { backgroundImage: `url(http://localhost:4000/category/${category.label})` }
+            : {}
+        }
       >
         <h3>
           <Link to={`/category/${category.categoryId}`}>
