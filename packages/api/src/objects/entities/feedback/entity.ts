@@ -20,13 +20,13 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
         nullable: false,
         description: "пользователь, оставивиший отзыв"
     })
-    @ManyToOne(type => UserEntity, user => user.id)
-    @JoinColumn()
+    // @ManyToOne(type => UserEntity, user => user.id)
+    // @JoinColumn()
     public user: UserEntity;
 
     @Column()
-    @RelationId((feedback: FeedbackEntity) => feedback.user)
-    public userId: number;
+    // @RelationId((feedback: FeedbackEntity) => feedback.user)
+    public userId: string;
 
     @Field(() => Number, {
         nullable: false,

@@ -8,6 +8,6 @@ export interface Feedback {
     training: Training;
     date: string;
     text: string;
-    userId: number;
+    userId: string;
     trainingId: number;
 }

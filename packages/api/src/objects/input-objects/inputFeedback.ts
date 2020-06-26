@@ -13,7 +13,7 @@ export class InputFeedback implements Omit<Feedback, "id" | "user" | "training">
     text: string
 
     @Field()
-    userId: number
+    userId: string
 
     @Field()
     trainingId: number

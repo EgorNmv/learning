@@ -50,7 +50,7 @@ input InputFeedback {
   text: String!
   trainingId: Float!
   type: Float!
-  userId: Float!
+  userId: String!
 }
 
 input InputMaterial {
