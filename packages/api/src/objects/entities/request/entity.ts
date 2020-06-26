@@ -20,11 +20,11 @@ export class RequestEntity extends BaseEntity implements Request {
         nullable: false,
         description: "пользователь, который отправил заявку"
     })
-    @ManyToOne(type => UserEntity, user => user.id)
+    // @ManyToOne(type => UserEntity, user => user.id)
     public user: UserEntity;
 
     @Column()
-    @RelationId((request: RequestEntity) => request.user)
+    // @RelationId((request: RequestEntity) => request.user)
     public userId: string;
 
     @Field(() => String, {

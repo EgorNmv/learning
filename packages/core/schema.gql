@@ -68,7 +68,7 @@ input InputOrganizer {
 input InputRequest {
   date: String!
   trainingId: Float!
-  userId: Float!
+  userId: String!
 }
 
 input InputTraining {
