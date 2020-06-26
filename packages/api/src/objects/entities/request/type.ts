@@ -6,6 +6,6 @@ export interface Request {
     user: User;
     date: string;
     training: Training;
-    userId: number;
+    userId: string;
     trainingId: number;
 }

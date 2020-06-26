@@ -25,7 +25,7 @@ export class RequestEntity extends BaseEntity implements Request {
 
     @Column()
     @RelationId((request: RequestEntity) => request.user)
-    public userId: number;
+    public userId: string;
 
     @Field(() => String, {
         nullable: false,

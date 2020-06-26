@@ -7,7 +7,7 @@ export class InputRequest implements Omit<Request, "id" | "user" | "training">{
     public date: string;
 
     @Field()
-    public userId: number;
+    public userId: string;
 
     @Field()
     public trainingId: number;
