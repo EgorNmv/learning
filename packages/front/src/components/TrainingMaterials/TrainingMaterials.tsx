@@ -1,25 +1,76 @@
 import React from "react";
-import { Card } from "antd";
+import { Card, Button } from "antd";
 import "./TrainingMaterials.css";
+import { useFileUpload } from "../../utils/utils";
+import { graphql } from "react-relay";
+import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
+import { TrainingMaterialsMutation } from "./__generated__/TrainingMaterialsMutation.graphql";
+import { useParams } from "react-router-dom";
+import { TrainingMaterialsQuery } from "./__generated__/TrainingMaterialsQuery.graphql";
+
+const mutation = graphql`
+  mutation TrainingMaterialsMutation($data: InputMaterial!) {
+    createMaterial(data: $data) {
+      link
+    }
+  }
+`;
+
+const query = graphql`
+  query TrainingMaterialsQuery($trainingId: Float!) {
+    materialsByTrainingId(trainingId: $trainingId) {
+      link
+    }
+  }
+`;
 
 export const TrainingMaterials: React.FC = () => {
+  const params = useParams<{ trainingId: string }>();
+  const trainingId: number = Number(params.trainingId);
+  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
+  const [response, setResponse] = React.useState<{ filename: string }>();
+  const [commit, isInFlight] = useMutation<TrainingMaterialsMutation>(mutation);
+  const { materialsByTrainingId } = useLazyLoadQuery<TrainingMaterialsQuery>(
+    query,
+    { trainingId }
+  );
+
+  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    let file: File;
+
+    if (event.target.files) {
+      file = event.target.files[0];
+      setResponse(await sendFile(file, "material"));
+    }
+  };
+
+  React.useEffect(() => {
+    response?.filename &&
+      commit({
+        variables: { data: { link: response.filename, trainingId } },
+      });
+  }, [response]);
+
   return (
     <>
-      <h2>Материалы</h2>
+      <div className="training-material-title">
+        <h2>Материалы</h2>
+        <input
+          disabled={isLoadingFile || isInFlight}
+          type="file"
+          id="file"
+          onChange={uploadFile}
+        />
+      </div>
       <Card>
         <div className="training-material-body">
-          <span>
-            <a href="#">document</a>
-          </span>
-          <span>
-            <a href="#">document</a>
-          </span>
-          <span>
-            <a href="#">document</a>
-          </span>
-          <span>
-            <a href="#">document</a>
-          </span>
+          {materialsByTrainingId.map((material) => (
+            <span>
+              <a href={`http://localhost:4000/material/${material.link}`}>
+                {material.link}
+              </a>
+            </span>
+          ))}
         </div>
       </Card>
     </>

@@ -6,3 +6,8 @@
 .training-material-body > span {
   width: 50%;
 }
+
+.training-material-title{
+  display: flex;
+  justify-content: space-between;
+}

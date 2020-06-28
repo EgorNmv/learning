@@ -33,9 +33,9 @@ type FeedbackEntity {
   type: Float!
 
   """пользователь, оставивиший отзыв"""
-  user: UserEntity!
+  user: UserEntity
 
-  """id пользователя на okta(sur)"""
+  """id пользователя на okta(user.sur)"""
   userId: String!
 }
 
@@ -167,6 +167,7 @@ type Query {
   formats: [FormatEntity!]!
   material(id: Float!): MaterialEntity
   materials: [MaterialEntity!]!
+  materialsByTrainingId(trainingId: Float!): [MaterialEntity!]!
   newTrainings: [TrainingEntity!]!
   organizer(id: Float!): OrganizerEntity
   organizers: [OrganizerEntity!]!

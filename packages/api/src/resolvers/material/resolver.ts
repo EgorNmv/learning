@@ -7,6 +7,7 @@ import { createMaterial } from "./queries/createMaterial";
 import { updateMaterialById } from "./queries/updateMaterialById";
 import { deleteMaterialById } from "./queries/deleteMaterialById";
 import { Context } from "../../objects/context";
+import { findMaterialsByTrainingId } from "./queries/findMaterialsByTrainingId";
 
 @Resolver(MaterialEntity)
 export class MaterialResolver {
@@ -24,6 +25,14 @@ export class MaterialResolver {
         @Ctx() { connection }: Context,
     ) {
         return await findAllMaterials(connection);
+    }
+
+    @Query(() => [MaterialEntity])
+    public async materialsByTrainingId(
+        @Ctx() { connection }: Context,
+        @Arg("trainingId") trainingId: number,
+    ){
+        return await findMaterialsByTrainingId(connection, trainingId);
     }
 
     @Mutation(() => MaterialEntity)
