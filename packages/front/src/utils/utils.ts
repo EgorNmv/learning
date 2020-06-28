@@ -64,3 +64,18 @@ export function useFileUpload<T>(): [
 
     return [isLoading, sendFile];
 }
+
+export const useOktaFetchedUser = async (sub: string): Promise<{}> => {
+    const responseFromOkta = await fetch(
+        `https://dev-417692.okta.com/api/v1/users/${sub}`,
+        {
+            method: 'GET',
+            headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `SSWS 00Qgcob9EiG1vLxyRoY2czkSeSYcpzTRAFg-TjjiVl` //api token
+        }
+      });
+    
+    return await responseFromOkta.json();
+}
