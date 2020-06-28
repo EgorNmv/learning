@@ -34,6 +34,9 @@ type FeedbackEntity {
 
   """пользователь, оставивиший отзыв"""
   user: UserEntity!
+
+  """id пользователя на okta(user.sur)"""
+  userId: String!
 }
 
 """Формат обучения"""

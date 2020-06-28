@@ -2,8 +2,11 @@ import React from "react";
 import { UserCard } from "../UserCard/UserCard";
 import { Button, Form, Input, Modal, Rate } from "antd";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay/hooks";
+import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { TrainingReviewsQuery } from "./__generated__/TrainingReviewsQuery.graphql";
+import { TrainingReviewsMutation } from "./__generated__/TrainingReviewsMutation.graphql";
+import { UserContext } from "../../hoc/UserContext/UserContext";
+import { formatDate } from "../../utils/utils";
 
 const query = graphql`
   query TrainingReviewsQuery($trainingId: Float!, $feedbackType: Float!) {
@@ -12,12 +15,18 @@ const query = graphql`
       trainingId: $trainingId
     ) {
       feedbackId: id
-      user {
-        fullname
-        photo
-      }
+      userId
       text
       date
+    }
+  }
+`;
+
+const mutation = graphql`
+  mutation TrainingReviewsMutation($data: InputFeedback!) {
+    createFeedback(data: $data) {
+      feedbackId: id
+      userId
     }
   }
 `;
@@ -39,6 +48,25 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
       feedbackType: 2,
     }
   );
+  const [commit, isInFlight] = useMutation<TrainingReviewsMutation>(mutation);
+  const user = React.useContext(UserContext);
+
+  const sendReview = () => {
+    commit({
+      variables: {
+        data: {
+          trainingId,
+          userId: user.sub,
+          date: formatDate(new Date()),
+          type: 2,
+          text: form.getFieldValue("review"),
+        },
+      },
+      onCompleted: () => {
+        setIsVisibleModal(false);
+      },
+    });
+  };
 
   return (
     <>
@@ -57,8 +85,8 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
             <Button
               key="submit"
               type="primary"
-              loading={isLoading}
-              onClick={() => console.info("Send request")}
+              loading={isInFlight}
+              onClick={sendReview}
             >
               Отправить
             </Button>,

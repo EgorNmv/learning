@@ -2,34 +2,36 @@
 /* eslint-disable */
 
 import { ConcreteRequest } from "relay-runtime";
-export type InputRequest = {
+export type InputFeedback = {
     date: string;
+    text: string;
     trainingId: number;
+    type: number;
     userId: string;
 };
-export type TrainingMutationVariables = {
-    data: InputRequest;
+export type TrainingReviewsMutationVariables = {
+    data: InputFeedback;
 };
-export type TrainingMutationResponse = {
-    readonly createRequest: {
-        readonly requestId: number;
-        readonly date: string;
+export type TrainingReviewsMutationResponse = {
+    readonly createFeedback: {
+        readonly feedbackId: number;
+        readonly userId: string;
     };
 };
-export type TrainingMutation = {
-    readonly response: TrainingMutationResponse;
-    readonly variables: TrainingMutationVariables;
+export type TrainingReviewsMutation = {
+    readonly response: TrainingReviewsMutationResponse;
+    readonly variables: TrainingReviewsMutationVariables;
 };
 
 
 
 /*
-mutation TrainingMutation(
-  $data: InputRequest!
+mutation TrainingReviewsMutation(
+  $data: InputFeedback!
 ) {
-  createRequest(data: $data) {
-    requestId: id
-    date
+  createFeedback(data: $data) {
+    feedbackId: id
+    userId
   }
 }
 */
@@ -40,7 +42,7 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "data",
-    "type": "InputRequest!"
+    "type": "InputFeedback!"
   }
 ],
 v1 = [
@@ -53,13 +55,13 @@ v1 = [
         "variableName": "data"
       }
     ],
-    "concreteType": "RequestEntity",
+    "concreteType": "FeedbackEntity",
     "kind": "LinkedField",
-    "name": "createRequest",
+    "name": "createFeedback",
     "plural": false,
     "selections": [
       {
-        "alias": "requestId",
+        "alias": "feedbackId",
         "args": null,
         "kind": "ScalarField",
         "name": "id",
@@ -69,7 +71,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "date",
+        "name": "userId",
         "storageKey": null
       }
     ],
@@ -81,7 +83,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "TrainingMutation",
+    "name": "TrainingReviewsMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation"
   },
@@ -89,17 +91,17 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "TrainingMutation",
+    "name": "TrainingReviewsMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "TrainingMutation",
+    "name": "TrainingReviewsMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingMutation(\n  $data: InputRequest!\n) {\n  createRequest(data: $data) {\n    requestId: id\n    date\n  }\n}\n"
+    "text": "mutation TrainingReviewsMutation(\n  $data: InputFeedback!\n) {\n  createFeedback(data: $data) {\n    feedbackId: id\n    userId\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '495ad1fbb1a42f0519fd826467e46209';
+(node as any).hash = 'ad93550acbd7b468ad4bcd56ade277df';
 export default node;

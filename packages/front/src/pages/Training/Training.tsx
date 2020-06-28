@@ -10,6 +10,7 @@ import { TrainingMutation } from "./__generated__/TrainingMutation.graphql";
 import { TrainingQuery } from "./__generated__/TrainingQuery.graphql";
 import { formatDate } from "../../utils/utils";
 import { UploadedPicture } from "../../components/UploadedPicture/UploadedPicture";
+import { UserContext } from "../../hoc/UserContext/UserContext";
 
 const mutation = graphql`
   mutation TrainingMutation($data: InputRequest!) {
@@ -50,11 +51,16 @@ const Training: React.FC = () => {
   const { training } = useLazyLoadQuery<TrainingQuery>(query, {
     trainingId: id,
   });
+  const user = React.useContext(UserContext);
 
   const clickHandler = () => {
     commit({
       variables: {
-        data: { trainingId: id, userId: 2, date: formatDate(new Date()) },
+        data: {
+          trainingId: id,
+          userId: user.sub,
+          date: formatDate(new Date()),
+        },
       },
     });
   };
@@ -69,7 +75,7 @@ const Training: React.FC = () => {
                 width: "100%",
                 height: "100%",
                 maxHeight: "20rem",
-                maxWidth: "20rem"
+                maxWidth: "20rem",
               }}
               filename={training?.label || null}
               imgType="training"

@@ -9,10 +9,7 @@ export type TrainingRecommendationsQueryVariables = {
 export type TrainingRecommendationsQueryResponse = {
     readonly feedbacksByTrainingId: ReadonlyArray<{
         readonly feedbackId: number;
-        readonly user: {
-            readonly fullname: string;
-            readonly photo: string | null;
-        };
+        readonly userId: string;
         readonly text: string;
         readonly date: string;
     }>;
@@ -31,10 +28,7 @@ query TrainingRecommendationsQuery(
 ) {
   feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {
     feedbackId: id
-    user {
-      fullname
-      photo
-    }
+    userId
     text
     date
   }
@@ -86,26 +80,8 @@ v1 = [
       {
         "alias": null,
         "args": null,
-        "concreteType": "UserEntity",
-        "kind": "LinkedField",
-        "name": "user",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "fullname",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "photo",
-            "storageKey": null
-          }
-        ],
+        "kind": "ScalarField",
+        "name": "userId",
         "storageKey": null
       },
       {
@@ -147,9 +123,9 @@ return {
     "metadata": {},
     "name": "TrainingRecommendationsQuery",
     "operationKind": "query",
-    "text": "query TrainingRecommendationsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    user {\n      fullname\n      photo\n    }\n    text\n    date\n  }\n}\n"
+    "text": "query TrainingRecommendationsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    userId\n    text\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'b82c35484b3fe777ad1ed4bf530c3d8b';
+(node as any).hash = '21ffe4eb754b171395a0f946cd0b5bba';
 export default node;

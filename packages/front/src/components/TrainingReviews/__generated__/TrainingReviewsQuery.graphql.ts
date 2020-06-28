@@ -9,10 +9,7 @@ export type TrainingReviewsQueryVariables = {
 export type TrainingReviewsQueryResponse = {
     readonly feedbacksByTrainingId: ReadonlyArray<{
         readonly feedbackId: number;
-        readonly user: {
-            readonly fullname: string;
-            readonly photo: string | null;
-        };
+        readonly userId: string;
         readonly text: string;
         readonly date: string;
     }>;
@@ -31,10 +28,7 @@ query TrainingReviewsQuery(
 ) {
   feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {
     feedbackId: id
-    user {
-      fullname
-      photo
-    }
+    userId
     text
     date
   }
@@ -86,26 +80,8 @@ v1 = [
       {
         "alias": null,
         "args": null,
-        "concreteType": "UserEntity",
-        "kind": "LinkedField",
-        "name": "user",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "fullname",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "photo",
-            "storageKey": null
-          }
-        ],
+        "kind": "ScalarField",
+        "name": "userId",
         "storageKey": null
       },
       {
@@ -147,9 +123,9 @@ return {
     "metadata": {},
     "name": "TrainingReviewsQuery",
     "operationKind": "query",
-    "text": "query TrainingReviewsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    user {\n      fullname\n      photo\n    }\n    text\n    date\n  }\n}\n"
+    "text": "query TrainingReviewsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    userId\n    text\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '8966ef77b05aa14fb6cdaaaebb84f7d4';
+(node as any).hash = '8b48c32ed452d0b09c79826a414a2ea1';
 export default node;
