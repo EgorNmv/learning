@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Table, Button } from "antd";
 import { Link } from "react-router-dom";
 import { graphql, GraphQLTaggedNode } from "react-relay";
-import { useLazyLoadQuery } from "react-relay/hooks";
+import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import {
   CategoriesQuery,
   CategoriesQueryResponse,
@@ -10,6 +10,7 @@ import {
 import { Writeable } from "../../../../utils/genericTypes";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Category } from "../../../../utils/types";
+import { CategoriesMutation } from "./__generated__/CategoriesMutation.graphql";
 
 const query: GraphQLTaggedNode = graphql`
   query CategoriesQuery {
@@ -19,43 +20,51 @@ const query: GraphQLTaggedNode = graphql`
     }
   }
 `;
-
-const columns = [
-  {
-    title: "№",
-    dataIndex: "categoryId",
-  },
-  {
-    title: "Название",
-    dataIndex: "description",
-  },
-  {
-    title: "Действия",
-    dataIndex: "actions",
-    render: (text: string, record: Category) => (
-      <>
-        <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
-          <Link
-            to={`/profile/directories/categories/edit/${record.categoryId}`}
-          >
-            <EditOutlined />
-          </Link>
-        </span>
-        <span style={{ fontSize: "xx-large" }}>
-          <Link to="/">
-            <DeleteOutlined />
-          </Link>
-        </span>
-      </>
-    ),
-  },
-];
+const mutation = graphql`
+  mutation CategoriesMutation($id: Float!) {
+    deleteCategoryById(id: $id)
+  }
+`;
 
 const Categories: React.FC = () => {
   const { categories }: CategoriesQueryResponse = useLazyLoadQuery<
     CategoriesQuery
-  >(query, {}, { fetchPolicy: "store-and-network" });
+  >(query, {});
+  const [commit, isInFlight] = useMutation<CategoriesMutation>(mutation);
   const data: Category[] = categories as Writeable<Category[]>;
+
+  const columns = [
+    {
+      title: "№",
+      dataIndex: "categoryId",
+    },
+    {
+      title: "Название",
+      dataIndex: "description",
+    },
+    {
+      title: "Действия",
+      dataIndex: "actions",
+      render: (text: string, record: Category) => (
+        <>
+          <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
+            <Link
+              to={`/profile/directories/categories/edit/${record.categoryId}`}
+            >
+              <EditOutlined />
+            </Link>
+          </span>
+          <span style={{ fontSize: "xx-large" }}>
+            <span
+              onClick={() => commit({ variables: { id: record.categoryId } })}
+            >
+              <DeleteOutlined />
+            </span>
+          </span>
+        </>
+      ),
+    },
+  ];
 
   return (
     <section>
