@@ -51,7 +51,7 @@ export const UserMenuWithLinks: React.FC = () => {
     <>
       <Dropdown overlay={menu}>
         <span>
-          {(user && user.name) || "Ошибка загрузки пользователя"}
+          {user && user.name}
           <DownOutlined />
         </span>
       </Dropdown>
