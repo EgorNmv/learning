@@ -56,9 +56,10 @@ export class TrainingResolver {
     public async sortedTraining(
         @Ctx() { connection }: Context,
         @Arg("sortBy") sortBy: "name" | "createDate" | "recommends",
-        @Arg("sortOrder") sortOrder: "ASC" | "DESC"
+        @Arg("sortOrder") sortOrder: "ASC" | "DESC",
+        @Arg("categoryId") categoryId: number,
     ){
-        return await findAllSortedTrainings(connection, sortBy, sortOrder);
+        return await findAllSortedTrainings(connection, sortBy, sortOrder, categoryId);
     }
 
     @Mutation(() => TrainingEntity)

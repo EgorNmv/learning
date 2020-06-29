@@ -12,10 +12,21 @@ import { appQuery, resultOfPreloadQuery } from "../../App";
 import { useParams } from "react-router-dom";
 import { Category as CategoryType } from "../../utils/types";
 import { CategoryQuery } from "./__generated__/CategoryQuery.graphql";
+import { Radio } from "antd";
+import { RadioChangeEvent } from "antd/lib/radio";
+import { constants } from "../../constants/constants";
 
 const query = graphql`
-  query CategoryQuery($categoryId: Float!) {
-    trainingsByCategoryId(categoryId: $categoryId) {
+  query CategoryQuery(
+    $sortBy: String!
+    $sortOrder: String!
+    $categoryId: Float!
+  ) {
+    sortedTraining(
+      sortBy: $sortBy
+      sortOrder: $sortOrder
+      categoryId: $categoryId
+    ) {
       trainingId: id
       name
       label
@@ -39,9 +50,41 @@ const Category: React.FC = () => {
   const currentCategory: CategoryType | undefined = categories.find(
     (category) => category.categoryId === id
   );
-  const { trainingsByCategoryId } = useLazyLoadQuery<CategoryQuery>(query, {
+  const [sortBy, setSortBy] = React.useState<
+    "name" | "createDate" | "recommends"
+  >("name");
+  const [sortOrder, setSortOrder] = React.useState<"ASC" | "DESC">("ASC");
+  const sortOptionsMap: {
+    [key: string]: string;
+  } = {
+    name: constants["BYNAME"],
+    createDate: constants["BYDATE"],
+    recommends: constants["BYRECOMENDATIONS"],
+  };
+  const { sortedTraining } = useLazyLoadQuery<CategoryQuery>(query, {
     categoryId: id,
+    sortBy,
+    sortOrder,
   });
+
+  const onClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (
+      (e.target as HTMLInputElement).value &&
+      (e.target as HTMLInputElement).value === sortBy
+    ) {
+      sortOrder === "ASC" ? setSortOrder("DESC") : setSortOrder("ASC");
+    }
+  };
+
+  const renderLabelWithSortOrder = (value: string) => {
+    if (value === sortBy) {
+      return sortOrder === "ASC"
+        ? `${sortOptionsMap[value]} ↓`
+        : `${sortOptionsMap[value]} ↑`;
+    } else {
+      return sortOptionsMap[value];
+    }
+  };
 
   if (!currentCategory) {
     return (
@@ -53,7 +96,23 @@ const Category: React.FC = () => {
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
         <h2>{currentCategory.description}</h2>
-        <SortableTrainingList trainings={trainingsByCategoryId as any} />
+        <span>{constants["SORTBY"]} </span>
+        <Radio.Group
+          onChange={(e: RadioChangeEvent) => setSortBy(e.target.value)}
+          defaultValue="name"
+          buttonStyle="solid"
+        >
+          <Radio.Button value="name" onClick={onClick}>
+            {renderLabelWithSortOrder("name")}
+          </Radio.Button>
+          <Radio.Button value="createDate" onClick={onClick}>
+            {renderLabelWithSortOrder("createDate")}
+          </Radio.Button>
+          <Radio.Button value="recommends" onClick={onClick}>
+            {renderLabelWithSortOrder("recommends")}
+          </Radio.Button>
+        </Radio.Group>
+        <SortableTrainingList trainings={sortedTraining as any} />
       </section>
       <section className="category-page-content-calendar">
         <CalendarWithEvents />

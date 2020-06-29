@@ -20,12 +20,7 @@ export const SortableTrainingList: React.FC<SortableTrainingListProps> = ({
 }) => {
   return (
     <div>
-      <div className="sortable-training-list-filters">
-        <span>{constants["SORTBY"]}</span>
-        <span>{constants["BYNAME"]}</span>
-        <span>{constants["BYDATE"]}</span>
-        <span>{constants["BYRECOMENDATIONS"]}</span>
-      </div>
+      <div className="sortable-training-list-filters"></div>
       <div>
         {trainings &&
           trainings.map((training, index) => (

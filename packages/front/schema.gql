@@ -173,6 +173,7 @@ type Query {
   organizers: [OrganizerEntity!]!
   request(id: Float!): RequestEntity
   requests: [RequestEntity!]!
+  sortedTraining(categoryId: Float!, sortBy: String!, sortOrder: String!): [TrainingEntity!]!
   targetAudience(id: Float!): TargetAudienceEntity
   targetAudiences: [TargetAudienceEntity!]!
   training(id: Float!): TrainingEntity

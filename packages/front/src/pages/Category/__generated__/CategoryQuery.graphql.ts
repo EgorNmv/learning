@@ -3,10 +3,12 @@
 
 import { ConcreteRequest } from "relay-runtime";
 export type CategoryQueryVariables = {
+    sortBy: string;
+    sortOrder: string;
     categoryId: number;
 };
 export type CategoryQueryResponse = {
-    readonly trainingsByCategoryId: ReadonlyArray<{
+    readonly sortedTraining: ReadonlyArray<{
         readonly trainingId: number;
         readonly name: string;
         readonly label: string | null;
@@ -27,9 +29,11 @@ export type CategoryQuery = {
 
 /*
 query CategoryQuery(
+  $sortBy: String!
+  $sortOrder: String!
   $categoryId: Float!
 ) {
-  trainingsByCategoryId(categoryId: $categoryId) {
+  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {
     trainingId: id
     name
     label
@@ -45,6 +49,18 @@ query CategoryQuery(
 
 const node: ConcreteRequest = (function(){
 var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "sortBy",
+    "type": "String!"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "sortOrder",
+    "type": "String!"
+  },
   {
     "defaultValue": null,
     "kind": "LocalArgument",
@@ -67,11 +83,21 @@ v2 = [
         "kind": "Variable",
         "name": "categoryId",
         "variableName": "categoryId"
+      },
+      {
+        "kind": "Variable",
+        "name": "sortBy",
+        "variableName": "sortBy"
+      },
+      {
+        "kind": "Variable",
+        "name": "sortOrder",
+        "variableName": "sortOrder"
       }
     ],
     "concreteType": "TrainingEntity",
     "kind": "LinkedField",
-    "name": "trainingsByCategoryId",
+    "name": "sortedTraining",
     "plural": true,
     "selections": [
       {
@@ -147,9 +173,9 @@ return {
     "metadata": {},
     "name": "CategoryQuery",
     "operationKind": "query",
-    "text": "query CategoryQuery(\n  $categoryId: Float!\n) {\n  trainingsByCategoryId(categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    description\n    organizer {\n      name\n    }\n  }\n}\n"
+    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    description\n    organizer {\n      name\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'a169e55a81b003a87aa7de0f890fb421';
+(node as any).hash = 'f58c22fca7139f61e160be32a934dd1f';
 export default node;

@@ -1,11 +1,13 @@
-import { Connection, In } from "typeorm";
+import { Connection } from "typeorm";
+import { In } from "../../../../../core/node_modules/typeorm";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
 import { FeedbackEntity } from "../../../objects/entities/feedback/entity";
 
 export const findAllSortedTrainings = async (
   connection: Connection,
   sortBy: "name" | "createDate" | "recommends",
-  sortOrder: "ASC" | "DESC"
+  sortOrder: "ASC" | "DESC",
+  categoryId: number
 ): Promise<TrainingEntity[]> => {
   if (sortBy === "recommends") {
     const trainingIdsWithRecommends: FeedbackEntity[] = await connection
@@ -24,26 +26,29 @@ export const findAllSortedTrainings = async (
         return acc;
       }
     }, {});
-    const sortedListOfIds: string[] = Object.keys(
+
+    const sortedListOfIds: number[] = Object.keys(
       trainingIdsWithCountOfFeedbacks
-    ).sort((a, b) => {
-      if (sortOrder === "ASC") {
-        return (
-          trainingIdsWithCountOfFeedbacks[a] -
-          trainingIdsWithCountOfFeedbacks[b]
-        );
-      } else {
-        return (
-          trainingIdsWithCountOfFeedbacks[b] -
-          trainingIdsWithCountOfFeedbacks[a]
-        );
-      }
-    });
+    )
+      .sort((a, b) => {
+        if (sortOrder === "ASC") {
+          return (
+            trainingIdsWithCountOfFeedbacks[a] -
+            trainingIdsWithCountOfFeedbacks[b]
+          );
+        } else {
+          return (
+            trainingIdsWithCountOfFeedbacks[b] -
+            trainingIdsWithCountOfFeedbacks[a]
+          );
+        }
+      })
+      .map(Number);
     const trainings: TrainingEntity[] = await connection
       .getRepository(TrainingEntity)
       .find({
         relations: ["format", "organizer", "audience", "category"],
-        where: { id: In([...sortedListOfIds]) },
+        where: { id: In([...sortedListOfIds]), categoryId },
       });
     const sortedObjectOfIds: {
       [trainingId: string]: number;
@@ -62,6 +67,7 @@ export const findAllSortedTrainings = async (
       .find({
         relations: ["format", "organizer", "audience", "category"],
         order: { [sortBy]: sortOrder },
+        where: { categoryId },
       });
 
     return trainings;
