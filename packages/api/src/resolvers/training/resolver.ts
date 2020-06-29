@@ -11,6 +11,8 @@ import { findAllTrainingsByCategoryId } from "./queries/findAllTrainingsByCatego
 import { findAllNewTrainings } from "./queries/findAllNewTrainings";
 import { findAllComingTrainings } from "./queries/findAllComingTrainings";
 import { findAllSortedTrainings } from "./queries/findAllSortedTrainings";
+import { Training } from "../../objects/entities/training/type";
+import { findAllTrainingBySearchText } from "./queries/findAllTrainingBySearchText";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -60,6 +62,15 @@ export class TrainingResolver {
         @Arg("categoryId") categoryId: number,
     ){
         return await findAllSortedTrainings(connection, sortBy, sortOrder, categoryId);
+    }
+
+    @Query(() => [TrainingEntity])
+    public async searchableTrainings(
+        @Ctx() { connection }: Context,
+        @Arg("searchBy") searchBy: string,
+        @Arg("searchText") searchText: string
+    ){
+        return await findAllTrainingBySearchText(connection, searchBy, searchText);
     }
 
     @Mutation(() => TrainingEntity)
