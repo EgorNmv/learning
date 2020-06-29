@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ./src/server1.ts"
+    "start": "DATABASE_USERNAME=postgres DATABASE_HOST=localhost DATABASE_PORT=5432 DATABASE_USERNAME=postgres DATABASE_PASSWORD=docker DATABASE_NAME=postgres SERVER_PORT=4000 ts-node ./src/server1.ts"
   },
   "keywords": [],
   "author": "",

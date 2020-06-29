@@ -13,7 +13,8 @@ const startServer = async (): Promise<void> => {
     dotenvConfig({ path: "../.env" });
 
     const context: Context = {
-        connection: await getLocallyConnection()
+        connection: await getLocallyConnection(),
+        token: undefined,
     };
     const schema: GraphQLSchema = await buildSchema({
         resolvers,

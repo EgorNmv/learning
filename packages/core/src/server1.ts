@@ -32,7 +32,7 @@ const startServer = async (): Promise<void> => {
         context: async ({ req }) => {
             const authHeader = req.headers.authorization || '';
             const match = authHeader.match(/Bearer (.+)/);
-            let token = null;
+            let token;
 
             if (!match) {
                 throw new Error("You must be logged in");
