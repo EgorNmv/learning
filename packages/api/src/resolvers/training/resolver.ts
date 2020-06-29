@@ -10,6 +10,7 @@ import { Context } from "../../objects/context";
 import { findAllTrainingsByCategoryId } from "./queries/findAllTrainingsByCategoryId";
 import { findAllNewTrainings } from "./queries/findAllNewTrainings";
 import { findAllComingTrainings } from "./queries/findAllComingTrainings";
+import { findAllSortedTrainings } from "./queries/findAllSortedTrainings";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -49,6 +50,15 @@ export class TrainingResolver {
         @Ctx() { connection }: Context
     ) {
         return await findAllComingTrainings(connection);
+    }
+
+    @Query(() => [TrainingEntity])
+    public async sortedTraining(
+        @Ctx() { connection }: Context,
+        @Arg("sortBy") sortBy: "name" | "createDate" | "recommends",
+        @Arg("sortOrder") sortOrder: "ASC" | "DESC"
+    ){
+        return await findAllSortedTrainings(connection, sortBy, sortOrder);
     }
 
     @Mutation(() => TrainingEntity)
