@@ -17,4 +17,7 @@ export class InputFeedback implements Omit<Feedback, "id" | "user" | "training">
 
     @Field()
     trainingId: number
+
+    @Field({ nullable: true })
+    status: number
 }

@@ -65,6 +65,13 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
     @Column()
     public text: string;
 
+    @Field(() => Number, {
+        nullable:true,
+        description:" статус фидбека"
+    })
+    @Column({ default:0 })
+    public status : number
+
     constructor(
         id: number,
         user: UserEntity,
