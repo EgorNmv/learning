@@ -7,3 +7,6 @@
   margin-left: 2rem;
   width: min-content;
 }
+.ant-select-arrow {
+  top: 27%;
+}

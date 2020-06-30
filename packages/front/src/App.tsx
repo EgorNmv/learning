@@ -9,7 +9,7 @@ import { RelayEnvironmentProvider, preloadQuery } from "react-relay/hooks";
 import getFetch from "./utils/fetch";
 import { AppQuery } from "./__generated__/AppQuery.graphql";
 import React, { Suspense, useContext, useEffect } from "react";
-import { Layout, Spin } from "antd";
+import { Layout, Spin, ConfigProvider } from "antd";
 import { BrowserRouter, useHistory } from "react-router-dom";
 import { Sider } from "./components/Sider/Sider";
 import { Header } from "./components/Header/Header";
@@ -20,7 +20,7 @@ import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTyp
 import { useOktaAuth } from '@okta/okta-react';
 import { UserContext } from "./hoc/UserContext/UserContext";
 import { useOktaFetchedUser } from "./utils/utils";
-
+import ruRU from 'antd/es/locale/ru_RU';
 export const appQuery = graphql`
   query AppQuery {
     categories {
@@ -58,7 +58,7 @@ const Logic = () => {
   );
 
   React.useEffect(() => {
-    
+
     if (!authState.isAuthenticated) {
       setUser(null);
     } else {
@@ -66,7 +66,7 @@ const Logic = () => {
       authService.getUser().then((info: any) => {
         console.log(info);
         setUser(info);
-        
+
       });
     }
   }, [authState, authService]);
@@ -74,13 +74,16 @@ const Logic = () => {
   return (
     <RelayEnvironmentProvider environment={environment}>
       <UserContext.Provider value={user}>
-        <Layout>
-          <Sider />
+        <ConfigProvider locale={ruRU}>
           <Layout>
-            <Header />
-            <Content />
+            <Sider />
+            <Layout>
+
+              <Header />
+              <Content />
+            </Layout>
           </Layout>
-        </Layout>
+        </ConfigProvider>
       </UserContext.Provider>
     </RelayEnvironmentProvider>
   );
