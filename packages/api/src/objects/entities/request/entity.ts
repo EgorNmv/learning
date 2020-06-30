@@ -31,6 +31,7 @@ export class RequestEntity extends BaseEntity implements Request {
         nullable: false,
         description: "дата подачи заявки на обучение"
     })
+    @Column()
     public date: string;
 
     @Field(() => TrainingEntity, {

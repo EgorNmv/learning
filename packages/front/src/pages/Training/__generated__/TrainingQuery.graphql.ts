@@ -4,6 +4,7 @@
 import { ConcreteRequest } from "relay-runtime";
 export type TrainingQueryVariables = {
     trainingId: number;
+    userId: string;
 };
 export type TrainingQueryResponse = {
     readonly training: {
@@ -25,6 +26,7 @@ export type TrainingQueryResponse = {
             readonly description: string;
         };
     } | null;
+    readonly isRequestExist: boolean;
 };
 export type TrainingQuery = {
     readonly response: TrainingQueryResponse;
@@ -36,6 +38,7 @@ export type TrainingQuery = {
 /*
 query TrainingQuery(
   $trainingId: Float!
+  $userId: String!
 ) {
   training(id: $trainingId) {
     trainingId: id
@@ -56,6 +59,7 @@ query TrainingQuery(
       description
     }
   }
+  isRequestExist(userId: $userId, trainingId: $trainingId)
 }
 */
 
@@ -66,6 +70,12 @@ var v0 = [
     "kind": "LocalArgument",
     "name": "trainingId",
     "type": "Float!"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "userId",
+    "type": "String!"
   }
 ],
 v1 = {
@@ -178,6 +188,24 @@ v4 = [
       }
     ],
     "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "trainingId",
+        "variableName": "trainingId"
+      },
+      {
+        "kind": "Variable",
+        "name": "userId",
+        "variableName": "userId"
+      }
+    ],
+    "kind": "ScalarField",
+    "name": "isRequestExist",
+    "storageKey": null
   }
 ];
 return {
@@ -201,9 +229,9 @@ return {
     "metadata": {},
     "name": "TrainingQuery",
     "operationKind": "query",
-    "text": "query TrainingQuery(\n  $trainingId: Float!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n    }\n    start\n    end\n    site\n    audience {\n      description\n    }\n  }\n}\n"
+    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n    }\n    start\n    end\n    site\n    audience {\n      description\n    }\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
   }
 };
 })();
-(node as any).hash = 'a7c4d58d5097c2394323b57ce68829e0';
+(node as any).hash = 'e33ff6b612e06391027eed52b2ead406';
 export default node;
