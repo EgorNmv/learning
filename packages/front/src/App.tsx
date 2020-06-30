@@ -8,7 +8,7 @@ import {
 import { RelayEnvironmentProvider, preloadQuery } from "react-relay/hooks";
 import getFetch from "./utils/fetch";
 import { AppQuery } from "./__generated__/AppQuery.graphql";
-import React, { Suspense } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { Layout, Spin } from "antd";
 import { BrowserRouter, useHistory } from "react-router-dom";
 import { Sider } from "./components/Sider/Sider";
@@ -19,6 +19,7 @@ import config from "./oktaConfig";
 import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
 import { useOktaAuth } from '@okta/okta-react';
 import { UserContext } from "./hoc/UserContext/UserContext";
+import { useOktaFetchedUser } from "./utils/utils";
 
 export const appQuery = graphql`
   query AppQuery {
@@ -34,6 +35,12 @@ export let resultOfPreloadQuery: PreloadedQuery<AppQuery, any>;
 
 const Logic = () => {
   const { authState, authService } = useOktaAuth();
+  console.log();
+  const ctx = useContext(UserContext);
+
+
+
+
   const [user, setUser] = React.useState<any | null>(null);
 
   const source = new RecordSource();
@@ -51,11 +58,15 @@ const Logic = () => {
   );
 
   React.useEffect(() => {
+    
     if (!authState.isAuthenticated) {
       setUser(null);
     } else {
+      console.log(authService);
       authService.getUser().then((info: any) => {
+        console.log(info);
         setUser(info);
+        
       });
     }
   }, [authState, authService]);
