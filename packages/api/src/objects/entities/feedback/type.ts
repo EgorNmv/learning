@@ -10,4 +10,5 @@ export interface Feedback {
     text: string;
     userId: string;
     trainingId: number;
+    status: number;
 }
