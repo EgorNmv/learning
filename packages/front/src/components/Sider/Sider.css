@@ -47,6 +47,9 @@ section > aside.all-sider-layout {
 .ant-menu-item * {
   font-size: 20px;
 }
+.ant-menu-submenu-title {
+  color: rgb(146, 232, 255) !important;
+}
 .ant-menu-submenu * {
   font-size: 20px;
 }

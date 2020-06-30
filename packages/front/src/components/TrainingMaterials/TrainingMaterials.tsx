@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button } from "antd";
+import { Card, Button, Empty } from "antd";
 import "./TrainingMaterials.css";
 import { useFileUpload } from "../../utils/utils";
 import { graphql } from "react-relay";
@@ -71,6 +71,7 @@ export const TrainingMaterials: React.FC = () => {
               </a>
             </span>
           ))}
+          {materialsByTrainingId.length > 0 ? <></> : <div style={{margin:'auto'}}><Empty /></div>}
         </div>
       </Card>
     </>
