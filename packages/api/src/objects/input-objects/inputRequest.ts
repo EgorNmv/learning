@@ -11,4 +11,7 @@ export class InputRequest implements Omit<Request, "id" | "user" | "training">{
 
     @Field()
     public trainingId: number;
+
+    @Field({ nullable:true })
+    public status: number;
 }

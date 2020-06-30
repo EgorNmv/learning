@@ -23,6 +23,10 @@ export class RequestEntity extends BaseEntity implements Request {
     // @ManyToOne(type => UserEntity, user => user.id)
     public user: UserEntity;
 
+    @Field(() => String, {
+        nullable: false,
+        description: "id пользователя заявки в okta"
+    })
     @Column()
     // @RelationId((request: RequestEntity) => request.user)
     public userId: string;
@@ -45,6 +49,13 @@ export class RequestEntity extends BaseEntity implements Request {
     @Column()
     @RelationId((request: RequestEntity) => request.training)
     public trainingId: number;
+
+    @Field(() => Number, {
+        nullable: true,
+        description: "статус запроса (0-ожидает, 1-принят, 2-отклонён)"
+    })
+    @Column({ default:0 })
+    public status: number;
 
     constructor(
         id: number,

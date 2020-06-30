@@ -70,6 +70,7 @@ input InputOrganizer {
 
 input InputRequest {
   date: String!
+  status: Float
   trainingId: Float!
   userId: String!
 }
@@ -121,6 +122,7 @@ type Mutation {
   deleteFormatById(id: Float!): Boolean!
   deleteMaterialById(id: Float!): Boolean!
   deleteOrganizerById(id: Float!): Boolean!
+  deleteRequestById(id: Float!): Boolean!
   deleteTargetAudienceById(id: Float!): Boolean!
   deleteTrainingById(id: Float!): Boolean!
   deleteUserById(id: Float!): Boolean!
@@ -129,6 +131,7 @@ type Mutation {
   updateFormatById(description: String!, id: Float!): FormatEntity!
   updateMaterialById(data: InputMaterial!, id: Float!): MaterialEntity!
   updateOrganizerById(data: InputOrganizer!, id: Float!): OrganizerEntity!
+  updateRequestById(data: InputRequest!, id: Float!): RequestEntity!
   updateTargetAudienceById(description: String!, id: Float!): TargetAudienceEntity!
   updateTrainingById(data: InputTraining!, id: Float!): TrainingEntity!
   updateUserById(data: InputUser!, id: Float!): UserEntity!
@@ -175,6 +178,8 @@ type Query {
   organizers: [OrganizerEntity!]!
   request(id: Float!): RequestEntity
   requests: [RequestEntity!]!
+  requestsBySub(userId: String!): [RequestEntity!]!
+  requestsByTrainingId(trainingId: Float!): [RequestEntity!]!
   searchableTrainings(searchBy: String!, searchText: String!): [TrainingEntity!]!
   sortedTraining(categoryId: Float!, sortBy: String!, sortOrder: String!): [TrainingEntity!]!
   targetAudience(id: Float!): TargetAudienceEntity
@@ -194,11 +199,17 @@ type RequestEntity {
   """id заявки"""
   id: Float!
 
+  """статус запроса (0-ожидает, 1-принят, 2-отклонён)"""
+  status: Float
+
   """id обучния"""
   training: TrainingEntity!
 
   """пользователь, который отправил заявку"""
   user: UserEntity!
+
+  """id пользователя заявки в okta"""
+  userId: String!
 }
 
 """Роли пользователей"""

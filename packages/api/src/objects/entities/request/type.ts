@@ -8,4 +8,5 @@ export interface Request {
     training: Training;
     userId: string;
     trainingId: number;
+    status: number;
 }

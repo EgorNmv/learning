@@ -1,48 +1,64 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Table, Card } from "antd";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery } from "react-relay/hooks";
+import { UserProfileRequestsQuery } from "./__generated__/UserProfileRequestsQuery.graphql";
+import { UserContext } from "../../hoc/UserContext/UserContext";
+
+const query = graphql`
+  query UserProfileRequestsQuery($userId: String!) {
+    requestsBySub(userId: $userId) {
+      requestId: id
+      userId
+      date
+      status
+      training {
+        name
+      }
+    }
+  }
+`;
 
 const UserProfileRequests: React.FC = () => {
+  const [data, setData] = React.useState<any>([]);
+  const user = useContext(UserContext);
+  const { requestsBySub } = useLazyLoadQuery<UserProfileRequestsQuery>(query, {
+    userId: user ? user.sub : "",
+  });
   const columns = [
     {
       title: "№",
-      dataIndex: "id",
+      dataIndex: "requestId",
     },
     {
       title: "Событие",
       dataIndex: "training",
+      render: (text: string, record: any) => (
+        <span>{record.training.name}</span>
+      ),
     },
     {
       title: "Дата подачи",
-      dataIndex: "filingDate",
+      dataIndex: "date",
     },
     {
       title: "Статус",
       dataIndex: "status",
+      render: (text: string, record: any) => {
+        if (text == "0") {
+          return <span>В обработке</span>;
+        } else if (text == "1") {
+          return <span>Принята</span>;
+        } else {
+          return <span>Отклонена</span>;
+        }
+      },
     },
   ];
-  const data = [
-    {
-      key: 1,
-      id: 1,
-      training: "Основы python",
-      filingDate: "12 мая 2020",
-      status: "В обработке",
-    },
-    {
-      key: 2,
-      id: 2,
-      training: "Основы python",
-      filingDate: "12 мая 2020",
-      status: "Принята",
-    },
-    {
-      key: 3,
-      id: 3,
-      training: "Основы python",
-      filingDate: "12 мая 2020",
-      status: "Отклонена",
-    },
-  ];
+
+  React.useEffect(() => {
+    setData(requestsBySub);
+  }, [requestsBySub]);
 
   return (
     <section>

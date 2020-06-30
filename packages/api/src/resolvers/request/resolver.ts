@@ -8,6 +8,8 @@ import { updateRequestById } from "./queries/updateRequestById";
 import { deleteRequestById } from "./queries/deleteRequestById";
 import { Context } from "../../objects/context";
 import { checkIsRequestAlreadyCreated } from "./queries/checkIsRequestAlreadyCreated";
+import { findAllRequestsByTrainingId } from "./queries/findAllRequestsByTrainingId";
+import { findAllRequestsByUserId } from "./queries/findAllRequestsByUserId";
 
 @Resolver(RequestEntity)
 export class RequestResolver {
@@ -37,6 +39,22 @@ export class RequestResolver {
         return await checkIsRequestAlreadyCreated(connection, userId, trainingId);
     }
 
+    @Query(() => [RequestEntity])
+    public async requestsByTrainingId(
+        @Ctx() { connection }: Context,
+        @Arg("trainingId") trainingId: number
+    ){
+        return await findAllRequestsByTrainingId(connection, trainingId); 
+    }
+
+    @Query(() => [RequestEntity])
+    public async requestsBySub(
+        @Ctx() { connection }: Context,
+        @Arg("userId") userId: string
+    ){
+        return await findAllRequestsByUserId(connection, userId);
+    }
+
     @Mutation(() => RequestEntity)
     public async createRequest(
         @Ctx() { connection }: Context,
@@ -46,7 +64,7 @@ export class RequestResolver {
     }
 
     @Mutation(() => RequestEntity)
-    public async updateOrganizerById(
+    public async updateRequestById(
         @Ctx() { connection }: Context,
         @Arg("id") id: number,
         @Arg("data") data: InputRequest
@@ -55,7 +73,7 @@ export class RequestResolver {
     }
 
     @Mutation(() => Boolean)
-    public async deleteOrganizerById(
+    public async deleteRequestById(
         @Ctx() { connection }: Context,
         @Arg("id") id: number
     ) {

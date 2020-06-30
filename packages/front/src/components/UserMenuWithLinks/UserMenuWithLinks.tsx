@@ -9,6 +9,7 @@ import { UserContext } from "../../hoc/UserContext/UserContext";
 export const UserMenuWithLinks: React.FC = () => {
   const { authState, authService } = useOktaAuth();
   const user = React.useContext(UserContext);
+  const [group, setGroup] = React.useState<string>("1");
 
   const login = async () => authService.login("/");
   const logout = async () => authService.logout("/");
@@ -29,12 +30,16 @@ export const UserMenuWithLinks: React.FC = () => {
           {constants["MYRECOMENDATIONS"]}
         </Link>
       </Menu.Item>
-      <Menu.Item key="4">
-        <Link to="/profile/trainings">{constants["EVENTS"]}</Link>
-      </Menu.Item>
-      <Menu.Item key="5">
-        <Link to="/profile/directories">{constants["DIRECTORIES"]}</Link>
-      </Menu.Item>
+      {group == "0" && (
+        <Menu.Item key="4">
+          <Link to="/profile/trainings">{constants["EVENTS"]}</Link>
+        </Menu.Item>
+      )}
+      {group == "0" && (
+        <Menu.Item key="5">
+          <Link to="/profile/directories">{constants["DIRECTORIES"]}</Link>
+        </Menu.Item>
+      )}
       <Menu.Divider />
       <Menu.Item key="6">
         {!authState.isPending && !authState.isAuthenticated && (
@@ -46,6 +51,10 @@ export const UserMenuWithLinks: React.FC = () => {
       </Menu.Item>
     </Menu>
   );
+
+  React.useEffect(() => {
+    user && setGroup(user.group);
+  }, [user]);
 
   return (
     <>

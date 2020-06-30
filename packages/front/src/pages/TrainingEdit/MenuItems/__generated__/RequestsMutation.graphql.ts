@@ -8,35 +8,47 @@ export type InputRequest = {
     trainingId: number;
     userId: string;
 };
-export type TrainingMutationVariables = {
+export type RequestsMutationVariables = {
+    requestId: number;
     data: InputRequest;
 };
-export type TrainingMutationResponse = {
-    readonly createRequest: {
+export type RequestsMutationResponse = {
+    readonly updateRequestById: {
         readonly requestId: number;
+        readonly userId: string;
         readonly date: string;
+        readonly status: number | null;
     };
 };
-export type TrainingMutation = {
-    readonly response: TrainingMutationResponse;
-    readonly variables: TrainingMutationVariables;
+export type RequestsMutation = {
+    readonly response: RequestsMutationResponse;
+    readonly variables: RequestsMutationVariables;
 };
 
 
 
 /*
-mutation TrainingMutation(
+mutation RequestsMutation(
+  $requestId: Float!
   $data: InputRequest!
 ) {
-  createRequest(data: $data) {
+  updateRequestById(id: $requestId, data: $data) {
     requestId: id
+    userId
     date
+    status
   }
 }
 */
 
 const node: ConcreteRequest = (function(){
 var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "requestId",
+    "type": "Float!"
+  },
   {
     "defaultValue": null,
     "kind": "LocalArgument",
@@ -52,11 +64,16 @@ v1 = [
         "kind": "Variable",
         "name": "data",
         "variableName": "data"
+      },
+      {
+        "kind": "Variable",
+        "name": "id",
+        "variableName": "requestId"
       }
     ],
     "concreteType": "RequestEntity",
     "kind": "LinkedField",
-    "name": "createRequest",
+    "name": "updateRequestById",
     "plural": false,
     "selections": [
       {
@@ -70,7 +87,21 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "userId",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "date",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "status",
         "storageKey": null
       }
     ],
@@ -82,7 +113,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "TrainingMutation",
+    "name": "RequestsMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation"
   },
@@ -90,17 +121,17 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "TrainingMutation",
+    "name": "RequestsMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "TrainingMutation",
+    "name": "RequestsMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingMutation(\n  $data: InputRequest!\n) {\n  createRequest(data: $data) {\n    requestId: id\n    date\n  }\n}\n"
+    "text": "mutation RequestsMutation(\n  $requestId: Float!\n  $data: InputRequest!\n) {\n  updateRequestById(id: $requestId, data: $data) {\n    requestId: id\n    userId\n    date\n    status\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '495ad1fbb1a42f0519fd826467e46209';
+(node as any).hash = 'ee510ab1d4a655e7eaf02dc44c364e8d';
 export default node;
