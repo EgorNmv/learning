@@ -68,6 +68,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
       },
       onCompleted: () => {
         setIsVisibleModal(false);
+        window.location.reload();
       },
     });
   };

@@ -48,6 +48,9 @@ export const TrainingMaterials: React.FC = () => {
     response?.filename &&
       commit({
         variables: { data: { link: response.filename, trainingId } },
+        onCompleted: () => {
+          window.location.reload();
+        },
       });
   }, [response]);
 

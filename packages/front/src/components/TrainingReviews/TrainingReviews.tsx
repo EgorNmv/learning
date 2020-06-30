@@ -64,6 +64,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
       },
       onCompleted: () => {
         setIsVisibleModal(false);
+        window.location.reload();
       },
     });
   };
