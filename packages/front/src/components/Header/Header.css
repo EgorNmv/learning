@@ -1,14 +1,15 @@
 section > header.all-main-header {
+  height: 100px;
   background: white;
-  border-bottom: 1px solid rgb(109, 109, 109);
   position: fixed;
-  margin-left: 200px;
+  margin-left: 367px;
   width: 100%;
   z-index: 1;
-  padding-right: 200px;
+  padding-right: 367px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 2px 2px 4px #DDDDDD;
 }
 
 section > header.all-main-header > div:first-child {
@@ -16,5 +17,7 @@ section > header.all-main-header > div:first-child {
 }
 
 .all-main-header-user-links {
-  padding-right: 1rem;
+  cursor: pointer;
+  font-size: 18px;
+  padding-right: 3rem;
 }

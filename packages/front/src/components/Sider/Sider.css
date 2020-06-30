@@ -1,15 +1,20 @@
 section > aside.all-sider-layout {
-  background: rgb(0, 136, 186);
   min-height: 100vh;
   position: fixed;
   z-index: 1;
+  width: 367px;
+  background: #0088BB 0% 0% no-repeat padding-box;
 }
 
 .sider-content {
-  padding: 1rem;
+  
   color: white;
 }
-
+.logo-box {
+  width: 367px;
+  height: 159px;
+  background: #006C95 0% 0% no-repeat padding-box;
+}
 .sider-title-circle {
   width: 2rem;
   height: 2rem;
@@ -21,7 +26,6 @@ section > aside.all-sider-layout {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding-bottom: 2rem;
 }
 
 .sider-title-text {
@@ -30,4 +34,49 @@ section > aside.all-sider-layout {
 
 .sider-content > div > ul > li > a {
   color: rgb(146, 232, 255);
+}
+.sider-links {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.ant-menu {
+  z-index: 999;
+}
+.ant-menu-item a:hover {
+  color: rgb(146, 232, 255) !important;
+}
+.ant-menu-item * {
+  font-size: 20px;
+}
+.ant-menu-submenu * {
+  font-size: 20px;
+}
+.ant-menu-submenu-title:hover {
+  color: rgb(146, 232, 255) !important;
+}
+.ant-menu-submenu-inline > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow:before {
+  background: linear-gradient(to right, rgb(146, 232, 255), rgb(146, 232, 255)) !important;
+}
+.ant-menu-submenu-inline > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow:after {
+  background: linear-gradient(to right, rgb(146, 232, 255), rgb(146, 232, 255)) !important;
+}
+.ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow:before {
+  background: linear-gradient(to right, rgb(146, 232, 255), rgb(146, 232, 255)) !important;
+}
+.ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow:after {
+  background: linear-gradient(to right, rgb(146, 232, 255), rgb(146, 232, 255)) !important;
+}
+.ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow { 
+  left: 130px;
+  top: 22px !important;
+}
+.ant-menu-sub {
+  background: #006C95 0% 0% no-repeat padding-box !important;
+}
+
+.sider-img-container {
+  position:absolute;
+  width: 100%;
+  bottom: 30px;
+  text-align: center;
 }

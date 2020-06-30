@@ -7,6 +7,7 @@ export const createOrganizer = async (
     connection: Connection,
     data: InputOrganizer
 ): Promise<OrganizerEntity> => {
+    console.log(data);
     const formatFromData: OrganizerEntity = await connection.getRepository(OrganizerEntity)
         .save(data);
 

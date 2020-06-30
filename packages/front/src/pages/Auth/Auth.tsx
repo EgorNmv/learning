@@ -11,7 +11,7 @@ import config from "../../oktaConfig";
 const Auth: React.FC = () => {
   const history = useHistory();
   const { authState: { isAuthenticated } } = useOktaAuth();
-  
+
   React.useEffect(() => {
     const { pkce, issuer, clientId, redirectUri, scopes } = config;
     if (isAuthenticated) {
@@ -27,9 +27,21 @@ const Auth: React.FC = () => {
         clientId,
         redirectUri,
         logo: '/react.svg',
+        language: 'en',
         i18n: {
           en: {
-            'primaryauth.title': 'Sign in to React & Company',
+            'primaryauth.title': 'Вход в систему',
+            "primaryauth.username.placeholder": "Ваш логин",
+            "primaryauth.username.tooltip": "Логин",
+            "primaryauth.password.placeholder": "Ваш пароль",
+            "primaryauth.password.tooltip": "Пароль",
+            "primaryauth.submit": "Войти",
+            "primaryauth.newUser.tooltip": "Новый пользователь",
+            "primaryauth.newUser.tooltip.close": "Закрыть",
+            "needhelp": 'Не получатеся зайти?',
+            "forgotpassword": "Забыли пароль?",
+            'help': 'Помощь',
+            "remember": 'Запомнить меня',
           },
 
         },

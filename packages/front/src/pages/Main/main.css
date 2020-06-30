@@ -1,0 +1,27 @@
+.react-multiple-carousel__arrow::before {
+    font-size: 15px;
+    color: #fff;
+    display: block;
+    font-family: revicons;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+}
+
+.react-multiple-carousel__arrow--right {
+    right: calc(3px);
+}
+
+.react-multiple-carousel__arrow {
+    position: absolute;
+    outline: 0;
+    transition: all .5s;
+    border-radius: 35px;
+    z-index: 1000;
+    border: 0;
+    background: #7766CC;
+    min-width: 25px;
+    min-height: 25px;
+    opacity: 1;
+    cursor: pointer;
+}
