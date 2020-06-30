@@ -21,7 +21,7 @@ const mutation = graphql`
   }
 `;
 const query = graphql`
-  query TrainingQuery($trainingId: Float!) {
+  query TrainingQuery($trainingId: Float!, $userId: String!) {
     training(id: $trainingId) {
       trainingId: id
       label
@@ -41,17 +41,21 @@ const query = graphql`
         description
       }
     }
+    isRequestExist(userId: $userId, trainingId: $trainingId)
   }
 `;
 
 const Training: React.FC = () => {
   const params = useParams<{ trainingId: string }>();
   const id: number = Number(params.trainingId);
-  const [commit, isInFlight] = useMutation<TrainingMutation>(mutation);
-  const { training } = useLazyLoadQuery<TrainingQuery>(query, {
-    trainingId: id,
-  });
   const user = React.useContext(UserContext);
+  console.info(user);
+  const [commit, isInFlight] = useMutation<TrainingMutation>(mutation);
+  const { training, isRequestExist } = useLazyLoadQuery<TrainingQuery>(query, {
+    trainingId: id,
+    userId: user ? user.sub : "",
+  });
+  const [isClickedButton, setIsClickedButton] = React.useState<boolean>(false);
 
   const clickHandler = () => {
     commit({
@@ -61,6 +65,9 @@ const Training: React.FC = () => {
           userId: user.sub,
           date: formatDate(new Date()),
         },
+      },
+      onCompleted: () => {
+        setIsClickedButton(true);
       },
     });
   };
@@ -113,7 +120,11 @@ const Training: React.FC = () => {
                 <span>{training?.site}</span>
               </div>
               <div>
-                <Button type="primary" onClick={clickHandler}>
+                <Button
+                  type="primary"
+                  onClick={clickHandler}
+                  disabled={isRequestExist || isClickedButton}
+                >
                   Подать заявку на участие
                 </Button>
               </div>

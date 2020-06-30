@@ -17,10 +17,12 @@ import { Content } from "./components/Content/Content";
 import { Security } from "@okta/okta-react";
 import config from "./oktaConfig";
 import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
-import { useOktaAuth } from '@okta/okta-react';
 import { UserContext } from "./hoc/UserContext/UserContext";
 import { useOktaFetchedUser } from "./utils/utils";
 import ruRU from 'antd/es/locale/ru_RU';
+import { useOktaAuth } from "@okta/okta-react";
+import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
+
 export const appQuery = graphql`
   query AppQuery {
     categories {
@@ -46,7 +48,9 @@ const Logic = () => {
   const source = new RecordSource();
   const store = new Store(source);
   const environment = new Environment({
-    network: Network.create(getFetch("http://localhost:4000/", authState.accessToken)),
+    network: Network.create(
+      getFetch("http://localhost:4000/", authState.accessToken)
+    ),
     store,
   });
 
@@ -71,40 +75,42 @@ const Logic = () => {
     }
   }, [authState, authService]);
 
+
   return (
     <RelayEnvironmentProvider environment={environment}>
-      <UserContext.Provider value={user}>
+      <MainWrapper>
         <ConfigProvider locale={ruRU}>
           <Layout>
+
             <Sider />
             <Layout>
+              <Sider />
+              <Layout>
 
-              <Header />
-              <Content />
+                <Header />
+                <Content />
+              </Layout>
             </Layout>
           </Layout>
         </ConfigProvider>
-      </UserContext.Provider>
+      </MainWrapper>
     </RelayEnvironmentProvider>
   );
-}
+};
 
 const ComponentWithAccessToHistory = () => {
   const history = useHistory();
 
   const customAuthHandler = () => {
-    history.push('/auth');
+    history.push("/auth");
   };
 
   return (
     <Suspense fallback={<Spin />}>
-      <Security
-        {...config}
-        onAuthRequired={customAuthHandler}
-      >
+      <Security {...config} onAuthRequired={customAuthHandler}>
         <Logic />
       </Security>
-    </Suspense >
+    </Suspense>
   );
 };
 
@@ -114,6 +120,6 @@ const App = () => {
       <ComponentWithAccessToHistory />
     </BrowserRouter>
   );
-}
+};
 
 export default App;

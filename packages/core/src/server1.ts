@@ -46,7 +46,7 @@ const startServer = async (): Promise<void> => {
                 token = jwt;
             } catch (e) {
                 console.info("authHeader", authHeader);
-                throw new Error("Error in verifyAccessToken");
+                // throw new Error("Error in verifyAccessToken");
             }
 
             return { connection, token };

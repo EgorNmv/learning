@@ -7,6 +7,7 @@ import { createRequest } from "./queries/createRequest";
 import { updateRequestById } from "./queries/updateRequestById";
 import { deleteRequestById } from "./queries/deleteRequestById";
 import { Context } from "../../objects/context";
+import { checkIsRequestAlreadyCreated } from "./queries/checkIsRequestAlreadyCreated";
 
 @Resolver(RequestEntity)
 export class RequestResolver {
@@ -25,6 +26,15 @@ export class RequestResolver {
         @Ctx() { connection }: Context,
     ) {
         return await findAllRequests(connection);
+    }
+
+    @Query(() => Boolean)
+    public async isRequestExist(
+        @Ctx() { connection }: Context,
+        @Arg("userId") userId: string,
+        @Arg("trainingId") trainingId: number
+    ){
+        return await checkIsRequestAlreadyCreated(connection, userId, trainingId);
     }
 
     @Mutation(() => RequestEntity)
