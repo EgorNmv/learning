@@ -17,8 +17,8 @@ import { Content } from "./components/Content/Content";
 import { Security } from "@okta/okta-react";
 import config from "./oktaConfig";
 import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
-import { useOktaAuth } from '@okta/okta-react';
-import { UserContext } from "./hoc/UserContext/UserContext";
+import { useOktaAuth } from "@okta/okta-react";
+import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
 
 export const appQuery = graphql`
   query AppQuery {
@@ -33,13 +33,14 @@ export const appQuery = graphql`
 export let resultOfPreloadQuery: PreloadedQuery<AppQuery, any>;
 
 const Logic = () => {
-  const { authState, authService } = useOktaAuth();
-  const [user, setUser] = React.useState<any | null>(null);
+  const { authState } = useOktaAuth();
 
   const source = new RecordSource();
   const store = new Store(source);
   const environment = new Environment({
-    network: Network.create(getFetch("http://localhost:4000/", authState.accessToken)),
+    network: Network.create(
+      getFetch("http://localhost:4000/", authState.accessToken)
+    ),
     store,
   });
 
@@ -50,19 +51,9 @@ const Logic = () => {
     { fetchPolicy: "store-or-network" }
   );
 
-  React.useEffect(() => {
-    if (!authState.isAuthenticated) {
-      setUser(null);
-    } else {
-      authService.getUser().then((info: any) => {
-        setUser(info);
-      });
-    }
-  }, [authState, authService]);
-
   return (
     <RelayEnvironmentProvider environment={environment}>
-      <UserContext.Provider value={user}>
+      <MainWrapper>
         <Layout>
           <Sider />
           <Layout>
@@ -70,27 +61,24 @@ const Logic = () => {
             <Content />
           </Layout>
         </Layout>
-      </UserContext.Provider>
+      </MainWrapper>
     </RelayEnvironmentProvider>
   );
-}
+};
 
 const ComponentWithAccessToHistory = () => {
   const history = useHistory();
 
   const customAuthHandler = () => {
-    history.push('/auth');
+    history.push("/auth");
   };
 
   return (
     <Suspense fallback={<Spin />}>
-      <Security
-        {...config}
-        onAuthRequired={customAuthHandler}
-      >
+      <Security {...config} onAuthRequired={customAuthHandler}>
         <Logic />
       </Security>
-    </Suspense >
+    </Suspense>
   );
 };
 
@@ -100,6 +88,6 @@ const App = () => {
       <ComponentWithAccessToHistory />
     </BrowserRouter>
   );
-}
+};
 
 export default App;

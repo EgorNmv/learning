@@ -165,6 +165,7 @@ type Query {
   ): [FeedbackEntity!]!
   format(id: Float!): FormatEntity
   formats: [FormatEntity!]!
+  getUserGroups(sub: String!): String!
   isRequestExist(trainingId: Float!, userId: String!): Boolean!
   material(id: Float!): MaterialEntity
   materials: [MaterialEntity!]!
