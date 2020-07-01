@@ -8,6 +8,7 @@ import { updateFeedbackById } from "./queries/updateFeedbackById";
 import { deleteFeedbackById } from "./queries/deleteFeedbackById";
 import { Context } from "../../objects/context";
 import { findFeedbacksByTrainingId } from "./queries/findFeedbacksByTrainingId";
+import { findFeedbacksByUserId } from "./queries/findFeedbacksByUserId";
 
 @Resolver(FeedbackEntity)
 export class FeedbackResolver {
@@ -38,6 +39,15 @@ export class FeedbackResolver {
         ) feedbackType: number
     ) {
         return await findFeedbacksByTrainingId(connection, trainingId, feedbackType);
+    }
+
+    @Query(() => [FeedbackEntity])
+    public async feedbacksByUserId(
+        @Ctx() { connection }: Context,
+        @Arg("userId") userId: string,
+        @Arg("feedbackType") feedbackType: number
+    ){
+        return await findFeedbacksByUserId(connection, userId, feedbackType);
     }
 
     @Mutation(() => FeedbackEntity)

@@ -1,51 +1,69 @@
 import React from "react";
 import { Table, Card } from "antd";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery } from "react-relay/hooks";
+import { UserProfileRecomendationsQuery } from "./__generated__/UserProfileRecomendationsQuery.graphql";
+import { UserContext } from "../../hoc/UserContext/UserContext";
+
+const query = graphql`
+  query UserProfileRecomendationsQuery(
+    $userId: String!
+    $feedbackType: Float!
+  ) {
+    feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {
+      feedbackId: id
+      text
+      training {
+        name
+      }
+      status
+    }
+  }
+`;
 
 const UserProfileRecomendations: React.FC = () => {
+  const user = React.useContext(UserContext);
+  const [data, setData] = React.useState<any>([]);
+  const { feedbacksByUserId } = useLazyLoadQuery<
+    UserProfileRecomendationsQuery
+  >(query, {
+    feedbackType: 1,
+    userId: user ? user.sub : "",
+  });
   const columns = [
     {
       title: "№",
-      dataIndex: "id",
+      dataIndex: "feedbackId",
     },
     {
       title: "Информация",
-      dataIndex: "information",
+      dataIndex: "training",
+      render: (text: string, record: any) => (
+        <span>{record.training.name}</span>
+      ),
     },
     {
       title: "Содержание",
-      dataIndex: "content",
+      dataIndex: "text",
     },
     {
       title: "Статус",
       dataIndex: "status",
+      render: (text: string, record: any) => {
+        if (text == "0") {
+          return <span>В обработке</span>;
+        } else if (text == "1") {
+          return <span>Принята</span>;
+        } else {
+          return <span>Отклонена</span>;
+        }
+      },
     },
   ];
-  const data = [
-    {
-      key: 1,
-      id: 1,
-      information: "Основы python \n 5 баллов",
-      content:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae nemo, assumenda libero esse facere et ipsa dolorum saepe veritatis maxime culpa aperiam praesentium velit. Quam nemo repellendus molestias placeat omnis.",
-      status: "В обработке",
-    },
-    {
-      key: 2,
-      id: 2,
-      information: "Основы python \n 4 балла",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, ut dolorum animi accusamus quos, libero consequatur beatae, numquam iusto repellendus enim nulla expedita? Nemo id odit iure sunt libero consequatur?",
-      status: "Принята",
-    },
-    {
-      key: 3,
-      id: 3,
-      information: "Основы python \n 5 баллов",
-      content:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit mollitia blanditiis reiciendis sapiente ex distinctio? Cupiditate neque, nulla pariatur ipsum iure voluptate porro non vel dolore molestiae inventore numquam? Eos.",
-      status: "Отклонена",
-    },
-  ];
+
+  React.useEffect(() => {
+    feedbacksByUserId && setData(feedbacksByUserId);
+  }, [feedbacksByUserId]);
 
   return (
     <section>

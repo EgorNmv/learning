@@ -170,6 +170,7 @@ type Query {
     feedbackType: Float!
     trainingId: Float!
   ): [FeedbackEntity!]!
+  feedbacksByUserId(feedbackType: Float!, userId: String!): [FeedbackEntity!]!
   format(id: Float!): FormatEntity
   formats: [FormatEntity!]!
   getUserGroups(sub: String!): String!
