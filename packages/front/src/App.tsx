@@ -49,7 +49,7 @@ const Logic = () => {
   const store = new Store(source);
   const environment = new Environment({
     network: Network.create(
-      getFetch("http://localhost:4000/", authState.accessToken)
+      getFetch(`${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/`, authState.accessToken)
     ),
     store,
   });

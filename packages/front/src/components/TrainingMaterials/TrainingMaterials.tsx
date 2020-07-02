@@ -59,30 +59,39 @@ export const TrainingMaterials: React.FC = () => {
       <div className="training-material-title">
         <h2>Материалы</h2>
         <input
-          style={{ visibility: 'hidden' }}
+          style={{ visibility: "hidden" }}
           disabled={isLoadingFile || isInFlight}
           type="file"
           id="file"
           onChange={uploadFile}
         />
 
-        <Button onClick={() => {
-          document.getElementById('file')?.click()
-        }}>
+        <Button
+          onClick={() => {
+            document.getElementById("file")?.click();
+          }}
+        >
           Загрузить материал
-          </Button>
-
+        </Button>
       </div>
       <Card>
         <div className="training-material-body">
           {materialsByTrainingId.map((material) => (
             <span>
-              <a href={`http://localhost:4000/material/${material.link}`}>
+              <a
+                href={`${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`}
+              >
                 {material.link}
               </a>
             </span>
           ))}
-          {materialsByTrainingId.length > 0 ? <></> : <div style={{ margin: 'auto' }}><Empty /></div>}
+          {materialsByTrainingId.length > 0 ? (
+            <></>
+          ) : (
+            <div style={{ margin: "auto" }}>
+              <Empty />
+            </div>
+          )}
         </div>
       </Card>
     </>

@@ -19,9 +19,9 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
         style={
           category?.label
             ? {
-              backgroundImage: `url(http://localhost:4000/category/${category.label})`,
-              backgroundSize: 'cover',
-            }
+                backgroundImage: `url(${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/category/${category.label})`,
+                backgroundSize: "cover",
+              }
             : {}
         }
       >
