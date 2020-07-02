@@ -21,15 +21,16 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
     const { trainingId, name, organizer, start, end, description } = training;
 
     return (
-      <Card style={{ marginBottom: "1rem" }}>
-        <div className="training-card-body">
+      
+        <div className="training-card">
           {training.label
             ? <UploadedPicture
               style={{
                 width: "100%",
                 height: "100%",
-                maxHeight: "20rem",
-                maxWidth: "20rem"
+                maxHeight: "206px",
+                maxWidth: "206px",
+                borderRadius: "15px 0px 0px 15px",
               }}
               filename={training.label}
               imgType="training"
@@ -41,13 +42,13 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
                 background: "gray",
               }}
             />}
-          <div>
-            <div>
+          <div className="training-info">
+            <div className="training-name">
               <Link to={`/category/1/training/${trainingId}`}>
                 <h2>{name}</h2>
               </Link>
             </div>
-            <div style={{ maxHeight: "3rem", overflow: "hidden" }}>
+            <div className="training-desc" style={{ maxHeight: "3rem", overflow: "hidden" }}>
               <p>{description}</p>
             </div>
             <div>
@@ -62,7 +63,7 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
             </div>
           </div>
         </div>
-      </Card>
+      
     );
   } else {
     return <Card>Нет трайнинга</Card>;

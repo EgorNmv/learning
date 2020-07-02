@@ -8,8 +8,8 @@ import {
 import { RelayEnvironmentProvider, preloadQuery } from "react-relay/hooks";
 import getFetch from "./utils/fetch";
 import { AppQuery } from "./__generated__/AppQuery.graphql";
-import React, { Suspense } from "react";
-import { Layout, Spin } from "antd";
+import React, { Suspense, useContext, useEffect } from "react";
+import { Layout, Spin, ConfigProvider } from "antd";
 import { BrowserRouter, useHistory } from "react-router-dom";
 import { Sider } from "./components/Sider/Sider";
 import { Header } from "./components/Header/Header";
@@ -17,6 +17,9 @@ import { Content } from "./components/Content/Content";
 import { Security } from "@okta/okta-react";
 import config from "./oktaConfig";
 import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
+import { UserContext } from "./hoc/UserContext/UserContext";
+import { useOktaFetchedUser } from "./utils/utils";
+import ruRU from 'antd/es/locale/ru_RU';
 import { useOktaAuth } from "@okta/okta-react";
 import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
 
@@ -33,7 +36,14 @@ export const appQuery = graphql`
 export let resultOfPreloadQuery: PreloadedQuery<AppQuery, any>;
 
 const Logic = () => {
-  const { authState } = useOktaAuth();
+  const { authState, authService } = useOktaAuth();
+  console.log();
+  const ctx = useContext(UserContext);
+
+
+
+
+  const [user, setUser] = React.useState<any | null>(null);
 
   const source = new RecordSource();
   const store = new Store(source);
@@ -51,16 +61,38 @@ const Logic = () => {
     { fetchPolicy: "store-or-network" }
   );
 
+  React.useEffect(() => {
+
+    if (!authState.isAuthenticated) {
+      setUser(null);
+    } else {
+      console.log(authService);
+      authService.getUser().then((info: any) => {
+        console.log(info);
+        setUser(info);
+
+      });
+    }
+  }, [authState, authService]);
+
+
   return (
     <RelayEnvironmentProvider environment={environment}>
       <MainWrapper>
-        <Layout>
-          <Sider />
+        <ConfigProvider locale={ruRU}>
           <Layout>
-            <Header />
-            <Content />
+
+            <Sider />
+            <Layout>
+              <Sider />
+              <Layout>
+
+                <Header />
+                <Content />
+              </Layout>
+            </Layout>
           </Layout>
-        </Layout>
+        </ConfigProvider>
       </MainWrapper>
     </RelayEnvironmentProvider>
   );

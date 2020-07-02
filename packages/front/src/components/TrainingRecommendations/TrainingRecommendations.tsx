@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel, Modal, Button, Input, Form } from "antd";
+import { Carousel, Modal, Button, Input, Form, Empty } from "antd";
 import "./TrainingRecomendations.css";
 import { UserCard } from "../UserCard/UserCard";
 import { graphql } from "react-relay";
@@ -114,6 +114,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           <UserCard feedback={recomendation} />
         ))}
       </Carousel>
+      {feedbacksByTrainingId.length > 0 ? <></> : <div style={{margin:'auto'}}><Empty /></div>}
     </>
   );
 };

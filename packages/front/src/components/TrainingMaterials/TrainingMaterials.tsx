@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button } from "antd";
+import { Card, Button, Empty, Upload } from "antd";
 import "./TrainingMaterials.css";
 import { useFileUpload } from "../../utils/utils";
 import { graphql } from "react-relay";
@@ -59,11 +59,19 @@ export const TrainingMaterials: React.FC = () => {
       <div className="training-material-title">
         <h2>Материалы</h2>
         <input
+          style={{ visibility: 'hidden' }}
           disabled={isLoadingFile || isInFlight}
           type="file"
           id="file"
           onChange={uploadFile}
         />
+
+        <Button onClick={() => {
+          document.getElementById('file')?.click()
+        }}>
+          Загрузить материал
+          </Button>
+
       </div>
       <Card>
         <div className="training-material-body">
@@ -74,6 +82,7 @@ export const TrainingMaterials: React.FC = () => {
               </a>
             </span>
           ))}
+          {materialsByTrainingId.length > 0 ? <></> : <div style={{ margin: 'auto' }}><Empty /></div>}
         </div>
       </Card>
     </>

@@ -29,7 +29,7 @@ export class OrganizerEntity extends BaseEntity implements Organizer {
     public address: string;
 
     @Field(() => String, {
-        nullable: false,
+        nullable: true,
         description: "сайт организатора обучения"
     })
     @Column()

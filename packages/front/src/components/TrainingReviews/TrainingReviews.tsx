@@ -1,6 +1,6 @@
 import React from "react";
 import { UserCard } from "../UserCard/UserCard";
-import { Button, Form, Input, Modal, Rate } from "antd";
+import { Button, Form, Input, Modal, Rate, Empty } from "antd";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { TrainingReviewsQuery } from "./__generated__/TrainingReviewsQuery.graphql";
@@ -111,6 +111,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
       {feedbacksByTrainingId.map((review) => (
         <UserCard feedback={review} />
       ))}
+      {feedbacksByTrainingId.length > 0 ? <></> : <div style={{margin:'auto'}}><Empty /></div>}
     </>
   );
 };

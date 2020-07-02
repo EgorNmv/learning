@@ -10,7 +10,8 @@ export const createTraining = async (
 ): Promise<TrainingEntity> => {
     const { id }: TrainingEntity = await connection.getRepository(TrainingEntity)
         .save({ ...data });
+    
     const newTraining: TrainingEntity = await findTrainingById(connection, id);
-
+    console.log(newTraining);
     return newTraining;
 }

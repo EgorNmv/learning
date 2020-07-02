@@ -44,6 +44,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     TrainingFormQuery
   >(query, {});
+  console.log(organizers);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = useState<{ filename: string }>();
 
