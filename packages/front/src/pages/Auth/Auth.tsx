@@ -50,6 +50,7 @@ const Auth: React.FC = () => {
           issuer,
           display: 'page',
           scopes,
+	  responseMode: 'query',
         },
       });
 
