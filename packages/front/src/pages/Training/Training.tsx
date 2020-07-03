@@ -128,9 +128,7 @@ const Training: React.FC = () => {
                   Подать заявку на участие
                 </Button>
               </div>
-              <div>
-                {training?.description}
-              </div>
+              <div>{training?.description}</div>
             </div>
           </div>
         </Card>

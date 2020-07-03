@@ -33,10 +33,10 @@ export const CalendarWithEvents: React.FC = () => {
     query,
     {}
   );
-
   const [modifier, setModifier] = useState(0);
   const [date, setDate] = useState(new Date());
   date.setMonth(date.getMonth() + modifier);
+
   return (
     <>
       <div>

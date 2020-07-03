@@ -22,7 +22,7 @@ export const MainWrapper: React.FC = (props) => {
     if (!authState.isAuthenticated) {
       setUser(null);
     } else {
-      if (user) {
+      if (user && !user.group) {
         setUser((prevState: any) => ({ ...prevState, group: getUserGroups }));
       } else {
         authService.getUser().then((info: any) => {

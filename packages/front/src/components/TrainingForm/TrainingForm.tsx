@@ -184,16 +184,13 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
           </div>
         </div>
         <div style={{ padding: "0 1rem" }}>
-          <Form.Item
-            name="label"
-            label="Загрузите фотографию:"
-          >
+          <Form.Item name="label" label="Загрузите фотографию:">
             <UploadedPicture
               style={{
                 width: "100%",
                 height: "100%",
                 maxHeight: "20rem",
-                maxWidth: "20rem"
+                maxWidth: "20rem",
               }}
               filename={formValues?.label || null}
               imgType="training"
