@@ -3,19 +3,22 @@ import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Card, Form, Input, Button } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import "./Auth.css";
-import OktaSignIn from '@okta/okta-signin-widget';
-import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
-import { useOktaAuth } from '@okta/okta-react';
+import OktaSignIn from "@okta/okta-signin-widget";
+import "@okta/okta-signin-widget/dist/css/okta-sign-in.min.css";
+import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
 
 const Auth: React.FC = () => {
   const history = useHistory();
-  const { authState: { isAuthenticated } } = useOktaAuth();
+  const {
+    authState: { isAuthenticated },
+  } = useOktaAuth();
 
   React.useEffect(() => {
     const { pkce, issuer, clientId, redirectUri, scopes } = config;
+    
     if (isAuthenticated) {
-      history.push('/');
+      history.push("/");
     } else {
       const widget = new OktaSignIn({
         /**
@@ -23,14 +26,14 @@ const Auth: React.FC = () => {
          * needs to be configured with the base URL for your Okta Org. Here
          * we derive it from the given issuer for convenience.
          */
-        baseUrl: issuer ? issuer.split('/oauth2')[0] : '',
+        baseUrl: issuer ? issuer.split("/oauth2")[0] : "",
         clientId,
         redirectUri,
-        logo: '/react.svg',
-        language: 'en',
+        logo: "/react.svg",
+        language: "en",
         i18n: {
           en: {
-            'primaryauth.title': 'Вход в систему',
+            "primaryauth.title": "Вход в систему",
             "primaryauth.username.placeholder": "Ваш логин",
             "primaryauth.username.tooltip": "Логин",
             "primaryauth.password.placeholder": "Ваш пароль",
@@ -38,26 +41,24 @@ const Auth: React.FC = () => {
             "primaryauth.submit": "Войти",
             "primaryauth.newUser.tooltip": "Новый пользователь",
             "primaryauth.newUser.tooltip.close": "Закрыть",
-            "needhelp": 'Не получатеся зайти?',
-            "forgotpassword": "Забыли пароль?",
-            'help': 'Помощь',
-            "remember": 'Запомнить меня',
+            needhelp: "Не получатеся зайти?",
+            forgotpassword: "Забыли пароль?",
+            help: "Помощь",
+            remember: "Запомнить меня",
           },
-
         },
         authParams: {
           pkce,
           issuer,
-          display: 'page',
+          display: "page",
           scopes,
 	  responseMode: 'query',
         },
       });
 
       widget.renderEl(
-        { el: '#sign-in-widget' },
+        { el: "#sign-in-widget" },
         () => {
-          alert(1);
           /**
            * In this flow, the success handler will not be called beacuse we redirect
            * to the Okta org for the authentication workflow.
@@ -65,7 +66,7 @@ const Auth: React.FC = () => {
         },
         (err: Error) => {
           throw err;
-        },
+        }
       );
 
       return () => widget.remove();

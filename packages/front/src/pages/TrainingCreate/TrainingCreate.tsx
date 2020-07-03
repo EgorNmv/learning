@@ -41,6 +41,7 @@ const mutation = graphql`
 const TrainingCreate: React.FC = () => {
   const [commit, isInFlight] = useMutation<TrainingCreateMutation>(mutation);
   let history = useHistory();
+
   const sendForm = (data: InputTraining) => {
     commit({
       variables: { data },
