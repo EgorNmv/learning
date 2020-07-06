@@ -1,3 +1,15 @@
-.training-card-body {
+.training-card {
   display: flex;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 5px 2px 4px #DDDDDD;
+  border-radius: 15px;
+  width: 650px;
+  height: 206px;
+  margin: 5px;
+}
+.training-info {
+  margin-left: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -153,7 +153,7 @@ type OrganizerEntity {
   name: String!
 
   """сайт организатора обучения"""
-  site: String!
+  site: String
 
   """тип организатора обучения"""
   type: Float!

@@ -61,7 +61,11 @@ export const UserMenuWithLinks: React.FC = () => {
       <Dropdown overlay={menu}>
         <span>
           {user && user.name}
-          <DownOutlined />
+          <DownOutlined
+            style={{
+              marginLeft: "20px",
+            }}
+          />
         </span>
       </Dropdown>
     </>

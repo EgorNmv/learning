@@ -9,7 +9,7 @@ import { RelayEnvironmentProvider, preloadQuery } from "react-relay/hooks";
 import getFetch from "./utils/fetch";
 import { AppQuery } from "./__generated__/AppQuery.graphql";
 import React, { Suspense } from "react";
-import { Layout, Spin } from "antd";
+import { Layout, Spin, ConfigProvider } from "antd";
 import { BrowserRouter, useHistory } from "react-router-dom";
 import { Sider } from "./components/Sider/Sider";
 import { Header } from "./components/Header/Header";
@@ -17,8 +17,10 @@ import { Content } from "./components/Content/Content";
 import { Security } from "@okta/okta-react";
 import config from "./oktaConfig";
 import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
+import ruRU from "antd/es/locale/ru_RU";
 import { useOktaAuth } from "@okta/okta-react";
 import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
+import { CenteredText } from "./hoc/CenteredText/CenteredText";
 
 export const appQuery = graphql`
   query AppQuery {
@@ -34,12 +36,14 @@ export let resultOfPreloadQuery: PreloadedQuery<AppQuery, any>;
 
 const Logic = () => {
   const { authState } = useOktaAuth();
-
   const source = new RecordSource();
   const store = new Store(source);
   const environment = new Environment({
     network: Network.create(
-      getFetch("http://194.67.90.225:4000", authState.accessToken)
+      getFetch(
+        `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/`,
+        authState.accessToken
+      )
     ),
     store,
   });
@@ -54,13 +58,18 @@ const Logic = () => {
   return (
     <RelayEnvironmentProvider environment={environment}>
       <MainWrapper>
-        <Layout>
-          <Sider />
+        <ConfigProvider locale={ruRU}>
           <Layout>
-            <Header />
-            <Content />
+            <Sider />
+            <Layout>
+              <Sider />
+              <Layout>
+                <Header />
+                <Content />
+              </Layout>
+            </Layout>
           </Layout>
-        </Layout>
+        </ConfigProvider>
       </MainWrapper>
     </RelayEnvironmentProvider>
   );
@@ -74,7 +83,13 @@ const ComponentWithAccessToHistory = () => {
   };
 
   return (
-    <Suspense fallback={<Spin />}>
+    <Suspense
+      fallback={
+        <CenteredText>
+          <Spin />
+        </CenteredText>
+      }
+    >
       <Security {...config} onAuthRequired={customAuthHandler}>
         <Logic />
       </Security>

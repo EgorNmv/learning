@@ -44,6 +44,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     TrainingFormQuery
   >(query, {});
+  console.log(organizers);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = useState<{ filename: string }>();
 
@@ -183,16 +184,13 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
           </div>
         </div>
         <div style={{ padding: "0 1rem" }}>
-          <Form.Item
-            name="label"
-            label="Загрузите фотографию:"
-          >
+          <Form.Item name="label" label="Загрузите фотографию:">
             <UploadedPicture
               style={{
                 width: "100%",
                 height: "100%",
                 maxHeight: "20rem",
-                maxWidth: "20rem"
+                maxWidth: "20rem",
               }}
               filename={formValues?.label || null}
               imgType="training"

@@ -10,16 +10,16 @@ export const Header: React.FC = () => {
 
   return (
     <Layout.Header className="all-main-header">
-      {authState.isAuthenticated
-        && <div>
+      {authState.isAuthenticated && (
+        <div>
           <SearchableInput />
         </div>
-      }
-      {authState.isAuthenticated
-        && <div className="all-main-header-user-links">
+      )}
+      {authState.isAuthenticated && (
+        <div className="all-main-header-user-links">
           {authState.isAuthenticated && <UserMenuWithLinks />}
         </div>
-      }
+      )}
     </Layout.Header>
   );
-}
+};

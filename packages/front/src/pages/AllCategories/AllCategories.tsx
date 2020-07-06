@@ -3,7 +3,6 @@ import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { AllCategoriesQuery } from "./__generated__/AllCategoriesQuery.graphql";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
-import { useOktaAuth } from '@okta/okta-react';
 
 const query = graphql`
   query AllCategoriesQuery {
