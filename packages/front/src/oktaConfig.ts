@@ -6,3 +6,4 @@ export default {
   pkce: false,
   disableHttpsCheck: true,
 };
+
