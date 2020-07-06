@@ -1,11 +1,8 @@
-const CLIENT_ID = process.env.CLIENT_ID || '0oajela0nwbIJAJuo4x6';
-const ISSUER = process.env.ISSUER || 'https://dev-417692.okta.com/oauth2/default'
- 
 export default {
-  clientId: CLIENT_ID,
-  issuer: ISSUER,
-  redirectUri: 'http://194.67.90.225:3000/implicit/callback',
-  scopes: ['openid', 'profile', 'email'],
-  pkce: true,
-  disableHttpsCheck: false,
+  clientId: process.env.REACT_APP_CLIENT_ID,
+  issuer: process.env.REACT_APP_ISSUER,
+  redirectUri: process.env.REACT_APP_REDIRECT_URI,
+  scopes: ["openid", "profile", "email"],
+  pkce: false,
+  disableHttpsCheck: true,
 };

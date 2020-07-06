@@ -42,13 +42,6 @@ const Main: React.FC = () => {
     query,
     {}
   );
-  console.log(
-    "****************************************************************"
-  );
-  console.log(newTrainings);
-  console.log(
-    "****************************************************************"
-  );
 
   const { categories } = usePreloadedQuery<AppQuery>(
     appQuery,
