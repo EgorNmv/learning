@@ -24,6 +24,7 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
   const params = useParams<{ id: string }>();
   const trainingId = Number(params.id);
   const user = React.useContext(UserContext);
+  const [objWithFullnames, setObjWithFullnames] = React.useState<any>({});
   const [data, setData] = React.useState<any[]>(feedbacks);
   const columns = [
     {
@@ -33,6 +34,15 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
     {
       title: "Информация",
       dataIndex: "userId",
+      render: (text: string, record: any) => {
+        return (
+          <span>
+            {objWithFullnames[`${text}`]
+              ? objWithFullnames[`${text}`]
+              : "Loading..."}
+          </span>
+        );
+      },
     },
     {
       title: "Содержание",
@@ -91,6 +101,31 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
   ];
 
   React.useEffect(() => {
+    const temp = (feedbacks as any).map((feedback: any) =>
+      fetch(`https://dev-417692.okta.com/api/v1/users/${feedback.userId}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `SSWS 00Qgcob9EiG1vLxyRoY2czkSeSYcpzTRAFg-TjjiVl`, //api token
+        },
+      })
+        .then((res) => res.json())
+        .then((user) => user)
+    );
+
+    Promise.all(temp).then((res) => {
+      const obj = res.reduce((acc: any, cur: any) => {
+        if (acc[`${cur.id}`]) {
+          return acc;
+        } else {
+          acc[`${cur.id}`] = `${cur.profile.firstName} ${cur.profile.lastName}`;
+          return acc;
+        }
+      }, {});
+      setObjWithFullnames(obj);
+    });
+
     feedbacks && setData(feedbacks);
   }, [feedbacks]);
 

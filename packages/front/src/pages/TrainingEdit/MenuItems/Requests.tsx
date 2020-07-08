@@ -133,6 +133,7 @@ export const Requests: React.FC = () => {
         .then((res) => res.json())
         .then((user) => user)
     );
+
     Promise.all(temp).then((res) => {
       const obj = res.reduce((acc: any, cur: any) => {
         if (acc[`${cur.id}`]) {
@@ -144,7 +145,8 @@ export const Requests: React.FC = () => {
       }, {});
       setObjWithFullnames(obj);
     });
-    setData(requestsByTrainingId as any);
+
+    requestsByTrainingId && setData(requestsByTrainingId as any);
   }, [requestsByTrainingId]);
 
   return (
