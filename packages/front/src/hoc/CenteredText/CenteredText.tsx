@@ -8,7 +8,9 @@ type CenteredTextProps = {
 
 export const CenteredText: React.FC<CenteredTextProps> = (props) => (
   <div
-    className={`centered-text-content ${props.className}`}
+    className={`centered-text-content ${
+      props.className ? props.className : ""
+    }`}
     style={{ ...props.style }}
   >
     {props.children}

@@ -12,7 +12,6 @@ import config from "./oktaConfig";
 import ruRU from "antd/es/locale/ru_RU";
 import { useOktaAuth } from "@okta/okta-react";
 import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
-import { CenteredText } from "./hoc/CenteredText/CenteredText";
 
 const Logic = () => {
   const { authState } = useOktaAuth();
@@ -30,20 +29,28 @@ const Logic = () => {
 
   return (
     <RelayEnvironmentProvider environment={environment}>
-      <MainWrapper>
-        <ConfigProvider locale={ruRU}>
-          <Layout>
-            <Sider />
+      <Suspense fallback={<Spin className="centred-spin" />}>
+        <MainWrapper>
+          <ConfigProvider locale={ruRU}>
             <Layout>
               <Sider />
               <Layout>
-                <Header />
-                <Content />
+                <Sider />
+                <Layout>
+                  <Header />
+                  <Suspense
+                    fallback={
+                      <Spin className="centred-spin__with-header-and-sider" />
+                    }
+                  >
+                    <Content />
+                  </Suspense>
+                </Layout>
               </Layout>
             </Layout>
-          </Layout>
-        </ConfigProvider>
-      </MainWrapper>
+          </ConfigProvider>
+        </MainWrapper>
+      </Suspense>
     </RelayEnvironmentProvider>
   );
 };
@@ -56,17 +63,9 @@ const ComponentWithAccessToHistory = () => {
   };
 
   return (
-    <Suspense
-      fallback={
-        <CenteredText>
-          <Spin />
-        </CenteredText>
-      }
-    >
-      <Security {...config} onAuthRequired={customAuthHandler}>
-        <Logic />
-      </Security>
-    </Suspense>
+    <Security {...config} onAuthRequired={customAuthHandler}>
+      <Logic />
+    </Security>
   );
 };
 

@@ -49,7 +49,6 @@ const Training: React.FC = () => {
   const params = useParams<{ trainingId: string }>();
   const id: number = Number(params.trainingId);
   const user = React.useContext(UserContext);
-  console.info(user);
   const [commit, isInFlight] = useMutation<TrainingMutation>(mutation);
   const { training, isRequestExist } = useLazyLoadQuery<TrainingQuery>(query, {
     trainingId: id,

@@ -77,16 +77,10 @@ const Category: React.FC = () => {
     }
   };
 
-  if (!category) {
-    return (
-      <div>{`Что-то пошло не так, категории с id ${id} не существует`}</div>
-    );
-  }
-
   return (
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
-        <h2>{category.description}</h2>
+        <h2>{category && category.description}</h2>
         <span>{constants["SORTBY"]} </span>
         <Radio.Group
           onChange={(e: RadioChangeEvent) => setSortBy(e.target.value)}

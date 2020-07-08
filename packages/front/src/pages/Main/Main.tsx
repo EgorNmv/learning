@@ -71,7 +71,10 @@ const Main: React.FC = () => {
         <h2>Новые события</h2>
         <Carousel {...{ responsive }}>
           {newTrainings.map((training) => (
-            <TrainingCard training={training} />
+            <TrainingCard
+              training={training}
+              key={`${training.trainingId}${training.name}`}
+            />
           ))}
         </Carousel>
       </section>
@@ -93,7 +96,10 @@ const Main: React.FC = () => {
           }}
         >
           {categories.slice(0, 6).map((category) => (
-            <CategoryCard category={category} />
+            <CategoryCard
+              category={category}
+              key={`${category.categoryId}${category.description}`}
+            />
           ))}
         </div>
       </section>

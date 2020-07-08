@@ -15,3 +15,15 @@ code {
 .sider-content > main > ul > li > a.active-link {
   color: white;
 }
+
+div .centred-spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+div .centred-spin__with-header-and-sider {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+}
