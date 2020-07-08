@@ -58,7 +58,7 @@ export const UserMenuWithLinks: React.FC = () => {
 
   return (
     <>
-      <Dropdown overlay={menu}>
+      <Dropdown overlay={menu} trigger={["click"]}>
         <span>
           {user && user.name}
           <DownOutlined

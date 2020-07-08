@@ -58,16 +58,17 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
               <span>
                 <Button
                   type="link"
-                  onClick={() =>
-                    onChangeFeedbackStatus(record.feedbackId, {
-                      date: formatDate(new Date()),
-                      text: record.text,
-                      trainingId,
-                      type: isRecomendations ? 1 : 2,
-                      userId: user.sub,
-                      status: 1,
-                    })
-                  }
+                  onClick={() => {
+                    user &&
+                      onChangeFeedbackStatus(record.feedbackId, {
+                        date: formatDate(new Date()),
+                        text: record.text,
+                        trainingId,
+                        type: isRecomendations ? 1 : 2,
+                        userId: user.sub,
+                        status: 1,
+                      });
+                  }}
                 >
                   Принять
                 </Button>
@@ -75,16 +76,17 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
               <span>
                 <Button
                   type="link"
-                  onClick={() =>
-                    onChangeFeedbackStatus(record.feedbackId, {
-                      date: formatDate(new Date()),
-                      text: record.text,
-                      trainingId,
-                      type: isRecomendations ? 1 : 2,
-                      userId: user.sub,
-                      status: 2,
-                    })
-                  }
+                  onClick={() => {
+                    user &&
+                      onChangeFeedbackStatus(record.feedbackId, {
+                        date: formatDate(new Date()),
+                        text: record.text,
+                        trainingId,
+                        type: isRecomendations ? 1 : 2,
+                        userId: user.sub,
+                        status: 2,
+                      });
+                  }}
                 >
                   Отклонить
                 </Button>

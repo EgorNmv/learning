@@ -56,21 +56,22 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
   const user = React.useContext(UserContext);
 
   const sendRecommendation = () => {
-    commit({
-      variables: {
-        data: {
-          trainingId,
-          userId: user.sub,
-          date: formatDate(new Date()),
-          type: 1,
-          text: form.getFieldValue("recomendation"),
+    user &&
+      commit({
+        variables: {
+          data: {
+            trainingId,
+            userId: user.sub,
+            date: formatDate(new Date()),
+            type: 1,
+            text: form.getFieldValue("recomendation"),
+          },
         },
-      },
-      onCompleted: () => {
-        setIsVisibleModal(false);
-        window.location.reload();
-      },
-    });
+        onCompleted: () => {
+          setIsVisibleModal(false);
+          window.location.reload();
+        },
+      });
   };
 
   return (

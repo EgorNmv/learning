@@ -58,18 +58,19 @@ const Training: React.FC = () => {
   const [isClickedButton, setIsClickedButton] = React.useState<boolean>(false);
 
   const clickHandler = () => {
-    commit({
-      variables: {
-        data: {
-          trainingId: id,
-          userId: user.sub,
-          date: formatDate(new Date()),
+    user &&
+      commit({
+        variables: {
+          data: {
+            trainingId: id,
+            userId: user.sub,
+            date: formatDate(new Date()),
+          },
         },
-      },
-      onCompleted: () => {
-        setIsClickedButton(true);
-      },
-    });
+        onCompleted: () => {
+          setIsClickedButton(true);
+        },
+      });
   };
 
   return (

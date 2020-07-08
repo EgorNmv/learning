@@ -7,6 +7,7 @@ import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMaterialsMutation } from "./__generated__/TrainingMaterialsMutation.graphql";
 import { useParams } from "react-router-dom";
 import { TrainingMaterialsQuery } from "./__generated__/TrainingMaterialsQuery.graphql";
+import { UserContext } from "../../hoc/UserContext/UserContext";
 
 const mutation = graphql`
   mutation TrainingMaterialsMutation($data: InputMaterial!) {
@@ -27,6 +28,7 @@ const query = graphql`
 export const TrainingMaterials: React.FC = () => {
   const params = useParams<{ trainingId: string }>();
   const trainingId: number = Number(params.trainingId);
+  const user = React.useContext(UserContext);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = React.useState<{ filename: string }>();
   const [commit, isInFlight] = useMutation<TrainingMaterialsMutation>(mutation);
@@ -66,13 +68,15 @@ export const TrainingMaterials: React.FC = () => {
           onChange={uploadFile}
         />
 
-        <Button
-          onClick={() => {
-            document.getElementById("file")?.click();
-          }}
-        >
-          Загрузить материал
-        </Button>
+        {user && user.group === "0" && (
+          <Button
+            onClick={() => {
+              document.getElementById("file")?.click();
+            }}
+          >
+            Загрузить материал
+          </Button>
+        )}
       </div>
       <Card>
         <div className="training-material-body">
