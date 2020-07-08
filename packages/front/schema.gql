@@ -23,7 +23,7 @@ type FeedbackEntity {
   """id отзыва"""
   id: Float!
 
-  """ статус фидбека"""
+  """статус фидбека(0-pending, 1-accepted, 2-rejected)"""
   status: Float
 
   """текст фидбека"""
@@ -153,13 +153,18 @@ type OrganizerEntity {
   name: String!
 
   """сайт организатора обучения"""
-  site: String!
+  site: String
 
   """тип организатора обучения"""
   type: Float!
 }
 
 type Query {
+  acceptedFeedbacksByTrainingId(
+    """1 - рекомендация, 2 - отзыв"""
+    feedbackType: Float!
+    trainingId: Float!
+  ): [FeedbackEntity!]!
   categories: [CategoryEntity!]!
   category(id: Float!): CategoryEntity
   comingTrainings: [TrainingEntity!]!

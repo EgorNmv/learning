@@ -10,7 +10,7 @@ import { formatDate } from "../../utils/utils";
 
 const query = graphql`
   query TrainingReviewsQuery($trainingId: Float!, $feedbackType: Float!) {
-    feedbacksByTrainingId(
+    acceptedFeedbacksByTrainingId(
       feedbackType: $feedbackType
       trainingId: $trainingId
     ) {
@@ -39,15 +39,13 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
   trainingId,
 }) => {
   const [isVisibleModal, setIsVisibleModal] = React.useState<boolean>(false);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [form] = Form.useForm();
-  const { feedbacksByTrainingId } = useLazyLoadQuery<TrainingReviewsQuery>(
-    query,
-    {
-      trainingId,
-      feedbackType: 2,
-    }
-  );
+  const { acceptedFeedbacksByTrainingId } = useLazyLoadQuery<
+    TrainingReviewsQuery
+  >(query, {
+    trainingId,
+    feedbackType: 2,
+  });
   const [commit, isInFlight] = useMutation<TrainingReviewsMutation>(mutation);
   const user = React.useContext(UserContext);
 
@@ -108,10 +106,16 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
           </Form>
         </Modal>
       </div>
-      {feedbacksByTrainingId.map((review) => (
+      {acceptedFeedbacksByTrainingId.map((review) => (
         <UserCard feedback={review} />
       ))}
-      {feedbacksByTrainingId.length > 0 ? <></> : <div style={{margin:'auto'}}><Empty /></div>}
+      {acceptedFeedbacksByTrainingId.length > 0 ? (
+        <></>
+      ) : (
+        <div style={{ margin: "auto" }}>
+          <Empty />
+        </div>
+      )}
     </>
   );
 };

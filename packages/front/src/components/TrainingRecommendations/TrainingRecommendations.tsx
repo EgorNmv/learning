@@ -14,7 +14,7 @@ const query = graphql`
     $trainingId: Float!
     $feedbackType: Float!
   ) {
-    feedbacksByTrainingId(
+    acceptedFeedbacksByTrainingId(
       feedbackType: $feedbackType
       trainingId: $trainingId
     ) {
@@ -44,7 +44,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
 }) => {
   const [isVisibleModal, setIsVisibleModal] = React.useState<boolean>(false);
   const [form] = Form.useForm();
-  const { feedbacksByTrainingId } = useLazyLoadQuery<
+  const { acceptedFeedbacksByTrainingId } = useLazyLoadQuery<
     TrainingRecommendationsQuery
   >(query, {
     trainingId,
@@ -110,11 +110,17 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
         </Modal>
       </div>
       <Carousel>
-        {feedbacksByTrainingId.map((recomendation) => (
+        {acceptedFeedbacksByTrainingId.map((recomendation) => (
           <UserCard feedback={recomendation} />
         ))}
       </Carousel>
-      {feedbacksByTrainingId.length > 0 ? <></> : <div style={{margin:'auto'}}><Empty /></div>}
+      {acceptedFeedbacksByTrainingId.length > 0 ? (
+        <></>
+      ) : (
+        <div style={{ margin: "auto" }}>
+          <Empty />
+        </div>
+      )}
     </>
   );
 };

@@ -10,7 +10,7 @@ export type OrganizersEditQueryResponse = {
         readonly organizerId: number;
         readonly name: string;
         readonly address: string;
-        readonly site: string;
+        readonly site: string | null;
         readonly type: number;
     } | null;
 };

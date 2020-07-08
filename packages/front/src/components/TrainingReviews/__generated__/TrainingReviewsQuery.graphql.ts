@@ -7,7 +7,7 @@ export type TrainingReviewsQueryVariables = {
     feedbackType: number;
 };
 export type TrainingReviewsQueryResponse = {
-    readonly feedbacksByTrainingId: ReadonlyArray<{
+    readonly acceptedFeedbacksByTrainingId: ReadonlyArray<{
         readonly feedbackId: number;
         readonly userId: string;
         readonly text: string;
@@ -26,7 +26,7 @@ query TrainingReviewsQuery(
   $trainingId: Float!
   $feedbackType: Float!
 ) {
-  feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {
+  acceptedFeedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {
     feedbackId: id
     userId
     text
@@ -67,7 +67,7 @@ v1 = [
     ],
     "concreteType": "FeedbackEntity",
     "kind": "LinkedField",
-    "name": "feedbacksByTrainingId",
+    "name": "acceptedFeedbacksByTrainingId",
     "plural": true,
     "selections": [
       {
@@ -123,9 +123,9 @@ return {
     "metadata": {},
     "name": "TrainingReviewsQuery",
     "operationKind": "query",
-    "text": "query TrainingReviewsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  feedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    userId\n    text\n    date\n  }\n}\n"
+    "text": "query TrainingReviewsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  acceptedFeedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    userId\n    text\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '8b48c32ed452d0b09c79826a414a2ea1';
+(node as any).hash = '1c98fefe3b61926e92acf99a14900067';
 export default node;
