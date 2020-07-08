@@ -2,15 +2,8 @@ import React from "react";
 import "./Category.css";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
 import { CalendarWithEvents } from "../../components/CalendarWithEvents/CalendarWithEvents";
-import {
-  usePreloadedQuery,
-  graphql,
-  useLazyLoadQuery,
-} from "react-relay/hooks";
-import { AppQuery } from "../../__generated__/AppQuery.graphql";
-import { appQuery, resultOfPreloadQuery } from "../../App";
+import { graphql, useLazyLoadQuery } from "react-relay/hooks";
 import { useParams } from "react-router-dom";
-import { Category as CategoryType } from "../../utils/types";
 import { CategoryQuery } from "./__generated__/CategoryQuery.graphql";
 import { Radio } from "antd";
 import { RadioChangeEvent } from "antd/lib/radio";
@@ -37,19 +30,17 @@ const query = graphql`
         name
       }
     }
+    category(id: $categoryId) {
+      categoryId: id
+      description
+      label
+    }
   }
 `;
 
 const Category: React.FC = () => {
   const params = useParams<{ id: string }>();
   const id = Number(params.id);
-  const { categories } = usePreloadedQuery<AppQuery>(
-    appQuery,
-    resultOfPreloadQuery
-  );
-  const currentCategory: CategoryType | undefined = categories.find(
-    (category) => category.categoryId === id
-  );
   const [sortBy, setSortBy] = React.useState<
     "name" | "createDate" | "recommends"
   >("name");
@@ -61,7 +52,7 @@ const Category: React.FC = () => {
     createDate: constants["BYDATE"],
     recommends: constants["BYRECOMENDATIONS"],
   };
-  const { sortedTraining } = useLazyLoadQuery<CategoryQuery>(query, {
+  const { sortedTraining, category } = useLazyLoadQuery<CategoryQuery>(query, {
     categoryId: id,
     sortBy,
     sortOrder,
@@ -86,7 +77,7 @@ const Category: React.FC = () => {
     }
   };
 
-  if (!currentCategory) {
+  if (!category) {
     return (
       <div>{`Что-то пошло не так, категории с id ${id} не существует`}</div>
     );
@@ -95,7 +86,7 @@ const Category: React.FC = () => {
   return (
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
-        <h2>{currentCategory.description}</h2>
+        <h2>{category.description}</h2>
         <span>{constants["SORTBY"]} </span>
         <Radio.Group
           onChange={(e: RadioChangeEvent) => setSortBy(e.target.value)}

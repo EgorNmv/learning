@@ -1,13 +1,6 @@
-import {
-  Network,
-  Environment,
-  RecordSource,
-  Store,
-  graphql,
-} from "relay-runtime";
-import { RelayEnvironmentProvider, preloadQuery } from "react-relay/hooks";
+import { Network, Environment, RecordSource, Store } from "relay-runtime";
+import { RelayEnvironmentProvider } from "react-relay/hooks";
 import getFetch from "./utils/fetch";
-import { AppQuery } from "./__generated__/AppQuery.graphql";
 import React, { Suspense } from "react";
 import { Layout, Spin, ConfigProvider } from "antd";
 import { BrowserRouter, useHistory } from "react-router-dom";
@@ -16,23 +9,10 @@ import { Header } from "./components/Header/Header";
 import { Content } from "./components/Content/Content";
 import { Security } from "@okta/okta-react";
 import config from "./oktaConfig";
-import { PreloadedQuery } from "react-relay/lib/relay-experimental/EntryPointTypes";
 import ruRU from "antd/es/locale/ru_RU";
 import { useOktaAuth } from "@okta/okta-react";
 import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
 import { CenteredText } from "./hoc/CenteredText/CenteredText";
-
-export const appQuery = graphql`
-  query AppQuery {
-    categories {
-      categoryId: id
-      description
-      label
-    }
-  }
-`;
-
-export let resultOfPreloadQuery: PreloadedQuery<AppQuery, any>;
 
 const Logic = () => {
   const { authState } = useOktaAuth();
@@ -47,13 +27,6 @@ const Logic = () => {
     ),
     store,
   });
-
-  resultOfPreloadQuery = preloadQuery<AppQuery>(
-    environment,
-    appQuery,
-    {},
-    { fetchPolicy: "store-or-network" }
-  );
 
   return (
     <RelayEnvironmentProvider environment={environment}>

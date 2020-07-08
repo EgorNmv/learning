@@ -4,20 +4,21 @@ import { Menu } from "antd";
 import { constants } from "../../constants/constants";
 import SubMenu from "antd/lib/menu/SubMenu";
 import "./SiderLinkList.css";
-import { usePreloadedQuery } from "react-relay/hooks";
-import { AppQuery } from "../../__generated__/AppQuery.graphql";
-import { appQuery, resultOfPreloadQuery } from "../../App";
-import { Category } from "../../utils/types";
-import { Writeable } from "../../utils/genericTypes";
+import { graphql, useLazyLoadQuery } from "react-relay/hooks";
+import { SiderLinkListQuery } from "./__generated__/SiderLinkListQuery.graphql";
+
+const query = graphql`
+  query SiderLinkListQuery {
+    categories {
+      categoryId: id
+      description
+      label
+    }
+  }
+`;
 
 export const SiderLinkList: React.FC = () => {
-  const { categories } = usePreloadedQuery<AppQuery>(
-    appQuery,
-    resultOfPreloadQuery
-  );
-  const allAvailableCategories: Category[] = categories as Writeable<
-    Category[]
-  >;
+  const { categories } = useLazyLoadQuery<SiderLinkListQuery>(query, {});
 
   return (
     <Menu className="sider-link-list-menu" mode="inline" theme="light">
@@ -31,7 +32,7 @@ export const SiderLinkList: React.FC = () => {
         key="subMenu1"
         title={constants["CATEGORIES"]}
       >
-        {allAvailableCategories.map((category) => (
+        {categories.map((category) => (
           <Menu.Item key={`${category.categoryId + category.description}`}>
             <Link to={`/category/${category.categoryId}`}>
               {category.description}

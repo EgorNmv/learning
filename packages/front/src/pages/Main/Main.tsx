@@ -1,15 +1,13 @@
 import React from "react";
-// import { Carousel } from "antd";
 import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
 import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery, usePreloadedQuery } from "react-relay/hooks";
+import { useLazyLoadQuery } from "react-relay/hooks";
 import { MainQuery } from "./__generated__/MainQuery.graphql";
-import { AppQuery } from "../../__generated__/AppQuery.graphql";
-import { appQuery, resultOfPreloadQuery } from "../../App";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./main.css";
+
 const query = graphql`
   query MainQuery {
     newTrainings {
@@ -34,19 +32,19 @@ const query = graphql`
       end
       description
     }
+    categories {
+      categoryId: id
+      description
+      label
+    }
   }
 `;
 
 const Main: React.FC = () => {
-  const { newTrainings, comingTrainings } = useLazyLoadQuery<MainQuery>(
-    query,
-    {}
-  );
+  const { newTrainings, comingTrainings, categories } = useLazyLoadQuery<
+    MainQuery
+  >(query, {});
 
-  const { categories } = usePreloadedQuery<AppQuery>(
-    appQuery,
-    resultOfPreloadQuery
-  );
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.

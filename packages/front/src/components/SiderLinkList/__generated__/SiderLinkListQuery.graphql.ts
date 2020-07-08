@@ -2,23 +2,23 @@
 /* eslint-disable */
 
 import { ConcreteRequest } from "relay-runtime";
-export type AppQueryVariables = {};
-export type AppQueryResponse = {
+export type SiderLinkListQueryVariables = {};
+export type SiderLinkListQueryResponse = {
     readonly categories: ReadonlyArray<{
         readonly categoryId: number;
         readonly description: string;
         readonly label: string | null;
     }>;
 };
-export type AppQuery = {
-    readonly response: AppQueryResponse;
-    readonly variables: AppQueryVariables;
+export type SiderLinkListQuery = {
+    readonly response: SiderLinkListQueryResponse;
+    readonly variables: SiderLinkListQueryVariables;
 };
 
 
 
 /*
-query AppQuery {
+query SiderLinkListQuery {
   categories {
     categoryId: id
     description
@@ -67,7 +67,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppQuery",
+    "name": "SiderLinkListQuery",
     "selections": (v0/*: any*/),
     "type": "Query"
   },
@@ -75,17 +75,17 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "AppQuery",
+    "name": "SiderLinkListQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
-    "name": "AppQuery",
+    "name": "SiderLinkListQuery",
     "operationKind": "query",
-    "text": "query AppQuery {\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
+    "text": "query SiderLinkListQuery {\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '4b68dd0ec459eaee7971955c1586294c';
+(node as any).hash = '986907e2291e0a4f54c1f95cd0fcd790';
 export default node;

@@ -26,6 +26,11 @@ export type MainQueryResponse = {
         readonly end: string;
         readonly description: string;
     }>;
+    readonly categories: ReadonlyArray<{
+        readonly categoryId: number;
+        readonly description: string;
+        readonly label: string | null;
+    }>;
 };
 export type MainQuery = {
     readonly response: MainQueryResponse;
@@ -58,6 +63,11 @@ query MainQuery {
     end
     description
   }
+  categories {
+    categoryId: id
+    description
+    label
+  }
 }
 */
 
@@ -69,7 +79,21 @@ var v0 = {
   "name": "name",
   "storageKey": null
 },
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "label",
+  "storageKey": null
+},
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "description",
+  "storageKey": null
+},
+v3 = [
   {
     "alias": "trainingId",
     "args": null,
@@ -78,13 +102,7 @@ v1 = [
     "storageKey": null
   },
   (v0/*: any*/),
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "label",
-    "storageKey": null
-  },
+  (v1/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -111,15 +129,9 @@ v1 = [
     "name": "end",
     "storageKey": null
   },
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "description",
-    "storageKey": null
-  }
+  (v2/*: any*/)
 ],
-v2 = [
+v4 = [
   {
     "alias": null,
     "args": null,
@@ -127,7 +139,7 @@ v2 = [
     "kind": "LinkedField",
     "name": "newTrainings",
     "plural": true,
-    "selections": (v1/*: any*/),
+    "selections": (v3/*: any*/),
     "storageKey": null
   },
   {
@@ -137,7 +149,27 @@ v2 = [
     "kind": "LinkedField",
     "name": "comingTrainings",
     "plural": true,
-    "selections": (v1/*: any*/),
+    "selections": (v3/*: any*/),
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "CategoryEntity",
+    "kind": "LinkedField",
+    "name": "categories",
+    "plural": true,
+    "selections": [
+      {
+        "alias": "categoryId",
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      (v2/*: any*/),
+      (v1/*: any*/)
+    ],
     "storageKey": null
   }
 ];
@@ -147,7 +179,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "MainQuery",
-    "selections": (v2/*: any*/),
+    "selections": (v4/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -155,16 +187,16 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "MainQuery",
-    "selections": (v2/*: any*/)
+    "selections": (v4/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "MainQuery",
     "operationKind": "query",
-    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n}\n"
+    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '54d3cf190fb28ffb868f657e6472b689';
+(node as any).hash = 'aad67acf8c6f8837c09be6da24c915c1';
 export default node;
