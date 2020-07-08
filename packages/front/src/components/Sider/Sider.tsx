@@ -11,7 +11,9 @@ export const Sider: React.FC = () => {
   return (
     <Layout.Sider className="all-sider-layout" width={367}>
       <div className="sider-content">
-        <div className="logo-box"></div>
+        <div className="logo-box">
+          <span className="logo-box__text">Choose your course</span>
+        </div>
         {authState.isAuthenticated && (
           <div className="sider-links">
             <SiderLinkList />
