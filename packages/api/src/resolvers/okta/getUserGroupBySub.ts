@@ -12,7 +12,7 @@ export const getUserGroupBySub = async (sub: string): Promise<string> => {
   }
 
   const userFromOkta = await client.getUser(`${sub}`);
-  console.info("userFromOkta", userFromOkta);
+
   if (userFromOkta.profile.userType) {
     userType =
       userFromOkta.profile.userType.toLowerCase() === "admin"
