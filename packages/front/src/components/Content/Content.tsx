@@ -8,7 +8,6 @@ import {
   Help,
   Training,
   Category,
-  UserProfile,
   Registration,
   NotFoundPage,
   TrainingEdit,
@@ -34,8 +33,7 @@ import {
   UserProfileDirectoriesTrainingFormatsCreate,
   UserProfileDirectoriesTargetAudiencesCreate,
 } from "./pages";
-import { SecureRoute, LoginCallback } from '@okta/okta-react';
-
+import { SecureRoute, LoginCallback } from "@okta/okta-react";
 
 export const Content: React.FC = () => (
   <Layout.Content className="all-main-content">
@@ -51,16 +49,31 @@ export const Content: React.FC = () => (
         exact
         component={Training}
       />
-      <SecureRoute path="/profile" exact component={UserProfile} />
-      <SecureRoute path="/profile/editing" exact component={UserProfileEditing} />
-      <SecureRoute path="/profile/requests" exact component={UserProfileRequests} />
-      <SecureRoute path="/profile/reviews" exact component={UserProfileReviews} />
+      <SecureRoute
+        path="/profile/editing"
+        exact
+        component={UserProfileEditing}
+      />
+      <SecureRoute
+        path="/profile/requests"
+        exact
+        component={UserProfileRequests}
+      />
+      <SecureRoute
+        path="/profile/reviews"
+        exact
+        component={UserProfileReviews}
+      />
       <SecureRoute
         path="/profile/recomendations"
         exact
         component={UserProfileRecomendations}
       />
-      <SecureRoute path="/profile/trainings" exact component={UserProfileEvents} />
+      <SecureRoute
+        path="/profile/trainings"
+        exact
+        component={UserProfileEvents}
+      />
       <SecureRoute
         path="/profile/directories"
         exact

@@ -12,13 +12,10 @@ export const UserMenuWithLinks: React.FC = () => {
   const [group, setGroup] = React.useState<string>("1");
 
   const login = async () => authService.login("/");
-  const logout = async () => authService.logout("/");
+  const logout = async () => authService.logout("/auth");
 
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <Link to="/profile">{constants["MYPROFILE"]}</Link>
-      </Menu.Item>
       <Menu.Item key="1">
         <Link to="/profile/requests">{constants["MYREQUESTS"]}</Link>
       </Menu.Item>
@@ -30,12 +27,12 @@ export const UserMenuWithLinks: React.FC = () => {
           {constants["MYRECOMENDATIONS"]}
         </Link>
       </Menu.Item>
-      {group == "0" && (
+      {group === "0" && (
         <Menu.Item key="4">
           <Link to="/profile/trainings">{constants["EVENTS"]}</Link>
         </Menu.Item>
       )}
-      {group == "0" && (
+      {group === "0" && (
         <Menu.Item key="5">
           <Link to="/profile/directories">{constants["DIRECTORIES"]}</Link>
         </Menu.Item>
