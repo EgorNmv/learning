@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Empty, Upload } from "antd";
+import { Card, Button, Empty } from "antd";
 import "./TrainingMaterials.css";
 import { useFileUpload } from "../../utils/utils";
 import { graphql } from "react-relay";
@@ -7,7 +7,6 @@ import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMaterialsMutation } from "./__generated__/TrainingMaterialsMutation.graphql";
 import { useParams } from "react-router-dom";
 import { TrainingMaterialsQuery } from "./__generated__/TrainingMaterialsQuery.graphql";
-import { UserContext } from "../../hoc/UserContext/UserContext";
 import { Material } from "../../utils/types";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 
@@ -29,7 +28,6 @@ const query = graphql`
 
 export const TrainingMaterials: React.FC = () => {
   const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
-  const user = React.useContext(UserContext);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = React.useState<{ filename: string }>();
   const [commit, isInFlight] = useMutation<TrainingMaterialsMutation>(mutation);
@@ -78,16 +76,13 @@ export const TrainingMaterials: React.FC = () => {
           id="file"
           onChange={uploadFile}
         />
-
-        {user && user.group === "0" && (
-          <Button
-            onClick={() => {
-              document.getElementById("file")?.click();
-            }}
-          >
-            Загрузить материал
-          </Button>
-        )}
+        <Button
+          onClick={() => {
+            document.getElementById("file")?.click();
+          }}
+        >
+          Загрузить материал
+        </Button>
       </div>
       <Card>
         <div className="training-material-body">
