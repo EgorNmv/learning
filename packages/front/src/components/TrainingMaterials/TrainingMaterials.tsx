@@ -8,6 +8,8 @@ import { TrainingMaterialsMutation } from "./__generated__/TrainingMaterialsMuta
 import { useParams } from "react-router-dom";
 import { TrainingMaterialsQuery } from "./__generated__/TrainingMaterialsQuery.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
+import { Material } from "../../utils/types";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
 
 const mutation = graphql`
   mutation TrainingMaterialsMutation($data: InputMaterial!) {
@@ -26,8 +28,7 @@ const query = graphql`
 `;
 
 export const TrainingMaterials: React.FC = () => {
-  const params = useParams<{ trainingId: string }>();
-  const trainingId: number = Number(params.trainingId);
+  const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
   const user = React.useContext(UserContext);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = React.useState<{ filename: string }>();
@@ -36,6 +37,8 @@ export const TrainingMaterials: React.FC = () => {
     query,
     { trainingId }
   );
+  const [materials, setMaterials] = React.useState<Material[]>([]);
+  const { showAlert } = React.useContext(AlertContext);
 
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     let file: File;
@@ -51,10 +54,18 @@ export const TrainingMaterials: React.FC = () => {
       commit({
         variables: { data: { link: response.filename, trainingId } },
         onCompleted: () => {
-          window.location.reload();
+          setMaterials((prev) => [...prev, { link: response.filename }]);
+          showAlert(`Материал ${response.filename} успешно добавлен`);
+        },
+        onError: () => {
+          showAlert(`Ошибка в добавлении материала ${response.filename}`);
         },
       });
   }, [response]);
+
+  React.useEffect(() => {
+    setMaterials(materialsByTrainingId as Material[]);
+  }, [materialsByTrainingId]);
 
   return (
     <>
@@ -80,7 +91,7 @@ export const TrainingMaterials: React.FC = () => {
       </div>
       <Card>
         <div className="training-material-body">
-          {materialsByTrainingId.map((material) => (
+          {materials.map((material: Material) => (
             <span>
               <a
                 href={`${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`}
@@ -89,11 +100,9 @@ export const TrainingMaterials: React.FC = () => {
               </a>
             </span>
           ))}
-          {materialsByTrainingId.length > 0 ? (
-            <></>
-          ) : (
+          {materialsByTrainingId.length <= 0 && (
             <div style={{ margin: "auto" }}>
-              <Empty />
+              <Empty description="В событии пока нет материалов" />
             </div>
           )}
         </div>

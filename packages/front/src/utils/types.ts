@@ -1,7 +1,7 @@
 export type Category = {
   categoryId: number;
   description: string;
-  label: string | null
+  label: string | null;
 };
 
 export type Organizer = {
@@ -47,3 +47,14 @@ export type TrainingFormValues = {
   description: string | undefined;
   countOfSeats?: number | undefined;
 };
+
+export type Material = {
+  link: string;
+};
+
+export type AlertTypes = "success" | "info" | "warning" | "error";
+
+export type Alert = {
+  type: AlertTypes;
+  message: string;
+} | null;

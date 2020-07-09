@@ -25,7 +25,7 @@ const AllCategories: React.FC = () => {
 
   return (
     <section>
-      <h2>Все категории</h2>
+      <h2>Все события</h2>
       <SortableTrainingList trainings={trainings as any} />
     </section>
   );

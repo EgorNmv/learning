@@ -2,6 +2,7 @@ import React from "react";
 import { Layout } from "antd";
 import { Route, Switch } from "react-router-dom";
 import "./Content.css";
+import { Alert } from "../Alert/Alert";
 import {
   Auth,
   Main,
@@ -37,6 +38,7 @@ import { SecureRoute, LoginCallback } from "@okta/okta-react";
 
 export const Content: React.FC = () => (
   <Layout.Content className="all-main-content">
+    <Alert />
     <Switch>
       <Route path="/implicit/callback" component={LoginCallback} />
       <Route path="/auth" exact component={Auth} />

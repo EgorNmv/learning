@@ -12,6 +12,7 @@ import config from "./oktaConfig";
 import ruRU from "antd/es/locale/ru_RU";
 import { useOktaAuth } from "@okta/okta-react";
 import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
+import { AlertState } from "./hoc/Alert/AlertState";
 
 const Logic = () => {
   const { authState } = useOktaAuth();
@@ -43,7 +44,9 @@ const Logic = () => {
                       <Spin className="centred-spin__with-header-and-sider" />
                     }
                   >
-                    <Content />
+                    <AlertState>
+                      <Content />
+                    </AlertState>
                   </Suspense>
                 </Layout>
               </Layout>
