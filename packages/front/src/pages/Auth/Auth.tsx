@@ -15,6 +15,7 @@ const Auth: React.FC = () => {
     authState: { isAuthenticated },
   } = useOktaAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [response, setResponse] = React.useState<any>();
 
   const handleSubmit = ({ login, password }: Store) => {
     setLoading(true);
@@ -24,10 +25,12 @@ const Auth: React.FC = () => {
     oktaAuth
       .signIn({ username: login, password })
       .then((res: any) => {
+        setResponse(res);
         const sessionToken = res.sessionToken;
         authService.redirect({ sessionToken });
       })
       .catch((err: Error) => {
+        setResponse(err);
         setLoading(false);
         console.log("Found an error", err);
       });
@@ -52,7 +55,6 @@ const Auth: React.FC = () => {
             >
               <Input disabled={loading} />
             </Form.Item>
-
             <Form.Item
               label="Ваш пароль:"
               name="password"
@@ -60,7 +62,15 @@ const Auth: React.FC = () => {
             >
               <Input.Password disabled={loading} />
             </Form.Item>
-
+            {response && response.message && (
+              <div className="auth-error-box">
+                <p>
+                  {response.message}
+                  <br />
+                  Попробуйте снова
+                </p>
+              </div>
+            )}
             <Form.Item>
               <Button
                 type="primary"
