@@ -6,6 +6,7 @@ import { RecomendationsQuery } from "./__generated__/RecomendationsQuery.graphql
 import { RecomendationsMutation } from "./__generated__/RecomendationsMutation.graphql";
 import { useParams } from "react-router-dom";
 import { InputFeedback } from "../../../components/TrainingRecommendations/__generated__/TrainingRecommendationsMutation.graphql";
+import { AlertContext } from "../../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query RecomendationsQuery($trainingId: Float!, $feedbackType: Float!) {
@@ -40,9 +41,11 @@ export const Recomendations: React.FC = () => {
     {
       feedbackType: 1,
       trainingId,
-    }
+    },
+    { fetchPolicy: "store-and-network" }
   );
   const [commit, isInFlight] = useMutation<RecomendationsMutation>(mutation);
+  const { showAlert } = React.useContext(AlertContext);
 
   const changeStatusOfFeedback = (
     feedbackId: number,
@@ -50,7 +53,15 @@ export const Recomendations: React.FC = () => {
   ): void => {
     commit({
       variables: { feedbackId, data },
-      onCompleted: () => window.location.reload(),
+      onCompleted: () => {
+        showAlert("Статус рекомендации успешно изменён");
+      },
+      onError: () => {
+        showAlert(
+          "При изменении статуса рекомендации произошла ошибка",
+          "error"
+        );
+      },
     });
   };
 

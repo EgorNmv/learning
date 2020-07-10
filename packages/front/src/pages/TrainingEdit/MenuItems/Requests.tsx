@@ -5,7 +5,7 @@ import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { RequestsQuery } from "./__generated__/RequestsQuery.graphql";
 import { RequestsMutation } from "./__generated__/RequestsMutation.graphql";
 import { useParams } from "react-router-dom";
-import { useOktaFetchedUser } from "../../../utils/utils";
+import { AlertContext } from "../../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query RequestsQuery($trainingId: Float!) {
@@ -37,7 +37,8 @@ export const Requests: React.FC = () => {
     trainingId,
   });
   const [commit, isInFlight] = useMutation<RequestsMutation>(mutation);
-  const [data, setData] = React.useState();
+  const [data, setData] = React.useState<any[]>([]);
+  const { showAlert } = React.useContext(AlertContext);
   const columns = [
     {
       title: "№",
@@ -82,6 +83,26 @@ export const Requests: React.FC = () => {
                           status: 1,
                         },
                       },
+                      onCompleted: (response) => {
+                        showAlert("Запрос принят");
+                        setData((prev) =>
+                          prev.map((request) =>
+                            request.requestId ===
+                            response.updateRequestById.requestId
+                              ? {
+                                  ...request,
+                                  status: response.updateRequestById.status,
+                                }
+                              : { ...request }
+                          )
+                        );
+                      },
+                      onError: () => {
+                        showAlert(
+                          "При попытке принять запрос произошла ошибка",
+                          "error"
+                        );
+                      },
                     })
                   }
                 >
@@ -102,6 +123,15 @@ export const Requests: React.FC = () => {
                           userId: record.userId,
                           status: 2,
                         },
+                      },
+                      onCompleted: () => {
+                        showAlert("Запрос отклонён");
+                      },
+                      onError: () => {
+                        showAlert(
+                          "При попытке отклонить запрос произошла ошибка",
+                          "error"
+                        );
                       },
                     })
                   }

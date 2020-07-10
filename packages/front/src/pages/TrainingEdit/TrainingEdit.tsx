@@ -14,6 +14,7 @@ import {
   TrainingEditMutation,
   InputTraining,
 } from "./__generated__/TrainingEditMutation.graphql";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query TrainingEditQuery($trainingId: Float!) {
@@ -74,9 +75,9 @@ const mutation = graphql`
 `;
 
 const TrainingEdit: React.FC = () => {
-  const params = useParams<{ id: string }>();
-  let history = useHistory();
-  const id = Number(params.id);
+  const history = useHistory();
+  const id = Number(useParams<{ id: string }>().id);
+  const { showAlert } = React.useContext(AlertContext);
   const { training } = useLazyLoadQuery<TrainingEditQuery>(query, {
     trainingId: id,
   });
@@ -104,7 +105,11 @@ const TrainingEdit: React.FC = () => {
     commit({
       variables: { trainingId: id, data },
       onCompleted: () => {
+        showAlert("Событие успешно отредактировано");
         history.goBack();
+      },
+      onError: () => {
+        showAlert("Ошибка при редактировании события", "error");
       },
     });
   };

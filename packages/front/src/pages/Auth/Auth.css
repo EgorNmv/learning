@@ -5,4 +5,7 @@
 .auth-error-box {
   background: ghostwhite;
   font-size: initial;
+  border: 1px solid #ff4d4f;
+  margin-bottom: 1rem;
+  color: #ff4d4f;
 }

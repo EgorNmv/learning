@@ -9,6 +9,7 @@ import { InputTraining } from "../../pages/TrainingCreate/__generated__/Training
 import { TrainingFormValues } from "../../utils/types";
 import { useFileUpload } from "../../utils/utils";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
+import { useHistory } from "react-router-dom";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -34,12 +35,15 @@ const query = graphql`
 type TrainingFormProps = {
   formValues?: TrainingFormValues;
   onFinish: (data: InputTraining) => void;
+  isEditing?: boolean;
 };
 
 export const TrainingForm: React.FC<TrainingFormProps> = ({
   formValues,
   onFinish,
+  isEditing = false,
 }) => {
+  const history = useHistory();
   const [form] = Form.useForm();
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     TrainingFormQuery
@@ -216,11 +220,15 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       </Form.Item>
       <CenteredText>
         <Form.Item>
-          <Button htmlType="button" style={{ marginRight: "1rem" }}>
+          <Button
+            htmlType="button"
+            style={{ marginRight: "1rem" }}
+            onClick={() => history.goBack()}
+          >
             Отмена
           </Button>
           <Button type="primary" htmlType="submit" disabled={isLoadingFile}>
-            Создать
+            {isEditing ? "Обновить" : "Создать"}
           </Button>
         </Form.Item>
       </CenteredText>

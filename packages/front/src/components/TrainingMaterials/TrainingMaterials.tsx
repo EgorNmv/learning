@@ -56,7 +56,10 @@ export const TrainingMaterials: React.FC = () => {
           showAlert(`Материал ${response.filename} успешно добавлен`);
         },
         onError: () => {
-          showAlert(`Ошибка в добавлении материала ${response.filename}`);
+          showAlert(
+            `Ошибка в добавлении материала ${response.filename}`,
+            "error"
+          );
         },
       });
   }, [response]);

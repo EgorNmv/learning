@@ -3,16 +3,13 @@ import { Card, Input, Upload, Button, Form } from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { PictureFilled } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 
 const UserProfileEditing: React.FC = () => {
   const [form] = Form.useForm();
-
+  const history = useHistory();
   const onFinish = (values: Store) => {
     console.log(values);
-  };
-
-  const onReset = () => {
-    form.resetFields();
   };
 
   const normFile = (e: any) => {
@@ -92,7 +89,7 @@ const UserProfileEditing: React.FC = () => {
             <Form.Item>
               <Button
                 htmlType="button"
-                onClick={onReset}
+                onClick={() => history.goBack()}
                 style={{ marginRight: "1rem" }}
               >
                 Отмена

@@ -3,9 +3,10 @@ import { Card, Form, Input, Button } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql, useMutation, useLazyLoadQuery } from "react-relay/hooks";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { TrainingFormatsEditQuery } from "./__generated__/TrainingFormatsEditQuery.graphql";
 import { TrainingFormatsEditMutation } from "./__generated__/TrainingFormatsEditMutation.graphql";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query TrainingFormatsEditQuery($trainingFormatId: Float!) {
@@ -29,20 +30,26 @@ const mutation = graphql`
 `;
 
 const TrainingFormatsEdit: React.FC = () => {
-  const params = useParams<{ id: string }>();
-  const id = Number(params.id);
+  const history = useHistory();
+  const id = Number(useParams<{ id: string }>().id);
+  const [form] = Form.useForm();
   const { format } = useLazyLoadQuery<TrainingFormatsEditQuery>(query, {
     trainingFormatId: id,
   });
   const [commit, isInFlight] = useMutation<TrainingFormatsEditMutation>(
     mutation
   );
-  const [form] = Form.useForm();
+  const { showAlert } = React.useContext(AlertContext);
+
   const onFinish = ({ name }: Store) => {
     commit({
       variables: { trainingFormatId: id, description: name },
       onCompleted(response) {
-        console.log(response);
+        showAlert("Формат обучния успешно обновлён");
+        history.goBack();
+      },
+      onError: () => {
+        showAlert("При обновлении формата обучения произошла ошибка", "error");
       },
     });
   };
@@ -69,11 +76,15 @@ const TrainingFormatsEdit: React.FC = () => {
           </Form.Item>
           <CenteredText>
             <Form.Item>
-              <Button htmlType="button" style={{ marginRight: "1rem" }}>
+              <Button
+                htmlType="button"
+                style={{ marginRight: "1rem" }}
+                onClick={() => history.goBack()}
+              >
                 Отмена
               </Button>
               <Button type="primary" htmlType="submit" disabled={isInFlight}>
-                Создать
+                Обновить
               </Button>
             </Form.Item>
           </CenteredText>

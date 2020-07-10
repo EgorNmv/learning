@@ -8,6 +8,7 @@ import { TrainingRecommendationsQuery } from "./__generated__/TrainingRecommenda
 import { TrainingRecommendationsMutation } from "./__generated__/TrainingRecommendationsMutation.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { formatDate } from "../../utils/utils";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query TrainingRecommendationsQuery(
@@ -44,6 +45,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
 }) => {
   const [isVisibleModal, setIsVisibleModal] = React.useState<boolean>(false);
   const [form] = Form.useForm();
+  const { showAlert } = React.useContext(AlertContext);
   const { acceptedFeedbacksByTrainingId } = useLazyLoadQuery<
     TrainingRecommendationsQuery
   >(query, {
@@ -69,7 +71,11 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
         },
         onCompleted: () => {
           setIsVisibleModal(false);
-          window.location.reload();
+          showAlert("Ваша рекомендация отправлена в обработку");
+        },
+        onError: () => {
+          setIsVisibleModal(false);
+          showAlert("Ошибка при добавлении рекомендации", "error");
         },
       });
   };
@@ -110,7 +116,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           </Form>
         </Modal>
       </div>
-      <Carousel>
+      <Carousel autoplay>
         {acceptedFeedbacksByTrainingId.map((recomendation) => (
           <UserCard feedback={recomendation} />
         ))}

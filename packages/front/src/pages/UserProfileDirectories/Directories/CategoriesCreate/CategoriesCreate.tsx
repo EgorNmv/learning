@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Card, Form, Input, Upload, Button, Spin } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
-import { PictureFilled } from "@ant-design/icons";
 import { Store } from "antd/lib/form/interface";
 import { graphql, useMutation } from "react-relay/hooks";
-import {
-  CategoriesCreateMutation,
-  CategoriesCreateMutationResponse,
-} from "./__generated__/CategoriesCreateMutation.graphql";
+import { CategoriesCreateMutation } from "./__generated__/CategoriesCreateMutation.graphql";
 import { useFileUpload } from "../../../../utils/utils";
 import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
+import { useHistory } from "react-router-dom";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const mutation = graphql`
   mutation CategoriesCreateMutation($description: String!, $label: String) {
@@ -23,14 +21,22 @@ const mutation = graphql`
 
 const CategoriesCreate: React.FC = () => {
   const [form] = Form.useForm();
+  const history = useHistory();
   const [commit, isInFlight] = useMutation<CategoriesCreateMutation>(mutation);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [fileResponse, setFileResponse] = useState<{ filename: string }>();
+  const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name }: Store) => {
     commit({
       variables: { description: name, label: fileResponse?.filename },
-      onCompleted(response: CategoriesCreateMutationResponse) {
+      onCompleted: (response) => {
+        showAlert(
+          `Категория ${response.createCategory.description} успешно добавлена`
+        );
+      },
+      onError: () => {
+        showAlert("При добавлении категории произошла ошибка", "error");
       },
     });
   };
@@ -42,10 +48,6 @@ const CategoriesCreate: React.FC = () => {
       file = event.target.files[0];
       setFileResponse(await sendFile(file, "category"));
     }
-  };
-
-  const onReset = () => {
-    form.resetFields();
   };
 
   if (isInFlight) {
@@ -78,25 +80,27 @@ const CategoriesCreate: React.FC = () => {
                 label="Загрузите фотографию:"
                 valuePropName="fileList"
               >
-                {fileResponse?.filename
-                  ? <UploadedPicture
+                {fileResponse?.filename ? (
+                  <UploadedPicture
                     style={{
                       width: "100%",
                       height: "100%",
                       maxHeight: "20rem",
-                      maxWidth: "20rem"
+                      maxWidth: "20rem",
                     }}
                     filename={fileResponse.filename}
                     imgType="category"
                   />
-                  : <div
+                ) : (
+                  <div
                     style={{
                       width: 300,
                       height: 300,
                       background: "grey",
                       marginBottom: "2.8rem",
                     }}
-                  />}
+                  />
+                )}
                 <input
                   disabled={isLoadingFile}
                   type="file"
@@ -110,7 +114,7 @@ const CategoriesCreate: React.FC = () => {
             <Form.Item>
               <Button
                 htmlType="button"
-                onClick={onReset}
+                onClick={() => history.goBack()}
                 style={{ marginRight: "1rem" }}
               >
                 Отмена

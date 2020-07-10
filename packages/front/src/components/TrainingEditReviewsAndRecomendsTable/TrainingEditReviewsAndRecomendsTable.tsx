@@ -3,7 +3,6 @@ import { Table, Button } from "antd";
 import { InputFeedback } from "../TrainingReviews/__generated__/TrainingReviewsMutation.graphql";
 import { formatDate } from "../../utils/utils";
 import { useParams } from "react-router-dom";
-import { UserContext } from "../../hoc/UserContext/UserContext";
 
 type TrainingEditReviewsAndRecomendsTableProps = {
   feedbacks: {
@@ -23,7 +22,6 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
 }) => {
   const params = useParams<{ id: string }>();
   const trainingId = Number(params.id);
-  const user = React.useContext(UserContext);
   const [objWithFullnames, setObjWithFullnames] = React.useState<any>({});
   const [data, setData] = React.useState<any[]>(feedbacks);
   const columns = [
@@ -59,16 +57,23 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
                 <Button
                   type="link"
                   onClick={() => {
-                    user &&
-                      onChangeFeedbackStatus(record.feedbackId, {
-                        date: formatDate(new Date()),
-                        text: record.text,
-                        trainingId,
-                        type: isRecomendations ? 1 : 2,
-                        userId: user.sub,
-                        status: 1,
-                      });
+                    onChangeFeedbackStatus(record.feedbackId, {
+                      date: formatDate(new Date()),
+                      text: record.text,
+                      trainingId,
+                      type: isRecomendations ? 1 : 2,
+                      userId: record.userId,
+                      status: 1,
+                    });
+                    setData((prev) =>
+                      prev.map((feedback) =>
+                        feedback.feedbackId === record.feedbackId
+                          ? { ...feedback, disabledBtn: true }
+                          : { ...feedback }
+                      )
+                    );
                   }}
+                  disabled={record.disabledBtn}
                 >
                   Принять
                 </Button>
@@ -77,16 +82,23 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
                 <Button
                   type="link"
                   onClick={() => {
-                    user &&
-                      onChangeFeedbackStatus(record.feedbackId, {
-                        date: formatDate(new Date()),
-                        text: record.text,
-                        trainingId,
-                        type: isRecomendations ? 1 : 2,
-                        userId: user.sub,
-                        status: 2,
-                      });
+                    onChangeFeedbackStatus(record.feedbackId, {
+                      date: formatDate(new Date()),
+                      text: record.text,
+                      trainingId,
+                      type: isRecomendations ? 1 : 2,
+                      userId: record.userId,
+                      status: 2,
+                    });
+                    setData((prev) =>
+                      prev.map((feedback) =>
+                        feedback.feedbackId === record.feedbackId
+                          ? { ...feedback, disabledBtn: true }
+                          : { ...feedback }
+                      )
+                    );
                   }}
+                  disabled={record.disabledBtn}
                 >
                   Отклонить
                 </Button>

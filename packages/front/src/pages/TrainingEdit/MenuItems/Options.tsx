@@ -17,6 +17,7 @@ export const Options: React.FC<OptionsProps> = ({
       <TrainingForm
         formValues={dataForTrainingForm}
         onFinish={onFinishTrainingForm}
+        isEditing={true}
       />
     </div>
   );

@@ -29,7 +29,7 @@ const mutation = graphql`
 const Categories: React.FC = () => {
   const { categories }: CategoriesQueryResponse = useLazyLoadQuery<
     CategoriesQuery
-  >(query, {});
+  >(query, {}, { fetchPolicy: "store-and-network" });
   const [commit, isInFlight] = useMutation<CategoriesMutation>(mutation);
   const data: Category[] = categories as Writeable<Category[]>;
 

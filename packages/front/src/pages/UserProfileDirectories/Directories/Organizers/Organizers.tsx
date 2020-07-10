@@ -65,7 +65,11 @@ const columns = [
 ];
 
 const Organizers: React.FC = () => {
-  const { organizers } = useLazyLoadQuery<OrganizersQuery>(query, {});
+  const { organizers } = useLazyLoadQuery<OrganizersQuery>(
+    query,
+    {},
+    { fetchPolicy: "store-and-network" }
+  );
   const data: Organizer[] = organizers as Writeable<Organizer[]>;
   return (
     <section>

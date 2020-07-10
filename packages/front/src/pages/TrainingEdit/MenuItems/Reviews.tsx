@@ -8,6 +8,7 @@ import {
   ReviewsMutation,
 } from "./__generated__/ReviewsMutation.graphql";
 import { ReviewsQuery } from "./__generated__/ReviewsQuery.graphql";
+import { AlertContext } from "../../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query ReviewsQuery($trainingId: Float!, $feedbackType: Float!) {
@@ -42,6 +43,7 @@ export const Reviews: React.FC = () => {
     trainingId,
   });
   const [commit, isInFlight] = useMutation<ReviewsMutation>(mutation);
+  const { showAlert } = React.useContext(AlertContext);
 
   const changeStatusOfFeedback = (
     feedbackId: number,
@@ -49,7 +51,9 @@ export const Reviews: React.FC = () => {
   ): void => {
     commit({
       variables: { feedbackId, data },
-      onCompleted: () => window.location.reload(),
+      onCompleted: () => showAlert("Статус отзыва успешно изменён"),
+      onError: () =>
+        showAlert("При смене статуса отзыва произошла ошибка", "error"),
     });
   };
 

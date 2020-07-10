@@ -1,9 +1,11 @@
 import React from "react";
-import { Card, Form, Input, Select, Button, Spin } from "antd";
+import { Card, Form, Input, Select, Button } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql, useMutation } from "react-relay/hooks";
 import { OrganizersCreateMutation } from "./__generated__/OrganizersCreateMutation.graphql";
+import { useHistory } from "react-router-dom";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const mutation = graphql`
   mutation OrganizersCreateMutation($data: InputOrganizer!) {
@@ -18,13 +20,19 @@ const mutation = graphql`
 `;
 
 const CategoriesCreate: React.FC = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
   const [commit, isInFlight] = useMutation<OrganizersCreateMutation>(mutation);
+  const { showAlert } = React.useContext(AlertContext);
+
   const onFinish = ({ name, address, type, site }: Store) => {
     commit({
       variables: { data: { name, address, type, site } },
       onCompleted(response) {
-        console.log(response);
+        showAlert("Организатор успешно добавлен");
+      },
+      onError: () => {
+        showAlert("При добавлении организатора произошла ошибка", "error");
       },
     });
   };
@@ -76,7 +84,11 @@ const CategoriesCreate: React.FC = () => {
           </div>
           <CenteredText>
             <Form.Item>
-              <Button htmlType="button" style={{ marginRight: "1rem" }}>
+              <Button
+                htmlType="button"
+                style={{ marginRight: "1rem" }}
+                onClick={() => history.goBack()}
+              >
                 Отмена
               </Button>
               <Button type="primary" htmlType="submit">

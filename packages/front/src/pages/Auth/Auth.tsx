@@ -16,6 +16,7 @@ const Auth: React.FC = () => {
   } = useOktaAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [response, setResponse] = React.useState<any>();
+  const [countOfTry, setCountOfTry] = React.useState<number>(0);
 
   const handleSubmit = ({ login, password }: Store) => {
     setLoading(true);
@@ -27,10 +28,12 @@ const Auth: React.FC = () => {
       .then((res: any) => {
         setResponse(res);
         const sessionToken = res.sessionToken;
+        setCountOfTry((prev) => prev + 1);
         authService.redirect({ sessionToken });
       })
       .catch((err: Error) => {
         setResponse(err);
+        setCountOfTry((prev) => prev + 1);
         setLoading(false);
         console.log("Found an error", err);
       });
@@ -67,7 +70,9 @@ const Auth: React.FC = () => {
                 <p>
                   {response.message}
                   <br />
-                  Попробуйте снова
+                  {countOfTry > 4
+                    ? "Пожалуйста, обратитесть к администратору"
+                    : "Попробуйте снова"}
                 </p>
               </div>
             )}
@@ -76,7 +81,7 @@ const Auth: React.FC = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                disabled={loading}
+                disabled={loading || countOfTry > 4}
               >
                 Войти
               </Button>

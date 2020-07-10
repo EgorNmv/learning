@@ -1,14 +1,11 @@
 import React from "react";
-import { Card, Form, Input, Select, Upload, Button, Spin } from "antd";
+import { Card, Form, Input, Button } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
-import { PictureFilled } from "@ant-design/icons";
 import { Store } from "antd/lib/form/interface";
 import { graphql, useMutation } from "react-relay/hooks";
-import { useLocation } from "react-router-dom";
-import {
-  TargetAudiencesCreateMutation,
-  TargetAudiencesCreateMutationResponse,
-} from "./__generated__/TargetAudiencesCreateMutation.graphql";
+import { useHistory } from "react-router-dom";
+import { TargetAudiencesCreateMutation } from "./__generated__/TargetAudiencesCreateMutation.graphql";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const mutation = graphql`
   mutation TargetAudiencesCreateMutation($description: String!) {
@@ -20,41 +17,24 @@ const mutation = graphql`
 `;
 
 const TargetAudiencesCreate: React.FC = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
   const [commit, isInFlight] = useMutation<TargetAudiencesCreateMutation>(
     mutation
   );
+  const { showAlert } = React.useContext(AlertContext);
+
   const onFinish = ({ name }: Store) => {
     commit({
       variables: { description: name },
-      onCompleted(response: TargetAudiencesCreateMutationResponse) {
-        console.log(response);
+      onCompleted(response) {
+        showAlert("Целевая аудитория успешно создана");
+      },
+      onError: () => {
+        showAlert("При создании целевой аудитории произошла ошибка", "error");
       },
     });
   };
-
-  const onReset = () => {
-    form.resetFields();
-  };
-
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const onFill = () => {
-    form.setFieldsValue({
-      note: "Hello world!",
-      gender: "male",
-    });
-  };
-
-  if (isInFlight) {
-    return <Spin />;
-  }
 
   return (
     <section>
@@ -72,12 +52,12 @@ const TargetAudiencesCreate: React.FC = () => {
             <Form.Item>
               <Button
                 htmlType="button"
-                onClick={onReset}
+                onClick={() => history.goBack()}
                 style={{ marginRight: "1rem" }}
               >
                 Отмена
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={isInFlight}>
                 Создать
               </Button>
             </Form.Item>

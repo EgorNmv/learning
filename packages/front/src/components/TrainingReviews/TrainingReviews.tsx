@@ -7,6 +7,7 @@ import { TrainingReviewsQuery } from "./__generated__/TrainingReviewsQuery.graph
 import { TrainingReviewsMutation } from "./__generated__/TrainingReviewsMutation.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { formatDate } from "../../utils/utils";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query TrainingReviewsQuery($trainingId: Float!, $feedbackType: Float!) {
@@ -48,6 +49,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
   });
   const [commit, isInFlight] = useMutation<TrainingReviewsMutation>(mutation);
   const user = React.useContext(UserContext);
+  const { showAlert } = React.useContext(AlertContext);
 
   const sendReview = () => {
     user &&
@@ -63,7 +65,11 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
         },
         onCompleted: () => {
           setIsVisibleModal(false);
-          window.location.reload();
+          showAlert("Ваш отзыв отправлен в обработку");
+        },
+        onError: () => {
+          setIsVisibleModal(false);
+          showAlert("Ошибка при добавлении отзыва", "error");
         },
       });
   };

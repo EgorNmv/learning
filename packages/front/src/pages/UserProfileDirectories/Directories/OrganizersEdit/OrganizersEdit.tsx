@@ -1,11 +1,12 @@
 import React from "react";
-import { Card, Form, Input, Select, Button, Spin } from "antd";
+import { Card, Form, Input, Select, Button } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql, useMutation, useLazyLoadQuery } from "react-relay/hooks";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { OrganizersEditQuery } from "./__generated__/OrganizersEditQuery.graphql";
 import { OrganizersEditMutation } from "./__generated__/OrganizersEditMutation.graphql";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query OrganizersEditQuery($organizerId: Float!) {
@@ -35,6 +36,7 @@ const mutation = graphql`
 `;
 
 const OrganizersEdit: React.FC = () => {
+  const history = useHistory();
   const params = useParams<{ id: string }>();
   const id = Number(params.id);
   const { organizer } = useLazyLoadQuery<OrganizersEditQuery>(query, {
@@ -42,11 +44,17 @@ const OrganizersEdit: React.FC = () => {
   });
   const [commit, isInFlight] = useMutation<OrganizersEditMutation>(mutation);
   const [form] = Form.useForm();
+  const { showAlert } = React.useContext(AlertContext);
+
   const onFinish = ({ name, address, type, site }: Store) => {
     commit({
       variables: { organizerId: id, data: { name, address, type, site } },
       onCompleted(response) {
-        console.log(response);
+        showAlert("Организатор успешно обновлен");
+        history.goBack();
+      },
+      onError: () => {
+        showAlert("При обновлении орагнизатора произошла ошибка", "error");
       },
     });
   };
@@ -109,11 +117,15 @@ const OrganizersEdit: React.FC = () => {
           </div>
           <CenteredText>
             <Form.Item>
-              <Button htmlType="button" style={{ marginRight: "1rem" }}>
+              <Button
+                htmlType="button"
+                style={{ marginRight: "1rem" }}
+                onClick={() => history.goBack()}
+              >
                 Отмена
               </Button>
               <Button type="primary" htmlType="submit">
-                Создать
+                Обновить
               </Button>
             </Form.Item>
           </CenteredText>

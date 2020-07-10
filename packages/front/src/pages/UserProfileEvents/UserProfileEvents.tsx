@@ -20,7 +20,11 @@ const query = graphql`
 `;
 
 const UserProfileEvents: React.FC = () => {
-  const { trainings } = useLazyLoadQuery<UserProfileEventsQuery>(query, {});
+  const { trainings } = useLazyLoadQuery<UserProfileEventsQuery>(
+    query,
+    {},
+    { fetchPolicy: "store-and-network" }
+  );
   const columns = [
     {
       title: "№",

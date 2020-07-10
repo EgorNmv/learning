@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { Card, Form, Input, Select, Upload, Button, Spin } from "antd";
+import { Card, Form, Input, Button } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
-import { PictureFilled } from "@ant-design/icons";
 import { Store } from "antd/lib/form/interface";
 import { graphql, useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import {
   CategoriesEditQuery,
   CategoriesEditQueryResponse,
 } from "./__generated__/CategoriesEditQuery.graphql";
-import { useParams } from "react-router-dom";
-import {
-  CategoriesEditMutation,
-  CategoriesEditMutationResponse,
-} from "./__generated__/CategoriesEditMutation.graphql";
+import { useParams, useHistory } from "react-router-dom";
+import { CategoriesEditMutation } from "./__generated__/CategoriesEditMutation.graphql";
 import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
 import { useFileUpload } from "../../../../utils/utils";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query CategoriesEditQuery($categoryId: Float!) {
@@ -27,8 +24,16 @@ const query = graphql`
 `;
 
 const mutation = graphql`
-  mutation CategoriesEditMutation($categoryId: Float!, $description: String!, $label: String) {
-    updateCategoryById(id: $categoryId, description: $description, label: $label) {
+  mutation CategoriesEditMutation(
+    $categoryId: Float!
+    $description: String!
+    $label: String
+  ) {
+    updateCategoryById(
+      id: $categoryId
+      description: $description
+      label: $label
+    ) {
       categoryId: id
       description
       label
@@ -37,8 +42,8 @@ const mutation = graphql`
 `;
 
 const CategoriesCreate: React.FC = () => {
-  const params = useParams<{ id: string }>();
-  const id = Number(params.id);
+  const id = Number(useParams<{ id: string }>().id);
+  const history = useHistory();
   const { category }: CategoriesEditQueryResponse = useLazyLoadQuery<
     CategoriesEditQuery
   >(query, { categoryId: id });
@@ -46,12 +51,21 @@ const CategoriesCreate: React.FC = () => {
   const [form] = Form.useForm();
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [fileResponse, setFileResponse] = useState<{ filename: string }>();
+  const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name, photo }: Store) => {
     commit({
-      variables: { categoryId: id, description: name, label: fileResponse?.filename },
-      onCompleted(response: CategoriesEditMutationResponse) {
-        console.log(response);
+      variables: {
+        categoryId: id,
+        description: name,
+        label: fileResponse?.filename,
+      },
+      onCompleted() {
+        showAlert("Категория успешно обновлена");
+        history.goBack();
+      },
+      onError: () => {
+        showAlert("При обновлении категории произошла ошибка", "error");
       },
     });
   };
@@ -98,25 +112,27 @@ const CategoriesCreate: React.FC = () => {
                 label="Загрузите фотографию:"
                 valuePropName="fileList"
               >
-                {category?.label
-                  ? <UploadedPicture
+                {category?.label ? (
+                  <UploadedPicture
                     style={{
                       width: "100%",
                       height: "100%",
                       maxHeight: "20rem",
-                      maxWidth: "20rem"
+                      maxWidth: "20rem",
                     }}
                     imgType="category"
                     filename={category.label}
                   />
-                  : <div
+                ) : (
+                  <div
                     style={{
                       width: 300,
                       height: 300,
                       background: "grey",
                       marginBottom: "2.8rem",
                     }}
-                  />}
+                  />
+                )}
                 <input
                   disabled={isLoadingFile}
                   type="file"
@@ -128,11 +144,15 @@ const CategoriesCreate: React.FC = () => {
           </div>
           <CenteredText>
             <Form.Item>
-              <Button htmlType="button" style={{ marginRight: "1rem" }}>
+              <Button
+                htmlType="button"
+                style={{ marginRight: "1rem" }}
+                onClick={() => history.goBack()}
+              >
                 Отмена
               </Button>
               <Button type="primary" htmlType="submit" disabled={isInFlight}>
-                Создать
+                Обновить
               </Button>
             </Form.Item>
           </CenteredText>

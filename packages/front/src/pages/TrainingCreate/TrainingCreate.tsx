@@ -8,6 +8,7 @@ import {
   InputTraining,
 } from "./__generated__/TrainingCreateMutation.graphql";
 import { useHistory } from "react-router-dom";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
 
 const mutation = graphql`
   mutation TrainingCreateMutation($data: InputTraining!) {
@@ -40,13 +41,18 @@ const mutation = graphql`
 
 const TrainingCreate: React.FC = () => {
   const [commit, isInFlight] = useMutation<TrainingCreateMutation>(mutation);
-  let history = useHistory();
+  const history = useHistory();
+  const { showAlert } = React.useContext(AlertContext);
 
   const sendForm = (data: InputTraining) => {
     commit({
       variables: { data },
       onCompleted: () => {
+        showAlert("Событие успешно создано");
         history.goBack();
+      },
+      onError: () => {
+        showAlert("Ошибка при создании события", "error");
       },
     });
   };

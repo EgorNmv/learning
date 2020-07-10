@@ -1,12 +1,11 @@
 import React from "react";
-import { Card, Form, Input, Button, Spin } from "antd";
+import { Card, Form, Input, Button } from "antd";
 import { CenteredText } from "../../../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql, useMutation } from "react-relay/hooks";
-import {
-  TrainingFormatsCreateMutation,
-  TrainingFormatsCreateMutationResponse,
-} from "./__generated__/TrainingFormatsCreateMutation.graphql";
+import { TrainingFormatsCreateMutation } from "./__generated__/TrainingFormatsCreateMutation.graphql";
+import { useHistory } from "react-router-dom";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const mutation = graphql`
   mutation TrainingFormatsCreateMutation($description: String!) {
@@ -18,26 +17,24 @@ const mutation = graphql`
 `;
 
 const TrainingFormatsCreate: React.FC = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
   const [commit, isInFlight] = useMutation<TrainingFormatsCreateMutation>(
     mutation
   );
+  const { showAlert } = React.useContext(AlertContext);
+
   const onFinish = ({ name }: Store) => {
     commit({
       variables: { description: name },
-      onCompleted(response: TrainingFormatsCreateMutationResponse) {
-        console.log(response);
+      onCompleted(response) {
+        showAlert("Формат обучения успешно создан");
+      },
+      onError: () => {
+        showAlert("При создании формата обучения произошла ошибка", "error");
       },
     });
   };
-
-  const onReset = () => {
-    form.resetFields();
-  };
-
-  if (isInFlight) {
-    return <Spin />;
-  }
 
   return (
     <section>
@@ -55,12 +52,12 @@ const TrainingFormatsCreate: React.FC = () => {
             <Form.Item>
               <Button
                 htmlType="button"
-                onClick={onReset}
+                onClick={() => history.goBack()}
                 style={{ marginRight: "1rem" }}
               >
                 Отмена
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={isInFlight}>
                 Создать
               </Button>
             </Form.Item>
