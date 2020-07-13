@@ -266,6 +266,9 @@ type TrainingEntity {
   """ярлык(картинка) обучения"""
   label: String
 
+  """Заявки / Отзывы / Рекомендации"""
+  listOfRequestsReviewsAndRecomends: [Float!]
+
   """имя обучения"""
   name: String!
 
