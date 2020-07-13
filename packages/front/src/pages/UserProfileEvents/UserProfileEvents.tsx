@@ -15,6 +15,7 @@ const query = graphql`
       name
       start
       end
+      listOfRequestsReviewsAndRecomends
     }
   }
 `;
@@ -43,7 +44,10 @@ const UserProfileEvents: React.FC = () => {
     },
     {
       title: "Заявки / Отзывы / Рекомендации",
-      dataIndex: "trainingStatus",
+      dataIndex: "listOfRequestsReviewsAndRecomends",
+      render: (text: string, record: Event) => (
+        <span>{record.listOfRequestsReviewsAndRecomends.join("/")}</span>
+      ),
     },
     {
       title: "Действия",

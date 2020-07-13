@@ -32,6 +32,7 @@ export type Event = {
   name: string;
   start: string;
   end: string;
+  listOfRequestsReviewsAndRecomends: number[];
 };
 
 export type TrainingFormValues = {

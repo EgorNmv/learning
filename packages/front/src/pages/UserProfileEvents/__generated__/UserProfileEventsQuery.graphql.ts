@@ -9,6 +9,7 @@ export type UserProfileEventsQueryResponse = {
         readonly name: string;
         readonly start: string;
         readonly end: string;
+        readonly listOfRequestsReviewsAndRecomends: ReadonlyArray<number> | null;
     }>;
 };
 export type UserProfileEventsQuery = {
@@ -25,6 +26,7 @@ query UserProfileEventsQuery {
     name
     start
     end
+    listOfRequestsReviewsAndRecomends
   }
 }
 */
@@ -66,6 +68,13 @@ var v0 = [
         "kind": "ScalarField",
         "name": "end",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "listOfRequestsReviewsAndRecomends",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -92,9 +101,9 @@ return {
     "metadata": {},
     "name": "UserProfileEventsQuery",
     "operationKind": "query",
-    "text": "query UserProfileEventsQuery {\n  trainings {\n    trainingId: id\n    name\n    start\n    end\n  }\n}\n"
+    "text": "query UserProfileEventsQuery {\n  trainings {\n    trainingId: id\n    name\n    start\n    end\n    listOfRequestsReviewsAndRecomends\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '80ab24ecafe51340c9e067e150dd8268';
+(node as any).hash = '9446fbbe8724d1a49215d3b88ece5884';
 export default node;
