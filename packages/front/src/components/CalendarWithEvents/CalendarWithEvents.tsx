@@ -73,7 +73,7 @@ export const CalendarWithEvents: React.FC = () => {
       <CenteredText>
         <h2>{constants["UPCOMINGEVENTS"]}</h2>
         {comingTrainings.map((training) => (
-          <TrainingCard training={training} />
+          <TrainingCard training={training} placeInCalendar={true} />
         ))}
       </CenteredText>
     </>

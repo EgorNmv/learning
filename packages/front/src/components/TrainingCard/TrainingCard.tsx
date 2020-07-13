@@ -14,14 +14,21 @@ type TrainingCardProps = {
     end?: string;
     description?: string;
   };
+  placeInCalendar?: boolean;
 };
 
-export const TrainingCard: React.FC<TrainingCardProps> = ({ training }) => {
+export const TrainingCard: React.FC<TrainingCardProps> = ({
+  training,
+  placeInCalendar = false,
+}) => {
   if (training) {
     const { trainingId, name, organizer, start, end, description } = training;
 
     return (
-      <div className="training-card">
+      <div
+        className="training-card"
+        style={placeInCalendar ? { width: "100%" } : {}}
+      >
         {training.label ? (
           <UploadedPicture
             style={{

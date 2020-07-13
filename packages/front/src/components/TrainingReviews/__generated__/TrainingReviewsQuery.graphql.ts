@@ -12,6 +12,7 @@ export type TrainingReviewsQueryResponse = {
         readonly userId: string;
         readonly text: string;
         readonly date: string;
+        readonly rate: number | null;
     }>;
 };
 export type TrainingReviewsQuery = {
@@ -31,6 +32,7 @@ query TrainingReviewsQuery(
     userId
     text
     date
+    rate
   }
 }
 */
@@ -97,6 +99,13 @@ v1 = [
         "kind": "ScalarField",
         "name": "date",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "rate",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -123,9 +132,9 @@ return {
     "metadata": {},
     "name": "TrainingReviewsQuery",
     "operationKind": "query",
-    "text": "query TrainingReviewsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  acceptedFeedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    userId\n    text\n    date\n  }\n}\n"
+    "text": "query TrainingReviewsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  acceptedFeedbacksByTrainingId(feedbackType: $feedbackType, trainingId: $trainingId) {\n    feedbackId: id\n    userId\n    text\n    date\n    rate\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '1c98fefe3b61926e92acf99a14900067';
+(node as any).hash = '5dd6d7e5db08d209f92a63732125e883';
 export default node;

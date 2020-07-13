@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Button } from "antd";
+import { Table, Button, Rate } from "antd";
 import { InputFeedback } from "../TrainingReviews/__generated__/TrainingReviewsMutation.graphql";
 import { formatDate } from "../../utils/utils";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ type TrainingEditReviewsAndRecomendsTableProps = {
     text: string;
     userId: string;
     status: number;
+    rate: number;
   }[];
   onChangeFeedbackStatus: (feedbackId: number, data: InputFeedback) => void;
   isRecomendations: boolean;
@@ -34,11 +35,19 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
       dataIndex: "userId",
       render: (text: string, record: any) => {
         return (
-          <span>
-            {objWithFullnames[`${text}`]
-              ? objWithFullnames[`${text}`]
-              : "Loading..."}
-          </span>
+          <>
+            <p>
+              {objWithFullnames[`${text}`]
+                ? objWithFullnames[`${text}`]
+                : "Loading..."}
+            </p>
+            <p>{record.date}</p>
+            {record.rate && (
+              <p>
+                <Rate disabled value={record.rate} />
+              </p>
+            )}
+          </>
         );
       },
     },
@@ -64,6 +73,7 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
                       type: isRecomendations ? 1 : 2,
                       userId: record.userId,
                       status: 1,
+                      rate: isRecomendations ? null : record.rate,
                     });
                     setData((prev) =>
                       prev.map((feedback) =>
@@ -89,6 +99,7 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
                       type: isRecomendations ? 1 : 2,
                       userId: record.userId,
                       status: 2,
+                      rate: isRecomendations ? null : record.rate,
                     });
                     setData((prev) =>
                       prev.map((feedback) =>

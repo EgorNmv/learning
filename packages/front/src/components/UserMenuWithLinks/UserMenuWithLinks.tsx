@@ -27,12 +27,12 @@ export const UserMenuWithLinks: React.FC = () => {
           {constants["MYRECOMENDATIONS"]}
         </Link>
       </Menu.Item>
-      {group === "0" && (
+      {group !== "0" && (
         <Menu.Item key="4">
           <Link to="/profile/trainings">{constants["EVENTS"]}</Link>
         </Menu.Item>
       )}
-      {group === "0" && (
+      {group !== "0" && (
         <Menu.Item key="5">
           <Link to="/profile/directories">{constants["DIRECTORIES"]}</Link>
         </Menu.Item>

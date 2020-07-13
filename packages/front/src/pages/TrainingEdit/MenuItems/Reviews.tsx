@@ -20,6 +20,8 @@ const query = graphql`
       text
       userId
       status
+      date
+      rate
     }
   }
 `;

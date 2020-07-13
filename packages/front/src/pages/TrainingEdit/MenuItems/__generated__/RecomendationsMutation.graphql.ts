@@ -4,6 +4,7 @@
 import { ConcreteRequest } from "relay-runtime";
 export type InputFeedback = {
     date: string;
+    rate?: number | null;
     status?: number | null;
     text: string;
     trainingId: number;

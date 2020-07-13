@@ -12,6 +12,7 @@ export type RecomendationsQueryResponse = {
         readonly text: string;
         readonly userId: string;
         readonly status: number | null;
+        readonly date: string;
     }>;
 };
 export type RecomendationsQuery = {
@@ -31,6 +32,7 @@ query RecomendationsQuery(
     text
     userId
     status
+    date
   }
 }
 */
@@ -97,6 +99,13 @@ v1 = [
         "kind": "ScalarField",
         "name": "status",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "date",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -123,9 +132,9 @@ return {
     "metadata": {},
     "name": "RecomendationsQuery",
     "operationKind": "query",
-    "text": "query RecomendationsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  feedbacksByTrainingId(trainingId: $trainingId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    userId\n    status\n  }\n}\n"
+    "text": "query RecomendationsQuery(\n  $trainingId: Float!\n  $feedbackType: Float!\n) {\n  feedbacksByTrainingId(trainingId: $trainingId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    userId\n    status\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '2d3e0f5e638d86acfb03aa13bae5e06f';
+(node as any).hash = '78f1ef3bedaf7848b8c2897e663b76a9';
 export default node;

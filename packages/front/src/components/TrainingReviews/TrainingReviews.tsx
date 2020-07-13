@@ -19,6 +19,7 @@ const query = graphql`
       userId
       text
       date
+      rate
     }
   }
 `;
@@ -61,6 +62,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
             date: formatDate(new Date()),
             type: 2,
             text: form.getFieldValue("review"),
+            rate: Number(form.getFieldValue("rate")),
           },
         },
         onCompleted: () => {
@@ -100,8 +102,8 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
         >
           <div />
           <Form layout={"vertical"} form={form} name="training-create">
-            <Form.Item name="raiting" label="Рейтинг">
-              <Rate />
+            <Form.Item name="rate" label="Рейтинг">
+              <Rate defaultValue={3} />
             </Form.Item>
             <Form.Item
               name="review"
@@ -116,9 +118,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
       {acceptedFeedbacksByTrainingId.map((review) => (
         <UserCard feedback={review} />
       ))}
-      {acceptedFeedbacksByTrainingId.length > 0 ? (
-        <></>
-      ) : (
+      {acceptedFeedbacksByTrainingId.length <= 0 && (
         <div style={{ margin: "auto" }}>
           <Empty />
         </div>

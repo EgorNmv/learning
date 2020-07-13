@@ -23,6 +23,9 @@ type FeedbackEntity {
   """id отзыва"""
   id: Float!
 
+  """рейтинг фидбека"""
+  rate: Float
+
   """статус фидбека(0-pending, 1-accepted, 2-rejected)"""
   status: Float
 
@@ -53,6 +56,7 @@ type FormatEntity {
 
 input InputFeedback {
   date: String!
+  rate: Float
   status: Float
   text: String!
   trainingId: Float!

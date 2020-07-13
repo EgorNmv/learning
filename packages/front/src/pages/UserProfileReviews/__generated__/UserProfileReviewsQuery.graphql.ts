@@ -14,6 +14,8 @@ export type UserProfileReviewsQueryResponse = {
             readonly name: string;
         };
         readonly status: number | null;
+        readonly rate: number | null;
+        readonly date: string;
     }>;
 };
 export type UserProfileReviewsQuery = {
@@ -35,6 +37,8 @@ query UserProfileReviewsQuery(
       name
     }
     status
+    rate
+    date
   }
 }
 */
@@ -112,6 +116,20 @@ v1 = [
         "kind": "ScalarField",
         "name": "status",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "rate",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "date",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -138,9 +156,9 @@ return {
     "metadata": {},
     "name": "UserProfileReviewsQuery",
     "operationKind": "query",
-    "text": "query UserProfileReviewsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      name\n    }\n    status\n  }\n}\n"
+    "text": "query UserProfileReviewsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      name\n    }\n    status\n    rate\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'f5638817d1d6304dacf36cb806904137';
+(node as any).hash = '6c7c8270b22df93e245f579f8d9a6005';
 export default node;

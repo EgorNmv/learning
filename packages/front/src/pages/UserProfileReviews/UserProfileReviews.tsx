@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Card } from "antd";
+import { Table, Card, Rate } from "antd";
 import { graphql } from "react-relay";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { useLazyLoadQuery } from "react-relay/hooks";
@@ -14,6 +14,8 @@ const query = graphql`
         name
       }
       status
+      rate
+      date
     }
   }
 `;
@@ -37,7 +39,13 @@ const UserProfileReviews: React.FC = () => {
       title: "Информация",
       dataIndex: "training",
       render: (text: string, record: any) => (
-        <span>{record.training.name}</span>
+        <>
+          <p>{record.training.name}</p>
+          <p>{record.date}</p>
+          <p>
+            <Rate disabled value={record.rate} />
+          </p>
+        </>
       ),
     },
     {
