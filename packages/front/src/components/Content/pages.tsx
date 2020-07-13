@@ -98,6 +98,3 @@ export const UserProfileDirectoriesOrganizersEdit = React.lazy(() =>
     "../../pages/UserProfileDirectories/Directories/OrganizersEdit/OrganizersEdit"
   )
 );
-export const NotFoundPage = React.lazy(() =>
-  import("../../pages/NotFoundPage/NotFoundPage")
-);
