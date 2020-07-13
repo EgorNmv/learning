@@ -161,7 +161,7 @@ export const Content: React.FC = () => {
   ]);
 
   React.useEffect(() => {
-    if (user && user.group && user.group !== "0") {
+    if (user && user.group && user.group === "0") {
       setRoutes((prev) => [...prev, ...adminRoutes]);
     }
   }, [user]);
