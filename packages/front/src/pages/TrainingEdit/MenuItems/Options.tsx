@@ -4,7 +4,7 @@ import { TrainingFormValues } from "../../../utils/types";
 import { InputTraining } from "../__generated__/TrainingEditMutation.graphql";
 
 type OptionsProps = {
-  dataForTrainingForm: TrainingFormValues;
+  dataForTrainingForm: TrainingFormValues | null;
   onFinishTrainingForm: (data: InputTraining) => void;
 };
 

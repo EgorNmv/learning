@@ -21,4 +21,5 @@ export interface Training {
   categoryId: number;
   createDate: string;
   listOfRequestsReviewsAndRecomends: number[];
+  numberOfParticipants: number;
 }

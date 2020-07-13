@@ -40,7 +40,12 @@ const query = graphql`
         audienceId: id
         description
       }
+      category {
+        categoryId: id
+        description
+      }
       site
+      numberOfParticipants
     }
   }
 `;
@@ -70,32 +75,24 @@ const mutation = graphql`
         description
       }
       site
+      numberOfParticipants
     }
   }
 `;
 
 const TrainingEdit: React.FC = () => {
   const history = useHistory();
-  const id = Number(useParams<{ id: string }>().id);
+  const trainingId = Number(useParams<{ id: string }>().id);
   const { showAlert } = React.useContext(AlertContext);
   const { training } = useLazyLoadQuery<TrainingEditQuery>(query, {
-    trainingId: id,
+    trainingId,
   });
   const [commit, isInFlight] = useMutation<TrainingEditMutation>(mutation);
   const [currentMenu, setCurrentMenu] = React.useState<string>("options");
-  const [dataForTrainingForm, setDataForTrainingForm] = React.useState<
-    TrainingFormValues
-  >({
-    category: 1,
-    label: training?.label || null,
-    description: training?.description,
-    endDate: training?.end,
-    name: training?.name,
-    organizer: training?.organizer.organizerId,
-    startDate: training?.start,
-    targetAudience: training?.audience.audienceId,
-    trainingFormat: training?.format.formatId,
-  });
+  const [
+    dataForTrainingForm,
+    setDataForTrainingForm,
+  ] = React.useState<TrainingFormValues | null>(null);
 
   const handleClick = (e: ClickParam) => {
     setCurrentMenu(e.key);
@@ -103,7 +100,7 @@ const TrainingEdit: React.FC = () => {
 
   const sendForm = (data: InputTraining) => {
     commit({
-      variables: { trainingId: id, data },
+      variables: { trainingId, data },
       onCompleted: () => {
         showAlert("Событие успешно отредактировано");
         history.goBack();
@@ -127,17 +124,21 @@ const TrainingEdit: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setDataForTrainingForm({
-      category: 1,
-      label: training?.label || null,
-      description: training?.description,
-      endDate: training?.end,
-      name: training?.name,
-      organizer: training?.organizer.organizerId,
-      startDate: training?.start,
-      targetAudience: training?.audience.audienceId,
-      trainingFormat: training?.format.formatId,
-    });
+    if (training) {
+      setDataForTrainingForm({
+        category: training?.category.categoryId,
+        label: training?.label,
+        description: training?.description,
+        endDate: training?.end,
+        name: training?.name,
+        organizer: training?.organizer.organizerId,
+        startDate: training?.start,
+        targetAudience: training?.audience.audienceId,
+        trainingFormat: training?.format.formatId,
+        countOfSeats: training.numberOfParticipants,
+        site: training.site,
+      });
+    }
   }, [training]);
 
   return (

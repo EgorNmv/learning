@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Dropdown } from "antd";
+import { Menu, Dropdown, Spin } from "antd";
 import { constants } from "../../constants/constants";
 import { DownOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -57,7 +57,7 @@ export const UserMenuWithLinks: React.FC = () => {
     <>
       <Dropdown overlay={menu} trigger={["click"]}>
         <span>
-          {user && user.name}
+          {user && user.name ? user.name : <Spin />}
           <DownOutlined
             style={{
               marginLeft: "20px",

@@ -29,7 +29,7 @@ export class InputTraining
   @Field()
   public end: string;
 
-  @Field()
+  @Field({ nullable: true })
   public site: string;
 
   @Field()
@@ -43,4 +43,7 @@ export class InputTraining
 
   @Field()
   public categoryId: number;
+
+  @Field({ nullable: true })
+  public numberOfParticipants: number;
 }

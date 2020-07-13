@@ -21,7 +21,7 @@ export type TrainingQueryResponse = {
         };
         readonly start: string;
         readonly end: string;
-        readonly site: string;
+        readonly site: string | null;
         readonly audience: {
             readonly description: string;
         };

@@ -10,8 +10,9 @@ export type InputTraining = {
     formatId: number;
     label?: string | null;
     name: string;
+    numberOfParticipants?: number | null;
     organizerId: number;
-    site: string;
+    site?: string | null;
     start: string;
 };
 export type TrainingCreateMutationVariables = {
@@ -40,7 +41,7 @@ export type TrainingCreateMutationResponse = {
             readonly audienceId: number;
             readonly description: string;
         };
-        readonly site: string;
+        readonly site: string | null;
     };
 };
 export type TrainingCreateMutation = {

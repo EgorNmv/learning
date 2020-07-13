@@ -37,16 +37,17 @@ export type Event = {
 
 export type TrainingFormValues = {
   label: string | null;
-  name: string | undefined;
-  category: number | undefined;
-  startDate: string | undefined;
-  targetAudience: number | undefined;
-  organizer: number | undefined;
-  endDate: string | undefined;
-  trainingFormat: number | undefined;
-  tags?: string | undefined;
-  description: string | undefined;
-  countOfSeats?: number | undefined;
+  name: string;
+  category: number;
+  startDate: string;
+  targetAudience: number;
+  organizer: number;
+  endDate: string;
+  trainingFormat: number;
+  tags?: string | null;
+  description: string;
+  countOfSeats: number | null;
+  site: string | null;
 };
 
 export type Material = {

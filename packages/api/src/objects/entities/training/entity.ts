@@ -99,7 +99,7 @@ export class TrainingEntity extends BaseEntity implements Training {
   public audienceId: number;
 
   @Field(() => String, {
-    nullable: false,
+    nullable: true,
     description: "ссылка на информацию по обучению",
   })
   @Column()
@@ -113,12 +113,12 @@ export class TrainingEntity extends BaseEntity implements Training {
   @JoinColumn()
   public category: CategoryEntity;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   @RelationId((training: TrainingEntity) => training.category)
   public categoryId: number;
 
   @Field(() => String, {
-    nullable: true,
+    nullable: false,
     description: "дата создания обучения",
   })
   @Column({ default: formatDate(new Date()) })
@@ -129,6 +129,13 @@ export class TrainingEntity extends BaseEntity implements Training {
     description: "Заявки / Отзывы / Рекомендации",
   })
   public listOfRequestsReviewsAndRecomends: number[];
+
+  @Field(() => Number, {
+    nullable: true,
+    description: "Количество мест для участия",
+  })
+  @Column({ nullable: true })
+  public numberOfParticipants: number;
 
   constructor(
     id: number,

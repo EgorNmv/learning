@@ -10,8 +10,9 @@ export type InputTraining = {
     formatId: number;
     label?: string | null;
     name: string;
+    numberOfParticipants?: number | null;
     organizerId: number;
-    site: string;
+    site?: string | null;
     start: string;
 };
 export type TrainingEditMutationVariables = {
@@ -41,7 +42,8 @@ export type TrainingEditMutationResponse = {
             readonly audienceId: number;
             readonly description: string;
         };
-        readonly site: string;
+        readonly site: string | null;
+        readonly numberOfParticipants: number | null;
     };
 };
 export type TrainingEditMutation = {
@@ -79,6 +81,7 @@ mutation TrainingEditMutation(
       description
     }
     site
+    numberOfParticipants
   }
 }
 */
@@ -241,7 +244,14 @@ v4 = [
         ],
         "storageKey": null
       },
-      (v3/*: any*/)
+      (v3/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "numberOfParticipants",
+        "storageKey": null
+      }
     ],
     "storageKey": null
   }
@@ -267,9 +277,9 @@ return {
     "metadata": {},
     "name": "TrainingEditMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    audience {\n      audienceId: id\n      description\n    }\n    site\n  }\n}\n"
+    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    numberOfParticipants\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '8ae69667acb04f2a8c7d91a62ca17501';
+(node as any).hash = '981cdf705c8845a370ab002821173c2b';
 export default node;

@@ -87,8 +87,9 @@ input InputTraining {
   formatId: Float!
   label: String
   name: String!
+  numberOfParticipants: Float
   organizerId: Float!
-  site: String!
+  site: String
   start: String!
 }
 
@@ -249,7 +250,7 @@ type TrainingEntity {
   category: CategoryEntity!
 
   """дата создания обучения"""
-  createDate: String
+  createDate: String!
 
   """описание обучения"""
   description: String!
@@ -272,11 +273,14 @@ type TrainingEntity {
   """имя обучения"""
   name: String!
 
+  """Количество мест для участия"""
+  numberOfParticipants: Float
+
   """организатор обучения"""
   organizer: OrganizerEntity!
 
   """ссылка на информацию по обучению"""
-  site: String!
+  site: String
 
   """дата начала обучения"""
   start: String!

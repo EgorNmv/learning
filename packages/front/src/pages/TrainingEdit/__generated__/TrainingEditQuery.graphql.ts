@@ -28,7 +28,12 @@ export type TrainingEditQueryResponse = {
             readonly audienceId: number;
             readonly description: string;
         };
-        readonly site: string;
+        readonly category: {
+            readonly categoryId: number;
+            readonly description: string;
+        };
+        readonly site: string | null;
+        readonly numberOfParticipants: number | null;
     } | null;
 };
 export type TrainingEditQuery = {
@@ -64,7 +69,12 @@ query TrainingEditQuery(
       audienceId: id
       description
     }
+    category {
+      categoryId: id
+      description
+    }
     site
+    numberOfParticipants
   }
 }
 */
@@ -216,7 +226,33 @@ v4 = [
         ],
         "storageKey": null
       },
-      (v3/*: any*/)
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "CategoryEntity",
+        "kind": "LinkedField",
+        "name": "category",
+        "plural": false,
+        "selections": [
+          {
+            "alias": "categoryId",
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          (v2/*: any*/)
+        ],
+        "storageKey": null
+      },
+      (v3/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "numberOfParticipants",
+        "storageKey": null
+      }
     ],
     "storageKey": null
   }
@@ -242,9 +278,9 @@ return {
     "metadata": {},
     "name": "TrainingEditQuery",
     "operationKind": "query",
-    "text": "query TrainingEditQuery(\n  $trainingId: Float!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    audience {\n      audienceId: id\n      description\n    }\n    site\n  }\n}\n"
+    "text": "query TrainingEditQuery(\n  $trainingId: Float!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    audience {\n      audienceId: id\n      description\n    }\n    category {\n      categoryId: id\n      description\n    }\n    site\n    numberOfParticipants\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '646d28bde5ec5f4fabc20602acb46ba5';
+(node as any).hash = '8f4d5d16daf5ddbf1c7be0bc6294d8dc';
 export default node;

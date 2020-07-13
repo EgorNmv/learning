@@ -33,7 +33,7 @@ const query = graphql`
 `;
 
 type TrainingFormProps = {
-  formValues?: TrainingFormValues;
+  formValues?: TrainingFormValues | null;
   onFinish: (data: InputTraining) => void;
   isEditing?: boolean;
 };
@@ -60,7 +60,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     organizer,
     endDate,
     trainingFormat,
-    tags,
+    // tags,
     description,
     countOfSeats,
     site,
@@ -70,12 +70,13 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       end: endDate,
       description,
       formatId: trainingFormat,
-      label: response?.filename || "",
+      label: response?.filename,
       name,
       organizerId: organizer,
-      site: site || "",
+      site,
       start: startDate,
       categoryId: category,
+      numberOfParticipants: Number(countOfSeats),
     };
 
     onFinish && onFinish(data);
@@ -208,15 +209,15 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
           </Form.Item>
         </div>
       </div>
-      <Form.Item name="tags" label="Теги:">
+      {/* <Form.Item name="tags" label="Теги:">
         <Input />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item
         name="description"
         label="Описание:"
         rules={[{ required: true }]}
       >
-        <Input />
+        <Input.TextArea rows={8} />
       </Form.Item>
       <CenteredText>
         <Form.Item>
