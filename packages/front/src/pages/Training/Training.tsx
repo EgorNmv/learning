@@ -11,6 +11,7 @@ import { TrainingQuery } from "./__generated__/TrainingQuery.graphql";
 import { formatDate } from "../../utils/utils";
 import { UploadedPicture } from "../../components/UploadedPicture/UploadedPicture";
 import { UserContext } from "../../hoc/UserContext/UserContext";
+import "./training.css";
 
 const mutation = graphql`
   mutation TrainingMutation($data: InputRequest!) {
@@ -128,7 +129,9 @@ const Training: React.FC = () => {
                   Подать заявку на участие
                 </Button>
               </div>
-              <div>{training?.description}</div>
+              <div className="training-description-section">
+                {training?.description}
+              </div>
             </div>
           </div>
         </Card>
