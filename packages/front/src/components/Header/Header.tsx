@@ -1,5 +1,5 @@
-import React from "react";
-import { Layout, Select } from "antd";
+import React, { Suspense } from "react";
+import { Layout, Select, Spin } from "antd";
 import { SearchableInput } from "../SearchableInput/SearchableInput";
 import "./Header.css";
 import { UserMenuWithLinks } from "../UserMenuWithLinks/UserMenuWithLinks";
@@ -10,16 +10,18 @@ export const Header: React.FC = () => {
 
   return (
     <Layout.Header className="all-main-header">
-      {authState.isAuthenticated && (
-        <div>
-          <SearchableInput />
-        </div>
-      )}
-      {authState.isAuthenticated && (
-        <div className="all-main-header-user-links">
-          {authState.isAuthenticated && <UserMenuWithLinks />}
-        </div>
-      )}
+      <Suspense fallback={<Spin />}>
+        {authState.isAuthenticated && (
+          <div>
+            <SearchableInput />
+          </div>
+        )}
+        {authState.isAuthenticated && (
+          <div className="all-main-header-user-links">
+            {authState.isAuthenticated && <UserMenuWithLinks />}
+          </div>
+        )}
+      </Suspense>
     </Layout.Header>
   );
 };

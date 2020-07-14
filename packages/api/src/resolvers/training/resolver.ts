@@ -83,8 +83,9 @@ export class TrainingResolver {
   @Query(() => [TrainingEntity])
   public async searchableTrainings(
     @Ctx() { connection }: Context,
-    @Arg("searchBy") searchBy: string,
-    @Arg("searchText") searchText: string
+    @Arg("searchBy")
+    searchBy: "name" | "date" | "format" | "audience" | "category",
+    @Arg("searchText", { nullable: true }) searchText: string
   ) {
     return await findAllTrainingBySearchText(connection, searchBy, searchText);
   }

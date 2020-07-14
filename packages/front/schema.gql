@@ -195,7 +195,7 @@ type Query {
   requests: [RequestEntity!]!
   requestsBySub(userId: String!): [RequestEntity!]!
   requestsByTrainingId(trainingId: Float!): [RequestEntity!]!
-  searchableTrainings(searchBy: String!, searchText: String!): [TrainingEntity!]!
+  searchableTrainings(searchBy: String!, searchText: String): [TrainingEntity!]!
   sortedTraining(categoryId: Float!, sortBy: String!, sortOrder: String!): [TrainingEntity!]!
   targetAudience(id: Float!): TargetAudienceEntity
   targetAudiences: [TargetAudienceEntity!]!
