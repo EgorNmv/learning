@@ -84,7 +84,7 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
     nullable: true,
     description: "рейтинг фидбека",
   })
-  @Column()
+  @Column({ nullable: true })
   public rate: number;
 
   constructor(
