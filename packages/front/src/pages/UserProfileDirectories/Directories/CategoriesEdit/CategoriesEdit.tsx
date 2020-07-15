@@ -121,7 +121,7 @@ const CategoriesCreate: React.FC = () => {
                       maxWidth: "20rem",
                     }}
                     imgType="category"
-                    filename={category.label}
+                    filename={fileResponse?.filename || category.label}
                   />
                 ) : (
                   <div
