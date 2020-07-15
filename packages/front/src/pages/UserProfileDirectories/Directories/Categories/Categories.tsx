@@ -11,6 +11,7 @@ import { Writeable } from "../../../../utils/genericTypes";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Category } from "../../../../utils/types";
 import { CategoriesMutation } from "./__generated__/CategoriesMutation.graphql";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const query: GraphQLTaggedNode = graphql`
   query CategoriesQuery {
@@ -31,7 +32,8 @@ const Categories: React.FC = () => {
     CategoriesQuery
   >(query, {}, { fetchPolicy: "store-and-network" });
   const [commit, isInFlight] = useMutation<CategoriesMutation>(mutation);
-  const data: Category[] = categories as Writeable<Category[]>;
+  const [data, setData] = React.useState<Category[]>([]);
+  const { showAlert } = React.useContext(AlertContext);
 
   const columns = [
     {
@@ -54,9 +56,26 @@ const Categories: React.FC = () => {
               <EditOutlined />
             </Link>
           </span>
-          <span style={{ fontSize: "xx-large" }}>
+          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
             <span
-              onClick={() => commit({ variables: { id: record.categoryId } })}
+              onClick={() =>
+                commit({
+                  variables: { id: record.categoryId },
+                  onCompleted: () => {
+                    showAlert("Категория успешно удалена");
+                    setData((prev) =>
+                      prev.filter(
+                        (category) => category.categoryId !== record.categoryId
+                      )
+                    );
+                  },
+                  onError: () =>
+                    showAlert(
+                      "При удалении категории произошла ошибка",
+                      "error"
+                    ),
+                })
+              }
             >
               <DeleteOutlined />
             </span>
@@ -65,6 +84,10 @@ const Categories: React.FC = () => {
       ),
     },
   ];
+
+  React.useEffect(() => {
+    setData(categories as Category[]);
+  }, [categories]);
 
   return (
     <section>
