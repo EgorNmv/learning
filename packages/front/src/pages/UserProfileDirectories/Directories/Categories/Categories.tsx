@@ -7,11 +7,11 @@ import {
   CategoriesQuery,
   CategoriesQueryResponse,
 } from "./__generated__/CategoriesQuery.graphql";
-import { Writeable } from "../../../../utils/genericTypes";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Category } from "../../../../utils/types";
 import { CategoriesMutation } from "./__generated__/CategoriesMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { Modal } from "../../../../components/Modal/Modal";
 
 const query: GraphQLTaggedNode = graphql`
   query CategoriesQuery {
@@ -34,6 +34,11 @@ const Categories: React.FC = () => {
   const [commit, isInFlight] = useMutation<CategoriesMutation>(mutation);
   const [data, setData] = React.useState<Category[]>([]);
   const { showAlert } = React.useContext(AlertContext);
+  const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
+  const [deletingCategory, setDeletingCategory] = React.useState<{
+    categoryId: number;
+    name: string;
+  } | null>(null);
 
   const columns = [
     {
@@ -58,24 +63,13 @@ const Categories: React.FC = () => {
           </span>
           <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
             <span
-              onClick={() =>
-                commit({
-                  variables: { id: record.categoryId },
-                  onCompleted: () => {
-                    showAlert("Категория успешно удалена");
-                    setData((prev) =>
-                      prev.filter(
-                        (category) => category.categoryId !== record.categoryId
-                      )
-                    );
-                  },
-                  onError: () =>
-                    showAlert(
-                      "При удалении категории произошла ошибка",
-                      "error"
-                    ),
-                })
-              }
+              onClick={() => {
+                setDeletingCategory({
+                  categoryId: record.categoryId,
+                  name: record.description,
+                });
+                setIsModalVisible(true);
+              }}
             >
               <DeleteOutlined />
             </span>
@@ -85,12 +79,42 @@ const Categories: React.FC = () => {
     },
   ];
 
+  const deleteCategory = (): void => {
+    if (deletingCategory) {
+      commit({
+        variables: { id: deletingCategory.categoryId },
+        onCompleted: () => {
+          showAlert(`Категория ${deletingCategory.name} успешно удалена`);
+          setData((prev) =>
+            prev.filter(
+              (category) => category.categoryId !== deletingCategory.categoryId
+            )
+          );
+          setIsModalVisible(false);
+        },
+        onError: () =>
+          showAlert(
+            `При удалении категории ${deletingCategory.name} произошла ошибка`,
+            "error"
+          ),
+      });
+    }
+  };
+
   React.useEffect(() => {
     setData(categories as Category[]);
   }, [categories]);
 
   return (
     <section>
+      <Modal
+        open={isModalVisible}
+        deletingObjectName={deletingCategory && deletingCategory.name}
+        deletingObjectType="category"
+        isLoading={isInFlight}
+        onCancel={() => setIsModalVisible(false)}
+        onOk={() => deleteCategory()}
+      />
       <div
         style={{
           display: "flex",

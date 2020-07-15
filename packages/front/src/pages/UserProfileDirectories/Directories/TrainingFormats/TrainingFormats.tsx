@@ -2,11 +2,13 @@ import React from "react";
 import { Card, Table, Button } from "antd";
 import { Link } from "react-router-dom";
 import { graphql, GraphQLTaggedNode } from "react-relay";
-import { useLazyLoadQuery } from "react-relay/hooks";
-import { Writeable } from "../../../../utils/genericTypes";
+import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { TrainingFormatsQuery } from "./__generated__/TrainingFormatsQuery.graphql";
 import { TrainingFormat } from "../../../../utils/types";
+import { Modal } from "../../../../components/Modal/Modal";
+import { TrainingFormatsMutation } from "./__generated__/TrainingFormatsMutation.graphql";
+import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 
 const query: GraphQLTaggedNode = graphql`
   query TrainingFormatsQuery {
@@ -17,36 +19,11 @@ const query: GraphQLTaggedNode = graphql`
   }
 `;
 
-const columns = [
-  {
-    title: "№",
-    dataIndex: "trainingFormatId",
-  },
-  {
-    title: "Название",
-    dataIndex: "description",
-  },
-  {
-    title: "Действия",
-    dataIndex: "actions",
-    render: (text: string, record: TrainingFormat) => (
-      <>
-        <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
-          <Link
-            to={`/profile/directories/trainingformats/edit/${record.trainingFormatId}`}
-          >
-            <EditOutlined />
-          </Link>
-        </span>
-        <span style={{ fontSize: "xx-large" }}>
-          <Link to="/">
-            <DeleteOutlined />
-          </Link>
-        </span>
-      </>
-    ),
-  },
-];
+const mutation = graphql`
+  mutation TrainingFormatsMutation($id: Float!) {
+    deleteFormatById(id: $id)
+  }
+`;
 
 const TrainingFormats: React.FC = () => {
   const { formats } = useLazyLoadQuery<TrainingFormatsQuery>(
@@ -54,10 +31,96 @@ const TrainingFormats: React.FC = () => {
     {},
     { fetchPolicy: "store-and-network" }
   );
-  const data: TrainingFormat[] = formats as Writeable<TrainingFormat[]>;
+  const [commit, isInFlight] = useMutation<TrainingFormatsMutation>(mutation);
+  const [data, setData] = React.useState<TrainingFormat[]>([]);
+  const { showAlert } = React.useContext(AlertContext);
+  const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
+  const [deletingTrainingFormat, setTrainingFormat] = React.useState<{
+    trainingFormatId: number;
+    name: string;
+  } | null>(null);
+
+  const columns = [
+    {
+      title: "№",
+      dataIndex: "trainingFormatId",
+    },
+    {
+      title: "Название",
+      dataIndex: "description",
+    },
+    {
+      title: "Действия",
+      dataIndex: "actions",
+      render: (text: string, record: TrainingFormat) => (
+        <>
+          <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
+            <Link
+              to={`/profile/directories/trainingformats/edit/${record.trainingFormatId}`}
+            >
+              <EditOutlined />
+            </Link>
+          </span>
+          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
+            <span
+              onClick={() => {
+                setTrainingFormat({
+                  trainingFormatId: record.trainingFormatId,
+                  name: record.description,
+                });
+                setIsModalVisible(true);
+              }}
+            >
+              <DeleteOutlined />
+            </span>
+          </span>
+        </>
+      ),
+    },
+  ];
+
+  const deleteCategory = (): void => {
+    if (deletingTrainingFormat) {
+      commit({
+        variables: { id: deletingTrainingFormat.trainingFormatId },
+        onCompleted: () => {
+          showAlert(
+            `Формат обучения ${deletingTrainingFormat.name} успешно удалён`
+          );
+          setData((prev) =>
+            prev.filter(
+              (trainingFormat) =>
+                trainingFormat.trainingFormatId !==
+                deletingTrainingFormat.trainingFormatId
+            )
+          );
+          setIsModalVisible(false);
+        },
+        onError: () =>
+          showAlert(
+            `При удалении формата обучения ${deletingTrainingFormat.name} произошла ошибка`,
+            "error"
+          ),
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    setData(formats as TrainingFormat[]);
+  }, [formats]);
 
   return (
     <section>
+      <Modal
+        open={isModalVisible}
+        deletingObjectName={
+          deletingTrainingFormat && deletingTrainingFormat.name
+        }
+        deletingObjectType="format"
+        isLoading={isInFlight}
+        onCancel={() => setIsModalVisible(false)}
+        onOk={() => deleteCategory()}
+      />
       <div
         style={{
           display: "flex",

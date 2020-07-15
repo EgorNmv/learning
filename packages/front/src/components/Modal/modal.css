@@ -1,0 +1,53 @@
+div.ant-modal > div.ant-modal-content {
+  border-radius: 3%;
+}
+
+div.ant-modal-content > div.ant-modal-body {
+  padding: 0;
+}
+
+div.app-modal__red-line {
+  height: 5px;
+  background: rgb(255, 90, 90);
+  margin-bottom: 1rem;
+  border-radius: 3%;
+}
+
+.app-modal__content {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 2rem;
+}
+
+.app-modal__content > div:first-child {
+  margin-right: 2rem;
+  background-color: rgb(255, 90, 90);
+  border-radius: 50%;
+  width: 7rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.app-modal__content-title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.app-modal__footer {
+  display: flex;
+  justify-content: center;
+}
+
+.app-modal__content img {
+  filter: brightness(0) invert(1);
+}
+
+div.app-modal__footer button.app-modal__footer-delete-btn {
+  background: rgb(255, 90, 90);
+  border-color: rgb(255, 90, 90);
+}
+
+div.ant-modal-footer {
+  border-top: 0;
+}

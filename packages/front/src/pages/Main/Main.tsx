@@ -82,7 +82,10 @@ const Main: React.FC = () => {
         <h2>Ближайшие события</h2>
         <Carousel {...{ responsive }}>
           {comingTrainings.map((training) => (
-            <TrainingCard training={training} />
+            <TrainingCard
+              training={training}
+              key={`${training.trainingId}${training.name}`}
+            />
           ))}
         </Carousel>
       </section>
