@@ -83,7 +83,7 @@ const Organizers: React.FC = () => {
         <h1>Организаторы</h1>
         <Button type="primary">
           <Link to="/profile/directories/organizers/create">
-            Создать орагнизатора
+            Создать организатора
           </Link>
         </Button>
       </div>
