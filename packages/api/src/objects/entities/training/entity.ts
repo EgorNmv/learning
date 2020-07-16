@@ -53,7 +53,9 @@ export class TrainingEntity extends BaseEntity implements Training {
     nullable: false,
     description: "формат обучения",
   })
-  @ManyToOne((type) => FormatEntity, (format) => format.id)
+  @ManyToOne((type) => FormatEntity, (format) => format.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   public format: FormatEntity;
 
@@ -65,7 +67,9 @@ export class TrainingEntity extends BaseEntity implements Training {
     nullable: false,
     description: "организатор обучения",
   })
-  @ManyToOne((type) => OrganizerEntity, (organizer) => organizer.id)
+  @ManyToOne((type) => OrganizerEntity, (organizer) => organizer.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   public organizer: OrganizerEntity;
 
@@ -91,7 +95,9 @@ export class TrainingEntity extends BaseEntity implements Training {
     nullable: false,
     description: "целевая аудитория обучения",
   })
-  @ManyToOne((type) => TargetAudienceEntity, (audience) => audience.id)
+  @ManyToOne((type) => TargetAudienceEntity, (audience) => audience.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   public audience: TargetAudienceEntity;
 
@@ -103,14 +109,16 @@ export class TrainingEntity extends BaseEntity implements Training {
     nullable: true,
     description: "ссылка на информацию по обучению",
   })
-  @Column()
+  @Column({ nullable: true })
   public site: string;
 
   @Field(() => CategoryEntity, {
     nullable: false,
     description: "категория обучения",
   })
-  @ManyToOne((type) => CategoryEntity, (category) => category.id)
+  @ManyToOne((type) => CategoryEntity, (category) => category.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   public category: CategoryEntity;
 
