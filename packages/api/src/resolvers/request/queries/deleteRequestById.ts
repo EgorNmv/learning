@@ -1,25 +1,24 @@
-import { Connection } from "typeorm"
-import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection"
+import { Connection } from "typeorm";
 import { findRequestById } from "./findRequestById";
 import { RequestEntity } from "../../../objects/entities/request/entity";
 
 export const deleteRequestById = async (
-    connection: Connection,
-    id: number
+  connection: Connection,
+  id: number
 ): Promise<boolean> => {
-    const request: RequestEntity = await findRequestById(connection, id);
-    let isRequestRemoved: boolean = false;
+  const request: RequestEntity = await findRequestById(connection, id);
+  let isRequestRemoved: boolean = false;
 
-    if (!request) {
-        throw new Error(`Request with id ${id} not found`);
-    }
+  if (!request) {
+    throw new Error(`Request with id ${id} not found`);
+  }
 
-    try {
-        await connection.getRepository(RequestEntity).remove(request);
-        isRequestRemoved = true;
-    } catch (error) {
-        console.info(`Error in deleteRequestById${error}`);
-    }
+  try {
+    await connection.getRepository(RequestEntity).remove(request);
+    isRequestRemoved = true;
+  } catch (error) {
+    console.info(`Error in deleteRequestById${error}`);
+  }
 
-    return isRequestRemoved;
-}
+  return isRequestRemoved;
+};

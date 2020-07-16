@@ -1,25 +1,34 @@
-import { Connection } from "typeorm"
+import { Connection } from "typeorm";
 import { CategoryEntity } from "../../../objects/entities/category/entity";
 import { findCategoryById } from "./findCategoryById";
+import { TrainingEntity } from "../../../objects/entities/training/entity";
 
 export const deleteCategoryById = async (
-    connection: Connection,
-    id: number
+  connection: Connection,
+  id: number
 ): Promise<boolean> => {
-    const category: CategoryEntity = await findCategoryById(connection, id);
-    let isCategoryRemoved: boolean = false;
+  const category: CategoryEntity = await findCategoryById(connection, id);
+  let isCategoryRemoved: boolean = false;
 
-    if (!category) {
-        throw new Error(`Category with id ${id} not found`);
-    }
+  if (!category) {
+    throw new Error(`Category with id ${id} not found`);
+  }
 
-    try {
-        await connection.getRepository(CategoryEntity).remove(category);
-        isCategoryRemoved = true;
-    } catch (error) {
-        console.info(`Error in deleteCategoryById: ${error}`);
-    }
+  try {
+    const categoryId: number = category.id;
+    const trainingWithCategory: TrainingEntity[] = await connection
+      .getRepository(TrainingEntity)
+      .find({ where: { categoryId } });
 
-    return isCategoryRemoved;
+    await connection
+      .getRepository(TrainingEntity)
+      .softRemove(trainingWithCategory);
+    await connection.getRepository(CategoryEntity).softRemove(category);
 
-}
+    isCategoryRemoved = true;
+  } catch (error) {
+    console.info(`Error in deleteCategoryById: ${error}`);
+  }
+
+  return isCategoryRemoved;
+};

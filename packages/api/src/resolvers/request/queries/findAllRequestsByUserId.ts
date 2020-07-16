@@ -5,7 +5,6 @@ export const findAllRequestsByUserId = async (
   connection: Connection,
   userId: string
 ): Promise<RequestEntity[]> => {
-  console.info("userId", userId);
   if (!userId) {
     return [];
   }

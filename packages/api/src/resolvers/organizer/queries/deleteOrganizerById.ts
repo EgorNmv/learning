@@ -1,26 +1,34 @@
 import { OrganizerEntity } from "../../../objects/entities/oraganizer/entity";
 import { Connection } from "typeorm";
-import { getLocallyConnection } from "../../../../../core/src/database-connection/database-connection";
 import { findOrganizerById } from "./findOrganizerById";
+import { TrainingEntity } from "../../../objects/entities/training/entity";
 
 export const deleteOrganizerById = async (
-    connection: Connection,
-    id: number
+  connection: Connection,
+  id: number
 ): Promise<boolean> => {
-    const organizer: OrganizerEntity = await findOrganizerById(connection, id);
-    let isOrganizerRemoved: boolean = false;
+  const organizer: OrganizerEntity = await findOrganizerById(connection, id);
+  let isOrganizerRemoved: boolean = false;
 
-    if (!organizer) {
-        throw new Error(`Organizer with id: ${id} not found`);
-    }
+  if (!organizer) {
+    throw new Error(`Organizer with id: ${id} not found`);
+  }
 
-    try {
-        await connection.getRepository(OrganizerEntity).remove(organizer);
-        isOrganizerRemoved = true;
-    } catch (error) {
-        console.info(`Error in deleteOrganizerById: ${error}`);
-    }
+  try {
+    const organizerId: number = organizer.id;
+    const trainingWithOrganizer: TrainingEntity[] = await connection
+      .getRepository(TrainingEntity)
+      .find({ where: { organizerId } });
 
-    return isOrganizerRemoved;
+    await connection
+      .getRepository(TrainingEntity)
+      .softRemove(trainingWithOrganizer);
+    await connection.getRepository(OrganizerEntity).softRemove(organizer);
 
-}
+    isOrganizerRemoved = true;
+  } catch (error) {
+    console.info(`Error in deleteOrganizerById: ${error}`);
+  }
+
+  return isOrganizerRemoved;
+};
