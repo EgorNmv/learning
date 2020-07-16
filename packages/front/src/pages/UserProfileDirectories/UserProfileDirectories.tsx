@@ -52,7 +52,12 @@ const UserProfileDirectories: React.FC = () => {
         <h1>Справочники</h1>
       </span>
       <Card>
-        <Table bordered columns={columns} dataSource={data} />
+        <Table
+          bordered
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+        />
       </Card>
     </section>
   );
