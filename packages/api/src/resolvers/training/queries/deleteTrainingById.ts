@@ -14,7 +14,7 @@ export const deleteTrainingById = async (
   }
 
   try {
-    await connection.getRepository(TrainingEntity).remove(training);
+    await connection.getRepository(TrainingEntity).softRemove(training);
     isTrainingRemoved = true;
   } catch (error) {
     console.info(`Error in deleteTrainingById${error}`);

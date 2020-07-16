@@ -4,7 +4,12 @@ import "./modal.css";
 import trash from "./trash_default.svg";
 import { loadOptions } from "@babel/core";
 
-type DeletingObjectTypes = "category" | "organizer" | "audience" | "format";
+type DeletingObjectTypes =
+  | "category"
+  | "organizer"
+  | "audience"
+  | "format"
+  | "training";
 
 type ModalProps = {
   open: boolean;
@@ -24,6 +29,7 @@ const deletingObjectsMap: {
   organizer: { title: "организатора", content: "организатора" },
   audience: { title: "целевой аудитории", content: "целевую аудиторию" },
   format: { title: "формат обучения", content: "формат обучния" },
+  training: { title: "события", content: "событие" },
 };
 
 export const Modal: React.FC<ModalProps> = ({

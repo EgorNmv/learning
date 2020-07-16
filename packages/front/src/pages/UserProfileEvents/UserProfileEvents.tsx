@@ -3,10 +3,12 @@ import { Table, Card, Button } from "antd";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay/hooks";
+import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { UserProfileEventsQuery } from "./__generated__/UserProfileEventsQuery.graphql";
-import { Writeable } from "../../utils/genericTypes";
 import { Event } from "../../utils/types";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
+import { Modal } from "../../components/Modal/Modal";
+import { UserProfileEventsMutation } from "./__generated__/UserProfileEventsMutation.graphql";
 
 const query = graphql`
   query UserProfileEventsQuery {
@@ -20,12 +22,27 @@ const query = graphql`
   }
 `;
 
+const mutation = graphql`
+  mutation UserProfileEventsMutation($id: Float!) {
+    deleteTrainingById(id: $id)
+  }
+`;
+
 const UserProfileEvents: React.FC = () => {
   const { trainings } = useLazyLoadQuery<UserProfileEventsQuery>(
     query,
     {},
     { fetchPolicy: "store-and-network" }
   );
+  const [commit, isInFlight] = useMutation<UserProfileEventsMutation>(mutation);
+  const [data, setData] = React.useState<Event[]>([]);
+  const { showAlert } = React.useContext(AlertContext);
+  const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
+  const [deletingTraining, setDeletingTraining] = React.useState<{
+    trainingId: number;
+    name: string;
+  } | null>(null);
+
   const columns = [
     {
       title: "№",
@@ -59,19 +76,60 @@ const UserProfileEvents: React.FC = () => {
               <EditOutlined />
             </Link>
           </span>
-          <span style={{ fontSize: "xx-large" }}>
-            <Link to="/">
+          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
+            <span
+              onClick={() => {
+                setDeletingTraining({
+                  trainingId: record.trainingId,
+                  name: record.name,
+                });
+                setIsModalVisible(true);
+              }}
+            >
               <DeleteOutlined />
-            </Link>
+            </span>
           </span>
         </>
       ),
     },
   ];
-  const data = trainings as Writeable<Event[]>;
+
+  const deleteCategory = (): void => {
+    if (deletingTraining) {
+      commit({
+        variables: { id: deletingTraining.trainingId },
+        onCompleted: () => {
+          showAlert(`Событие ${deletingTraining.name} успешно удалено`);
+          setData((prev) =>
+            prev.filter(
+              (training) => training.trainingId !== deletingTraining.trainingId
+            )
+          );
+          setIsModalVisible(false);
+        },
+        onError: () =>
+          showAlert(
+            `При удалении события ${deletingTraining.name} произошла ошибка`,
+            "error"
+          ),
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    setData(trainings as Event[]);
+  }, [trainings]);
 
   return (
     <section>
+      <Modal
+        open={isModalVisible}
+        deletingObjectName={deletingTraining && deletingTraining.name}
+        deletingObjectType="training"
+        isLoading={isInFlight}
+        onCancel={() => setIsModalVisible(false)}
+        onOk={() => deleteCategory()}
+      />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           <h1>События</h1>
