@@ -10,6 +10,7 @@ import {
   ManyToOne,
   JoinColumn,
   RelationId,
+  DeleteDateColumn,
 } from "typeorm";
 import { Training } from "./type";
 import { CategoryEntity } from "../category/entity";
@@ -136,6 +137,9 @@ export class TrainingEntity extends BaseEntity implements Training {
   })
   @Column({ nullable: true })
   public numberOfParticipants: number;
+
+  @DeleteDateColumn()
+  public deletedAt: Date;
 
   constructor(
     id: number,

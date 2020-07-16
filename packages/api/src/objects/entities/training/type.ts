@@ -22,4 +22,5 @@ export interface Training {
   createDate: string;
   listOfRequestsReviewsAndRecomends: number[];
   numberOfParticipants: number;
+  deletedAt?: Date;
 }

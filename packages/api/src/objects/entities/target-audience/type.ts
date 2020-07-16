@@ -1,4 +1,5 @@
 export interface TargetAudience {
-    id: number;
-    description: string;
+  id: number;
+  description: string;
+  deletedAt?: Date;
 }
