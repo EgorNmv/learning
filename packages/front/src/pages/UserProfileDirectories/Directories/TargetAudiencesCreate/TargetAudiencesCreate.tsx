@@ -46,7 +46,7 @@ const TargetAudiencesCreate: React.FC = () => {
           onFinish={onFinish}
         >
           <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
-            <Input />
+            <Input autoFocus />
           </Form.Item>
           <CenteredText>
             <Form.Item>

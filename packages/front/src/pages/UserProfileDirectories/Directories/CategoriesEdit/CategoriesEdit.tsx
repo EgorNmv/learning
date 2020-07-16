@@ -103,7 +103,7 @@ const CategoriesCreate: React.FC = () => {
                 label="Название:"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input autoFocus />
               </Form.Item>
             </div>
             <div style={{ padding: "0 1rem" }}>

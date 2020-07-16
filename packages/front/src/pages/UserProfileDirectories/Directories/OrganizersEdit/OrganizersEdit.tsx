@@ -87,7 +87,7 @@ const OrganizersEdit: React.FC = () => {
                 label="Название:"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input autoFocus />
               </Form.Item>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
