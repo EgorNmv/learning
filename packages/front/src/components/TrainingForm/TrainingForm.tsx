@@ -196,7 +196,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 maxHeight: "20rem",
                 maxWidth: "20rem",
               }}
-              filename={formValues?.label || null}
+              filename={response?.filename || formValues?.label || null}
               imgType="training"
             />
             <input
