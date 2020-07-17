@@ -76,12 +76,12 @@ export const TrainingMaterials: React.FC = () => {
           style={{ visibility: "hidden" }}
           disabled={isLoadingFile || isInFlight}
           type="file"
-          id="file"
+          id="trainingMaterialFile"
           onChange={uploadFile}
         />
         <Button
           onClick={() => {
-            document.getElementById("file")?.click();
+            document.getElementById("trainingMaterialFile")?.click();
           }}
         >
           Загрузить материал
@@ -98,7 +98,7 @@ export const TrainingMaterials: React.FC = () => {
               </a>
             </span>
           ))}
-          {materialsByTrainingId.length <= 0 && (
+          {!(materials.length > 0) && (
             <div style={{ margin: "auto" }}>
               <Empty description="В событии пока нет материалов" />
             </div>

@@ -82,7 +82,7 @@ const mutation = graphql`
 
 const TrainingEdit: React.FC = () => {
   const history = useHistory();
-  const trainingId = Number(useParams<{ id: string }>().id);
+  const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
   const { showAlert } = React.useContext(AlertContext);
   const { training } = useLazyLoadQuery<TrainingEditQuery>(query, {
     trainingId,
