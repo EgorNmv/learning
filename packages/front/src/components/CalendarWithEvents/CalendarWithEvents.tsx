@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import { Calendar } from "antd";
 import { TrainingCard } from "../TrainingCard/TrainingCard";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
@@ -8,7 +8,7 @@ import { useLazyLoadQuery } from "react-relay/hooks";
 import { CalendarWithEventsQuery } from "./__generated__/CalendarWithEventsQuery.graphql";
 import moment from "moment";
 import "moment/locale/ru";
-import "./index.css";
+import "./calendar.css";
 import icon from "./calendar.svg";
 
 const query = graphql`
@@ -33,41 +33,71 @@ export const CalendarWithEvents: React.FC = () => {
     query,
     {}
   );
-  const [modifier, setModifier] = useState(0);
-  const [date, setDate] = useState(new Date());
-  date.setMonth(date.getMonth() + modifier);
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+
+  const renderSelectedDates = (date: moment.Moment): ReactNode => {
+    let cellPainted: boolean = false;
+    const dateInCell: Date = date.toDate();
+
+    dateInCell.setHours(0, 0, 0, 0);
+
+    const trainingsWithCurrentDate = comingTrainings.map((training) => {
+      if (training) {
+        const splittedArrayWithStartDate: number[] = training.start
+          .split(".")
+          .map(Number);
+        const startTrainingDate: Date = new Date(
+          splittedArrayWithStartDate[2],
+          splittedArrayWithStartDate[1] - 1,
+          splittedArrayWithStartDate[0]
+        );
+        if (startTrainingDate.getTime() === dateInCell.getTime()) {
+          return training;
+        }
+      }
+    });
+
+    if (trainingsWithCurrentDate.filter(Boolean).length > 0) {
+      cellPainted = true;
+    }
+
+    if (cellPainted) {
+      return <div className="date-with-training" />;
+    }
+  };
 
   return (
     <>
       <div>
         <Calendar
           fullscreen={false}
-          onSelect={(d) => {
-            setDate(d.toDate());
+          onSelect={(newDate: moment.Moment) => {
+            setCurrentDate(newDate.toDate());
           }}
+          dateCellRender={renderSelectedDates}
           headerRender={() => (
             <div className="calendar-header">
               <span
                 onClick={() => {
-                  date.setMonth(date.getMonth() - 1);
-                  setDate(new Date(date));
+                  currentDate.setMonth(currentDate.getMonth() - 1);
+                  setCurrentDate(new Date(currentDate));
                 }}
               >
                 {"<"}
               </span>
               <img src={icon} />
-              {moment(date).format("MMMM YYYY").toLocaleUpperCase()}
+              {moment(currentDate).format("MMMM YYYY").toLocaleUpperCase()}
               <span
                 onClick={() => {
-                  date.setMonth(date.getMonth() + 1);
-                  setDate(new Date(date));
+                  currentDate.setMonth(currentDate.getMonth() + 1);
+                  setCurrentDate(new Date(currentDate));
                 }}
               >
                 {">"}
               </span>
             </div>
           )}
-          value={moment(date)}
+          value={moment(currentDate)}
         />
       </div>
       <CenteredText>

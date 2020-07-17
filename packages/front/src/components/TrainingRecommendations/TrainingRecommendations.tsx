@@ -116,14 +116,12 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           </Form>
         </Modal>
       </div>
-      <Carousel autoplay>
+      <Carousel autoplay={acceptedFeedbacksByTrainingId.length > 1}>
         {acceptedFeedbacksByTrainingId.map((recomendation) => (
           <UserCard feedback={recomendation} />
         ))}
       </Carousel>
-      {acceptedFeedbacksByTrainingId.length > 0 ? (
-        <></>
-      ) : (
+      {acceptedFeedbacksByTrainingId.length === 0 && (
         <div style={{ margin: "auto" }}>
           <Empty />
         </div>

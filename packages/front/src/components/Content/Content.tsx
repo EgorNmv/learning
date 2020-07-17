@@ -120,7 +120,7 @@ export const Content: React.FC = () => {
       component={TrainingCreate}
     />,
     <SecureRoute
-      path="/profile/trainings/edit/:id"
+      path="/profile/trainings/edit/:trainingId"
       exact
       component={TrainingEdit}
     />,

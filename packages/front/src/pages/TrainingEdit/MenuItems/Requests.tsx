@@ -30,8 +30,9 @@ const mutation = graphql`
 `;
 
 export const Requests: React.FC = () => {
-  const params = useParams<{ id: string }>();
-  const trainingId: number = Number(params.id);
+  const trainingId: number = Number(
+    useParams<{ trainingId: string }>().trainingId
+  );
   const [objWithFullnames, setObjWithFullnames] = React.useState<any>({});
   const { requestsByTrainingId } = useLazyLoadQuery<RequestsQuery>(query, {
     trainingId,

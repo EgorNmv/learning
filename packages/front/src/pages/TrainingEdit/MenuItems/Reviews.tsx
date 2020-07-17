@@ -38,8 +38,9 @@ const mutation = graphql`
 `;
 
 export const Reviews: React.FC = () => {
-  const params = useParams<{ id: string }>();
-  const trainingId = Number(params.id);
+  const trainingId: number = Number(
+    useParams<{ trainingId: string }>().trainingId
+  );
   const { feedbacksByTrainingId } = useLazyLoadQuery<ReviewsQuery>(query, {
     feedbackType: 2,
     trainingId,
