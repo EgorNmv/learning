@@ -51,7 +51,9 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
     nullable: false,
     description: "курс, на который оставлен отзыв",
   })
-  @ManyToOne((type) => TrainingEntity, (training) => training.id)
+  @ManyToOne((type) => TrainingEntity, (training) => training.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   public training: TrainingEntity;
 
