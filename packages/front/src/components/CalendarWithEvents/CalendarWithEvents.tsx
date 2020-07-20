@@ -27,21 +27,40 @@ const query = graphql`
   }
 `;
 
+type ComingTraining = {
+  trainingId: number;
+  name: string;
+  label: string | null;
+  organizer: {
+    name: string;
+  };
+  start: string;
+  end: string;
+  description: string;
+};
+
 moment.locale("ru");
+
 export const CalendarWithEvents: React.FC = () => {
   const { comingTrainings } = useLazyLoadQuery<CalendarWithEventsQuery>(
     query,
     {}
   );
+  const [
+    currentComingTrainingsList,
+    setCurrentComingTrainingsList,
+  ] = React.useState<ComingTraining[]>([]);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [
+    isCurrentDateOnceChanged,
+    setIsCurrentDateOnceChanged,
+  ] = React.useState<boolean>(false);
 
-  const renderSelectedDates = (date: moment.Moment): ReactNode => {
-    let cellPainted: boolean = false;
-    const dateInCell: Date = date.toDate();
-
-    dateInCell.setHours(0, 0, 0, 0);
-
-    const trainingsWithCurrentDate = comingTrainings.map((training) => {
+  const compareComingTrainingWithDate = (
+    comingTrainingsList: ComingTraining[],
+    compareDate: Date
+  ): ComingTraining[] => {
+    return comingTrainingsList.filter((training) => {
       if (training) {
         const splittedArrayWithStartDate: number[] = training.start
           .split(".")
@@ -51,20 +70,52 @@ export const CalendarWithEvents: React.FC = () => {
           splittedArrayWithStartDate[1] - 1,
           splittedArrayWithStartDate[0]
         );
-        if (startTrainingDate.getTime() === dateInCell.getTime()) {
-          return training;
+        if (startTrainingDate.getTime() === compareDate.getTime()) {
+          return true;
+        } else {
+          return false;
         }
       }
     });
+  };
+
+  const renderSelectedDates = (date: moment.Moment): ReactNode => {
+    let isCellSHouldBePainted: boolean = false;
+    const dateInCell: Date = date.toDate();
+
+    dateInCell.setHours(0, 0, 0, 0);
+
+    const trainingsWithCurrentDate = compareComingTrainingWithDate(
+      comingTrainings as ComingTraining[],
+      dateInCell
+    );
 
     if (trainingsWithCurrentDate.filter(Boolean).length > 0) {
-      cellPainted = true;
+      isCellSHouldBePainted = true;
     }
 
-    if (cellPainted) {
+    if (isCellSHouldBePainted) {
       return <div className="date-with-training" />;
     }
   };
+
+  React.useEffect(() => {
+    comingTrainings &&
+      setCurrentComingTrainingsList(
+        comingTrainings.filter(Boolean) as ComingTraining[]
+      );
+  }, [comingTrainings]);
+
+  React.useEffect(() => {
+    isCurrentDateOnceChanged &&
+      comingTrainings &&
+      setCurrentComingTrainingsList(
+        compareComingTrainingWithDate(
+          comingTrainings as ComingTraining[],
+          currentDate
+        )
+      );
+  }, [currentDate]);
 
   return (
     <>
@@ -72,7 +123,10 @@ export const CalendarWithEvents: React.FC = () => {
         <Calendar
           fullscreen={false}
           onSelect={(newDate: moment.Moment) => {
-            setCurrentDate(newDate.toDate());
+            setIsCurrentDateOnceChanged(true);
+            let date = newDate.toDate();
+            date.setHours(0, 0, 0, 0);
+            setCurrentDate(date);
           }}
           dateCellRender={renderSelectedDates}
           headerRender={() => (
@@ -102,9 +156,12 @@ export const CalendarWithEvents: React.FC = () => {
       </div>
       <CenteredText>
         <h2>{constants["UPCOMINGEVENTS"]}</h2>
-        {comingTrainings.map((training) => (
+        {currentComingTrainingsList.map((training) => (
           <TrainingCard training={training} placeInCalendar={true} />
         ))}
+        {currentComingTrainingsList.length === 0 && (
+          <span>В данный день нет событий</span>
+        )}
       </CenteredText>
     </>
   );
