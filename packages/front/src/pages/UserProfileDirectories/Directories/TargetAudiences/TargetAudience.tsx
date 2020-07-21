@@ -45,7 +45,7 @@ const TargetAudiences: React.FC = () => {
   const columns = [
     {
       title: "№",
-      dataIndex: "targetAudienceId",
+      dataIndex: "id",
     },
     {
       title: "Название",
@@ -93,11 +93,16 @@ const TargetAudiences: React.FC = () => {
             `Целевая аудитория ${deletingTargetAudience.name} успешно удалена`
           );
           setData((prev) =>
-            prev.filter(
-              (targetAudience) =>
-                targetAudience.targetAudienceId !==
-                deletingTargetAudience.targetAudienceId
-            )
+            prev
+              .filter(
+                (targetAudience) =>
+                  targetAudience.targetAudienceId !==
+                  deletingTargetAudience.targetAudienceId
+              )
+              .map((targetAudience, index) => ({
+                ...targetAudience,
+                id: index + 1,
+              }))
           );
           setIsModalVisible(false);
         },
@@ -111,7 +116,12 @@ const TargetAudiences: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(targetAudiences as TargetAudience[]);
+    setData(
+      targetAudiences.map((targetAudience, index) => ({
+        ...targetAudience,
+        id: index + 1,
+      })) as TargetAudience[]
+    );
   }, [targetAudiences]);
 
   return (

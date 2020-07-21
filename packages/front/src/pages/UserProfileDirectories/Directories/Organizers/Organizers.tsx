@@ -47,7 +47,7 @@ const Organizers: React.FC = () => {
   const columns = [
     {
       title: "№",
-      dataIndex: "organizerId",
+      dataIndex: "id",
     },
     {
       title: "Название",
@@ -103,10 +103,12 @@ const Organizers: React.FC = () => {
         onCompleted: () => {
           showAlert(`Организатор ${deletingOrganizer.name} успешно удалён`);
           setData((prev) =>
-            prev.filter(
-              (organizer) =>
-                organizer.organizerId !== deletingOrganizer.organizerId
-            )
+            prev
+              .filter(
+                (organizer) =>
+                  organizer.organizerId !== deletingOrganizer.organizerId
+              )
+              .map((organizer, index) => ({ ...organizer, id: index + 1 }))
           );
           setIsModalVisible(false);
         },
@@ -120,7 +122,12 @@ const Organizers: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(organizers as Organizer[]);
+    setData(
+      organizers.map((organizer, index) => ({
+        ...organizer,
+        id: index + 1,
+      })) as Organizer[]
+    );
   }, [organizers]);
 
   return (

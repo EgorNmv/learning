@@ -44,7 +44,7 @@ const Categories: React.FC = () => {
   const columns = [
     {
       title: "№",
-      dataIndex: "categoryId",
+      dataIndex: "id",
     },
     {
       title: "Название",
@@ -90,9 +90,12 @@ const Categories: React.FC = () => {
         onCompleted: () => {
           showAlert(`Категория ${deletingCategory.name} успешно удалена`);
           setData((prev) =>
-            prev.filter(
-              (category) => category.categoryId !== deletingCategory.categoryId
-            )
+            prev
+              .filter(
+                (category) =>
+                  category.categoryId !== deletingCategory.categoryId
+              )
+              .map((category, index) => ({ ...category, id: index + 1 }))
           );
           setIsModalVisible(false);
         },
@@ -106,7 +109,12 @@ const Categories: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(categories as Category[]);
+    setData(
+      categories.map((category, index) => ({
+        ...category,
+        id: index + 1,
+      })) as Category[]
+    );
   }, [categories]);
 
   return (
@@ -134,7 +142,14 @@ const Categories: React.FC = () => {
         </Button>
       </div>
       <Card>
-        <Table bordered columns={columns} dataSource={data} />
+        <Table
+          bordered
+          columns={columns}
+          dataSource={data}
+          rowKey={(record: Category): string =>
+            `${record.categoryId}${record.description}`
+          }
+        />
       </Card>
     </section>
   );

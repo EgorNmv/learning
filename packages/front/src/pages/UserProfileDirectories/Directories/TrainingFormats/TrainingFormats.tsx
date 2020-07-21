@@ -44,7 +44,7 @@ const TrainingFormats: React.FC = () => {
   const columns = [
     {
       title: "№",
-      dataIndex: "trainingFormatId",
+      dataIndex: "id",
     },
     {
       title: "Название",
@@ -92,11 +92,16 @@ const TrainingFormats: React.FC = () => {
             `Формат обучения ${deletingTrainingFormat.name} успешно удалён`
           );
           setData((prev) =>
-            prev.filter(
-              (trainingFormat) =>
-                trainingFormat.trainingFormatId !==
-                deletingTrainingFormat.trainingFormatId
-            )
+            prev
+              .filter(
+                (trainingFormat) =>
+                  trainingFormat.trainingFormatId !==
+                  deletingTrainingFormat.trainingFormatId
+              )
+              .map((trainingFormat, index) => ({
+                ...trainingFormat,
+                id: index + 1,
+              }))
           );
           setIsModalVisible(false);
         },
@@ -110,7 +115,12 @@ const TrainingFormats: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(formats as TrainingFormat[]);
+    setData(
+      formats.map((trainingFormat, index) => ({
+        ...trainingFormat,
+        id: index + 1,
+      })) as TrainingFormat[]
+    );
   }, [formats]);
 
   return (

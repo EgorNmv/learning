@@ -2,6 +2,7 @@ export type Category = {
   categoryId: number;
   description: string;
   label: string | null;
+  id?: number; //for render correct number in table
 };
 
 export type Organizer = {
@@ -10,16 +11,19 @@ export type Organizer = {
   address: string;
   site: string;
   type: number;
+  id?: number; //for render correct number in table
 };
 
 export type TargetAudience = {
   targetAudienceId: number;
   description: string;
+  id?: number; //for render correct number in table
 };
 
 export type TrainingFormat = {
   trainingFormatId: number;
   description: string;
+  id?: number; //for render correct number in table
 };
 
 export type User = {
