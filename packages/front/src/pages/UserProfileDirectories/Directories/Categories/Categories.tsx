@@ -12,6 +12,7 @@ import { Category } from "../../../../utils/types";
 import { CategoriesMutation } from "./__generated__/CategoriesMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Modal } from "../../../../components/Modal/Modal";
+import "./categories.css";
 
 const query: GraphQLTaggedNode = graphql`
   query CategoriesQuery {
@@ -48,12 +49,15 @@ const Categories: React.FC = () => {
     {
       title: "Название",
       dataIndex: "description",
+      render: (text: string) => (
+        <div className="td-cell__category-name">{text}</div>
+      ),
     },
     {
       title: "Действия",
       dataIndex: "actions",
       render: (text: string, record: Category) => (
-        <>
+        <div className="td-cell__category-actions">
           <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
             <Link
               to={`/profile/directories/categories/edit/${record.categoryId}`}
@@ -74,7 +78,7 @@ const Categories: React.FC = () => {
               <DeleteOutlined />
             </span>
           </span>
-        </>
+        </div>
       ),
     },
   ];

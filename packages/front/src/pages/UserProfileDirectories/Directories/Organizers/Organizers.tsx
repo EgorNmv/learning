@@ -9,6 +9,7 @@ import { Organizer } from "../../../../utils/types";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { OrganizersMutation } from "./__generated__/OrganizersMutation.graphql";
 import { Modal } from "../../../../components/Modal/Modal";
+import "./organizers.css";
 
 const query = graphql`
   query OrganizersQuery {
@@ -52,11 +53,11 @@ const Organizers: React.FC = () => {
       title: "Название",
       dataIndex: "name",
       render: (text: string, record: Organizer) => (
-        <>
+        <div className="td-cell__organizer-name">
           <p>{text}</p>
           <p>{record.address}</p>
           <p>{record.site}</p>
-        </>
+        </div>
       ),
     },
     {
@@ -69,7 +70,7 @@ const Organizers: React.FC = () => {
       title: "Действия",
       dataIndex: "actions",
       render: (text: string, record: Organizer) => (
-        <>
+        <div className="td-cell__organizer-actions">
           <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
             <Link
               to={`/profile/directories/organizers/edit/${record.organizerId}`}
@@ -90,7 +91,7 @@ const Organizers: React.FC = () => {
               <DeleteOutlined />
             </span>
           </span>
-        </>
+        </div>
       ),
     },
   ];

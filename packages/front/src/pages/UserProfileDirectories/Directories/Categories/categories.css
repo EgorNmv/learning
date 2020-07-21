@@ -1,0 +1,7 @@
+div.td-cell__category-name {
+  overflow-wrap: anywhere;
+}
+
+div.td-cell__category-actions {
+  min-width: max-content;
+}

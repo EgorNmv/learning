@@ -1,0 +1,7 @@
+div.td-cell__target-audience-name {
+  overflow-wrap: anywhere;
+}
+
+div.td-cell__target-audience-actions {
+  min-width: max-content;
+}

@@ -12,6 +12,7 @@ import { TargetAudience } from "../../../../utils/types";
 import { Modal } from "../../../../components/Modal/Modal";
 import { TargetAudienceMutation } from "./__generated__/TargetAudienceMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import "./target-audience.css";
 
 const query: GraphQLTaggedNode = graphql`
   query TargetAudiencesQuery {
@@ -49,12 +50,15 @@ const TargetAudiences: React.FC = () => {
     {
       title: "Название",
       dataIndex: "description",
+      render: (text: string) => (
+        <div className="td-cell__target-audience-name">{text}</div>
+      ),
     },
     {
       title: "Действия",
       dataIndex: "actions",
       render: (text: string, record: TargetAudience) => (
-        <>
+        <div className="td-cell__target-audience-actions">
           <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
             <Link
               to={`/profile/directories/targetaudiences/edit/${record.targetAudienceId}`}
@@ -75,7 +79,7 @@ const TargetAudiences: React.FC = () => {
               <DeleteOutlined />
             </span>
           </span>
-        </>
+        </div>
       ),
     },
   ];

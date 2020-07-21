@@ -1,0 +1,7 @@
+div.td-cell__training-format-name {
+  overflow-wrap: anywhere;
+}
+
+div.td-cell__training-format-actions {
+  min-width: max-content;
+}

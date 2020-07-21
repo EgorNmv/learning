@@ -9,6 +9,7 @@ import { TrainingFormat } from "../../../../utils/types";
 import { Modal } from "../../../../components/Modal/Modal";
 import { TrainingFormatsMutation } from "./__generated__/TrainingFormatsMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import "./training-formats.css";
 
 const query: GraphQLTaggedNode = graphql`
   query TrainingFormatsQuery {
@@ -48,12 +49,15 @@ const TrainingFormats: React.FC = () => {
     {
       title: "Название",
       dataIndex: "description",
+      render: (text: string) => (
+        <div className="td-cell__training-format-name">{text}</div>
+      ),
     },
     {
       title: "Действия",
       dataIndex: "actions",
       render: (text: string, record: TrainingFormat) => (
-        <>
+        <div className="td-cell__training-format-actions">
           <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
             <Link
               to={`/profile/directories/trainingformats/edit/${record.trainingFormatId}`}
@@ -74,7 +78,7 @@ const TrainingFormats: React.FC = () => {
               <DeleteOutlined />
             </span>
           </span>
-        </>
+        </div>
       ),
     },
   ];
