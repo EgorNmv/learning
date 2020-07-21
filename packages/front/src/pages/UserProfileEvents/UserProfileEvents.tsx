@@ -46,7 +46,7 @@ const UserProfileEvents: React.FC = () => {
   const columns = [
     {
       title: "№",
-      dataIndex: "trainingId",
+      dataIndex: "id",
     },
     {
       title: "Название",
@@ -101,9 +101,12 @@ const UserProfileEvents: React.FC = () => {
         onCompleted: () => {
           showAlert(`Событие ${deletingTraining.name} успешно удалено`);
           setData((prev) =>
-            prev.filter(
-              (training) => training.trainingId !== deletingTraining.trainingId
-            )
+            prev
+              .filter(
+                (training) =>
+                  training.trainingId !== deletingTraining.trainingId
+              )
+              .map((training, index) => ({ ...training, id: index + 1 }))
           );
           setIsModalVisible(false);
         },
@@ -117,7 +120,12 @@ const UserProfileEvents: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(trainings as Event[]);
+    setData(
+      trainings.map((training, index) => ({
+        ...training,
+        id: index + 1,
+      })) as Event[]
+    );
   }, [trainings]);
 
   return (

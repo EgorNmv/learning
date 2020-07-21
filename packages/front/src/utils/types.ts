@@ -37,6 +37,7 @@ export type Event = {
   start: string;
   end: string;
   listOfRequestsReviewsAndRecomends: number[];
+  id?: number; //for render correct number in table
 };
 
 export type TrainingFormValues = {
