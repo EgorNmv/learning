@@ -25,15 +25,26 @@ const TargetAudiencesCreate: React.FC = () => {
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name }: Store) => {
-    commit({
-      variables: { description: name },
-      onCompleted(response) {
-        showAlert("Целевая аудитория успешно создана");
-      },
-      onError: () => {
-        showAlert("При создании целевой аудитории произошла ошибка", "error");
-      },
-    });
+    if (name.trim().length >= 3) {
+      commit({
+        variables: { description: name.trim() },
+        onCompleted(response) {
+          showAlert(
+            `Целевая аудитория ${response.createTargetAudience.description} успешно создана`
+          );
+          form.resetFields();
+        },
+        onError: () => {
+          showAlert("При создании целевой аудитории произошла ошибка", "error");
+        },
+      });
+    } else {
+      showAlert(
+        `Название целевой аудитории "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+      form.resetFields();
+    }
   };
 
   return (
@@ -45,21 +56,55 @@ const TargetAudiencesCreate: React.FC = () => {
           name="training-create"
           onFinish={onFinish}
         >
-          <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
-            <Input autoFocus />
+          <Form.Item
+            name="name"
+            label="Название:"
+            rules={[
+              { required: true, message: "Введите название целевой аудитории" },
+              {
+                whitespace: true,
+                message:
+                  "Название целевой аудитории не может состоять только из пробелов",
+              },
+              {
+                pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                message: "Название целевой аудитории должно состоять из букв",
+              },
+              {
+                min: 3,
+                message:
+                  "Название целевой аудитории должно должно состоять минимум из трёх символов",
+              },
+            ]}
+          >
+            <Input autoFocus disabled={isInFlight} />
           </Form.Item>
           <CenteredText>
-            <Form.Item>
-              <Button
-                htmlType="button"
-                onClick={() => history.goBack()}
-                style={{ marginRight: "1rem" }}
-              >
-                Отмена
-              </Button>
-              <Button type="primary" htmlType="submit" disabled={isInFlight}>
-                Создать
-              </Button>
+            <Form.Item shouldUpdate={true}>
+              {() => (
+                <>
+                  <Button
+                    htmlType="button"
+                    onClick={() => history.goBack()}
+                    style={{ marginRight: "1rem" }}
+                  >
+                    Отмена
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isInFlight}
+                    disabled={
+                      !form.isFieldTouched("name") ||
+                      form
+                        .getFieldsError()
+                        .filter(({ errors }) => errors.length).length > 0
+                    }
+                  >
+                    Создать
+                  </Button>
+                </>
+              )}
             </Form.Item>
           </CenteredText>
         </Form>

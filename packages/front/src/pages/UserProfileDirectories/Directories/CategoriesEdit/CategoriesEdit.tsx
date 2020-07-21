@@ -54,20 +54,28 @@ const CategoriesCreate: React.FC = () => {
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name, photo }: Store) => {
-    commit({
-      variables: {
-        categoryId: id,
-        description: name,
-        label: fileResponse?.filename,
-      },
-      onCompleted() {
-        showAlert("Категория успешно обновлена");
-        history.goBack();
-      },
-      onError: () => {
-        showAlert("При обновлении категории произошла ошибка", "error");
-      },
-    });
+    if (name.trim().length >= 3) {
+      commit({
+        variables: {
+          categoryId: id,
+          description: name.trim(),
+          label: fileResponse?.filename,
+        },
+        onCompleted() {
+          showAlert("Категория успешно обновлена");
+          history.goBack();
+        },
+        onError: () => {
+          showAlert("При обновлении категории произошла ошибка", "error");
+        },
+      });
+    } else {
+      showAlert(
+        `Название категории "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+      form.resetFields();
+    }
   };
 
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,9 +109,25 @@ const CategoriesCreate: React.FC = () => {
               <Form.Item
                 name="name"
                 label="Название:"
-                rules={[{ required: true }]}
+                rules={[
+                  { required: true, message: "Введите название категории" },
+                  {
+                    whitespace: true,
+                    message:
+                      "Название категории не может состоять только из пробелов",
+                  },
+                  {
+                    pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                    message: "Название категории должно состоять из букв",
+                  },
+                  {
+                    min: 3,
+                    message:
+                      "Название категории должно должно состоять минимум из трёх символов",
+                  },
+                ]}
               >
-                <Input autoFocus />
+                <Input autoFocus disabled={isInFlight} />
               </Form.Item>
             </div>
             <div style={{ padding: "0 1rem" }}>
@@ -143,17 +167,31 @@ const CategoriesCreate: React.FC = () => {
             </div>
           </div>
           <CenteredText>
-            <Form.Item>
-              <Button
-                htmlType="button"
-                style={{ marginRight: "1rem" }}
-                onClick={() => history.goBack()}
-              >
-                Отмена
-              </Button>
-              <Button type="primary" htmlType="submit" disabled={isInFlight}>
-                Обновить
-              </Button>
+            <Form.Item shouldUpdate={true}>
+              {() => (
+                <>
+                  <Button
+                    htmlType="button"
+                    style={{ marginRight: "1rem" }}
+                    onClick={() => history.goBack()}
+                  >
+                    Отмена
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isInFlight}
+                    disabled={
+                      !form.isFieldTouched("name") ||
+                      form
+                        .getFieldsError()
+                        .filter(({ errors }) => errors.length).length > 0
+                    }
+                  >
+                    Обновить
+                  </Button>
+                </>
+              )}
             </Form.Item>
           </CenteredText>
         </Form>

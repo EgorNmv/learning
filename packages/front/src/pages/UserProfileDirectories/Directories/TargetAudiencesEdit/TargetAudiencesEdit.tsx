@@ -45,16 +45,27 @@ const TargetAudiencesEdit: React.FC = () => {
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name }: Store) => {
-    commit({
-      variables: { targetAudienceId: id, description: name },
-      onCompleted(response) {
-        showAlert("Целевая аудитория успешно обновлена");
-        history.goBack();
-      },
-      onError: () => {
-        showAlert("При обновлении целевой аудитории произошла ошибка", "error");
-      },
-    });
+    if (name.trim().length >= 3) {
+      commit({
+        variables: { targetAudienceId: id, description: name.trim() },
+        onCompleted(response) {
+          showAlert("Целевая аудитория успешно обновлена");
+          history.goBack();
+        },
+        onError: () => {
+          showAlert(
+            "При обновлении целевой аудитории произошла ошибка",
+            "error"
+          );
+        },
+      });
+    } else {
+      showAlert(
+        `Название целевой аудитории "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+      form.resetFields();
+    }
   };
 
   React.useEffect(
@@ -74,21 +85,55 @@ const TargetAudiencesEdit: React.FC = () => {
           name="training-create"
           onFinish={onFinish}
         >
-          <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
-            <Input autoFocus />
+          <Form.Item
+            name="name"
+            label="Название:"
+            rules={[
+              { required: true, message: "Введите название целевой аудитории" },
+              {
+                whitespace: true,
+                message:
+                  "Название целевой аудитории не может состоять только из пробелов",
+              },
+              {
+                pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                message: "Название целевой аудитории должно состоять из букв",
+              },
+              {
+                min: 3,
+                message:
+                  "Название целевой аудитории должно должно состоять минимум из трёх символов",
+              },
+            ]}
+          >
+            <Input autoFocus disabled={isInFlight} />
           </Form.Item>
           <CenteredText>
-            <Form.Item>
-              <Button
-                htmlType="button"
-                style={{ marginRight: "1rem" }}
-                onClick={() => history.goBack()}
-              >
-                Отмена
-              </Button>
-              <Button type="primary" htmlType="submit" disabled={isInFlight}>
-                Обновить
-              </Button>
+            <Form.Item shouldUpdate={true}>
+              {() => (
+                <>
+                  <Button
+                    htmlType="button"
+                    style={{ marginRight: "1rem" }}
+                    onClick={() => history.goBack()}
+                  >
+                    Отмена
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isInFlight}
+                    disabled={
+                      !form.isFieldTouched("name") ||
+                      form
+                        .getFieldsError()
+                        .filter(({ errors }) => errors.length).length > 0
+                    }
+                  >
+                    Обновить
+                  </Button>
+                </>
+              )}
             </Form.Item>
           </CenteredText>
         </Form>

@@ -28,17 +28,26 @@ const CategoriesCreate: React.FC = () => {
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name }: Store) => {
-    commit({
-      variables: { description: name, label: fileResponse?.filename },
-      onCompleted: (response) => {
-        showAlert(
-          `Категория ${response.createCategory.description} успешно добавлена`
-        );
-      },
-      onError: () => {
-        showAlert("При добавлении категории произошла ошибка", "error");
-      },
-    });
+    if (name.trim().length >= 3) {
+      commit({
+        variables: { description: name.trim(), label: fileResponse?.filename },
+        onCompleted: (response) => {
+          showAlert(
+            `Категория ${response.createCategory.description} успешно добавлена`
+          );
+          form.resetFields();
+        },
+        onError: () => {
+          showAlert("При добавлении категории произошла ошибка", "error");
+        },
+      });
+    } else {
+      showAlert(
+        `Название категории "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+      form.resetFields();
+    }
   };
 
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,10 +59,6 @@ const CategoriesCreate: React.FC = () => {
     }
   };
 
-  if (isInFlight) {
-    return <Spin />;
-  }
-
   return (
     <section>
       <Card>
@@ -62,16 +67,31 @@ const CategoriesCreate: React.FC = () => {
           form={form}
           name="training-create"
           onFinish={onFinish}
-          onChange={() => console.info(form)}
         >
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ flex: 1 }}>
               <Form.Item
                 name="name"
                 label="Название:"
-                rules={[{ required: true }]}
+                rules={[
+                  { required: true, message: "Введите название категории" },
+                  {
+                    whitespace: true,
+                    message:
+                      "Название категории не может состоять только из пробелов",
+                  },
+                  {
+                    pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                    message: "Название категории должно состоять из букв",
+                  },
+                  {
+                    min: 3,
+                    message:
+                      "Название категории должно должно состоять минимум из трёх символов",
+                  },
+                ]}
               >
-                <Input autoFocus />
+                <Input autoFocus disabled={isInFlight} />
               </Form.Item>
             </div>
             <div style={{ padding: "0 1rem" }}>
@@ -111,17 +131,31 @@ const CategoriesCreate: React.FC = () => {
             </div>
           </div>
           <CenteredText>
-            <Form.Item>
-              <Button
-                htmlType="button"
-                onClick={() => history.goBack()}
-                style={{ marginRight: "1rem" }}
-              >
-                Отмена
-              </Button>
-              <Button type="primary" htmlType="submit">
-                Создать
-              </Button>
+            <Form.Item shouldUpdate={true}>
+              {() => (
+                <>
+                  <Button
+                    htmlType="button"
+                    onClick={() => history.goBack()}
+                    style={{ marginRight: "1rem" }}
+                  >
+                    Отмена
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isInFlight}
+                    disabled={
+                      !form.isFieldTouched("name") ||
+                      form
+                        .getFieldsError()
+                        .filter(({ errors }) => errors.length).length > 0
+                    }
+                  >
+                    Создать
+                  </Button>
+                </>
+              )}
             </Form.Item>
           </CenteredText>
         </Form>

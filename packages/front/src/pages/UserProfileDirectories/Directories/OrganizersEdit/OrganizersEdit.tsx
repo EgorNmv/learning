@@ -47,16 +47,34 @@ const OrganizersEdit: React.FC = () => {
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name, address, type, site }: Store) => {
-    commit({
-      variables: { organizerId: id, data: { name, address, type, site } },
-      onCompleted(response) {
-        showAlert("Организатор успешно обновлен");
-        history.goBack();
-      },
-      onError: () => {
-        showAlert("При обновлении орагнизатора произошла ошибка", "error");
-      },
-    });
+    if (name.trim().length >= 3) {
+      commit({
+        variables: {
+          organizerId: id,
+          data: {
+            name: name.trim(),
+            address: address.trim(),
+            type,
+            site: site.trim(),
+          },
+        },
+        onCompleted(response) {
+          showAlert(
+            `Организатор ${response.updateOrganizerById.name} успешно обновлен`
+          );
+          history.goBack();
+        },
+        onError: () => {
+          showAlert("При обновлении орагнизатора произошла ошибка", "error");
+        },
+      });
+    } else {
+      showAlert(
+        `Название организатора "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+      form.resetFields();
+    }
   };
 
   React.useEffect(
@@ -72,7 +90,7 @@ const OrganizersEdit: React.FC = () => {
 
   return (
     <section>
-      <Card loading={isInFlight}>
+      <Card>
         <Form
           layout={"vertical"}
           form={form}
@@ -85,9 +103,25 @@ const OrganizersEdit: React.FC = () => {
               <Form.Item
                 name="name"
                 label="Название:"
-                rules={[{ required: true }]}
+                rules={[
+                  { required: true, message: "Введите название организатора" },
+                  {
+                    whitespace: true,
+                    message:
+                      "Название организатора не может состоять только из пробелов",
+                  },
+                  {
+                    pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                    message: "Название организатора должно состоять из букв",
+                  },
+                  {
+                    min: 3,
+                    message:
+                      "Название организатора должно должно состоять минимум из трёх символов",
+                  },
+                ]}
               >
-                <Input autoFocus />
+                <Input autoFocus disabled={isInFlight} />
               </Form.Item>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -95,9 +129,15 @@ const OrganizersEdit: React.FC = () => {
                 style={{ flex: "auto" }}
                 name="address"
                 label="Адрес:"
-                rules={[{ required: true }]}
+                rules={[
+                  { required: true },
+                  {
+                    whitespace: true,
+                    message: "Адресс не может состоять только из пробелов",
+                  },
+                ]}
               >
-                <Input />
+                <Input disabled={isInFlight} />
               </Form.Item>
               <Form.Item
                 style={{ flex: "auto", padding: "0 1rem" }}
@@ -105,28 +145,57 @@ const OrganizersEdit: React.FC = () => {
                 label="Тип:"
                 rules={[{ required: true }]}
               >
-                <Select>
+                <Select disabled={isInFlight}>
                   <Select.Option value={2}>Внутренний ресурс</Select.Option>
                   <Select.Option value={1}>Внешний ресурс</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item style={{ flex: "auto" }} name="site" label="Сайт:">
-                <Input defaultValue="" />
+              <Form.Item
+                style={{ flex: "auto" }}
+                name="site"
+                label="Сайт:"
+                initialValue=""
+                rules={[
+                  {
+                    pattern: new RegExp(
+                      "^((https?|ftp|smtp)://)?(www.)?[a-z0-9]+.[a-z]+(/[a-zA-Z0-9#]+/?)*$"
+                    ),
+                    message: "Недопустимый формат сайта",
+                  },
+                ]}
+              >
+                <Input disabled={isInFlight} />
               </Form.Item>
             </div>
           </div>
           <CenteredText>
-            <Form.Item>
-              <Button
-                htmlType="button"
-                style={{ marginRight: "1rem" }}
-                onClick={() => history.goBack()}
-              >
-                Отмена
-              </Button>
-              <Button type="primary" htmlType="submit">
-                Обновить
-              </Button>
+            <Form.Item shouldUpdate={true}>
+              {() => (
+                <>
+                  <Button
+                    htmlType="button"
+                    style={{ marginRight: "1rem" }}
+                    onClick={() => history.goBack()}
+                  >
+                    Отмена
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isInFlight}
+                    disabled={
+                      !form.isFieldTouched("name") ||
+                      !form.isFieldTouched("address") ||
+                      !form.isFieldTouched("type") ||
+                      form
+                        .getFieldsError()
+                        .filter(({ errors }) => errors.length).length > 0
+                    }
+                  >
+                    Обновить
+                  </Button>
+                </>
+              )}
             </Form.Item>
           </CenteredText>
         </Form>

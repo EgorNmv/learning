@@ -42,16 +42,27 @@ const TrainingFormatsEdit: React.FC = () => {
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name }: Store) => {
-    commit({
-      variables: { trainingFormatId: id, description: name },
-      onCompleted(response) {
-        showAlert("Формат обучния успешно обновлён");
-        history.goBack();
-      },
-      onError: () => {
-        showAlert("При обновлении формата обучения произошла ошибка", "error");
-      },
-    });
+    if (name.trim().length >= 3) {
+      commit({
+        variables: { trainingFormatId: id, description: name.trim() },
+        onCompleted(response) {
+          showAlert("Формат обучния успешно обновлён");
+          history.goBack();
+        },
+        onError: () => {
+          showAlert(
+            "При обновлении формата обучения произошла ошибка",
+            "error"
+          );
+        },
+      });
+    } else {
+      showAlert(
+        `Название формата обучения "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+      form.resetFields();
+    }
   };
 
   React.useEffect(
@@ -71,21 +82,55 @@ const TrainingFormatsEdit: React.FC = () => {
           name="training-create"
           onFinish={onFinish}
         >
-          <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
-            <Input autoFocus />
+          <Form.Item
+            name="name"
+            label="Название:"
+            rules={[
+              { required: true, message: "Введите название формата обучения" },
+              {
+                whitespace: true,
+                message:
+                  "Название формата обучения не может состоять только из пробелов",
+              },
+              {
+                pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                message: "Название формата обучения должно состоять из букв",
+              },
+              {
+                min: 3,
+                message:
+                  "Название формата обучения должно должно состоять минимум из трёх символов",
+              },
+            ]}
+          >
+            <Input autoFocus disabled={isInFlight} />
           </Form.Item>
           <CenteredText>
-            <Form.Item>
-              <Button
-                htmlType="button"
-                style={{ marginRight: "1rem" }}
-                onClick={() => history.goBack()}
-              >
-                Отмена
-              </Button>
-              <Button type="primary" htmlType="submit" disabled={isInFlight}>
-                Обновить
-              </Button>
+            <Form.Item shouldUpdate={true}>
+              {() => (
+                <>
+                  <Button
+                    htmlType="button"
+                    style={{ marginRight: "1rem" }}
+                    onClick={() => history.goBack()}
+                  >
+                    Отмена
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isInFlight}
+                    disabled={
+                      !form.isFieldTouched("name") ||
+                      form
+                        .getFieldsError()
+                        .filter(({ errors }) => errors.length).length > 0
+                    }
+                  >
+                    Обновить
+                  </Button>
+                </>
+              )}
             </Form.Item>
           </CenteredText>
         </Form>
