@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Select, Button } from "antd";
+import { Form, Input, Select, Button, InputNumber } from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql } from "react-relay";
@@ -159,7 +159,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
             </div>
             <div style={{ flex: 1 }}>
               <Form.Item name="countOfSeats" label="Количество мест:">
-                <Input />
+                <InputNumber />
               </Form.Item>
               <Form.Item
                 name="endDate"
