@@ -24,6 +24,17 @@ export type CategoryQueryResponse = {
         readonly description: string;
         readonly label: string | null;
     } | null;
+    readonly comingTrainings: ReadonlyArray<{
+        readonly trainingId: number;
+        readonly name: string;
+        readonly label: string | null;
+        readonly organizer: {
+            readonly name: string;
+        };
+        readonly start: string;
+        readonly end: string;
+        readonly description: string;
+    }>;
 };
 export type CategoryQuery = {
     readonly response: CategoryQueryResponse;
@@ -54,6 +65,17 @@ query CategoryQuery(
     description
     label
   }
+  comingTrainings {
+    trainingId: id
+    name
+    label
+    organizer {
+      name
+    }
+    start
+    end
+    description
+  }
 }
 */
 
@@ -79,27 +101,60 @@ var v0 = [
   }
 ],
 v1 = {
-  "alias": null,
+  "alias": "trainingId",
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "id",
   "storageKey": null
 },
 v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "label",
+  "name": "name",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "label",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "start",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "end",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "description",
   "storageKey": null
 },
-v4 = [
+v7 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "OrganizerEntity",
+  "kind": "LinkedField",
+  "name": "organizer",
+  "plural": false,
+  "selections": [
+    (v2/*: any*/)
+  ],
+  "storageKey": null
+},
+v8 = [
   {
     "alias": null,
     "args": [
@@ -124,42 +179,13 @@ v4 = [
     "name": "sortedTraining",
     "plural": true,
     "selections": [
-      {
-        "alias": "trainingId",
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
       (v1/*: any*/),
       (v2/*: any*/),
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "start",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "end",
-        "storageKey": null
-      },
       (v3/*: any*/),
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "OrganizerEntity",
-        "kind": "LinkedField",
-        "name": "organizer",
-        "plural": false,
-        "selections": [
-          (v1/*: any*/)
-        ],
-        "storageKey": null
-      }
+      (v4/*: any*/),
+      (v5/*: any*/),
+      (v6/*: any*/),
+      (v7/*: any*/)
     ],
     "storageKey": null
   },
@@ -184,8 +210,26 @@ v4 = [
         "name": "id",
         "storageKey": null
       },
+      (v6/*: any*/),
+      (v3/*: any*/)
+    ],
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "TrainingEntity",
+    "kind": "LinkedField",
+    "name": "comingTrainings",
+    "plural": true,
+    "selections": [
+      (v1/*: any*/),
+      (v2/*: any*/),
       (v3/*: any*/),
-      (v2/*: any*/)
+      (v7/*: any*/),
+      (v4/*: any*/),
+      (v5/*: any*/),
+      (v6/*: any*/)
     ],
     "storageKey": null
   }
@@ -196,7 +240,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "CategoryQuery",
-    "selections": (v4/*: any*/),
+    "selections": (v8/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -204,16 +248,16 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "CategoryQuery",
-    "selections": (v4/*: any*/)
+    "selections": (v8/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "CategoryQuery",
     "operationKind": "query",
-    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    description\n    organizer {\n      name\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n}\n"
+    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    description\n    organizer {\n      name\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '9736271e027facb33336672381875874';
+(node as any).hash = 'dfb79faf5521535722f503d64d6042c0';
 export default node;

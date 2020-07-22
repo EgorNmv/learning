@@ -1,13 +1,16 @@
 import React from "react";
 import "./Category.css";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
-import { CalendarWithEvents } from "../../components/CalendarWithEvents/CalendarWithEvents";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
 import { useParams } from "react-router-dom";
 import { CategoryQuery } from "./__generated__/CategoryQuery.graphql";
-import { Radio } from "antd";
+import { Radio, DatePicker } from "antd";
 import { RadioChangeEvent } from "antd/lib/radio";
 import { constants } from "../../constants/constants";
+import moment from "moment";
+import "moment/locale/ru";
+import { CenteredText } from "../../hoc/CenteredText/CenteredText";
+import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
 
 const query = graphql`
   query CategoryQuery(
@@ -35,16 +38,46 @@ const query = graphql`
       description
       label
     }
+    comingTrainings {
+      trainingId: id
+      name
+      label
+      organizer {
+        name
+      }
+      start
+      end
+      description
+    }
   }
 `;
 
+type Training = {
+  trainingId: number;
+  name: string;
+  label: string | null;
+  organizer: {
+    name: string;
+  };
+  start: string;
+  end: string;
+  description: string;
+};
+
+moment.locale("ru");
+
 const Category: React.FC = () => {
-  const params = useParams<{ id: string }>();
-  const id = Number(params.id);
+  const id = Number(useParams<{ id: string }>().id);
   const [sortBy, setSortBy] = React.useState<
     "name" | "createDate" | "recommends"
   >("name");
   const [sortOrder, setSortOrder] = React.useState<"ASC" | "DESC">("ASC");
+  const [selectedDate, setSelectedDate] = React.useState<
+    [moment.Moment, moment.Moment] | null
+  >(null);
+  const [sortedTrainingsList, setSortedTrainingList] = React.useState<
+    Training[]
+  >([]);
   const sortOptionsMap: {
     [key: string]: string;
   } = {
@@ -52,7 +85,9 @@ const Category: React.FC = () => {
     createDate: constants["BYDATE"],
     recommends: constants["BYRECOMENDATIONS"],
   };
-  const { sortedTraining, category } = useLazyLoadQuery<CategoryQuery>(query, {
+  const { sortedTraining, category, comingTrainings } = useLazyLoadQuery<
+    CategoryQuery
+  >(query, {
     categoryId: id,
     sortBy,
     sortOrder,
@@ -77,6 +112,60 @@ const Category: React.FC = () => {
     }
   };
 
+  const onDateChanged = (values: [moment.Moment, moment.Moment]): void => {
+    if (values) {
+      const startSelectedDate = values[0].toDate();
+      const endSelectedDate = values[1].toDate();
+
+      startSelectedDate.setHours(0, 0, 0, 0);
+      endSelectedDate.setHours(0, 0, 0, 0);
+
+      setSelectedDate(values);
+      setSortedTrainingList(() =>
+        sortedTraining.filter((training) => {
+          const splittedArrayWithStartDate: number[] = training.start
+            .split(".")
+            .map(Number);
+          const startTrainingDate: Date = new Date(
+            splittedArrayWithStartDate[2],
+            splittedArrayWithStartDate[1] - 1,
+            splittedArrayWithStartDate[0]
+          );
+          const splittedArrayWithEndDate: number[] = training.end
+            .split(".")
+            .map(Number);
+          const endTrainingDate: Date = new Date(
+            splittedArrayWithEndDate[2],
+            splittedArrayWithEndDate[1] - 1,
+            splittedArrayWithEndDate[0]
+          );
+          const startTrainingTime = startTrainingDate.getTime();
+          const endTrainingTime = endTrainingDate.getTime();
+          const startSelectedTime = startSelectedDate.getTime();
+          const endSelectedTime = endSelectedDate.getTime();
+
+          if (
+            (startTrainingTime >= startSelectedTime &&
+              startTrainingTime <= endSelectedTime) ||
+            (startTrainingTime <= startSelectedTime &&
+              endTrainingTime >= endSelectedTime)
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
+    } else {
+      setSelectedDate(null);
+      setSortedTrainingList(sortedTraining as Training[]);
+    }
+  };
+
+  React.useEffect(() => {
+    sortedTraining && setSortedTrainingList(sortedTraining as Training[]);
+  }, [sortedTraining]);
+
   return (
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
@@ -97,10 +186,22 @@ const Category: React.FC = () => {
             {renderLabelWithSortOrder("recommends")}
           </Radio.Button>
         </Radio.Group>
-        <SortableTrainingList trainings={sortedTraining as any} />
+        <SortableTrainingList trainings={sortedTrainingsList as any} />
       </section>
       <section className="category-page-content-calendar">
-        <CalendarWithEvents />
+        <CenteredText>
+          <h2>Выберите интересующие даты</h2>
+          <DatePicker.RangePicker
+            format={"DD.MM.YYYY"}
+            size="large"
+            value={selectedDate}
+            onChange={onDateChanged as any}
+          />
+          <h2>{constants["UPCOMINGEVENTS"]}</h2>
+          {comingTrainings.map((training) => (
+            <TrainingCard training={training} placeInCalendar={true} />
+          ))}
+        </CenteredText>
       </section>
     </div>
   );
