@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Select, Button, InputNumber } from "antd";
+import { Form, Input, Select, Button, InputNumber, DatePicker } from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql } from "react-relay";
@@ -10,6 +10,9 @@ import { TrainingFormValues } from "../../utils/types";
 import { useFileUpload } from "../../utils/utils";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/ru";
+import "./training-form.css";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -54,26 +57,25 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const onFinishHandler = ({
     name,
     category,
-    startDate,
     targetAudience,
     organizer,
-    endDate,
     trainingFormat,
     // tags,
     description,
     countOfSeats,
     site,
+    startAndEndDates,
   }: Store) => {
     const data: InputTraining = {
       audienceId: targetAudience,
-      end: endDate,
+      end: startAndEndDates[1].format("DD.MM.YYYY"),
       description,
       formatId: trainingFormat,
       label: response?.filename,
       name,
       organizerId: organizer,
       site,
-      start: startDate,
+      start: startAndEndDates[0].format("DD.MM.YYYY"),
       categoryId: category,
       numberOfParticipants: Number(countOfSeats),
     };
@@ -91,9 +93,14 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   };
 
   React.useEffect(() => {
-    form.setFieldsValue({
-      ...formValues,
-    });
+    formValues &&
+      form.setFieldsValue({
+        ...formValues,
+        startAndEndDates: [
+          moment(formValues?.startDate, "DD.MM.YYYY"),
+          moment(formValues?.endDate, "DD.MM.YYYY"),
+        ],
+      });
   }, [formValues]);
 
   return (
@@ -124,13 +131,6 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 </Select>
               </Form.Item>
               <Form.Item
-                name="startDate"
-                label="Дата начала:"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
                 name="targetAudience"
                 label="Целевая аудитория:"
                 rules={[{ required: true }]}
@@ -139,6 +139,51 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                   {targetAudiences.map((targetAudience) => (
                     <Select.Option value={targetAudience.targetAudienceId}>
                       {targetAudience.description}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <div className="training-form__startAndEndDates-and-countOfSeats">
+                <Form.Item
+                  name="startAndEndDates"
+                  label="Даты проведения:"
+                  rules={[{ required: true }]}
+                >
+                  <DatePicker.RangePicker
+                    format={"DD.MM.YYYY"}
+                    placeholder={["Дата начала", "Дата конца"]}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="countOfSeats"
+                  className="training-form__input-number"
+                  label="Количество мест:"
+                  rules={[
+                    {
+                      type: "number",
+                      message: "Количество мест должно быть числом",
+                    },
+                    {
+                      pattern: new RegExp("^[1-9]*$"),
+                      message:
+                        "Количество мест должно быть целым, положительным числом",
+                    },
+                  ]}
+                >
+                  <InputNumber />
+                </Form.Item>
+              </div>
+            </div>
+            <div style={{ flex: 1 }}>
+              <Form.Item
+                name="trainingFormat"
+                label="Формат обучения:"
+                rules={[{ required: true }]}
+              >
+                <Select>
+                  {formats.map((format) => (
+                    <Select.Option value={format.formatId}>
+                      {format.description}
                     </Select.Option>
                   ))}
                 </Select>
@@ -152,31 +197,6 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                   {organizers.map((organizer) => (
                     <Select.Option value={organizer.organizerId}>
                       {organizer.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </div>
-            <div style={{ flex: 1 }}>
-              <Form.Item name="countOfSeats" label="Количество мест:">
-                <InputNumber />
-              </Form.Item>
-              <Form.Item
-                name="endDate"
-                label="Дата оконачния:"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="trainingFormat"
-                label="Формат обучения:"
-                rules={[{ required: true }]}
-              >
-                <Select>
-                  {formats.map((format) => (
-                    <Select.Option value={format.formatId}>
-                      {format.description}
                     </Select.Option>
                   ))}
                 </Select>

@@ -1,0 +1,8 @@
+.training-form__startAndEndDates-and-countOfSeats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.training-form__input-number div.ant-input-number {
+  width: 100%;
+}
