@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/ru";
 import "./training-form.css";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -53,6 +54,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   >(query, {});
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = useState<{ filename: string }>();
+  const { showAlert } = React.useContext(AlertContext);
 
   const onFinishHandler = ({
     name,
@@ -66,21 +68,28 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     site,
     startAndEndDates,
   }: Store) => {
-    const data: InputTraining = {
-      audienceId: targetAudience,
-      end: startAndEndDates[1].format("DD.MM.YYYY"),
-      description,
-      formatId: trainingFormat,
-      label: response?.filename,
-      name,
-      organizerId: organizer,
-      site,
-      start: startAndEndDates[0].format("DD.MM.YYYY"),
-      categoryId: category,
-      numberOfParticipants: Number(countOfSeats),
-    };
+    if (name.trim().length >= 3) {
+      const data: InputTraining = {
+        audienceId: targetAudience,
+        end: startAndEndDates[1].format("DD.MM.YYYY"),
+        description: description.trim(),
+        formatId: trainingFormat,
+        label: response?.filename,
+        name: name.trim(),
+        organizerId: organizer,
+        site: site.trim(),
+        start: startAndEndDates[0].format("DD.MM.YYYY"),
+        categoryId: category,
+        numberOfParticipants: Number(countOfSeats),
+      };
 
-    onFinish && onFinish(data);
+      onFinish && onFinish(data);
+    } else {
+      showAlert(
+        `Название события "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+    }
   };
 
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +121,23 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 1 }}>
-          <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Название:"
+            rules={[
+              { required: true },
+              {
+                whitespace: true,
+                message:
+                  "Название события не может состоять только из пробелов",
+              },
+              {
+                min: 3,
+                message: "Слишком короткое название",
+              },
+              { max: 255, message: "Слишком длинное название" },
+            ]}
+          >
             <Input />
           </Form.Item>
           <div style={{ display: "flex" }}>
@@ -201,7 +226,19 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item name="site" label="Ссылка на сайт:">
+              <Form.Item
+                name="site"
+                label="Ссылка на сайт:"
+                rules={[
+                  {
+                    pattern: new RegExp(
+                      "^((https?|ftp|smtp)://)?(www.)?[a-z0-9]+.[a-z]+(/[a-zA-Z0-9#]+/?)*$"
+                    ),
+                    message: "Недопустимый формат сайта",
+                  },
+                  { max: 255, message: "Слишком длинное имя сайта" },
+                ]}
+              >
                 <Input defaultValue="" />
               </Form.Item>
             </div>
