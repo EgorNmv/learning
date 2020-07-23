@@ -23,7 +23,7 @@ export const Sider: React.FC = () => {
           <img
             src={logoSvg}
             style={{
-              width: "104px",
+              width: "350px",
             }}
           />
         </div>
