@@ -71,7 +71,7 @@ export const Modal: React.FC<ModalProps> = ({
         <p className="app-modal__content-title">
           Удаление {deletingObjectsMap[`${deletingObjectType}`].title}
         </p>
-        <p>
+        <p className="app-modal__content-text">
           Вы уверены, что хотите удалить{" "}
           {deletingObjectsMap[`${deletingObjectType}`].content} "
           {deletingObjectName && deletingObjectName}"?
