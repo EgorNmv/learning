@@ -89,6 +89,7 @@ const CategoriesCreate: React.FC = () => {
                     message:
                       "Название категории должно должно состоять минимум из трёх символов",
                   },
+                  { max: 255, message: "Слишком длинное название" },
                 ]}
               >
                 <Input autoFocus disabled={isInFlight} />

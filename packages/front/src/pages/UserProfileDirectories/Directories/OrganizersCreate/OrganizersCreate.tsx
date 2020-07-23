@@ -86,6 +86,7 @@ const CategoriesCreate: React.FC = () => {
                     message:
                       "Название организатора должно должно состоять минимум из трёх символов",
                   },
+                  { max: 255, message: "Слишком длинное название" },
                 ]}
               >
                 <Input autoFocus disabled={isInFlight} />
@@ -102,6 +103,7 @@ const CategoriesCreate: React.FC = () => {
                     whitespace: true,
                     message: "Адрес не может состоять только из пробелов",
                   },
+                  { max: 255, message: "Слишком длинный адрес" },
                 ]}
               >
                 <Input disabled={isInFlight} />
@@ -129,6 +131,7 @@ const CategoriesCreate: React.FC = () => {
                     ),
                     message: "Недопустимый формат сайта",
                   },
+                  { max: 255, message: "Слишком длинное имя сайта" },
                 ]}
               >
                 <Input disabled={isInFlight} />

@@ -101,6 +101,7 @@ const TrainingFormatsEdit: React.FC = () => {
                 message:
                   "Название формата обучения должно должно состоять минимум из трёх символов",
               },
+              { max: 255, message: "Слишком длинное название" },
             ]}
           >
             <Input autoFocus disabled={isInFlight} />

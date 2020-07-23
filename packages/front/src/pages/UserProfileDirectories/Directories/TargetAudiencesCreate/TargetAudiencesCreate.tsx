@@ -75,6 +75,7 @@ const TargetAudiencesCreate: React.FC = () => {
                 message:
                   "Название целевой аудитории должно должно состоять минимум из трёх символов",
               },
+              { max: 255, message: "Слишком длинное название" },
             ]}
           >
             <Input autoFocus disabled={isInFlight} />
