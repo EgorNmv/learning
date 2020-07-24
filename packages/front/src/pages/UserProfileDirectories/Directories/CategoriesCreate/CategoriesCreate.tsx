@@ -24,7 +24,9 @@ const CategoriesCreate: React.FC = () => {
   const history = useHistory();
   const [commit, isInFlight] = useMutation<CategoriesCreateMutation>(mutation);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
-  const [fileResponse, setFileResponse] = useState<{ filename: string }>();
+  const [fileResponse, setFileResponse] = useState<{ filename: string } | null>(
+    null
+  );
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name }: Store) => {
@@ -36,6 +38,7 @@ const CategoriesCreate: React.FC = () => {
             `Категория ${response.createCategory.description} успешно добавлена`
           );
           form.resetFields();
+          setFileResponse(null);
         },
         onError: () => {
           showAlert("При добавлении категории произошла ошибка", "error");
