@@ -7,6 +7,7 @@ import {
   JoinColumn,
   Column,
   RelationId,
+  DeleteDateColumn,
 } from "typeorm";
 import { Feedback } from "./type";
 import { UserEntity } from "../user/entity";
@@ -88,6 +89,9 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
   })
   @Column({ nullable: true })
   public rate: number;
+
+  @DeleteDateColumn()
+  public deletedAt: Date;
 
   constructor(
     id: number,

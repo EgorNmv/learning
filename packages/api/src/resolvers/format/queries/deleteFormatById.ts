@@ -2,6 +2,7 @@ import { Connection } from "typeorm";
 import { FormatEntity } from "../../../objects/entities/format/entity";
 import { findFormatById } from "./findFormatById";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
+import { deleteTrainingById } from "../../training/queries/deleteTrainingById";
 
 export const deleteFormatById = async (
   connection: Connection,
@@ -16,13 +17,13 @@ export const deleteFormatById = async (
 
   try {
     const formatId: number = format.id;
-    const trainingWithFormat: TrainingEntity[] = await connection
+    const trainingsWithFormat: TrainingEntity[] = await connection
       .getRepository(TrainingEntity)
       .find({ where: { formatId } });
 
-    await connection
-      .getRepository(TrainingEntity)
-      .softRemove(trainingWithFormat);
+    trainingsWithFormat.forEach((training) =>
+      deleteTrainingById(connection, training.id)
+    );
     await connection.getRepository(FormatEntity).softRemove(format);
 
     isFormatRemoved = true;

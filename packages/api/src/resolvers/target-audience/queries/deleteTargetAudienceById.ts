@@ -2,6 +2,7 @@ import { Connection } from "typeorm";
 import { TargetAudienceEntity } from "../../../objects/entities/target-audience/entity";
 import { findTargetAudienceById } from "./findTargetAudienceById";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
+import { deleteTrainingById } from "../../training/queries/deleteTrainingById";
 
 export const deleteTargetAudienceById = async (
   connection: Connection,
@@ -19,13 +20,13 @@ export const deleteTargetAudienceById = async (
 
   try {
     const audienceId: number = targetAudience.id;
-    const trainingWithOrganizer: TrainingEntity[] = await connection
+    const trainingsWithTargetAudence: TrainingEntity[] = await connection
       .getRepository(TrainingEntity)
       .find({ where: { audienceId } });
 
-    await connection
-      .getRepository(TrainingEntity)
-      .softRemove(trainingWithOrganizer);
+    trainingsWithTargetAudence.forEach((training) =>
+      deleteTrainingById(connection, training.id)
+    );
     await connection
       .getRepository(TargetAudienceEntity)
       .softRemove(targetAudience);

@@ -2,6 +2,7 @@ import { OrganizerEntity } from "../../../objects/entities/oraganizer/entity";
 import { Connection } from "typeorm";
 import { findOrganizerById } from "./findOrganizerById";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
+import { deleteTrainingById } from "../../training/queries/deleteTrainingById";
 
 export const deleteOrganizerById = async (
   connection: Connection,
@@ -16,13 +17,13 @@ export const deleteOrganizerById = async (
 
   try {
     const organizerId: number = organizer.id;
-    const trainingWithOrganizer: TrainingEntity[] = await connection
+    const trainingsWithOrganizer: TrainingEntity[] = await connection
       .getRepository(TrainingEntity)
       .find({ where: { organizerId } });
 
-    await connection
-      .getRepository(TrainingEntity)
-      .softRemove(trainingWithOrganizer);
+    trainingsWithOrganizer.forEach((training) =>
+      deleteTrainingById(connection, training.id)
+    );
     await connection.getRepository(OrganizerEntity).softRemove(organizer);
 
     isOrganizerRemoved = true;

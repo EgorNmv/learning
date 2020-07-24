@@ -9,4 +9,5 @@ export interface Request {
     userId: string;
     trainingId: number;
     status: number;
+    deletedAt?: Date;
 }
