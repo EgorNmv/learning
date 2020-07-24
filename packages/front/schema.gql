@@ -72,7 +72,7 @@ input InputMaterial {
 input InputOrganizer {
   address: String!
   name: String!
-  site: String!
+  site: String
   type: Float!
 }
 
