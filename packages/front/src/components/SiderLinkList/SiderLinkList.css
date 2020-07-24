@@ -14,3 +14,13 @@ div.sider-content > div > ul.sider-link-list-menu {
 .sider-link-list-menu-submenu {
   color: rgb(146, 232, 255);
 }
+
+ul.ant-menu.ant-menu-sub.ant-menu-inline {
+  max-height: 35rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+ul.ant-menu.ant-menu-sub.ant-menu-inline:hover {
+  overflow-y: scroll;
+}
