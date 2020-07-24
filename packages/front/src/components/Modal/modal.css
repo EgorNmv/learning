@@ -1,8 +1,8 @@
-div.ant-modal > div.ant-modal-content {
+div.app-modal > div.ant-modal-content {
   border-radius: 3%;
 }
 
-div.ant-modal-content > div.ant-modal-body {
+div.app-modal div.ant-modal-content > div.ant-modal-body {
   padding: 0;
 }
 
@@ -52,6 +52,6 @@ div.app-modal__footer button.app-modal__footer-delete-btn {
   border-color: rgb(255, 90, 90);
 }
 
-div.ant-modal-footer {
+div.app-modal div.ant-modal-footer {
   border-top: 0;
 }

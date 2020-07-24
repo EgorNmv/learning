@@ -41,6 +41,7 @@ export const Modal: React.FC<ModalProps> = ({
   isLoading = false,
 }) => (
   <AntModal
+    className="app-modal"
     confirmLoading={isLoading}
     closable={false}
     maskClosable={true}
