@@ -77,7 +77,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         label: response?.filename,
         name: name.trim(),
         organizerId: organizer,
-        site: site.trim(),
+        site: site && site.trim(),
         start: startAndEndDates[0].format("DD.MM.YYYY"),
         categoryId: category,
         numberOfParticipants: Number(countOfSeats),
@@ -276,17 +276,31 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         <Input.TextArea rows={8} />
       </Form.Item>
       <CenteredText>
-        <Form.Item>
-          <Button
-            htmlType="button"
-            style={{ marginRight: "1rem" }}
-            onClick={() => history.goBack()}
-          >
-            Отмена
-          </Button>
-          <Button type="primary" htmlType="submit" disabled={isLoadingFile}>
-            {isEditing ? "Обновить" : "Создать"}
-          </Button>
+        <Form.Item shouldUpdate={true}>
+          {() => (
+            <>
+              <Button
+                htmlType="button"
+                style={{ marginRight: "1rem" }}
+                onClick={() => history.goBack()}
+              >
+                Отмена
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={
+                  isLoadingFile ||
+                  !form.isFieldTouched("name") ||
+                  !form.isFieldTouched("description") ||
+                  form.getFieldsError().filter(({ errors }) => errors.length)
+                    .length > 0
+                }
+              >
+                {isEditing ? "Обновить" : "Создать"}
+              </Button>
+            </>
+          )}
         </Form.Item>
       </CenteredText>
     </Form>
