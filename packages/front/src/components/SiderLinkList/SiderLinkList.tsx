@@ -6,6 +6,7 @@ import SubMenu from "antd/lib/menu/SubMenu";
 import "./SiderLinkList.css";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
 import { SiderLinkListQuery } from "./__generated__/SiderLinkListQuery.graphql";
+// import { FixedSizeList } from "react-window";
 
 const query = graphql`
   query SiderLinkListQuery {
@@ -20,6 +21,26 @@ const query = graphql`
 export const SiderLinkList: React.FC = () => {
   const { categories } = useLazyLoadQuery<SiderLinkListQuery>(query, {});
 
+  // const CategoryRow: React.FC<{ index: number; style: any }> = ({
+  //   index,
+  //   style,
+  // }) => {
+  //   console.info(style);
+  //   return (
+  //     <div style={style}>
+  //       <Menu.Item
+  //         key={`${
+  //           categories[index].categoryId + categories[index].description
+  //         }`}
+  //       >
+  //         <Link to={`/category/${categories[index].categoryId}`}>
+  //           {categories[index].description}
+  //         </Link>
+  //       </Menu.Item>
+  //     </div>
+  //   );
+  // };
+
   return (
     <Menu className="sider-link-list-menu" mode="inline" theme="light">
       <Menu.Item key="main">
@@ -32,6 +53,15 @@ export const SiderLinkList: React.FC = () => {
         key="subMenu1"
         title={constants["CATEGORIES"]}
       >
+        {/* <FixedSizeList
+          className="fixed-size-list"
+          height={150}
+          itemCount={categories.length}
+          itemSize={35}
+          width={300}
+        >
+          {CategoryRow}
+        </FixedSizeList> */}
         {categories.map((category) => (
           <Menu.Item key={`${category.categoryId + category.description}`}>
             <Link to={`/category/${category.categoryId}`}>
