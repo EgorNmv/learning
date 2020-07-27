@@ -78,7 +78,7 @@ const CategoriesCreate: React.FC = () => {
                       "Название организатора не может состоять только из пробелов",
                   },
                   {
-                    pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                    pattern: new RegExp("^[a-zA-Zа-яА-Яё0-9!?_.,-=\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
                     message: "Название организатора должно состоять из букв",
                   },
                   {

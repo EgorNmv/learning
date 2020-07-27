@@ -117,8 +117,8 @@ const CategoriesCreate: React.FC = () => {
                       "Название категории не может состоять только из пробелов",
                   },
                   {
-                    pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
-                    message: "Название категории должно состоять из букв",
+                    pattern: new RegExp("^[a-zA-Zа-яА-Яё0-9!?_.,-=\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                    message: "Неверный формат категории",
                   },
                   {
                     min: 3,

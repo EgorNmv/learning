@@ -96,7 +96,7 @@ const TargetAudiencesEdit: React.FC = () => {
                   "Название целевой аудитории не может состоять только из пробелов",
               },
               {
-                pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                pattern: new RegExp("^[a-zA-Zа-яА-Яё0-9!?_.,-=\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
                 message: "Название целевой аудитории должно состоять из букв",
               },
               {
