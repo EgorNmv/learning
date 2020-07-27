@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { Menu } from "antd";
 import { constants } from "../../constants/constants";
 import SubMenu from "antd/lib/menu/SubMenu";
-import "./SiderLinkList.css";
+import "./sider-link-list.css";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
 import { SiderLinkListQuery } from "./__generated__/SiderLinkListQuery.graphql";
 // import { FixedSizeList } from "react-window";
@@ -63,7 +63,10 @@ export const SiderLinkList: React.FC = () => {
           {CategoryRow}
         </FixedSizeList> */}
         {categories.map((category) => (
-          <Menu.Item key={`${category.categoryId + category.description}`}>
+          <Menu.Item
+            key={`${category.categoryId + category.description}`}
+            className="submenu-item__category"
+          >
             <Link to={`/category/${category.categoryId}`}>
               {category.description}
             </Link>

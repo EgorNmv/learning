@@ -2,14 +2,21 @@
   display: flex;
   justify-content: space-between;
 }
+
 .category-page-content .training-card {
   width: 770px;
   margin-bottom: 10px;
 }
+
 .category-page-content-calendar {
   margin-left: 2rem;
   width: 30%;
 }
+
 .ant-select-arrow {
   top: 27%;
+}
+
+.category-page-content__title {
+  overflow-wrap: anywhere;
 }

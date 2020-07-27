@@ -24,3 +24,9 @@ ul.ant-menu.ant-menu-sub.ant-menu-inline {
 ul.ant-menu.ant-menu-sub.ant-menu-inline:hover {
   overflow-y: scroll;
 }
+
+ul.ant-menu.ant-menu-sub.ant-menu-inline li.submenu-item__category {
+  height: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Category.css";
+import "./category.css";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
 import { useParams } from "react-router-dom";
@@ -169,7 +169,9 @@ const Category: React.FC = () => {
   return (
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
-        <h2>{category && category.description}</h2>
+        <h2 className="category-page-content__title">
+          {category && category.description}
+        </h2>
         <span>{constants["SORTBY"]} </span>
         <Radio.Group
           onChange={(e: RadioChangeEvent) => setSortBy(e.target.value)}
