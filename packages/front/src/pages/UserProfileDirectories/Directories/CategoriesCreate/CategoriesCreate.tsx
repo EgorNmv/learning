@@ -8,6 +8,7 @@ import { useFileUpload } from "../../../../utils/utils";
 import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { RecordSourceSelectorProxy } from "relay-runtime";
 
 const mutation = graphql`
   mutation CategoriesCreateMutation($description: String!, $label: String) {
@@ -39,6 +40,7 @@ const CategoriesCreate: React.FC = () => {
           );
           form.resetFields();
           setFileResponse(null);
+          history.goBack();
         },
         onError: () => {
           showAlert("При добавлении категории произошла ошибка", "error");

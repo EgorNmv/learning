@@ -62,16 +62,21 @@ export const SiderLinkList: React.FC = () => {
         >
           {CategoryRow}
         </FixedSizeList> */}
-        {categories.map((category) => (
-          <Menu.Item
-            key={`${category.categoryId + category.description}`}
-            className="submenu-item__category"
-          >
-            <Link to={`/category/${category.categoryId}`}>
-              {category.description}
-            </Link>
-          </Menu.Item>
-        ))}
+        {categories.map((category) => {
+          if (!category) {
+            return null;
+          }
+          return (
+            <Menu.Item
+              key={`${category.categoryId + category.description}`}
+              className="submenu-item__category"
+            >
+              <Link to={`/category/${category.categoryId}`}>
+                {category.description}
+              </Link>
+            </Menu.Item>
+          );
+        })}
         <Menu.Item>
           <Link to="/categories">{constants["SEEALLCATEGORY"]}</Link>
         </Menu.Item>
