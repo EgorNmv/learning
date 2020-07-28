@@ -108,10 +108,14 @@ const Categories: React.FC = () => {
             "error"
           ),
         updater: (proxyStore) => {
-          if (deletingCategory.id) {
-            proxyStore.delete(
-              `client:root:categories:${deletingCategory.id - 1}`
-            );
+          if (deletingCategory && deletingCategory.id) {
+            for (let i = 0; i < categories.length; i++) {
+              const category = proxyStore.get(`client:root:categories:${i}`);
+
+              if (category?.getValue("id") === deletingCategory.categoryId) {
+                proxyStore.delete(`client:root:categories:${i}`);
+              }
+            }
           }
         },
       });
