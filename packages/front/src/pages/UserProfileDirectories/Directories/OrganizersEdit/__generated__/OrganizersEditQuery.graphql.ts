@@ -12,6 +12,7 @@ export type OrganizersEditQueryResponse = {
         readonly address: string;
         readonly site: string | null;
         readonly type: number;
+        readonly contactInfo: string | null;
     } | null;
 };
 export type OrganizersEditQuery = {
@@ -31,6 +32,7 @@ query OrganizersEditQuery(
     address
     site
     type
+    contactInfo
   }
 }
 */
@@ -93,6 +95,13 @@ v1 = [
         "kind": "ScalarField",
         "name": "type",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "contactInfo",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -119,9 +128,9 @@ return {
     "metadata": {},
     "name": "OrganizersEditQuery",
     "operationKind": "query",
-    "text": "query OrganizersEditQuery(\n  $organizerId: Float!\n) {\n  organizer(id: $organizerId) {\n    organizerId: id\n    name\n    address\n    site\n    type\n  }\n}\n"
+    "text": "query OrganizersEditQuery(\n  $organizerId: Float!\n) {\n  organizer(id: $organizerId) {\n    organizerId: id\n    name\n    address\n    site\n    type\n    contactInfo\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '4f0a96825c741e2dc8dde7a4dbfb17ee';
+(node as any).hash = 'b003eaf1bfd5d0cd95f22b4c0d8f2b7d';
 export default node;

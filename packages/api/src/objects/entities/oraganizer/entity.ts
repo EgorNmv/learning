@@ -51,6 +51,13 @@ export class OrganizerEntity extends BaseEntity implements Organizer {
   @DeleteDateColumn()
   public deletedAt: Date;
 
+  @Field(() => String, {
+    nullable: true,
+    description: "контактная информация организатора",
+  })
+  @Column({ nullable: true })
+  public contactInfo: string;
+
   constructor(
     id: number,
     name: string,

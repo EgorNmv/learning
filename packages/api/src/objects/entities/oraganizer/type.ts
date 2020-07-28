@@ -5,4 +5,5 @@ export interface Organizer {
   site: string;
   type: number;
   deletedAt?: Date;
+  contactInfo: string;
 }

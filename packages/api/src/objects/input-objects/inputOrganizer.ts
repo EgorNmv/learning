@@ -14,4 +14,7 @@ export class InputOrganizer implements Omit<Organizer, "id"> {
 
   @Field()
   public type: number;
+
+  @Field({ nullable: true })
+  public contactInfo: string;
 }
