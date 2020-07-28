@@ -98,7 +98,7 @@ const Main: React.FC = () => {
             justifyContent: "space-around",
           }}
         >
-          {categories.slice(0, 6).map((category) => (
+          {categories.map((category) => (
             <CategoryCard
               category={category}
               key={`${category.categoryId}${category.description}`}
