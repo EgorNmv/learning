@@ -4,18 +4,23 @@ import { findTrainingById } from "./findTrainingById";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
 
 export const updateTrainingById = async (
-    connection: Connection,
-    id: number,
-    data: Partial<InputTraining>
+  connection: Connection,
+  id: number,
+  data: Partial<InputTraining>
 ): Promise<TrainingEntity> => {
-    const training: TrainingEntity = await findTrainingById(connection, id);
+  const training: TrainingEntity = await connection
+    .getRepository(TrainingEntity)
+    .findOne({
+      where: { id },
+    });
 
-    if (!training) {
-        throw new Error(`Training with id ${id} not found`);
-    }
+  if (!training) {
+    throw new Error(`Training with id ${id} not found`);
+  }
 
-    const updatedTraining: TrainingEntity = await connection.getRepository(TrainingEntity)
-        .save({ ...training, ...data });
+  const updatedTraining: TrainingEntity = await connection
+    .getRepository(TrainingEntity)
+    .save({ ...training, ...data });
 
-    return updatedTraining;
-}
+  return await findTrainingById(connection, id);
+};
