@@ -9,6 +9,7 @@ import { Event } from "../../utils/types";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Modal } from "../../components/Modal/Modal";
 import { UserProfileEventsMutation } from "./__generated__/UserProfileEventsMutation.graphql";
+import { ModalWithSteps } from "../../components/ModalWithSteps/ModalWithSteps";
 
 const query = graphql`
   query UserProfileEventsQuery {
@@ -42,6 +43,9 @@ const UserProfileEvents: React.FC = () => {
     trainingId: number;
     name: string;
   } | null>(null);
+  const [isReportModalVisible, setIsReportModalVisible] = React.useState<
+    boolean
+  >(false);
 
   const columns = [
     {
@@ -138,12 +142,18 @@ const UserProfileEvents: React.FC = () => {
         onCancel={() => setIsModalVisible(false)}
         onOk={() => deleteCategory()}
       />
+      <ModalWithSteps
+        isOpen={isReportModalVisible}
+        onClose={() => setIsReportModalVisible(false)}
+      />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           <h1>События</h1>
         </div>
         <div>
-          <Button>Выгрузить в XLS</Button>
+          <Button onClick={() => setIsReportModalVisible(true)}>
+            Выгрузить в XLS
+          </Button>
           <Button type="primary">
             <Link to="/profile/trainings/create">Создать событие</Link>
           </Button>
