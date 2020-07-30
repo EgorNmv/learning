@@ -39,6 +39,7 @@ const Categories: React.FC = () => {
   const [deletingCategory, setDeletingCategory] = React.useState<{
     categoryId: number;
     name: string;
+    id: number | null;
   } | null>(null);
 
   const columns = [
@@ -71,6 +72,7 @@ const Categories: React.FC = () => {
                 setDeletingCategory({
                   categoryId: record.categoryId,
                   name: record.description,
+                  id: record.id || null,
                 });
                 setIsModalVisible(true);
               }}
@@ -95,6 +97,7 @@ const Categories: React.FC = () => {
                 (category) =>
                   category.categoryId !== deletingCategory.categoryId
               )
+              .filter(Boolean)
               .map((category, index) => ({ ...category, id: index + 1 }))
           );
           setIsModalVisible(false);
@@ -104,16 +107,34 @@ const Categories: React.FC = () => {
             `При удалении категории ${deletingCategory.name} произошла ошибка`,
             "error"
           ),
+        updater: (proxyStore) => {
+          if (deletingCategory && deletingCategory.id) {
+            for (let i = 0; i < categories.length; i++) {
+              const category = proxyStore.get(`client:root:categories:${i}`);
+
+              if (category?.getValue("id") === deletingCategory.categoryId) {
+                proxyStore.delete(`client:root:categories:${i}`);
+              }
+            }
+          }
+        },
       });
     }
   };
 
   React.useEffect(() => {
     setData(
-      categories.map((category, index) => ({
-        ...category,
-        id: index + 1,
-      })) as Category[]
+      categories
+        .map((category, index) => {
+          if (!category) {
+            return null;
+          }
+          return {
+            ...category,
+            id: index + 1,
+          };
+        })
+        .filter(Boolean) as Category[]
     );
   }, [categories]);
 

@@ -41,6 +41,7 @@ export const Modal: React.FC<ModalProps> = ({
   isLoading = false,
 }) => (
   <AntModal
+    className="app-modal"
     confirmLoading={isLoading}
     closable={false}
     maskClosable={true}
@@ -71,7 +72,7 @@ export const Modal: React.FC<ModalProps> = ({
         <p className="app-modal__content-title">
           Удаление {deletingObjectsMap[`${deletingObjectType}`].title}
         </p>
-        <p>
+        <p className="app-modal__content-text">
           Вы уверены, что хотите удалить{" "}
           {deletingObjectsMap[`${deletingObjectType}`].content} "
           {deletingObjectName && deletingObjectName}"?

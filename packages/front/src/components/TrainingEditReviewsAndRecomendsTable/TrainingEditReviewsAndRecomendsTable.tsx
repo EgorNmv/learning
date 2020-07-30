@@ -21,8 +21,7 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
   onChangeFeedbackStatus,
   isRecomendations,
 }) => {
-  const params = useParams<{ id: string }>();
-  const trainingId = Number(params.id);
+  const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
   const [objWithFullnames, setObjWithFullnames] = React.useState<any>({});
   const [data, setData] = React.useState<any[]>(feedbacks);
   const columns = [

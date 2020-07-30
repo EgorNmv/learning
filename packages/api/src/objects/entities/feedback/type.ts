@@ -12,4 +12,5 @@ export interface Feedback {
   trainingId: number;
   status: number;
   rate: number;
+  deletedAt?: Date;
 }

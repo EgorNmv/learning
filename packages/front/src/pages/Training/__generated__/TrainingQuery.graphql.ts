@@ -18,6 +18,7 @@ export type TrainingQueryResponse = {
         readonly organizer: {
             readonly name: string;
             readonly address: string;
+            readonly contactInfo: string | null;
         };
         readonly start: string;
         readonly end: string;
@@ -51,6 +52,7 @@ query TrainingQuery(
     organizer {
       name
       address
+      contactInfo
     }
     start
     end
@@ -151,6 +153,13 @@ v4 = [
             "kind": "ScalarField",
             "name": "address",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "contactInfo",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -229,9 +238,9 @@ return {
     "metadata": {},
     "name": "TrainingQuery",
     "operationKind": "query",
-    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n    }\n    start\n    end\n    site\n    audience {\n      description\n    }\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
+    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    site\n    audience {\n      description\n    }\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
   }
 };
 })();
-(node as any).hash = 'e33ff6b612e06391027eed52b2ead406';
+(node as any).hash = '2792f7d2ba0841368246d56a6bae74ac';
 export default node;

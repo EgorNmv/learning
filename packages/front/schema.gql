@@ -71,8 +71,9 @@ input InputMaterial {
 
 input InputOrganizer {
   address: String!
+  contactInfo: String
   name: String!
-  site: String!
+  site: String
   type: Float!
 }
 
@@ -150,6 +151,9 @@ type Mutation {
 type OrganizerEntity {
   """адресс организатора обучения"""
   address: String!
+
+  """контактная информация организатора"""
+  contactInfo: String
 
   """id организатора обучния"""
   id: Float!

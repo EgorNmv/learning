@@ -34,6 +34,7 @@ const query = graphql`
       organizer {
         name
         address
+        contactInfo
       }
       start
       end
@@ -104,6 +105,14 @@ const Training: React.FC = () => {
                 <span style={{ fontWeight: "bold" }}>Место проведения: </span>
                 <span>{training?.organizer.address}</span>
               </div>
+              {training?.organizer.contactInfo && (
+                <div>
+                  <span style={{ fontWeight: "bold" }}>
+                    Контактная информация:{" "}
+                  </span>
+                  <span>{training?.organizer.contactInfo}</span>
+                </div>
+              )}
               <div>
                 <span style={{ fontWeight: "bold" }}>Дата: </span>
                 <span>{`${training?.start} - ${training?.end}`}</span>
@@ -116,10 +125,12 @@ const Training: React.FC = () => {
                 <span style={{ fontWeight: "bold" }}>Формат обучения: </span>
                 <span>{training?.format.description}</span>
               </div>
-              <div>
-                <span style={{ fontWeight: "bold" }}>Сайт: </span>
-                <span>{training?.site}</span>
-              </div>
+              {training?.site && (
+                <div>
+                  <span style={{ fontWeight: "bold" }}>Сайт: </span>
+                  <span>{training?.site}</span>
+                </div>
+              )}
               <div>
                 <Button
                   type="primary"

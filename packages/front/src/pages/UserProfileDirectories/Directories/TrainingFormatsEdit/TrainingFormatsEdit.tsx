@@ -93,7 +93,7 @@ const TrainingFormatsEdit: React.FC = () => {
                   "Название формата обучения не может состоять только из пробелов",
               },
               {
-                pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                pattern: new RegExp("^[a-zA-Zа-яА-Яё0-9!?_.,-=\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
                 message: "Название формата обучения должно состоять из букв",
               },
               {
@@ -101,6 +101,7 @@ const TrainingFormatsEdit: React.FC = () => {
                 message:
                   "Название формата обучения должно должно состоять минимум из трёх символов",
               },
+              { max: 255, message: "Слишком длинное название" },
             ]}
           >
             <Input autoFocus disabled={isInFlight} />

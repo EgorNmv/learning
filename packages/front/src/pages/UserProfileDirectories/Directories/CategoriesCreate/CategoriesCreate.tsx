@@ -8,6 +8,7 @@ import { useFileUpload } from "../../../../utils/utils";
 import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { RecordSourceSelectorProxy } from "relay-runtime";
 
 const mutation = graphql`
   mutation CategoriesCreateMutation($description: String!, $label: String) {
@@ -24,7 +25,9 @@ const CategoriesCreate: React.FC = () => {
   const history = useHistory();
   const [commit, isInFlight] = useMutation<CategoriesCreateMutation>(mutation);
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
-  const [fileResponse, setFileResponse] = useState<{ filename: string }>();
+  const [fileResponse, setFileResponse] = useState<{ filename: string } | null>(
+    null
+  );
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name }: Store) => {
@@ -36,6 +39,8 @@ const CategoriesCreate: React.FC = () => {
             `Категория ${response.createCategory.description} успешно добавлена`
           );
           form.resetFields();
+          setFileResponse(null);
+          history.goBack();
         },
         onError: () => {
           showAlert("При добавлении категории произошла ошибка", "error");
@@ -81,14 +86,15 @@ const CategoriesCreate: React.FC = () => {
                       "Название категории не может состоять только из пробелов",
                   },
                   {
-                    pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
-                    message: "Название категории должно состоять из букв",
+                    pattern: new RegExp("^[a-zA-Zа-яА-Яё0-9!?_.,-=\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                    message: "Неверный формат категории",
                   },
                   {
                     min: 3,
                     message:
                       "Название категории должно должно состоять минимум из трёх символов",
                   },
+                  { max: 255, message: "Слишком длинное название" },
                 ]}
               >
                 <Input autoFocus disabled={isInFlight} />

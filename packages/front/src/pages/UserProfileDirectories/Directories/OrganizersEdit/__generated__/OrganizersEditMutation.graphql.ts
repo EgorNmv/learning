@@ -4,8 +4,9 @@
 import { ConcreteRequest } from "relay-runtime";
 export type InputOrganizer = {
     address: string;
+    contactInfo?: string | null;
     name: string;
-    site: string;
+    site?: string | null;
     type: number;
 };
 export type OrganizersEditMutationVariables = {

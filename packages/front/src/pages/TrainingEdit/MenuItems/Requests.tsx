@@ -125,8 +125,19 @@ export const Requests: React.FC = () => {
                           status: 2,
                         },
                       },
-                      onCompleted: () => {
+                      onCompleted: (response) => {
                         showAlert("Запрос отклонён");
+                        setData((prev) =>
+                          prev.map((request) =>
+                            request.requestId ===
+                            response.updateRequestById.requestId
+                              ? {
+                                  ...request,
+                                  status: response.updateRequestById.status,
+                                }
+                              : { ...request }
+                          )
+                        );
                       },
                       onError: () => {
                         showAlert(

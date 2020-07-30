@@ -8,6 +8,7 @@ import {
   Column,
   RelationId,
   ManyToOne,
+  DeleteDateColumn,
 } from "typeorm";
 import { Material } from "./type";
 
@@ -27,7 +28,9 @@ export class MaterialEntity extends BaseEntity implements Material {
     nullable: false,
     description: "идентификатор обучения",
   })
-  @ManyToOne((type) => TrainingEntity, (training) => training.id)
+  @ManyToOne((type) => TrainingEntity, (training) => training.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   public training: TrainingEntity;
 
@@ -41,6 +44,9 @@ export class MaterialEntity extends BaseEntity implements Material {
   })
   @Column()
   public link: string;
+
+  @DeleteDateColumn()
+  public deletedAt: Date;
 
   constructor(id: number, training: TrainingEntity, link: string) {
     super();

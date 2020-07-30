@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Select, Button, InputNumber } from "antd";
+import { Form, Input, Select, Button, InputNumber, DatePicker } from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql } from "react-relay";
@@ -10,6 +10,10 @@ import { TrainingFormValues } from "../../utils/types";
 import { useFileUpload } from "../../utils/utils";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/ru";
+import "./training-form.css";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -50,35 +54,42 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   >(query, {});
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = useState<{ filename: string }>();
+  const { showAlert } = React.useContext(AlertContext);
 
   const onFinishHandler = ({
     name,
     category,
-    startDate,
     targetAudience,
     organizer,
-    endDate,
     trainingFormat,
     // tags,
     description,
     countOfSeats,
     site,
+    startAndEndDates,
   }: Store) => {
-    const data: InputTraining = {
-      audienceId: targetAudience,
-      end: endDate,
-      description,
-      formatId: trainingFormat,
-      label: response?.filename,
-      name,
-      organizerId: organizer,
-      site,
-      start: startDate,
-      categoryId: category,
-      numberOfParticipants: Number(countOfSeats),
-    };
+    if (name.trim().length >= 3) {
+      const data: InputTraining = {
+        audienceId: targetAudience,
+        end: startAndEndDates[1].format("DD.MM.YYYY"),
+        description: description.trim(),
+        formatId: trainingFormat,
+        label: response?.filename,
+        name: name.trim(),
+        organizerId: organizer,
+        site: site && site.trim(),
+        start: startAndEndDates[0].format("DD.MM.YYYY"),
+        categoryId: category,
+        numberOfParticipants: Number(countOfSeats),
+      };
 
-    onFinish && onFinish(data);
+      onFinish && onFinish(data);
+    } else {
+      showAlert(
+        `Название события "${name.trim()}" содержит менее трёх символов`,
+        "error"
+      );
+    }
   };
 
   const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,9 +102,14 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   };
 
   React.useEffect(() => {
-    form.setFieldsValue({
-      ...formValues,
-    });
+    formValues &&
+      form.setFieldsValue({
+        ...formValues,
+        startAndEndDates: [
+          moment(formValues?.startDate, "DD.MM.YYYY"),
+          moment(formValues?.endDate, "DD.MM.YYYY"),
+        ],
+      });
   }, [formValues]);
 
   return (
@@ -105,7 +121,23 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ flex: 1 }}>
-          <Form.Item name="name" label="Название:" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Название:"
+            rules={[
+              { required: true },
+              {
+                whitespace: true,
+                message:
+                  "Название события не может состоять только из пробелов",
+              },
+              {
+                min: 3,
+                message: "Слишком короткое название",
+              },
+              { max: 255, message: "Слишком длинное название" },
+            ]}
+          >
             <Input />
           </Form.Item>
           <div style={{ display: "flex" }}>
@@ -124,13 +156,6 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 </Select>
               </Form.Item>
               <Form.Item
-                name="startDate"
-                label="Дата начала:"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
                 name="targetAudience"
                 label="Целевая аудитория:"
                 rules={[{ required: true }]}
@@ -139,6 +164,51 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                   {targetAudiences.map((targetAudience) => (
                     <Select.Option value={targetAudience.targetAudienceId}>
                       {targetAudience.description}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <div className="training-form__startAndEndDates-and-countOfSeats">
+                <Form.Item
+                  name="startAndEndDates"
+                  label="Даты проведения:"
+                  rules={[{ required: true }]}
+                >
+                  <DatePicker.RangePicker
+                    format={"DD.MM.YYYY"}
+                    placeholder={["Дата начала", "Дата конца"]}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="countOfSeats"
+                  className="training-form__input-number"
+                  label="Количество мест:"
+                  rules={[
+                    {
+                      type: "number",
+                      message: "Количество мест должно быть числом",
+                    },
+                    {
+                      pattern: new RegExp("^[1-9]*$"),
+                      message:
+                        "Количество мест должно быть целым, положительным числом",
+                    },
+                  ]}
+                >
+                  <InputNumber />
+                </Form.Item>
+              </div>
+            </div>
+            <div style={{ flex: 1 }}>
+              <Form.Item
+                name="trainingFormat"
+                label="Формат обучения:"
+                rules={[{ required: true }]}
+              >
+                <Select>
+                  {formats.map((format) => (
+                    <Select.Option value={format.formatId}>
+                      {format.description}
                     </Select.Option>
                   ))}
                 </Select>
@@ -156,32 +226,19 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                   ))}
                 </Select>
               </Form.Item>
-            </div>
-            <div style={{ flex: 1 }}>
-              <Form.Item name="countOfSeats" label="Количество мест:">
-                <InputNumber />
-              </Form.Item>
               <Form.Item
-                name="endDate"
-                label="Дата оконачния:"
-                rules={[{ required: true }]}
+                name="site"
+                label="Ссылка на сайт:"
+                rules={[
+                  {
+                    pattern: new RegExp(
+                      "^((https?|ftp|smtp)://)?(www.)?[a-z0-9]+.[a-z]+(/[a-zA-Z0-9#]+/?)*$"
+                    ),
+                    message: "Недопустимый формат сайта",
+                  },
+                  { max: 255, message: "Слишком длинное имя сайта" },
+                ]}
               >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="trainingFormat"
-                label="Формат обучения:"
-                rules={[{ required: true }]}
-              >
-                <Select>
-                  {formats.map((format) => (
-                    <Select.Option value={format.formatId}>
-                      {format.description}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item name="site" label="Ссылка на сайт:">
                 <Input defaultValue="" />
               </Form.Item>
             </div>
@@ -219,17 +276,31 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         <Input.TextArea rows={8} />
       </Form.Item>
       <CenteredText>
-        <Form.Item>
-          <Button
-            htmlType="button"
-            style={{ marginRight: "1rem" }}
-            onClick={() => history.goBack()}
-          >
-            Отмена
-          </Button>
-          <Button type="primary" htmlType="submit" disabled={isLoadingFile}>
-            {isEditing ? "Обновить" : "Создать"}
-          </Button>
+        <Form.Item shouldUpdate={true}>
+          {() => (
+            <>
+              <Button
+                htmlType="button"
+                style={{ marginRight: "1rem" }}
+                onClick={() => history.goBack()}
+              >
+                Отмена
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={
+                  isLoadingFile ||
+                  !form.isFieldTouched("name") ||
+                  !form.isFieldTouched("description") ||
+                  form.getFieldsError().filter(({ errors }) => errors.length)
+                    .length > 0
+                }
+              >
+                {isEditing ? "Обновить" : "Создать"}
+              </Button>
+            </>
+          )}
         </Form.Item>
       </CenteredText>
     </Form>

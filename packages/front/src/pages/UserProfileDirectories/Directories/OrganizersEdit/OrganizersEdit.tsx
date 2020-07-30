@@ -16,6 +16,7 @@ const query = graphql`
       address
       site
       type
+      contactInfo
     }
   }
 `;
@@ -46,7 +47,7 @@ const OrganizersEdit: React.FC = () => {
   const [form] = Form.useForm();
   const { showAlert } = React.useContext(AlertContext);
 
-  const onFinish = ({ name, address, type, site }: Store) => {
+  const onFinish = ({ name, address, type, site, contactInfo }: Store) => {
     if (name.trim().length >= 3) {
       commit({
         variables: {
@@ -56,6 +57,7 @@ const OrganizersEdit: React.FC = () => {
             address: address.trim(),
             type,
             site: site.trim(),
+            contactInfo: contactInfo.trim() || null,
           },
         },
         onCompleted(response) {
@@ -84,6 +86,7 @@ const OrganizersEdit: React.FC = () => {
         address: organizer?.address,
         type: organizer?.type,
         site: organizer?.site,
+        contactInfo: organizer?.contactInfo,
       }),
     [organizer]
   );
@@ -111,7 +114,7 @@ const OrganizersEdit: React.FC = () => {
                       "Название организатора не может состоять только из пробелов",
                   },
                   {
-                    pattern: new RegExp("^[a-zA-Zа-яА-Яё\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
+                    pattern: new RegExp("^[a-zA-Zа-яА-Яё0-9!?_.,-=\\s]+$"), //should be ^[a-zA-Zа-яА-Яё/\s]+$
                     message: "Название организатора должно состоять из букв",
                   },
                   {
@@ -119,6 +122,7 @@ const OrganizersEdit: React.FC = () => {
                     message:
                       "Название организатора должно должно состоять минимум из трёх символов",
                   },
+                  { max: 255, message: "Слишком длинное название" },
                 ]}
               >
                 <Input autoFocus disabled={isInFlight} />
@@ -135,6 +139,7 @@ const OrganizersEdit: React.FC = () => {
                     whitespace: true,
                     message: "Адресс не может состоять только из пробелов",
                   },
+                  { max: 255, message: "Слишком длинный адрес" },
                 ]}
               >
                 <Input disabled={isInFlight} />
@@ -162,11 +167,19 @@ const OrganizersEdit: React.FC = () => {
                     ),
                     message: "Недопустимый формат сайта",
                   },
+                  { max: 255, message: "Слишком длинное имя сайта" },
                 ]}
               >
                 <Input disabled={isInFlight} />
               </Form.Item>
             </div>
+            <Form.Item
+              name="contactInfo"
+              label="Контактная информация:"
+              rules={[{ max: 255, message: "Слишком длинное значение поля" }]}
+            >
+              <Input />
+            </Form.Item>
           </div>
           <CenteredText>
             <Form.Item shouldUpdate={true}>
