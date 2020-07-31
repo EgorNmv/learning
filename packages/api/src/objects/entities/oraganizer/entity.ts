@@ -38,7 +38,7 @@ export class OrganizerEntity extends BaseEntity implements Organizer {
     nullable: true,
     description: "сайт организатора обучения",
   })
-  @Column()
+  @Column({ nullable: true })
   public site: string;
 
   @Field(() => Number, {

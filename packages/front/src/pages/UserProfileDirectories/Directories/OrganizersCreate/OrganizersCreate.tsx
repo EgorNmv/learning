@@ -33,8 +33,8 @@ const CategoriesCreate: React.FC = () => {
             name: name.trim(),
             address: address.trim(),
             type,
-            site: site.trim(),
-            contactInfo: contactInfo.trim() || null,
+            site: site ? site.trim() : null,
+            contactInfo: contactInfo ? contactInfo.trim() : null,
           },
         },
         onCompleted(response) {
@@ -120,7 +120,6 @@ const CategoriesCreate: React.FC = () => {
                 </Select>
               </Form.Item>
               <Form.Item
-                initialValue=""
                 style={{ flex: "auto" }}
                 name="site"
                 label="Сайт:"

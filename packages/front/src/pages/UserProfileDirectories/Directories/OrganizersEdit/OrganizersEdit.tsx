@@ -56,8 +56,8 @@ const OrganizersEdit: React.FC = () => {
             name: name.trim(),
             address: address.trim(),
             type,
-            site: site.trim(),
-            contactInfo: contactInfo.trim() || null,
+            site: site ? site.trim() : null,
+            contactInfo: contactInfo ? contactInfo.trim() : null,
           },
         },
         onCompleted(response) {
@@ -159,7 +159,6 @@ const OrganizersEdit: React.FC = () => {
                 style={{ flex: "auto" }}
                 name="site"
                 label="Сайт:"
-                initialValue=""
                 rules={[
                   {
                     pattern: new RegExp(
