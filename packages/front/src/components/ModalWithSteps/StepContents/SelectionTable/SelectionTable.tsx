@@ -1,18 +1,19 @@
 import React from "react";
 import { Table, Switch } from "antd";
 
-type Training = {
+export type Training = {
   trainingId: number;
   name: string;
-  organizer: { description: string };
+  organizer: { name: string };
   start: string;
   end: string;
   status: boolean;
+  id: number;
 };
 
 type SelectionTableProps = {
   trainings: Training[];
-  onSelect: () => void;
+  onSelect: (selectedElementId: number) => void;
 };
 
 export const SelectionTable: React.FC<SelectionTableProps> = ({
@@ -28,7 +29,11 @@ export const SelectionTable: React.FC<SelectionTableProps> = ({
       title: "Событие",
       dataIndex: "name",
     },
-    { title: "Организатор", dataIndex: "oraganizer" },
+    {
+      title: "Организатор",
+      dataIndex: "oraganizer",
+      render: (text: string, record: Training) => record.organizer.name,
+    },
     {
       title: "Даты",
       dataIndex: "dates",
@@ -39,7 +44,10 @@ export const SelectionTable: React.FC<SelectionTableProps> = ({
       title: "Статус",
       dataIndex: "status",
       render: (text: string, record: Training) => (
-        <Switch checked={record.status} onChange={onSelect} />
+        <Switch
+          checked={record.status}
+          onChange={() => onSelect(record.trainingId)}
+        />
       ),
     },
   ];

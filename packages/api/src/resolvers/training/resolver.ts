@@ -21,6 +21,7 @@ import { findAllComingTrainings } from "./queries/findAllComingTrainings";
 import { findAllSortedTrainings } from "./queries/findAllSortedTrainings";
 import { findAllTrainingBySearchText } from "./queries/findAllTrainingBySearchText";
 import { getListOfRequestsReviewsAndRecomendsByTrainingId } from "./queries/getListOfRequestsReviewsAndRecomendsByTrainingId";
+import { findAllTrainingsForReport } from "./queries/findAllTrainingsForReport";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -88,6 +89,27 @@ export class TrainingResolver {
     @Arg("searchText", { nullable: true }) searchText: string
   ) {
     return await findAllTrainingBySearchText(connection, searchBy, searchText);
+  }
+
+  @Query(() => [TrainingEntity])
+  public async trainingsForReport(
+    @Ctx() { connection }: Context,
+    @Arg("categoryId") categoryId: number,
+    @Arg("organizerId") organizerId: number,
+    @Arg("targetAudienceId") targetAudienceId: number,
+    @Arg("formatId") formatId: number,
+    @Arg("startDate") startDate: string,
+    @Arg("endDate") endDate: string
+  ) {
+    return await findAllTrainingsForReport(
+      connection,
+      categoryId,
+      organizerId,
+      targetAudienceId,
+      formatId,
+      startDate,
+      endDate
+    );
   }
 
   @Mutation(() => TrainingEntity)
