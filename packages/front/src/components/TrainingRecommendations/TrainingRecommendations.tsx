@@ -48,10 +48,14 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
   const { showAlert } = React.useContext(AlertContext);
   const { acceptedFeedbacksByTrainingId } = useLazyLoadQuery<
     TrainingRecommendationsQuery
-  >(query, {
-    trainingId,
-    feedbackType: 1,
-  });
+  >(
+    query,
+    {
+      trainingId,
+      feedbackType: 1,
+    },
+    { fetchPolicy: "store-and-network" }
+  );
   const [commit, isInFlight] = useMutation<TrainingRecommendationsMutation>(
     mutation
   );
@@ -71,6 +75,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
         },
         onCompleted: () => {
           setIsVisibleModal(false);
+          form.resetFields();
           showAlert("Ваша рекомендация отправлена в обработку");
         },
         onError: () => {

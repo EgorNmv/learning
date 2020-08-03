@@ -33,7 +33,8 @@ export const TrainingMaterials: React.FC = () => {
   const [commit, isInFlight] = useMutation<TrainingMaterialsMutation>(mutation);
   const { materialsByTrainingId } = useLazyLoadQuery<TrainingMaterialsQuery>(
     query,
-    { trainingId }
+    { trainingId },
+    { fetchPolicy: "store-and-network" }
   );
   const [materials, setMaterials] = React.useState<Material[]>([]);
   const { showAlert } = React.useContext(AlertContext);

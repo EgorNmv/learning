@@ -44,10 +44,14 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
   const [form] = Form.useForm();
   const { acceptedFeedbacksByTrainingId } = useLazyLoadQuery<
     TrainingReviewsQuery
-  >(query, {
-    trainingId,
-    feedbackType: 2,
-  });
+  >(
+    query,
+    {
+      trainingId,
+      feedbackType: 2,
+    },
+    { fetchPolicy: "store-and-network" }
+  );
   const [commit, isInFlight] = useMutation<TrainingReviewsMutation>(mutation);
   const user = React.useContext(UserContext);
   const { showAlert } = React.useContext(AlertContext);
@@ -67,6 +71,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
         },
         onCompleted: () => {
           setIsVisibleModal(false);
+          form.resetFields();
           showAlert("Ваш отзыв отправлен в обработку");
         },
         onError: () => {
@@ -102,8 +107,8 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
         >
           <div />
           <Form layout={"vertical"} form={form} name="training-create">
-            <Form.Item name="rate" label="Рейтинг">
-              <Rate defaultValue={3} />
+            <Form.Item name="rate" label="Рейтинг" initialValue={3}>
+              <Rate />
             </Form.Item>
             <Form.Item
               name="review"
