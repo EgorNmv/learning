@@ -123,6 +123,7 @@ type Mutation {
   createFormat(description: String!): FormatEntity!
   createMaterial(data: InputMaterial!): MaterialEntity!
   createOrganizer(data: InputOrganizer!): OrganizerEntity!
+  createReportByTrainingIds(ids: [Float!]!): String!
   createRequest(data: InputRequest!): RequestEntity!
   createTargetAudience(description: String!): TargetAudienceEntity!
   createTraining(data: InputTraining!): TrainingEntity!

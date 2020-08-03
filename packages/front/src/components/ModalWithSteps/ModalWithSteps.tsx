@@ -8,8 +8,9 @@ import {
 } from "./StepContents/SelectionTable/SelectionTable";
 import { DownloadForm } from "./StepContents/DownloadForm/DownloadForm";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay/hooks";
+import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { ModalWithStepsQuery } from "./__generated__/ModalWithStepsQuery.graphql";
+import { ModalWithStepsMutation } from "./__generated__/ModalWithStepsMutation.graphql";
 
 const query = graphql`
   query ModalWithStepsQuery(
@@ -39,12 +40,22 @@ const query = graphql`
   }
 `;
 
+const mutation = graphql`
+  mutation ModalWithStepsMutation($ids: [Float!]!) {
+    createReportByTrainingIds(ids: $ids)
+  }
+`;
+
 export const ModalWithSteps: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = React.useState<number>(0);
   const [form] = useForm();
+  const [trainingsWithStatuses, setTrainingsWithStatuses] = React.useState<
+    Training[]
+  >([]);
+  const [commit, isInFlight] = useMutation<ModalWithStepsMutation>(mutation);
   const { trainingsForReport } = useLazyLoadQuery<ModalWithStepsQuery>(query, {
     categoryId: 1 || form.getFieldValue("category"),
     formatId: 1 || form.getFieldValue("trainingFormat"),
@@ -57,9 +68,6 @@ export const ModalWithSteps: React.FC<{
       ? form.getFieldValue("startAndEndDates")[1]
       : "null",
   });
-  const [trainingsWithStatuses, setTrainingsWithStatuses] = React.useState<
-    Training[]
-  >([]);
   const stepsContent: JSX.Element[] = [
     <SelectionForm form={form} />,
     <SelectionTable
@@ -106,7 +114,20 @@ export const ModalWithSteps: React.FC<{
             </Button>
           )}
           {currentStep !== 2 && (
-            <Button onClick={() => setCurrentStep(currentStep + 1)}>
+            <Button
+              onClick={() => {
+                setCurrentStep(currentStep + 1);
+                commit({
+                  variables: {
+                    ids: trainingsWithStatuses.map((training) => {
+                      if (training.status === true) {
+                        return training.trainingId;
+                      }
+                    }) as number[],
+                  },
+                });
+              }}
+            >
               {currentStep === 0 ? "Далее" : "Сформировать отчёт"}
             </Button>
           )}

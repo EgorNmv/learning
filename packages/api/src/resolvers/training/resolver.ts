@@ -22,6 +22,7 @@ import { findAllSortedTrainings } from "./queries/findAllSortedTrainings";
 import { findAllTrainingBySearchText } from "./queries/findAllTrainingBySearchText";
 import { getListOfRequestsReviewsAndRecomendsByTrainingId } from "./queries/getListOfRequestsReviewsAndRecomendsByTrainingId";
 import { findAllTrainingsForReport } from "./queries/findAllTrainingsForReport";
+import { createReportByTrainingIdsAndWriteIt } from "./queries/createReportByTrainingIdsAndWriteIt";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -135,5 +136,13 @@ export class TrainingResolver {
     @Arg("id") id: number
   ) {
     return await deleteTrainingById(connection, id);
+  }
+
+  @Mutation(() => String)
+  public async createReportByTrainingIds(
+    @Ctx() { connection }: Context,
+    @Arg("ids", (type) => [Number]) ids: number[]
+  ) {
+    return await createReportByTrainingIdsAndWriteIt(connection, ids);
   }
 }
