@@ -164,12 +164,12 @@ export const Requests: React.FC = () => {
 
   React.useEffect(() => {
     const temp = (requestsByTrainingId as any).map((request: any) =>
-      fetch(`https://dev-417692.okta.com/api/v1/users/${request.userId}`, {
+      fetch(`https://dev-690537.okta.com/api/v1/users/${request.userId}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `SSWS 00Qgcob9EiG1vLxyRoY2czkSeSYcpzTRAFg-TjjiVl`, //api token
+          Authorization: "SSWS 00EGIFlOyw8lsXwv7JkEMxeKPoXAONyDJ0pJ7rUvp6", //api token
         },
       })
         .then((res) => res.json())
@@ -181,7 +181,11 @@ export const Requests: React.FC = () => {
         if (acc[`${cur.id}`]) {
           return acc;
         } else {
-          acc[`${cur.id}`] = `${cur.profile.firstName} ${cur.profile.lastName}`;
+          if (cur.profile) {
+            acc[
+              `${cur.id}`
+            ] = `${cur.profile.firstName} ${cur.profile.lastName}`;
+          }
           return acc;
         }
       }, {});

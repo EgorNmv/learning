@@ -70,13 +70,13 @@ export function useFileUpload<T>(): [
 
 export const useOktaFetchedUser = async (sub: string): Promise<{}> => {
   const responseFromOkta = await fetch(
-    `https://dev-417692.okta.com/api/v1/users/${sub}`,
+    `https://dev-690537.okta.com/api/v1/users/${sub}`,
     {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `SSWS 00Qgcob9EiG1vLxyRoY2czkSeSYcpzTRAFg-TjjiVl`, //api token
+        Authorization: `SSWS 00EGIFlOyw8lsXwv7JkEMxeKPoXAONyDJ0pJ7rUvp6`, //api token
       },
     }
   );

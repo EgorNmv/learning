@@ -126,12 +126,12 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
 
   React.useEffect(() => {
     const temp = (feedbacks as any).map((feedback: any) =>
-      fetch(`https://dev-417692.okta.com/api/v1/users/${feedback.userId}`, {
+      fetch(`https://dev-690537.okta.com/api/v1/users/${feedback.userId}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `SSWS 00Qgcob9EiG1vLxyRoY2czkSeSYcpzTRAFg-TjjiVl`, //api token
+          Authorization: "SSWS 00EGIFlOyw8lsXwv7JkEMxeKPoXAONyDJ0pJ7rUvp6", //api token
         },
       })
         .then((res) => res.json())
@@ -143,7 +143,11 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
         if (acc[`${cur.id}`]) {
           return acc;
         } else {
-          acc[`${cur.id}`] = `${cur.profile.firstName} ${cur.profile.lastName}`;
+          if (cur.profile) {
+            acc[
+              `${cur.id}`
+            ] = `${cur.profile.firstName} ${cur.profile.lastName}`;
+          }
           return acc;
         }
       }, {});

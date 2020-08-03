@@ -16,8 +16,8 @@ const startServer = async (): Promise<void> => {
   dotenvConfig();
 
   const oktaJwtVerifier = new OktaJwtVerifier({
-    issuer: "https://dev-417692.okta.com/oauth2/default",
-    clientId: "0oagqwp45W4HIpio94x6",
+    issuer: "https://dev-690537.okta.com/oauth2/default",
+    clientId: "0oaob6rcxfmyiKQob4x6",
     assertClaims: {
       aud: "api://default",
     },
@@ -32,7 +32,7 @@ const startServer = async (): Promise<void> => {
     context: async ({ req }) => {
       const authHeader = req.headers.authorization || "";
       const match = authHeader.match(/Bearer (.+)/);
-      let token;
+      let token = null;
 
       if (!match) {
         throw new Error("You must be logged in");
@@ -47,8 +47,9 @@ const startServer = async (): Promise<void> => {
           expectedAudience
         );
         token = jwt;
+        console.info("authHeader: TRUE", authHeader);
       } catch (e) {
-        console.info("authHeader", authHeader);
+        console.info("authHeader: FALSE", authHeader);
         // throw new Error("Error in verifyAccessToken");
       }
 

@@ -2,8 +2,8 @@ const okta = require("@okta/okta-sdk-nodejs");
 
 export const getUserGroupBySub = async (sub: string): Promise<string> => {
   const client = new okta.Client({
-    orgUrl: "https://dev-417692.okta.com/",
-    token: "00SarV8WIA3R8hQIcJeT2gotR37LKUarKJowpL1tWR",
+    orgUrl: "https://dev-690537.okta.com",
+    token: "00pgvhGvBBUkIJFKV1EBMzC-6nu7Lc7CAUe1QqMX4N",
   });
   let userType: string = "1";
 
