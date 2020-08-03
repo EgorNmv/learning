@@ -8,3 +8,4 @@ idea/
 test.js
 uploads/
 ssh.txt
+.DS_Store
