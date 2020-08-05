@@ -16,7 +16,7 @@ const FILE_SIZE_LIMIT = 1024 * 1024 * 100;
 const router: Router = Router();
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
-    let uploadFolder: string = path.join(__dirname, "../../../uploads/");
+    let uploadFolder: string = path.join(__dirname, "../../../../uploads/");
 
     try {
       switch (req.body.type) {

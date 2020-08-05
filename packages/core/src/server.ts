@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import * as path from "path";
+import * as fs from "fs";
 import cors = require("cors");
 import express = require("express");
 import { Connection } from "typeorm";
@@ -12,8 +13,31 @@ import OktaJwtVerifier = require("@okta/jwt-verifier");
 import fileRoutes from "../../api/src/routes/file.routes";
 import { getLocallyConnection } from "./database-connection/database-connection";
 
+const checkIsUploadsFolderExists = () => {
+  const uploadFolderPath: string = "../../uploads";
+  const foldersInUpload: string[] = [
+    "/category",
+    "/training",
+    "/user",
+    "/material",
+    "/report",
+  ];
+
+  if (!fs.existsSync(uploadFolderPath)) {
+    fs.mkdir(uploadFolderPath, () => {
+      console.info("created /uploads folder");
+      foldersInUpload.forEach((name) =>
+        fs.mkdir(uploadFolderPath.concat(name), () =>
+          console.info(`created ${name} folder`)
+        )
+      );
+    });
+  }
+};
+
 const startServer = async (): Promise<void> => {
   dotenvConfig();
+  checkIsUploadsFolderExists();
 
   const oktaJwtVerifier = new OktaJwtVerifier({
     issuer: "https://dev-690537.okta.com/oauth2/default",
@@ -61,7 +85,7 @@ const startServer = async (): Promise<void> => {
 
   app.use(cors());
   app.use("/file", fileRoutes);
-  app.use(express.static(path.join(__dirname, "../../uploads/")));
+  app.use(express.static(path.join(__dirname, "../../../uploads/")));
 
   server.applyMiddleware({
     app,

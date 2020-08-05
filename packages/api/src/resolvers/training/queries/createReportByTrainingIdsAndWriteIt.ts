@@ -17,7 +17,7 @@ export const createReportByTrainingIdsAndWriteIt = async (
     });
   const pathToSaveReport: string = path.join(
     __dirname,
-    "../../../../../uploads/report/"
+    "../../../../../../uploads/report/"
   );
   const reportFileName: string = Date.now().toString().concat(".xlsx");
   const workBook: Workbook = new Workbook();
