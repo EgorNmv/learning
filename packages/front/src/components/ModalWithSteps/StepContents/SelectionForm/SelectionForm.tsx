@@ -1,7 +1,6 @@
 import React from "react";
 import { Form, Select, DatePicker, Button } from "antd";
 import { FormInstance } from "antd/lib/form/util";
-import moment from "moment";
 import "moment/locale/ru";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
@@ -35,6 +34,17 @@ export const SelectionForm: React.FC<{
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     SelectionFormQuery
   >(query, {});
+
+  const checkOnDisabledBtn = (): boolean => {
+    return (
+      !form.isFieldTouched("category") ||
+      !form.isFieldTouched("organizer") ||
+      !form.isFieldTouched("targetAudience") ||
+      !form.isFieldTouched("trainingFormat") ||
+      !form.isFieldTouched("startAndEndDates") ||
+      form.getFieldsError().filter(({ errors }) => errors.length).length > 0
+    );
+  };
 
   return (
     <Form form={form}>
@@ -105,16 +115,11 @@ export const SelectionForm: React.FC<{
           <>
             <Button
               type="primary"
-              disabled={
-                !form.isFieldTouched("category") ||
-                !form.isFieldTouched("organizer") ||
-                !form.isFieldTouched("targetAudience") ||
-                !form.isFieldTouched("trainingFormat") ||
-                !form.isFieldTouched("startAndEndDates") ||
-                form.getFieldsError().filter(({ errors }) => errors.length)
-                  .length > 0
-              }
-              onClick={onClickNext}
+              disabled={checkOnDisabledBtn()}
+              onClick={() => {
+                onClickNext();
+                form.resetFields();
+              }}
             >
               Далее
             </Button>

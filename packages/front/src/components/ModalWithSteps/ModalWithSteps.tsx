@@ -92,7 +92,7 @@ export const ModalWithSteps: React.FC<{
           }
         })
         .filter(Boolean) as number[];
-      if (ids && ids.length > 0 && typeof ids !== undefined) {
+      if (ids && ids.length > 0) {
         setIsReportGenerationAvalible(true);
         setCurrentStep(currentStep + 1);
         commit({

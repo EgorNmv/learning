@@ -148,7 +148,11 @@ const Category: React.FC = () => {
             (startTrainingTime >= startSelectedTime &&
               startTrainingTime <= endSelectedTime) ||
             (startTrainingTime <= startSelectedTime &&
-              endTrainingTime >= endSelectedTime)
+              endTrainingTime >= endSelectedTime) ||
+            (startTrainingTime >= startSelectedTime &&
+              endTrainingTime <= endSelectedTime) ||
+            (endTrainingTime >= startSelectedTime &&
+              endTrainingTime <= endSelectedTime)
           ) {
             return true;
           } else {
