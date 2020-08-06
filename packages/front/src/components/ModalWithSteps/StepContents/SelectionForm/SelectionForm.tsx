@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Select, DatePicker } from "antd";
+import { Form, Select, DatePicker, Button } from "antd";
 import { FormInstance } from "antd/lib/form/util";
 import moment from "moment";
 import "moment/locale/ru";
@@ -28,7 +28,10 @@ const query = graphql`
   }
 `;
 
-export const SelectionForm: React.FC<{ form: FormInstance }> = ({ form }) => {
+export const SelectionForm: React.FC<{
+  form: FormInstance;
+  onClickNext: () => void;
+}> = ({ form, onClickNext }) => {
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     SelectionFormQuery
   >(query, {});
@@ -96,6 +99,27 @@ export const SelectionForm: React.FC<{ form: FormInstance }> = ({ form }) => {
           format={"DD.MM.YYYY"}
           placeholder={["Дата начала", "Дата конца"]}
         />
+      </Form.Item>
+      <Form.Item shouldUpdate={true}>
+        {() => (
+          <>
+            <Button
+              type="primary"
+              disabled={
+                !form.isFieldTouched("category") ||
+                !form.isFieldTouched("organizer") ||
+                !form.isFieldTouched("targetAudience") ||
+                !form.isFieldTouched("trainingFormat") ||
+                !form.isFieldTouched("startAndEndDates") ||
+                form.getFieldsError().filter(({ errors }) => errors.length)
+                  .length > 0
+              }
+              onClick={onClickNext}
+            >
+              Далее
+            </Button>
+          </>
+        )}
       </Form.Item>
     </Form>
   );

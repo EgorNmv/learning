@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Switch } from "antd";
+import { Table, Switch, Button } from "antd";
 
 export type Training = {
   trainingId: number;
@@ -14,11 +14,17 @@ export type Training = {
 type SelectionTableProps = {
   trainings: Training[];
   onSelect: (selectedElementId: number) => void;
+  onClickNext: () => void;
+  onClickBack: () => void;
+  isReportGenerationAvalible: boolean;
 };
 
 export const SelectionTable: React.FC<SelectionTableProps> = ({
   trainings,
   onSelect,
+  onClickNext,
+  onClickBack,
+  isReportGenerationAvalible,
 }) => {
   const columns = [
     {
@@ -58,6 +64,9 @@ export const SelectionTable: React.FC<SelectionTableProps> = ({
         По выбранным настройкам найдено {trainings.length} событий. Выберите
         необходимые события для отчета из списка ниже:
       </p>
+      {!isReportGenerationAvalible && (
+        <p>Для генерации отчёта необходимо выбрать хотя бы одно событие</p>
+      )}
       <Table
         bordered
         columns={columns}
@@ -66,6 +75,12 @@ export const SelectionTable: React.FC<SelectionTableProps> = ({
           `${record.trainingId}${record.name}`
         }
       />
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button type="ghost" onClick={onClickBack}>
+          Назад
+        </Button>
+        <Button onClick={onClickNext}>Сформировать отчёт</Button>
+      </div>
     </>
   );
 };

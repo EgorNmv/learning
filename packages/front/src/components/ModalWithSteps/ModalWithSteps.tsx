@@ -50,39 +50,102 @@ export const ModalWithSteps: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
-  const [currentStep, setCurrentStep] = React.useState<number>(0);
   const [form] = useForm();
+  const [currentStep, setCurrentStep] = React.useState<number>(0);
+  const [
+    filterFieldsForTrainings,
+    setFilterFieldsForTrainings,
+  ] = React.useState<{
+    category: number;
+    format: number;
+    organizer: number;
+    target: number;
+    start: string;
+    end: string;
+  }>({ category: 0, format: 0, organizer: 0, target: 0, start: "", end: "" });
   const [trainingsWithStatuses, setTrainingsWithStatuses] = React.useState<
     Training[]
   >([]);
+  const [
+    isReportGenerationAvalible,
+    setIsReportGenerationAvalible,
+  ] = React.useState<boolean>(true);
+  const [reportFilename, setReportFileName] = React.useState<string | null>(
+    null
+  );
   const [commit, isInFlight] = useMutation<ModalWithStepsMutation>(mutation);
   const { trainingsForReport } = useLazyLoadQuery<ModalWithStepsQuery>(query, {
-    categoryId: 1 || form.getFieldValue("category"),
-    formatId: 1 || form.getFieldValue("trainingFormat"),
-    organizerId: 1 || form.getFieldValue("organizer"),
-    targetAudienceId: 1 || form.getFieldValue("targetAudience"),
-    startDate: form.getFieldValue("startAndEndDates")
-      ? form.getFieldValue("startAndEndDates")[0]
-      : "null",
-    endDate: form.getFieldValue("startAndEndDates")
-      ? form.getFieldValue("startAndEndDates")[1]
-      : "null",
+    categoryId: filterFieldsForTrainings.category,
+    formatId: filterFieldsForTrainings.format,
+    organizerId: filterFieldsForTrainings.organizer,
+    targetAudienceId: filterFieldsForTrainings.target,
+    startDate: filterFieldsForTrainings.start,
+    endDate: filterFieldsForTrainings.end,
   });
+
+  const onClickNextButton = (): void => {
+    if (currentStep === 1) {
+      const ids: number[] = trainingsWithStatuses
+        .map((training) => {
+          if (training.status === true) {
+            return training.trainingId;
+          }
+        })
+        .filter(Boolean) as number[];
+      if (ids && ids.length > 0 && typeof ids !== undefined) {
+        setIsReportGenerationAvalible(true);
+        setCurrentStep(currentStep + 1);
+        commit({
+          variables: {
+            ids,
+          },
+          onCompleted: (response) => {
+            setReportFileName(response.createReportByTrainingIds);
+          },
+        });
+      } else {
+        setIsReportGenerationAvalible(false);
+      }
+    } else if (currentStep === 0) {
+      setCurrentStep(currentStep + 1);
+      setFilterFieldsForTrainings({
+        category: form.getFieldValue("category"),
+        format: form.getFieldValue("trainingFormat"),
+        organizer: form.getFieldValue("organizer"),
+        target: form.getFieldValue("targetAudience"),
+        start: form.getFieldValue("startAndEndDates")[0],
+        end: form.getFieldValue("startAndEndDates")[1],
+      });
+    }
+  };
+
+  const onClickBackButton = (): void => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const onChangeStatusOfTraining = (selectedElementId: number) => {
+    setTrainingsWithStatuses((prev) =>
+      prev.map((training) =>
+        training.trainingId === selectedElementId
+          ? { ...training, status: !training.status }
+          : training
+      )
+    );
+  };
+
   const stepsContent: JSX.Element[] = [
-    <SelectionForm form={form} />,
+    <SelectionForm form={form} onClickNext={onClickNextButton} />,
     <SelectionTable
       trainings={trainingsWithStatuses}
-      onSelect={(selectedElementId: number) => {
-        setTrainingsWithStatuses((prev) =>
-          prev.map((training) =>
-            training.trainingId === selectedElementId
-              ? { ...training, status: !training.status }
-              : training
-          )
-        );
-      }}
+      onSelect={onChangeStatusOfTraining}
+      onClickNext={onClickNextButton}
+      onClickBack={onClickBackButton}
+      isReportGenerationAvalible={isReportGenerationAvalible}
     />,
-    <DownloadForm />,
+    <DownloadForm
+      isDownloadBtnDisabled={isInFlight}
+      filename={reportFilename}
+    />,
   ];
 
   React.useEffect(
@@ -103,36 +166,7 @@ export const ModalWithSteps: React.FC<{
       closable={false}
       visible={isOpen}
       onCancel={onClose}
-      footer={
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          {currentStep === 1 && (
-            <Button
-              type="ghost"
-              onClick={() => setCurrentStep(currentStep - 1)}
-            >
-              Назад
-            </Button>
-          )}
-          {currentStep !== 2 && (
-            <Button
-              onClick={() => {
-                setCurrentStep(currentStep + 1);
-                commit({
-                  variables: {
-                    ids: trainingsWithStatuses.map((training) => {
-                      if (training.status === true) {
-                        return training.trainingId;
-                      }
-                    }) as number[],
-                  },
-                });
-              }}
-            >
-              {currentStep === 0 ? "Далее" : "Сформировать отчёт"}
-            </Button>
-          )}
-        </div>
-      }
+      footer={null}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
