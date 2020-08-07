@@ -100,7 +100,7 @@ export const createReportByTrainingIdsAndWriteIt = async (
         fullReportSheet.addRow([
           request.training.name,
           `${request.training.start} - ${request.training.end}`,
-          usersWithNamesMap[`${request.userId}`],
+          usersWithNamesMap[`${request.userId}`] || "Неизвестный пользователь",
         ]);
         if ((index + 2) % 2 === 0) {
           fullReportSheet.getRow(index + 2).fill = {
