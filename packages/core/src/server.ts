@@ -80,6 +80,7 @@ const startServer = async (): Promise<void> => {
       return { connection, token };
     },
     introspection: true,
+    playground: false,
   });
   const app = express();
 
