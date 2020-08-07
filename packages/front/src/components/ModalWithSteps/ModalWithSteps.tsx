@@ -74,14 +74,18 @@ export const ModalWithSteps: React.FC<{
     null
   );
   const [commit, isInFlight] = useMutation<ModalWithStepsMutation>(mutation);
-  const { trainingsForReport } = useLazyLoadQuery<ModalWithStepsQuery>(query, {
-    categoryId: filterFieldsForTrainings.category,
-    formatId: filterFieldsForTrainings.format,
-    organizerId: filterFieldsForTrainings.organizer,
-    targetAudienceId: filterFieldsForTrainings.target,
-    startDate: filterFieldsForTrainings.start,
-    endDate: filterFieldsForTrainings.end,
-  });
+  const { trainingsForReport } = useLazyLoadQuery<ModalWithStepsQuery>(
+    query,
+    {
+      categoryId: filterFieldsForTrainings.category,
+      formatId: filterFieldsForTrainings.format,
+      organizerId: filterFieldsForTrainings.organizer,
+      targetAudienceId: filterFieldsForTrainings.target,
+      startDate: filterFieldsForTrainings.start,
+      endDate: filterFieldsForTrainings.end,
+    },
+    { fetchPolicy: "network-only" }
+  );
 
   const onClickNextButton = (): void => {
     if (currentStep === 1) {

@@ -82,10 +82,10 @@ export const createReportByTrainingIdsAndWriteIt = async (
     .then((res) => {
       const usersWithNamesMap: { [key: string]: string } = res.reduce(
         (acc, cur) => {
-          if (acc[cur.id]) {
+          if (cur && acc[cur.id]) {
             return acc;
           } else {
-            if (cur.profile) {
+            if (cur && cur.profile) {
               acc[
                 `${cur.id}`
               ] = `${cur.profile.firstName} ${cur.profile.lastName}`;
