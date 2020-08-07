@@ -57,12 +57,12 @@ export const findAllTrainingsForReport = async (
       ).getTime();
       const endTrainingTime: number = getDateByString(training.end).getTime();
 
-      console.table([
-        { name: "startTrainingTime", date: new Date(startTrainingTime) },
-        { name: "endTrainingTime", date: new Date(endTrainingTime) },
-        { name: "startSelectedDate", date: new Date(startSelectedDate) },
-        { name: "endSelectedDate", date: new Date(endSelectedDate) },
-      ]);
+      // console.table([
+      //   { name: "startTrainingTime", date: new Date(startTrainingTime) },
+      //   { name: "endTrainingTime", date: new Date(endTrainingTime) },
+      //   { name: "startSelectedDate", date: new Date(startSelectedDate) },
+      //   { name: "endSelectedDate", date: new Date(endSelectedDate) },
+      // ]);
 
       if (
         (startTrainingTime >= startSelectedTime &&

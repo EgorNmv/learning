@@ -1,9 +1,10 @@
-import { Connection, Index } from "typeorm";
+import { Connection } from "typeorm";
 import { In } from "../../../../../core/node_modules/typeorm";
 import { RequestEntity } from "../../../objects/entities/request/entity";
 import { Workbook } from "exceljs";
 import * as path from "path";
 import { getUserBySub } from "../../okta/getUserBySub";
+import { TrainingEntity } from "../../../objects/entities/training/entity";
 
 export const createReportByTrainingIdsAndWriteIt = async (
   connection: Connection,
@@ -15,6 +16,23 @@ export const createReportByTrainingIdsAndWriteIt = async (
       where: { trainingId: In(ids), status: 1 },
       relations: ["training"],
     });
+  const trainingIdsWithoutRequests: number[] = ids;
+
+  requests.forEach((request) => {
+    if (trainingIdsWithoutRequests.includes(request.trainingId)) {
+      trainingIdsWithoutRequests.splice(
+        trainingIdsWithoutRequests.indexOf(request.trainingId),
+        1
+      );
+    }
+  });
+
+  const trainingsWithoutRequests: TrainingEntity[] = await connection
+    .getRepository(TrainingEntity)
+    .find({
+      where: { id: In(trainingIdsWithoutRequests) },
+    });
+
   const pathToSaveReport: string = path.join(
     __dirname,
     "../../../../../../uploads/report/"
@@ -52,11 +70,28 @@ export const createReportByTrainingIdsAndWriteIt = async (
     }
   }, {});
 
-  Object.keys(trainingsMapWithCountOfRequests).forEach((key, index) => {
+  const trainingsMapWithoutRequests: {
+    [key: string]: { name: string; dates: string; countOfRequests: number };
+  } = trainingsWithoutRequests.reduce((acc, cur) => {
+    acc[`${cur.id}`] = {
+      name: cur.name,
+      dates: `${cur.start} - ${cur.end}`,
+      countOfRequests: 0,
+    };
+
+    return acc;
+  }, {});
+
+  const trainingsMapWithAllTrainings = {
+    ...trainingsMapWithCountOfRequests,
+    ...trainingsMapWithoutRequests,
+  };
+
+  Object.keys(trainingsMapWithAllTrainings).forEach((key, index) => {
     generalReportSheet.addRow([
-      trainingsMapWithCountOfRequests[key].name,
-      trainingsMapWithCountOfRequests[key].dates,
-      trainingsMapWithCountOfRequests[key].countOfRequests,
+      trainingsMapWithAllTrainings[key].name,
+      trainingsMapWithAllTrainings[key].dates,
+      trainingsMapWithAllTrainings[key].countOfRequests,
     ]);
     if ((index + 2) % 2 === 0) {
       generalReportSheet.getRow(index + 2).fill = {
