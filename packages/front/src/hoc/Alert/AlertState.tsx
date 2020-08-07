@@ -4,11 +4,19 @@ import { Alert, AlertTypes } from "../../utils/types";
 
 export const AlertState: React.FC = ({ children }) => {
   const [alert, setAlert] = React.useState<Alert>(null);
+  const [timer, setTimer] = React.useState<NodeJS.Timeout>();
 
   const hideAlert = (): void => setAlert(null);
   const showAlert = (message: string, type: AlertTypes = "success"): void => {
+    if (timer) {
+      clearTimeout(timer);
+    }
     setAlert({ message, type });
-    setTimeout(() => setAlert(null), 5000);
+    setTimer(
+      setTimeout(() => {
+        setAlert(null);
+      }, 3000)
+    );
   };
 
   return (

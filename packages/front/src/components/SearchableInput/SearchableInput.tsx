@@ -140,7 +140,7 @@ export const SearchableInput: React.FC = () => {
         open={isSearchableInputFocused}
         onFocus={() => setIsSearchableInputFocused(true)}
         onBlur={() => setIsSearchableInputFocused(false)}
-        notFoundContent="Такие курсов нет"
+        notFoundContent="Таких курсов нет"
         onSelect={() => {
           setIsSearchableInputFocused(false);
           searchableInput.current?.blur();

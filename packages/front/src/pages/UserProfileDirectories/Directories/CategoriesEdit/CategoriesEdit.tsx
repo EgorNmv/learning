@@ -50,7 +50,9 @@ const CategoriesCreate: React.FC = () => {
   const [commit, isInFlight] = useMutation<CategoriesEditMutation>(mutation);
   const [form] = Form.useForm();
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
-  const [fileResponse, setFileResponse] = useState<{ filename: string }>();
+  const [fileResponse, setFileResponse] = useState<{ filename: string } | null>(
+    null
+  );
   const { showAlert } = React.useContext(AlertContext);
 
   const onFinish = ({ name, photo }: Store) => {
@@ -59,7 +61,7 @@ const CategoriesCreate: React.FC = () => {
         variables: {
           categoryId: id,
           description: name.trim(),
-          label: fileResponse?.filename,
+          label: fileResponse?.filename || category?.label,
         },
         onCompleted() {
           showAlert("Категория успешно обновлена");
@@ -137,7 +139,7 @@ const CategoriesCreate: React.FC = () => {
                 label="Загрузите фотографию:"
                 valuePropName="fileList"
               >
-                {category?.label ? (
+                {category?.label || fileResponse?.filename ? (
                   <UploadedPicture
                     style={{
                       width: "100%",
@@ -146,7 +148,11 @@ const CategoriesCreate: React.FC = () => {
                       maxWidth: "20rem",
                     }}
                     imgType="category"
-                    filename={fileResponse?.filename || category.label}
+                    filename={
+                      (fileResponse && fileResponse.filename) ||
+                      category?.label ||
+                      null
+                    }
                   />
                 ) : (
                   <div

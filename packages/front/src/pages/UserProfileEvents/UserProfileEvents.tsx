@@ -51,10 +51,13 @@ const UserProfileEvents: React.FC = () => {
     {
       title: "№",
       dataIndex: "id",
+      width: "4rem",
     },
     {
       title: "Название",
       dataIndex: "name",
+      width: "15rem",
+      ellipsis: true,
     },
     {
       title: "Даты",
@@ -66,6 +69,7 @@ const UserProfileEvents: React.FC = () => {
     {
       title: "Заявки / Отзывы / Рекомендации",
       dataIndex: "listOfRequestsReviewsAndRecomends",
+      width: "20rem",
       render: (text: string, record: Event) => (
         <span>{record.listOfRequestsReviewsAndRecomends.join("/")}</span>
       ),

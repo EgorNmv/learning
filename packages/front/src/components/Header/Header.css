@@ -4,7 +4,7 @@ section > header.all-main-header {
   position: fixed;
   margin-left: 367px;
   width: 100%;
-  z-index: 1;
+  z-index: 5;
   padding-right: 367px;
   display: flex;
   justify-content: space-between;
