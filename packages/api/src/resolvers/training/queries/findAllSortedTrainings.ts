@@ -1,5 +1,5 @@
 import { Connection } from "typeorm";
-import { In } from "../../../../../core/node_modules/typeorm";
+import { In, Not } from "../../../../../core/node_modules/typeorm";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
 import { FeedbackEntity } from "../../../objects/entities/feedback/entity";
 
@@ -50,6 +50,12 @@ export const findAllSortedTrainings = async (
         relations: ["format", "organizer", "audience", "category"],
         where: { id: In([...sortedListOfIds]), categoryId },
       });
+    const trainingsWithoutAnyRecommends: TrainingEntity[] = await connection
+      .getRepository(TrainingEntity)
+      .find({
+        relations: ["format", "organizer", "audience", "category"],
+        where: { id: Not(In([...sortedListOfIds])), categoryId },
+      });
     const sortedObjectOfIds: {
       [trainingId: string]: number;
     } = sortedListOfIds.reduce((acc, cur, index) => {
@@ -60,7 +66,9 @@ export const findAllSortedTrainings = async (
       (a, b) => sortedObjectOfIds[a.id] - sortedObjectOfIds[b.id]
     );
 
-    return sortedTrainingByFeedbacks;
+    return sortOrder === "ASC"
+      ? [...trainingsWithoutAnyRecommends, ...sortedTrainingByFeedbacks]
+      : [...sortedTrainingByFeedbacks, ...trainingsWithoutAnyRecommends];
   } else {
     const trainings: TrainingEntity[] = await connection
       .getRepository(TrainingEntity)
