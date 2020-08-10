@@ -77,6 +77,7 @@ export const findAllSortedTrainings = async (
         .getRepository(TrainingEntity)
         .find({
           where: { categoryId },
+          relations: ["format", "organizer", "audience", "category"],
         });
 
       return trainingsInThisCategory;
