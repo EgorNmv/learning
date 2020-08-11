@@ -10,7 +10,6 @@ import {
   DeleteDateColumn,
 } from "typeorm";
 import { Feedback } from "./type";
-import { UserEntity } from "../user/entity";
 import { TrainingEntity } from "../training/entity";
 
 @Entity({ name: "Feedback" })
@@ -24,14 +23,6 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
   })
   @PrimaryGeneratedColumn()
   public id: number;
-
-  @Field(() => UserEntity, {
-    nullable: true,
-    description: "пользователь, оставивиший отзыв",
-  })
-  // @ManyToOne(type => UserEntity, user => user.id)
-  // @JoinColumn()
-  public user: UserEntity;
 
   @Field(() => String, {
     nullable: false,
@@ -95,7 +86,6 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
 
   constructor(
     id: number,
-    user: UserEntity,
     type: number,
     training: TrainingEntity,
     date: string,
@@ -103,7 +93,6 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
   ) {
     super();
     this.id = id;
-    this.user = user;
     this.type = type;
     this.training = training;
     this.date = date;

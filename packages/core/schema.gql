@@ -38,9 +38,6 @@ type FeedbackEntity {
   """тип(1-рекомендация, 2-отзыв)"""
   type: Float!
 
-  """пользователь, оставивиший отзыв"""
-  user: UserEntity
-
   """id пользователя на okta(user.sur)"""
   userId: String!
 }
@@ -88,21 +85,15 @@ input InputTraining {
   audienceId: Float!
   categoryId: Float!
   description: String!
-  end: String!
+  end: String
   formatId: Float!
+  isDateSet: Boolean = false
   label: String
   name: String!
   numberOfParticipants: Float
   organizerId: Float!
   site: String
-  start: String!
-}
-
-input InputUser {
-  fullname: String!
-  login: String!
-  photo: String
-  roleId: Float!
+  start: String
 }
 
 """Материалы обучения"""
@@ -127,7 +118,6 @@ type Mutation {
   createRequest(data: InputRequest!): RequestEntity!
   createTargetAudience(description: String!): TargetAudienceEntity!
   createTraining(data: InputTraining!): TrainingEntity!
-  createUser(data: InputUser!): UserEntity!
   deleteCategoryById(id: Float!): Boolean!
   deleteFeedbackById(id: Float!): Boolean!
   deleteFormatById(id: Float!): Boolean!
@@ -136,7 +126,6 @@ type Mutation {
   deleteRequestById(id: Float!): Boolean!
   deleteTargetAudienceById(id: Float!): Boolean!
   deleteTrainingById(id: Float!): Boolean!
-  deleteUserById(id: Float!): Boolean!
   updateCategoryById(description: String!, id: Float!, label: String): CategoryEntity!
   updateFeedbackById(data: InputFeedback!, id: Float!): FeedbackEntity!
   updateFormatById(description: String!, id: Float!): FormatEntity!
@@ -145,7 +134,6 @@ type Mutation {
   updateRequestById(data: InputRequest!, id: Float!): RequestEntity!
   updateTargetAudienceById(description: String!, id: Float!): TargetAudienceEntity!
   updateTrainingById(data: InputTraining!, id: Float!): TrainingEntity!
-  updateUserById(data: InputUser!, id: Float!): UserEntity!
 }
 
 """Организатор обучения"""
@@ -208,8 +196,6 @@ type Query {
   trainings: [TrainingEntity!]!
   trainingsByCategoryId(categoryId: Float!): [TrainingEntity!]!
   trainingsForReport(categoryId: Float!, endDate: String!, formatId: Float!, organizerId: Float!, startDate: String!, targetAudienceId: Float!): [TrainingEntity!]!
-  user(id: Float!): UserEntity
-  users: [UserEntity!]!
 }
 
 """Заявка на обучение"""
@@ -226,20 +212,8 @@ type RequestEntity {
   """id обучния"""
   training: TrainingEntity!
 
-  """пользователь, который отправил заявку"""
-  user: UserEntity!
-
   """id пользователя заявки в okta"""
   userId: String!
-}
-
-"""Роли пользователей"""
-type RoleEntity {
-  """описание роли"""
-  description: String!
-
-  """id роли"""
-  id: Float!
 }
 
 """Целевая аудитория"""
@@ -266,13 +240,16 @@ type TrainingEntity {
   description: String!
 
   """дата окончания обучения"""
-  end: String!
+  end: String
 
   """формат обучения"""
   format: FormatEntity!
 
   """id обучения"""
   id: Float!
+
+  """Дата события не определена (поля start и end null)"""
+  isDateSet: Boolean!
 
   """ярлык(картинка) обучения"""
   label: String
@@ -293,23 +270,5 @@ type TrainingEntity {
   site: String
 
   """дата начала обучения"""
-  start: String!
-}
-
-"""Пользователь"""
-type UserEntity {
-  """имя пользователя"""
-  fullname: String!
-
-  """id пользователя"""
-  id: Float!
-
-  """логин пользователя"""
-  login: String!
-
-  """аватар пользователя"""
-  photo: String
-
-  """роль пользователя"""
-  role: RoleEntity!
+  start: String
 }

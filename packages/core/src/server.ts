@@ -18,7 +18,6 @@ const checkIsUploadsFolderExists = () => {
   const foldersInUpload: string[] = [
     "/category",
     "/training",
-    "/user",
     "/material",
     "/report",
   ];
