@@ -30,6 +30,7 @@ const mutation = graphql`
       }
       start
       end
+      isDateSet
       audience {
         audienceId: id
         description

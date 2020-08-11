@@ -7,8 +7,8 @@ export type UserProfileEventsQueryResponse = {
     readonly trainings: ReadonlyArray<{
         readonly trainingId: number;
         readonly name: string;
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
         readonly listOfRequestsReviewsAndRecomends: ReadonlyArray<number> | null;
     }>;
 };

@@ -6,14 +6,15 @@ export type InputTraining = {
     audienceId: number;
     categoryId: number;
     description: string;
-    end: string;
+    end?: string | null;
     formatId: number;
+    isDateSet?: boolean | null;
     label?: string | null;
     name: string;
     numberOfParticipants?: number | null;
     organizerId: number;
     site?: string | null;
-    start: string;
+    start?: string | null;
 };
 export type TrainingEditMutationVariables = {
     trainingId: number;
@@ -36,8 +37,9 @@ export type TrainingEditMutationResponse = {
             readonly site: string | null;
             readonly type: number;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly audience: {
             readonly audienceId: number;
             readonly description: string;
@@ -76,6 +78,7 @@ mutation TrainingEditMutation(
     }
     start
     end
+    isDateSet
     audience {
       audienceId: id
       description
@@ -228,6 +231,13 @@ v4 = [
       {
         "alias": null,
         "args": null,
+        "kind": "ScalarField",
+        "name": "isDateSet",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
         "concreteType": "TargetAudienceEntity",
         "kind": "LinkedField",
         "name": "audience",
@@ -277,9 +287,9 @@ return {
     "metadata": {},
     "name": "TrainingEditMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    numberOfParticipants\n  }\n}\n"
+    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    numberOfParticipants\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '981cdf705c8845a370ab002821173c2b';
+(node as any).hash = '985da10dbe26f69402fb1c7d10cd1483';
 export default node;

@@ -87,7 +87,7 @@ input InputTraining {
   description: String!
   end: String
   formatId: Float!
-  isDateSet: Boolean = false
+  isDateSet: Boolean = true
   label: String
   name: String!
   numberOfParticipants: Float

@@ -11,8 +11,9 @@ export type MainQueryResponse = {
         readonly organizer: {
             readonly name: string;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly description: string;
     }>;
     readonly comingTrainings: ReadonlyArray<{
@@ -22,8 +23,9 @@ export type MainQueryResponse = {
         readonly organizer: {
             readonly name: string;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly description: string;
     }>;
     readonly categories: ReadonlyArray<{
@@ -50,6 +52,7 @@ query MainQuery {
     }
     start
     end
+    isDateSet
     description
   }
   comingTrainings {
@@ -61,6 +64,7 @@ query MainQuery {
     }
     start
     end
+    isDateSet
     description
   }
   categories {
@@ -129,6 +133,13 @@ v3 = [
     "name": "end",
     "storageKey": null
   },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "isDateSet",
+    "storageKey": null
+  },
   (v2/*: any*/)
 ],
 v4 = [
@@ -194,9 +205,9 @@ return {
     "metadata": {},
     "name": "MainQuery",
     "operationKind": "query",
-    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
+    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'aad67acf8c6f8837c09be6da24c915c1';
+(node as any).hash = 'bc832e1fc78a1523630d51bd1b4b0f63';
 export default node;

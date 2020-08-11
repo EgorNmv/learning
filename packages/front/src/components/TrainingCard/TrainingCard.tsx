@@ -5,14 +5,15 @@ import "./TrainingCard.css";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 
 type TrainingCardProps = {
-  training?: {
-    trainingId?: number;
-    name?: string;
+  training: {
+    trainingId: number;
+    name: string;
     label: string | null;
-    organizer?: { name: string };
-    start?: string;
-    end?: string;
-    description?: string;
+    organizer: { name: string };
+    start: string | null;
+    end: string | null;
+    description: string;
+    isDateSet: boolean;
   };
   placeInCalendar?: boolean;
 };
@@ -22,7 +23,15 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
   placeInCalendar = false,
 }) => {
   if (training) {
-    const { trainingId, name, organizer, start, end, description } = training;
+    const {
+      trainingId,
+      name,
+      organizer,
+      start,
+      end,
+      description,
+      isDateSet,
+    } = training;
 
     return (
       <div
@@ -68,9 +77,13 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
           </div>
           <div>
             <span style={{ fontWeight: "bold" }}>Дата: </span>
-            <span>
-              {start} - {end}
-            </span>
+            {isDateSet ? (
+              <span>
+                {start} - {end}
+              </span>
+            ) : (
+              <span>Дата не определена</span>
+            )}
           </div>
         </div>
       </div>

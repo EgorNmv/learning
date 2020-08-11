@@ -28,6 +28,7 @@ const query = graphql`
       label
       start
       end
+      isDateSet
       description
       organizer {
         name
@@ -47,6 +48,7 @@ const query = graphql`
       }
       start
       end
+      isDateSet
       description
     }
   }
@@ -59,9 +61,10 @@ type Training = {
   organizer: {
     name: string;
   };
-  start: string;
-  end: string;
+  start: string | null;
+  end: string | null;
   description: string;
+  isDateSet: boolean;
 };
 
 moment.locale("ru");
@@ -121,45 +124,56 @@ const Category: React.FC = () => {
       endSelectedDate.setHours(0, 0, 0, 0);
 
       setSelectedDate(values);
-      setSortedTrainingList(() =>
-        sortedTraining.filter((training) => {
-          const splittedArrayWithStartDate: number[] = training.start
-            .split(".")
-            .map(Number);
-          const startTrainingDate: Date = new Date(
-            splittedArrayWithStartDate[2],
-            splittedArrayWithStartDate[1] - 1,
-            splittedArrayWithStartDate[0]
-          );
-          const splittedArrayWithEndDate: number[] = training.end
-            .split(".")
-            .map(Number);
-          const endTrainingDate: Date = new Date(
-            splittedArrayWithEndDate[2],
-            splittedArrayWithEndDate[1] - 1,
-            splittedArrayWithEndDate[0]
-          );
-          const startTrainingTime = startTrainingDate.getTime();
-          const endTrainingTime = endTrainingDate.getTime();
-          const startSelectedTime = startSelectedDate.getTime();
-          const endSelectedTime = endSelectedDate.getTime();
+      setSortedTrainingList(() => {
+        const trainingsWithoutDates = sortedTraining.filter(
+          (training) => training.isDateSet === false
+        );
+        const trainingsWithDates = sortedTraining.filter(
+          (training) => training.isDateSet === true
+        );
+        return [
+          ...trainingsWithDates.filter((training) => {
+            if (training.start && training.end) {
+              const splittedArrayWithStartDate: number[] = training.start
+                .split(".")
+                .map(Number);
+              const startTrainingDate: Date = new Date(
+                splittedArrayWithStartDate[2],
+                splittedArrayWithStartDate[1] - 1,
+                splittedArrayWithStartDate[0]
+              );
+              const splittedArrayWithEndDate: number[] = training.end
+                .split(".")
+                .map(Number);
+              const endTrainingDate: Date = new Date(
+                splittedArrayWithEndDate[2],
+                splittedArrayWithEndDate[1] - 1,
+                splittedArrayWithEndDate[0]
+              );
+              const startTrainingTime = startTrainingDate.getTime();
+              const endTrainingTime = endTrainingDate.getTime();
+              const startSelectedTime = startSelectedDate.getTime();
+              const endSelectedTime = endSelectedDate.getTime();
 
-          if (
-            (startTrainingTime >= startSelectedTime &&
-              startTrainingTime <= endSelectedTime) ||
-            (startTrainingTime <= startSelectedTime &&
-              endTrainingTime >= endSelectedTime) ||
-            (startTrainingTime >= startSelectedTime &&
-              endTrainingTime <= endSelectedTime) ||
-            (endTrainingTime >= startSelectedTime &&
-              endTrainingTime <= endSelectedTime)
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        })
-      );
+              if (
+                (startTrainingTime >= startSelectedTime &&
+                  startTrainingTime <= endSelectedTime) ||
+                (startTrainingTime <= startSelectedTime &&
+                  endTrainingTime >= endSelectedTime) ||
+                (startTrainingTime >= startSelectedTime &&
+                  endTrainingTime <= endSelectedTime) ||
+                (endTrainingTime >= startSelectedTime &&
+                  endTrainingTime <= endSelectedTime)
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }),
+          ...trainingsWithoutDates,
+        ];
+      });
     } else {
       setSelectedDate(null);
       setSortedTrainingList(sortedTraining as Training[]);

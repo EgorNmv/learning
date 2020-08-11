@@ -36,6 +36,7 @@ const query = graphql`
       }
       start
       end
+      isDateSet
       audience {
         audienceId: id
         description
@@ -70,6 +71,7 @@ const mutation = graphql`
       }
       start
       end
+      isDateSet
       audience {
         audienceId: id
         description
@@ -137,6 +139,7 @@ const TrainingEdit: React.FC = () => {
         trainingFormat: training?.format.formatId,
         countOfSeats: training.numberOfParticipants,
         site: training.site,
+        isDateSet: training.isDateSet,
       });
     }
   }, [training]);
