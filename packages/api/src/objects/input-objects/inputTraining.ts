@@ -13,6 +13,7 @@ export class InputTraining
       | "category"
       | "createDate"
       | "listOfRequestsReviewsAndRecomends"
+      | "deletedAt"
     > {
   @Field()
   public name: string;
@@ -23,10 +24,10 @@ export class InputTraining
   @Field()
   public description: string;
 
-  @Field()
+  @Field({ nullable: true })
   public start: string;
 
-  @Field()
+  @Field({ nullable: true })
   public end: string;
 
   @Field({ nullable: true })
@@ -46,4 +47,7 @@ export class InputTraining
 
   @Field({ nullable: true })
   public numberOfParticipants: number;
+
+  @Field({ defaultValue: true })
+  public isDateSet: boolean;
 }
