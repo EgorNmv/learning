@@ -20,8 +20,8 @@ export type TrainingQueryResponse = {
             readonly address: string;
             readonly contactInfo: string | null;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
         readonly site: string | null;
         readonly audience: {
             readonly description: string;

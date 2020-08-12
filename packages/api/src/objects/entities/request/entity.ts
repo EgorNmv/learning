@@ -1,5 +1,4 @@
 import { ObjectType, Field } from "type-graphql";
-import { UserEntity } from "../user/entity";
 import { TrainingEntity } from "../training/entity";
 import {
   Entity,
@@ -24,13 +23,6 @@ export class RequestEntity extends BaseEntity implements Request {
   })
   @PrimaryGeneratedColumn()
   public id: number;
-
-  @Field(() => UserEntity, {
-    nullable: false,
-    description: "пользователь, который отправил заявку",
-  })
-  // @ManyToOne(type => UserEntity, user => user.id)
-  public user: UserEntity;
 
   @Field(() => String, {
     nullable: false,
@@ -71,15 +63,9 @@ export class RequestEntity extends BaseEntity implements Request {
   @DeleteDateColumn()
   public deletedAt: Date;
 
-  constructor(
-    id: number,
-    user: UserEntity,
-    date: string,
-    training: TrainingEntity
-  ) {
+  constructor(id: number, date: string, training: TrainingEntity) {
     super();
     this.id = id;
-    this.user = user;
     this.date = date;
     this.training = training;
   }

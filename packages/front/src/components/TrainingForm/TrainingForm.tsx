@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Form, Input, Select, Button, InputNumber, DatePicker } from "antd";
+import {
+  Form,
+  Input,
+  Select,
+  Button,
+  InputNumber,
+  DatePicker,
+  Checkbox,
+} from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { graphql } from "react-relay";
@@ -55,6 +63,9 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
   const [response, setResponse] = useState<{ filename: string }>();
   const { showAlert } = React.useContext(AlertContext);
+  const [isDatePickerDisabled, setIsDatePickerDisables] = React.useState<
+    boolean
+  >(false);
 
   const onFinishHandler = ({
     name,
@@ -67,20 +78,22 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
     countOfSeats,
     site,
     startAndEndDates,
+    isDateSet,
   }: Store) => {
     if (name.trim().length >= 3) {
       const data: InputTraining = {
         audienceId: targetAudience,
-        end: startAndEndDates[1].format("DD.MM.YYYY"),
+        end: !isDateSet ? startAndEndDates[1].format("DD.MM.YYYY") : null,
         description: description.trim(),
         formatId: trainingFormat,
         label: response?.filename,
         name: name.trim(),
         organizerId: organizer,
         site: site && site.trim(),
-        start: startAndEndDates[0].format("DD.MM.YYYY"),
+        start: !isDateSet ? startAndEndDates[0].format("DD.MM.YYYY") : null,
         categoryId: category,
         numberOfParticipants: Number(countOfSeats),
+        isDateSet: !isDateSet,
       };
 
       onFinish && onFinish(data);
@@ -102,13 +115,17 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   };
 
   React.useEffect(() => {
+    !formValues?.isDateSet && setIsDatePickerDisables(true);
     formValues &&
       form.setFieldsValue({
         ...formValues,
-        startAndEndDates: [
-          moment(formValues?.startDate, "DD.MM.YYYY"),
-          moment(formValues?.endDate, "DD.MM.YYYY"),
-        ],
+        isDateSet: !formValues.isDateSet,
+        startAndEndDates: formValues.isDateSet
+          ? [
+              moment(formValues?.startDate, "DD.MM.YYYY"),
+              moment(formValues?.endDate, "DD.MM.YYYY"),
+            ]
+          : [],
       });
   }, [formValues]);
 
@@ -169,16 +186,29 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 </Select>
               </Form.Item>
               <div className="training-form__startAndEndDates-and-countOfSeats">
-                <Form.Item
-                  name="startAndEndDates"
-                  label="Даты проведения:"
-                  rules={[{ required: true }]}
-                >
-                  <DatePicker.RangePicker
-                    format={"DD.MM.YYYY"}
-                    placeholder={["Дата начала", "Дата конца"]}
-                  />
-                </Form.Item>
+                <div>
+                  <Form.Item
+                    name="startAndEndDates"
+                    label="Даты проведения:"
+                    rules={isDatePickerDisabled ? [] : [{ required: true }]}
+                  >
+                    <DatePicker.RangePicker
+                      format={"DD.MM.YYYY"}
+                      placeholder={["Дата начала", "Дата конца"]}
+                      disabled={isDatePickerDisabled}
+                    />
+                  </Form.Item>
+                  <Form.Item name="isDateSet" valuePropName="checked">
+                    <Checkbox
+                      onChange={() => {
+                        setIsDatePickerDisables(!isDatePickerDisabled);
+                        form.resetFields(["startAndEndDates"]);
+                      }}
+                    >
+                      Дата не определена
+                    </Checkbox>
+                  </Form.Item>
+                </div>
                 <Form.Item
                   name="countOfSeats"
                   className="training-form__input-number"
@@ -239,7 +269,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                   { max: 255, message: "Слишком длинное имя сайта" },
                 ]}
               >
-                <Input defaultValue="" />
+                <Input />
               </Form.Item>
             </div>
           </div>

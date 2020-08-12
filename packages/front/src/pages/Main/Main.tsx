@@ -19,6 +19,7 @@ const query = graphql`
       }
       start
       end
+      isDateSet
       description
     }
     comingTrainings {
@@ -30,6 +31,7 @@ const query = graphql`
       }
       start
       end
+      isDateSet
       description
     }
     categories {

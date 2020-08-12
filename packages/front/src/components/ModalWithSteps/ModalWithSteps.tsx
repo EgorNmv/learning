@@ -155,11 +155,14 @@ export const ModalWithSteps: React.FC<{
   React.useEffect(
     () =>
       setTrainingsWithStatuses(
-        trainingsForReport.map((training, index) => ({
-          ...training,
-          id: index + 1,
-          status: true,
-        }))
+        trainingsForReport.map(
+          (training, index) =>
+            ({
+              ...training,
+              id: index + 1,
+              status: true,
+            } as Training)
+        )
       ),
     [trainingsForReport]
   );

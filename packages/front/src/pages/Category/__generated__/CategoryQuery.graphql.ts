@@ -12,8 +12,9 @@ export type CategoryQueryResponse = {
         readonly trainingId: number;
         readonly name: string;
         readonly label: string | null;
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly description: string;
         readonly organizer: {
             readonly name: string;
@@ -31,8 +32,9 @@ export type CategoryQueryResponse = {
         readonly organizer: {
             readonly name: string;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly description: string;
     }>;
 };
@@ -55,6 +57,7 @@ query CategoryQuery(
     label
     start
     end
+    isDateSet
     description
     organizer {
       name
@@ -74,6 +77,7 @@ query CategoryQuery(
     }
     start
     end
+    isDateSet
     description
   }
 }
@@ -139,10 +143,17 @@ v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "description",
+  "name": "isDateSet",
   "storageKey": null
 },
 v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "description",
+  "storageKey": null
+},
+v8 = {
   "alias": null,
   "args": null,
   "concreteType": "OrganizerEntity",
@@ -154,7 +165,7 @@ v7 = {
   ],
   "storageKey": null
 },
-v8 = [
+v9 = [
   {
     "alias": null,
     "args": [
@@ -185,7 +196,8 @@ v8 = [
       (v4/*: any*/),
       (v5/*: any*/),
       (v6/*: any*/),
-      (v7/*: any*/)
+      (v7/*: any*/),
+      (v8/*: any*/)
     ],
     "storageKey": null
   },
@@ -210,7 +222,7 @@ v8 = [
         "name": "id",
         "storageKey": null
       },
-      (v6/*: any*/),
+      (v7/*: any*/),
       (v3/*: any*/)
     ],
     "storageKey": null
@@ -226,10 +238,11 @@ v8 = [
       (v1/*: any*/),
       (v2/*: any*/),
       (v3/*: any*/),
-      (v7/*: any*/),
+      (v8/*: any*/),
       (v4/*: any*/),
       (v5/*: any*/),
-      (v6/*: any*/)
+      (v6/*: any*/),
+      (v7/*: any*/)
     ],
     "storageKey": null
   }
@@ -240,7 +253,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "CategoryQuery",
-    "selections": (v8/*: any*/),
+    "selections": (v9/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -248,16 +261,16 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "CategoryQuery",
-    "selections": (v8/*: any*/)
+    "selections": (v9/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "CategoryQuery",
     "operationKind": "query",
-    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    description\n    organizer {\n      name\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    description\n  }\n}\n"
+    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    isDateSet\n    description\n    organizer {\n      name\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'dfb79faf5521535722f503d64d6042c0';
+(node as any).hash = '4b010f4373af5516070ca46c0a02a332';
 export default node;

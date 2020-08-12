@@ -44,15 +44,16 @@ export type TrainingFormValues = {
   label: string | null;
   name: string;
   category: number;
-  startDate: string;
+  startDate: string | null;
   targetAudience: number;
   organizer: number;
-  endDate: string;
+  endDate: string | null;
   trainingFormat: number;
   tags?: string | null;
   description: string;
   countOfSeats: number | null;
   site: string | null;
+  isDateSet: boolean;
 };
 
 export type Material = {

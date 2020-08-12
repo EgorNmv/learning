@@ -1,17 +1,17 @@
 import React from "react";
 import "./SortableTrainingList.css";
 import { TrainingCard } from "../TrainingCard/TrainingCard";
-import { constants } from "../../constants/constants";
 
 type SortableTrainingListProps = {
-  trainings?: {
-    trainingId?: number;
-    name?: string;
+  trainings: {
+    trainingId: number;
+    name: string;
     label: string | null;
-    organizer?: { name: string };
-    start?: string;
-    end?: string;
-    description?: string;
+    organizer: { name: string };
+    start: string | null;
+    end: string | null;
+    isDateSet: boolean;
+    description: string;
   }[];
 };
 

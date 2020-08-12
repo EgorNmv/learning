@@ -39,9 +39,6 @@ export const UserProfileEvents = React.lazy(() =>
 export const UserProfileDirectories = React.lazy(() =>
   import("../../pages/UserProfileDirectories/UserProfileDirectories")
 );
-export const UserProfileDirectoriesUsers = React.lazy(() =>
-  import("../../pages/UserProfileDirectories/Directories/Users/Users")
-);
 export const UserProfileDirectoriesCategories = React.lazy(() =>
   import("../../pages/UserProfileDirectories/Directories/Categories/Categories")
 );

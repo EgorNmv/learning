@@ -17,8 +17,8 @@ export type ModalWithStepsQueryResponse = {
         readonly organizer: {
             readonly name: string;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
     }>;
 };
 export type ModalWithStepsQuery = {

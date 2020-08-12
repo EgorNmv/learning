@@ -78,17 +78,17 @@ export class TrainingEntity extends BaseEntity implements Training {
   public organizerId: number;
 
   @Field(() => String, {
-    nullable: false,
+    nullable: true,
     description: "дата начала обучения",
   })
-  @Column()
+  @Column({nullable: true})
   public start: string;
 
   @Field(() => String, {
-    nullable: false,
+    nullable: true,
     description: "дата окончания обучения",
   })
-  @Column()
+  @Column({nullable: true})
   public end: string;
 
   @Field(() => TargetAudienceEntity, {
@@ -148,6 +148,13 @@ export class TrainingEntity extends BaseEntity implements Training {
 
   @DeleteDateColumn()
   public deletedAt: Date;
+
+  @Field(() => Boolean, {
+    nullable: false,
+    description: "Дата события не определена (поля start и end null)",
+  })
+  @Column({ default: true })
+  public isDateSet: boolean;
 
   constructor(
     id: number,

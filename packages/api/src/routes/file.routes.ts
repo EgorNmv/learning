@@ -3,8 +3,6 @@ import * as multer from "multer";
 import * as path from "path";
 import { Connection } from "typeorm";
 import { getLocallyConnection } from "../../../core/src/database-connection/database-connection";
-import { UserEntity } from "../objects/entities/user/entity";
-import { findUserById } from "../resolvers/user/queries/findUserById";
 import { TrainingEntity } from "../objects/entities/training/entity";
 import { findTrainingById } from "../resolvers/training/queries/findTrainingById";
 import { CategoryEntity } from "../objects/entities/category/entity";
@@ -20,12 +18,6 @@ const storage: multer.StorageEngine = multer.diskStorage({
 
     try {
       switch (req.body.type) {
-        /**
-         * User img
-         */
-        case "0":
-          uploadFolder += "user/";
-          break;
         /**
          * Training img
          */
@@ -104,14 +96,6 @@ export default router.post(
 
       if (id) {
         switch (req.body.type) {
-          case "0":
-            const user: UserEntity = await findUserById(connection, id);
-            const updatedUser: UserEntity = await connection
-              .getRepository(UserEntity)
-              .save({ ...user, photo: filename });
-
-            res.status(201).json({ user: updatedUser });
-            break;
           case "1":
             const training: TrainingEntity = await findTrainingById(
               connection,

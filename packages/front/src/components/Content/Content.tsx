@@ -19,7 +19,6 @@ import {
   UserProfileEditing,
   UserProfileDirectories,
   UserProfileRecomendations,
-  UserProfileDirectoriesUsers,
   UserProfileDirectoriesOrganizers,
   UserProfileDirectoriesCategories,
   UserProfileDirectoriesOrganizersEdit,
@@ -48,11 +47,6 @@ export const Content: React.FC = () => {
       path="/profile/directories"
       exact
       component={UserProfileDirectories}
-    />,
-    <SecureRoute
-      path="/profile/directories/users"
-      exact
-      component={UserProfileDirectoriesUsers}
     />,
     <SecureRoute
       path="/profile/directories/categories"

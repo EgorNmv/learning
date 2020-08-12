@@ -6,14 +6,15 @@ export type InputTraining = {
     audienceId: number;
     categoryId: number;
     description: string;
-    end: string;
+    end?: string | null;
     formatId: number;
+    isDateSet?: boolean | null;
     label?: string | null;
     name: string;
     numberOfParticipants?: number | null;
     organizerId: number;
     site?: string | null;
-    start: string;
+    start?: string | null;
 };
 export type TrainingCreateMutationVariables = {
     data: InputTraining;
@@ -35,8 +36,9 @@ export type TrainingCreateMutationResponse = {
             readonly site: string | null;
             readonly type: number;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly audience: {
             readonly audienceId: number;
             readonly description: string;
@@ -73,6 +75,7 @@ mutation TrainingCreateMutation(
     }
     start
     end
+    isDateSet
     audience {
       audienceId: id
       description
@@ -213,6 +216,13 @@ v4 = [
       {
         "alias": null,
         "args": null,
+        "kind": "ScalarField",
+        "name": "isDateSet",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
         "concreteType": "TargetAudienceEntity",
         "kind": "LinkedField",
         "name": "audience",
@@ -255,9 +265,9 @@ return {
     "metadata": {},
     "name": "TrainingCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingCreateMutation(\n  $data: InputTraining!\n) {\n  createTraining(data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    audience {\n      audienceId: id\n      description\n    }\n    site\n  }\n}\n"
+    "text": "mutation TrainingCreateMutation(\n  $data: InputTraining!\n) {\n  createTraining(data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'b8f5195f1094741a6e8db644f1b568c5';
+(node as any).hash = '9109c22ad50fa8a7f4264e54540a297d';
 export default node;

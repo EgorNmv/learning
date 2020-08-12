@@ -9,8 +9,8 @@ export type AllCategoriesQueryResponse = {
         readonly name: string;
         readonly label: string | null;
         readonly description: string;
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
         readonly organizer: {
             readonly name: string;
         };

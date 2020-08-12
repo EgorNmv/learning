@@ -15,8 +15,8 @@ export type SearchableInputQueryResponse = {
             readonly categoryId: number;
             readonly description: string;
         };
-        readonly start: string;
-        readonly end: string;
+        readonly start: string | null;
+        readonly end: string | null;
         readonly format: {
             readonly description: string;
         };
