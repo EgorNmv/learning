@@ -22,6 +22,11 @@ const Auth: React.FC = () => {
     setLoading(true);
     const oktaAuth = new OktaAuth({
       issuer: process.env.REACT_APP_ISSUER,
+      tokenManager: {
+        expireEarlySeconds: 120,
+      },
+      redirectUri: process.env.REACT_APP_REDIRECT_URI,
+      pkce: false,
     });
     oktaAuth
       .signIn({ username: login, password })
@@ -29,6 +34,7 @@ const Auth: React.FC = () => {
         setResponse(res);
         const sessionToken = res.sessionToken;
         setCountOfTry((prev) => prev + 1);
+        console.info("res", res);
         authService.redirect({ sessionToken });
       })
       .catch((err: Error) => {
