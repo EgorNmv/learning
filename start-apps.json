@@ -1,0 +1,16 @@
+{
+    "apps": [
+        {
+            "name": "front",
+	    "cwd": "./package/front",
+            "script": "npm",
+            "args" : "run start"
+        },
+	{
+	    "name": "back",
+	    "cwd": "./package/core",
+	    "script": "npm",
+	    "args": "run start"
+	}
+    ]
+}
