@@ -30,15 +30,25 @@ export const findAllTrainingsForReport = async (
     return [];
   }
 
+  const findWhereObj: { [key: string]: number } = {};
+
+  if (categoryId !== 0) {
+    findWhereObj.categoryId = categoryId;
+  }
+  if (organizerId !== 0) {
+    findWhereObj.organizerId = organizerId;
+  }
+  if (targetAudienceId !== 0) {
+    findWhereObj.audienceId = targetAudienceId;
+  }
+  if (formatId !== 0) {
+    findWhereObj.formatId = formatId;
+  }
+
   const trainings: TrainingEntity[] = await connection
     .getRepository(TrainingEntity)
     .find({
-      where: {
-        categoryId,
-        organizerId,
-        audienceId: targetAudienceId,
-        formatId,
-      },
+      where: findWhereObj,
       relations: ["organizer"],
     });
 
@@ -52,6 +62,10 @@ export const findAllTrainingsForReport = async (
   const endSelectedTime: number = endSelectedDate.getTime();
   const trainingsFilteredByDates: TrainingEntity[] = trainings.filter(
     (training) => {
+      if (!training.start || !training.end) {
+        return false;
+      }
+
       const startTrainingTime: number = getDateByString(
         training.start
       ).getTime();

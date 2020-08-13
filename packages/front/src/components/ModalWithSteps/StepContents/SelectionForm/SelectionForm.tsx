@@ -54,6 +54,7 @@ export const SelectionForm: React.FC<{
         rules={[{ required: true }]}
       >
         <Select>
+          <Select.Option value={0}>Все</Select.Option>
           {categories.map((category) => (
             <Select.Option value={category.categoryId}>
               {category.description}
@@ -67,6 +68,7 @@ export const SelectionForm: React.FC<{
         rules={[{ required: true }]}
       >
         <Select>
+          <Select.Option value={0}>Все</Select.Option>
           {organizers.map((organizer) => (
             <Select.Option value={organizer.organizerId}>
               {organizer.name}
@@ -80,6 +82,7 @@ export const SelectionForm: React.FC<{
         rules={[{ required: true }]}
       >
         <Select>
+          <Select.Option value={0}>Все</Select.Option>
           {targetAudiences.map((targetAudience) => (
             <Select.Option value={targetAudience.targetAudienceId}>
               {targetAudience.description}
@@ -93,6 +96,7 @@ export const SelectionForm: React.FC<{
         rules={[{ required: true }]}
       >
         <Select>
+          <Select.Option value={0}>Все</Select.Option>
           {formats.map((format) => (
             <Select.Option value={format.formatId}>
               {format.description}
