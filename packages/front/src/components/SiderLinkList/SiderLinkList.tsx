@@ -81,11 +81,11 @@ export const SiderLinkList: React.FC = () => {
           <Link to="/categories">{constants["SEEALLCATEGORY"]}</Link>
         </Menu.Item>
       </SubMenu>
-      <Menu.Item>
+      {/* <Menu.Item>
         <NavLink exact to="/help" activeClassName="active-link">
           {constants["HELPPAGE"]}
         </NavLink>
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 };
