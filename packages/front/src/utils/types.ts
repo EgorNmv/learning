@@ -34,8 +34,9 @@ export type User = {
 export type Event = {
   trainingId: number;
   name: string;
-  start: string;
-  end: string;
+  start: string | null;
+  end: string | null;
+  isDateSet: boolean;
   listOfRequestsReviewsAndRecomends: number[];
   id?: number; //for render correct number in table
 };

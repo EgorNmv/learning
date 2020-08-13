@@ -9,6 +9,7 @@ export type UserProfileEventsQueryResponse = {
         readonly name: string;
         readonly start: string | null;
         readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly listOfRequestsReviewsAndRecomends: ReadonlyArray<number> | null;
     }>;
 };
@@ -26,6 +27,7 @@ query UserProfileEventsQuery {
     name
     start
     end
+    isDateSet
     listOfRequestsReviewsAndRecomends
   }
 }
@@ -73,6 +75,13 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "isDateSet",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "listOfRequestsReviewsAndRecomends",
         "storageKey": null
       }
@@ -101,9 +110,9 @@ return {
     "metadata": {},
     "name": "UserProfileEventsQuery",
     "operationKind": "query",
-    "text": "query UserProfileEventsQuery {\n  trainings {\n    trainingId: id\n    name\n    start\n    end\n    listOfRequestsReviewsAndRecomends\n  }\n}\n"
+    "text": "query UserProfileEventsQuery {\n  trainings {\n    trainingId: id\n    name\n    start\n    end\n    isDateSet\n    listOfRequestsReviewsAndRecomends\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '9446fbbe8724d1a49215d3b88ece5884';
+(node as any).hash = '83a70d04b4655ceb44bb9ff3f9f0bd1d';
 export default node;

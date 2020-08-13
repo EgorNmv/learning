@@ -115,8 +115,10 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   };
 
   React.useEffect(() => {
-    !formValues?.isDateSet && setIsDatePickerDisables(true);
-    formValues &&
+    if (formValues) {
+      if (!formValues.isDateSet) {
+        !formValues.isDateSet && setIsDatePickerDisables(true);
+      }
       form.setFieldsValue({
         ...formValues,
         isDateSet: !formValues.isDateSet,
@@ -127,6 +129,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
             ]
           : [],
       });
+    }
   }, [formValues]);
 
   return (

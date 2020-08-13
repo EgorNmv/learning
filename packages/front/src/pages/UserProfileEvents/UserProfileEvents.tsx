@@ -19,6 +19,7 @@ const query = graphql`
       name
       start
       end
+      isDateSet
       listOfRequestsReviewsAndRecomends
     }
   }
@@ -63,9 +64,12 @@ const UserProfileEvents: React.FC = () => {
     {
       title: "Даты",
       dataIndex: "start",
-      render: (text: string, record: Event) => (
-        <span>{`${text} - ${record.end}`}</span>
-      ),
+      render: (text: string, record: Event) =>
+        record.isDateSet ? (
+          <span>{`${text} - ${record.end}`}</span>
+        ) : (
+          <span>Дата не определена</span>
+        ),
     },
     {
       title: "Заявки / Отзывы / Рекомендации",
