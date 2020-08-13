@@ -65,17 +65,44 @@ const fileFilter = (
     "bmp",
     "tif",
     "jfif",
+    "svg",
+    "ico",
   ];
+  const avalibleMaterialFileExtensions: string[] = [
+    "doc",
+    "docx",
+    "xls",
+    "xlsx",
+    "ppt",
+    "pptx",
+    "mdb",
+    "txt",
+    "csv",
+    "pdf",
+    "rtf",
+    "htm",
+    "html",
+    "css",
+    "xml",
+    "mpg",
+    "mpeg",
+    "mp4",
+    "avi",
+  ];
+  const extensionOfFile: string = file.originalname.split(".").pop();
 
   if (typeOfFile !== "3") {
-    const extensionOfFile: string = file.originalname.split(".").pop();
     const isCurrentExtensionAreAllowed: boolean = availableImageFileExtensions.includes(
       extensionOfFile
     );
 
     isCurrentExtensionAreAllowed ? cb(null, true) : cb(null, false);
-  } else {
-    cb(null, true);
+  } else if (typeOfFile === "3") {
+    const isCurrentExtensionAreAllowed: boolean =
+      availableImageFileExtensions.includes(extensionOfFile) ||
+      avalibleMaterialFileExtensions.includes(extensionOfFile);
+
+    isCurrentExtensionAreAllowed ? cb(null, true) : cb(null, false);
   }
 };
 
