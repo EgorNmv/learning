@@ -1,101 +1,76 @@
 import React from "react";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
-import { Card, Form, Input, Button, Spin } from "antd";
-import { useHistory } from "react-router-dom";
+import { Card, Form, Input, Button } from "antd";
+import { Link, useHistory } from "react-router-dom";
 import "./Auth.css";
+import OktaSignIn from "@okta/okta-signin-widget";
 import "@okta/okta-signin-widget/dist/css/okta-sign-in.min.css";
 import { useOktaAuth } from "@okta/okta-react";
-import { Store } from "antd/lib/form/interface";
-import OktaAuth from "@okta/okta-auth-js";
+import config from "../../oktaConfig";
 
 const Auth: React.FC = () => {
   const history = useHistory();
   const {
-    authService,
     authState: { isAuthenticated },
   } = useOktaAuth();
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [response, setResponse] = React.useState<any>();
-  const [countOfTry, setCountOfTry] = React.useState<number>(0);
-
-  const handleSubmit = ({ login, password }: Store) => {
-    setLoading(true);
-    const oktaAuth = new OktaAuth({
-      issuer: process.env.REACT_APP_ISSUER,
-      tokenManager: {
-        expireEarlySeconds: 120,
-      },
-      redirectUri: process.env.REACT_APP_REDIRECT_URI,
-      pkce: false,
-    });
-    oktaAuth
-      .signIn({ username: login, password })
-      .then((res: any) => {
-        setResponse(res);
-        const sessionToken = res.sessionToken;
-        setCountOfTry((prev) => prev + 1);
-        console.info("res", res);
-        authService.redirect({ sessionToken });
-      })
-      .catch((err: Error) => {
-        setResponse(err);
-        setCountOfTry((prev) => prev + 1);
-        setLoading(false);
-        console.log("Found an error", err);
-      });
-  };
 
   React.useEffect(() => {
+    const { pkce, issuer, clientId, redirectUri, scopes } = config;
     if (isAuthenticated) {
       history.push("/");
+    } else {
+      const widget = new OktaSignIn({
+        /**
+         * Note: when using the Sign-In Widget for an OIDC flow, it still
+         * needs to be configured with the base URL for your Okta Org. Here
+         * we derive it from the given issuer for convenience.
+         */
+        baseUrl: issuer ? issuer.split("/oauth2")[0] : "",
+        clientId,
+        redirectUri,
+        logo: "/react.svg",
+        language: "en",
+        i18n: {
+          en: {
+            "primaryauth.title": "Вход в систему",
+            "primaryauth.username.placeholder": "Ваш логин",
+            "primaryauth.username.tooltip": "Логин",
+            "primaryauth.password.placeholder": "Ваш пароль",
+            "primaryauth.password.tooltip": "Пароль",
+            "primaryauth.submit": "Войти",
+            "primaryauth.newUser.tooltip": "Новый пользователь",
+            "primaryauth.newUser.tooltip.close": "Закрыть",
+            needhelp: "Не получатеся зайти?",
+            forgotpassword: "Забыли пароль?",
+            help: "Помощь",
+            remember: "Запомнить меня",
+          },
+        },
+        authParams: {
+          pkce,
+          issuer,
+          display: "page",
+          scopes,
+          responseMode: "fragment",
+        },
+      });
+
+      widget.renderEl(
+        { el: "#sign-in-widget" },
+        () => {},
+        (err: Error) => {
+          throw err;
+        }
+      );
+
+      return () => widget.remove();
     }
   }, []);
 
   return (
-    <section>
-      <CenteredText className="auth-page-main-form">
-        <Card>
-          {loading ? <Spin /> : <h1>Авторизоваться</h1>}
-          <Form name="auth-form" layout="vertical" onFinish={handleSubmit}>
-            <Form.Item
-              label="Ваш логин:"
-              name="login"
-              rules={[{ required: true, message: "Введите ваш логин" }]}
-            >
-              <Input disabled={loading} />
-            </Form.Item>
-            <Form.Item
-              label="Ваш пароль:"
-              name="password"
-              rules={[{ required: true, message: "Введите пароль" }]}
-            >
-              <Input.Password disabled={loading} />
-            </Form.Item>
-            {response && response.message && (
-              <div className="auth-error-box">
-                <p>
-                  {response.message}
-                  <br />
-                  {countOfTry > 4
-                    ? "Пожалуйста, обратитесть к администратору"
-                    : "Попробуйте снова"}
-                </p>
-              </div>
-            )}
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                size="large"
-                disabled={loading || countOfTry > 4}
-              >
-                Войти
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </CenteredText>
-    </section>
+    <div>
+      <div id="sign-in-widget" />
+    </div>
   );
 };
 
