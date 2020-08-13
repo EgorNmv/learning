@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Table, Button } from "antd";
 import { Link } from "react-router-dom";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const UserProfileDirectories: React.FC = () => {
   const columns = [
@@ -47,6 +48,7 @@ const UserProfileDirectories: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <span>
         <h1>Справочники</h1>
       </span>

@@ -10,6 +10,7 @@ import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { OrganizersMutation } from "./__generated__/OrganizersMutation.graphql";
 import { Modal } from "../../../../components/Modal/Modal";
 import "./organizers.css";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query OrganizersQuery {
@@ -132,6 +133,7 @@ const Organizers: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Modal
         open={isModalVisible}
         deletingObjectName={deletingOrganizer && deletingOrganizer.name}

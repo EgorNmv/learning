@@ -13,6 +13,7 @@ import { Modal } from "../../../../components/Modal/Modal";
 import { TargetAudienceMutation } from "./__generated__/TargetAudienceMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import "./target-audience.css";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const query: GraphQLTaggedNode = graphql`
   query TargetAudiencesQuery {
@@ -126,6 +127,7 @@ const TargetAudiences: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Modal
         open={isModalVisible}
         deletingObjectName={

@@ -10,6 +10,7 @@ import {
 } from "./__generated__/TargetAudiencesEditQuery.graphql";
 import { TargetAudiencesEditMutation } from "./__generated__/TargetAudiencesEditMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query TargetAudiencesEditQuery($targetAudienceId: Float!) {
@@ -78,6 +79,7 @@ const TargetAudiencesEdit: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Card>
         <Form
           layout={"vertical"}

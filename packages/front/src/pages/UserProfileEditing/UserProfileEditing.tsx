@@ -4,6 +4,7 @@ import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { PictureFilled } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const UserProfileEditing: React.FC = () => {
   const [form] = Form.useForm();
@@ -22,6 +23,7 @@ const UserProfileEditing: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <span className="user-profile-editing-title">
         <h1>Редактирование профиля</h1>
       </span>

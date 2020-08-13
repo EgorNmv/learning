@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { UserProfileReviewsQuery } from "./__generated__/UserProfileReviewsQuery.graphql";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query UserProfileReviewsQuery($userId: String!, $feedbackType: Float!) {
@@ -73,6 +74,7 @@ const UserProfileReviews: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <span>
         <h1>Мои отзывы</h1>
       </span>

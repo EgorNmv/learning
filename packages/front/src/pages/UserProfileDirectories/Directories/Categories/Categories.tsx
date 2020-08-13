@@ -13,6 +13,7 @@ import { CategoriesMutation } from "./__generated__/CategoriesMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Modal } from "../../../../components/Modal/Modal";
 import "./categories.css";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const query: GraphQLTaggedNode = graphql`
   query CategoriesQuery {
@@ -140,6 +141,7 @@ const Categories: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Modal
         open={isModalVisible}
         deletingObjectName={deletingCategory && deletingCategory.name}

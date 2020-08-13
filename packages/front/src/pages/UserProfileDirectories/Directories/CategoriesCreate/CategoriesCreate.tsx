@@ -8,7 +8,7 @@ import { useFileUpload } from "../../../../utils/utils";
 import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { RecordSourceSelectorProxy } from "relay-runtime";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const mutation = graphql`
   mutation CategoriesCreateMutation($description: String!, $label: String) {
@@ -66,6 +66,7 @@ const CategoriesCreate: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Card>
         <Form
           layout={"vertical"}

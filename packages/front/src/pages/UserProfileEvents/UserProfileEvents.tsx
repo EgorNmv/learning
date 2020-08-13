@@ -10,6 +10,7 @@ import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Modal } from "../../components/Modal/Modal";
 import { UserProfileEventsMutation } from "./__generated__/UserProfileEventsMutation.graphql";
 import { ModalWithSteps } from "../../components/ModalWithSteps/ModalWithSteps";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query UserProfileEventsQuery {
@@ -138,6 +139,7 @@ const UserProfileEvents: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Modal
         open={isModalVisible}
         deletingObjectName={deletingTraining && deletingTraining.name}

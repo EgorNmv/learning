@@ -6,6 +6,7 @@ import { graphql, useMutation } from "react-relay/hooks";
 import { TrainingFormatsCreateMutation } from "./__generated__/TrainingFormatsCreateMutation.graphql";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const mutation = graphql`
   mutation TrainingFormatsCreateMutation($description: String!) {
@@ -49,6 +50,7 @@ const TrainingFormatsCreate: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Card>
         <Form
           layout={"vertical"}

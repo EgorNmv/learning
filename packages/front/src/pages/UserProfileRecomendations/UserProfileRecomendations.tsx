@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { UserProfileRecomendationsQuery } from "./__generated__/UserProfileRecomendationsQuery.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query UserProfileRecomendationsQuery(
@@ -67,6 +68,7 @@ const UserProfileRecomendations: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <span>
         <h1>Мои рекомендации</h1>
       </span>

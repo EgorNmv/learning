@@ -9,6 +9,7 @@ import {
 } from "./__generated__/TrainingCreateMutation.graphql";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const mutation = graphql`
   mutation TrainingCreateMutation($data: InputTraining!) {
@@ -60,8 +61,9 @@ const TrainingCreate: React.FC = () => {
 
   return (
     <>
-      <h1>Создание события</h1>
       <section>
+        <Breadcrumbs />
+        <h1>Создание события</h1>
         <Card loading={isInFlight}>
           <TrainingForm onFinish={sendForm} />
         </Card>

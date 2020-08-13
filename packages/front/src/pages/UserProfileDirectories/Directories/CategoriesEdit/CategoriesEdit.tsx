@@ -12,6 +12,7 @@ import { CategoriesEditMutation } from "./__generated__/CategoriesEditMutation.g
 import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
 import { useFileUpload } from "../../../../utils/utils";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query CategoriesEditQuery($categoryId: Float!) {
@@ -99,6 +100,7 @@ const CategoriesCreate: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Card>
         <Form
           layout={"vertical"}

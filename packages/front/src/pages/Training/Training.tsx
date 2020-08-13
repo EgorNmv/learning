@@ -12,6 +12,7 @@ import { formatDate } from "../../utils/utils";
 import { UploadedPicture } from "../../components/UploadedPicture/UploadedPicture";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import "./training.css";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const mutation = graphql`
   mutation TrainingMutation($data: InputRequest!) {
@@ -77,6 +78,7 @@ const Training: React.FC = () => {
   return (
     <>
       <section>
+        <Breadcrumbs />
         <Card loading={isInFlight}>
           <div style={{ display: "flex" }}>
             <UploadedPicture

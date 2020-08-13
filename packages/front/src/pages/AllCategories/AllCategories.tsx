@@ -3,6 +3,7 @@ import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { AllCategoriesQuery } from "./__generated__/AllCategoriesQuery.graphql";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query AllCategoriesQuery {
@@ -25,6 +26,7 @@ const AllCategories: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <h2>Все события</h2>
       <SortableTrainingList trainings={trainings as any} />
     </section>

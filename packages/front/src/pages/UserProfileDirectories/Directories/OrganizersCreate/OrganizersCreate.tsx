@@ -6,6 +6,7 @@ import { graphql, useMutation } from "react-relay/hooks";
 import { OrganizersCreateMutation } from "./__generated__/OrganizersCreateMutation.graphql";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const mutation = graphql`
   mutation OrganizersCreateMutation($data: InputOrganizer!) {
@@ -58,6 +59,7 @@ const CategoriesCreate: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Card>
         <Form
           layout={"vertical"}

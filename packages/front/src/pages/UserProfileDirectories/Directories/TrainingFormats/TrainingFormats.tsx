@@ -10,6 +10,7 @@ import { Modal } from "../../../../components/Modal/Modal";
 import { TrainingFormatsMutation } from "./__generated__/TrainingFormatsMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import "./training-formats.css";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const query: GraphQLTaggedNode = graphql`
   query TrainingFormatsQuery {
@@ -125,6 +126,7 @@ const TrainingFormats: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Modal
         open={isModalVisible}
         deletingObjectName={

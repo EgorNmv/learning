@@ -15,6 +15,7 @@ import {
   InputTraining,
 } from "./__generated__/TrainingEditMutation.graphql";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query TrainingEditQuery($trainingId: Float!) {
@@ -146,6 +147,7 @@ const TrainingEdit: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <span>
         <h1>Редактирование события</h1>
       </span>

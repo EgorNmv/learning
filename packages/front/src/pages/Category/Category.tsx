@@ -11,6 +11,7 @@ import moment from "moment";
 import "moment/locale/ru";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
+import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query CategoryQuery(
@@ -187,6 +188,7 @@ const Category: React.FC = () => {
   return (
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
+        <Breadcrumbs />
         <h2 className="category-page-content__title">
           {category && category.description}
         </h2>

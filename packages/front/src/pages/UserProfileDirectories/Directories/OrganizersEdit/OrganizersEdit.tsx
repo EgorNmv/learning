@@ -7,6 +7,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { OrganizersEditQuery } from "./__generated__/OrganizersEditQuery.graphql";
 import { OrganizersEditMutation } from "./__generated__/OrganizersEditMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
 
 const query = graphql`
   query OrganizersEditQuery($organizerId: Float!) {
@@ -93,6 +94,7 @@ const OrganizersEdit: React.FC = () => {
 
   return (
     <section>
+      <Breadcrumbs />
       <Card>
         <Form
           layout={"vertical"}
