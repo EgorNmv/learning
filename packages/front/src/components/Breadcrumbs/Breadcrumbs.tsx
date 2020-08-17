@@ -52,11 +52,15 @@ export const Breadcrumbs: React.FC = () => {
     categoryId?: string;
     trainingId?: string;
   }>();
-  const [trainingIdInParams, setTrainingIdInParams] = React.useState<number>(0);
-  const [categoryIdInParams, setCategoryIdInParams] = React.useState<number>(0);
+  const [trainingIdInParams, setTrainingIdInParams] = React.useState<
+    number | null
+  >(null);
+  const [categoryIdInParams, setCategoryIdInParams] = React.useState<
+    number | null
+  >(null);
   const { training, category } = useLazyLoadQuery<BreadcrumbsQuery>(query, {
-    categoryId: categoryIdInParams,
-    trainingId: trainingIdInParams,
+    categoryId: categoryIdInParams || 0,
+    trainingId: trainingIdInParams || 0,
   });
   const [breadcrumbTrainingName, setBreadcrubmTrainingName] = React.useState<
     string | null
@@ -64,54 +68,30 @@ export const Breadcrumbs: React.FC = () => {
   const [breadcrumbCategoryName, setBreadcrubmCategoryName] = React.useState<
     string | null
   >(null);
-
   const pathSnippets: string[] = pathname.split("/").filter((i) => i);
-
-  React.useEffect(() => {
-    if (!breadcrumbTrainingName && !breadcrumbCategoryName) {
-      setBreadcrubmTrainingName(training?.name || null);
-      setBreadcrubmCategoryName(category?.description || null);
-    }
-  }, [category, training]);
-
-  const getBreadCrumbsNameWithParams = (url: string): string | undefined => {
-    const categoryNames: string[] = ["categories", "category"];
-    const trainingNames: string[] = ["trainings", "training"];
-    const isCategoryInPath: boolean =
-      categoryNames.filter((name) => url.split("/").includes(name)).length > 0;
-    const isTrainingInPath: boolean =
-      trainingNames.filter((name) => url.split("/").includes(name)).length > 0;
-
-    if (
-      (isCategoryInPath && isTrainingInPath && !breadcrumbTrainingName) ||
-      (isTrainingInPath && !breadcrumbTrainingName)
-    ) {
-      const trainingId: number = Number(params.trainingId) || Number(params.id);
-
-      if (trainingId && !breadcrumbTrainingName) {
-        setTrainingIdInParams(trainingId);
-
-        return training?.name;
-      }
-    } else if (isCategoryInPath && !breadcrumbCategoryName) {
-      const categoryId: number = Number(params.categoryId) || Number(params.id);
-
-      if (categoryId && !breadcrumbCategoryName) {
-        setCategoryIdInParams(categoryId);
-
-        return category?.description;
-      }
-    } else {
-      return breadcrumbNameMap[url] ? breadcrumbNameMap[url] : undefined;
-    }
-  };
-
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
-    const urlName: string | undefined = getBreadCrumbsNameWithParams(url);
-    console.info("urlName", urlName);
+    let urlName = breadcrumbNameMap[url];
+
     if (!urlName) {
-      return <></>;
+      if (!breadcrumbTrainingName && !breadcrumbCategoryName) {
+        return <></>;
+      }
+
+      const isCategoryInPath: boolean =
+        ["categories", "category"].filter((name) =>
+          pathname.split("/").includes(name)
+        ).length > 0;
+      const isTrainingInPath: boolean =
+        ["trainings", "training"].filter((name) =>
+          pathname.split("/").includes(name)
+        ).length > 0;
+
+      if (isCategoryInPath && isTrainingInPath) {
+        urlName = breadcrumbTrainingName || "T";
+      } else if (isCategoryInPath) {
+        urlName = breadcrumbCategoryName || "C";
+      }
     }
 
     return (
@@ -129,6 +109,51 @@ export const Breadcrumbs: React.FC = () => {
       <Link to="/">Главная</Link>
     </Breadcrumb.Item>,
   ].concat(extraBreadcrumbItems);
+
+  React.useEffect(() => {
+    if (
+      (!breadcrumbTrainingName || !breadcrumbCategoryName) &&
+      (!trainingIdInParams || !categoryIdInParams)
+    ) {
+      const isCategoryInPath: boolean =
+        ["categories", "category"].filter((name) =>
+          pathname.split("/").includes(name)
+        ).length > 0;
+      const isTrainingInPath: boolean =
+        ["trainings", "training"].filter((name) =>
+          pathname.split("/").includes(name)
+        ).length > 0;
+
+      if (
+        (isCategoryInPath &&
+          isTrainingInPath &&
+          !breadcrumbTrainingName &&
+          !trainingIdInParams) ||
+        (isTrainingInPath && !breadcrumbTrainingName && !trainingIdInParams)
+      ) {
+        const trainingId: number =
+          Number(params.trainingId) || Number(params.id);
+
+        if (trainingId) {
+          setTrainingIdInParams(trainingId);
+        }
+      } else if (
+        isCategoryInPath &&
+        !breadcrumbCategoryName &&
+        !categoryIdInParams
+      ) {
+        const categoryId: number =
+          Number(params.categoryId) || Number(params.id);
+
+        if (categoryId) {
+          setCategoryIdInParams(categoryId);
+        }
+      }
+    } else {
+      setBreadcrubmTrainingName(training?.name || null);
+      setBreadcrubmCategoryName(category?.description || null);
+    }
+  }, [category, training]);
 
   return <Breadcrumb separator="»">{breadcrumbItems}</Breadcrumb>;
 };
