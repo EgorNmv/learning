@@ -9,8 +9,9 @@ import { CategoryEntity } from "../objects/entities/category/entity";
 import { findCategoryById } from "../resolvers/category/queries/findCategoryById";
 import { MaterialEntity } from "../objects/entities/material/entity";
 import { findMaterialById } from "../resolvers/material/queries/findMaterialById";
+import * as checkDiskSpace from "check-disk-space";
 
-const FILE_SIZE_LIMIT = 1024 * 1024 * 100;
+const FILE_SIZE_LIMIT = 1024 * 1024 * 1000;
 const router: Router = Router();
 const storage: multer.StorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {

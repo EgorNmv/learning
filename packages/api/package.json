@@ -17,6 +17,7 @@
     "@types/multer": "^1.4.3",
     "@types/xlsx": "0.0.36",
     "apollo-server-express": "^2.14.3",
+    "check-disk-space": "^2.1.0",
     "exceljs": "^4.1.1",
     "express": "^4.17.1",
     "graphql": "^15.0.0",
