@@ -32,6 +32,12 @@ const checkIsUploadsFolderExists = () => {
       );
     });
   }
+
+  if (!fs.existsSync("./logs")) {
+    fs.mkdir("./logs", () => {
+      console.info("created /logs folder");
+    });
+  }
 };
 
 const startServer = async (): Promise<void> => {

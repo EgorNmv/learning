@@ -10,6 +10,29 @@ import { findCategoryById } from "../resolvers/category/queries/findCategoryById
 import { MaterialEntity } from "../objects/entities/material/entity";
 import { findMaterialById } from "../resolvers/material/queries/findMaterialById";
 import * as checkDiskSpace from "check-disk-space";
+import { platform, EOL } from "os";
+import { appendFile } from "fs";
+
+const writeDiskUsageAfterSaveFile = async (
+  filename: string,
+  fileType: string
+): Promise<void> => {
+  const path = platform() === "win32" ? "C:" : "/";
+  const diskSpace: checkDiskSpace.CheckDiskSpaceResult = await checkDiskSpace(
+    path
+  );
+  const freeMemoryPercentage: number = Math.round(
+    (diskSpace.free * 100) / diskSpace.size
+  );
+
+  appendFile(
+    "./logs/files.log",
+    `${EOL}${new Date().toLocaleString()} записан файл ${filename} с типом ${fileType}. Свободной памяти: ${freeMemoryPercentage}%`,
+    () => {
+      console.info("Загружен новый файл");
+    }
+  );
+};
 
 const FILE_SIZE_LIMIT = 1024 * 1024 * 1000;
 const router: Router = Router();
@@ -120,10 +143,13 @@ export default router.post(
     try {
       const id: number = Number(req.body.id);
       const filename: string = req.file.filename;
+      const fileType: string = req.body.type;
       const connection: Connection = await getLocallyConnection();
 
+      writeDiskUsageAfterSaveFile(filename, fileType);
+
       if (id) {
-        switch (req.body.type) {
+        switch (fileType) {
           case "1":
             const training: TrainingEntity = await findTrainingById(
               connection,
