@@ -59,6 +59,9 @@ export type TrainingFormValues = {
 
 export type Material = {
   link: string;
+  originName: string | null;
+  materialId: number;
+  status?: string;
 };
 
 export type AlertTypes = "success" | "info" | "warning" | "error";

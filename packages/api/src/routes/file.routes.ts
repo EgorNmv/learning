@@ -184,12 +184,12 @@ export default router.post(
             res.status(201).json({ material: updatedMaterial });
         }
       } else {
-        res.status(201).json({ filename });
+        res.status(201).json({ filename, originName: req.file.originalname });
       }
     } catch (e) {
       res
         .status(500)
-        .json({ message: "Что-то пошло не так, попробуйте снова" });
+        .json({ message: "Что-то пошло не так, попробуйте снова", e });
     }
   }
 );

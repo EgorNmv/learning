@@ -1,7 +1,6 @@
 import React from "react";
-import { Card, Button, Empty } from "antd";
+import { Card, Button, Empty, Upload } from "antd";
 import "./TrainingMaterials.css";
-import { useFileUpload } from "../../utils/utils";
 import { graphql } from "react-relay";
 import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMaterialsMutation } from "./__generated__/TrainingMaterialsMutation.graphql";
@@ -9,11 +8,14 @@ import { useParams } from "react-router-dom";
 import { TrainingMaterialsQuery } from "./__generated__/TrainingMaterialsQuery.graphql";
 import { Material } from "../../utils/types";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
+import { useOktaAuth } from "@okta/okta-react";
 
 const mutation = graphql`
   mutation TrainingMaterialsMutation($data: InputMaterial!) {
     createMaterial(data: $data) {
       link
+      originName
+      materialId: id
     }
   }
 `;
@@ -21,15 +23,20 @@ const mutation = graphql`
 const query = graphql`
   query TrainingMaterialsQuery($trainingId: Float!) {
     materialsByTrainingId(trainingId: $trainingId) {
+      materialId: id
       link
+      originName
     }
   }
 `;
 
 export const TrainingMaterials: React.FC = () => {
   const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
-  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
-  const [response, setResponse] = React.useState<{ filename: string }>();
+  const { authState } = useOktaAuth();
+  const [response, setResponse] = React.useState<{
+    filename: string;
+    originName: string;
+  }>();
   const [commit, isInFlight] = useMutation<TrainingMaterialsMutation>(mutation);
   const { materialsByTrainingId } = useLazyLoadQuery<TrainingMaterialsQuery>(
     query,
@@ -38,27 +45,120 @@ export const TrainingMaterials: React.FC = () => {
   );
   const [materials, setMaterials] = React.useState<Material[]>([]);
   const { showAlert } = React.useContext(AlertContext);
+  const [uploadingMaterials, setUploadingMaterials] = React.useState<{
+    [filename: string]: number;
+  }>({});
 
-  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    let file: File;
+  const fileUploadProps: any = {
+    name: "file",
+    showUploadList: { showRemoveIcon: false },
+    action: `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/file/upload`,
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${authState.accessToken}`,
+    },
+    multiple: true,
+    data: { type: "3" },
+    fileList: materials.map((material) => ({
+      uid: material.materialId,
+      name: material.originName || material.link,
+      status: material.status ? material.status : "done",
+      url: material.link
+        ? `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`
+        : "#",
+    })),
+    beforeUpload: (file: File, fileList: File[]) => {
+      const uploadingFileId: number = Date.now() + Math.random();
+      const uploadingFile = {
+        materialId: uploadingFileId,
+        originName: file.name,
+        link: "",
+        status: "uploading",
+      };
+      const uploadingFileNameWithId = { [file.name]: uploadingFileId };
 
-    if (event.target.files) {
-      file = event.target.files[0];
-      setResponse(await sendFile(file, "material"));
-    }
+      setUploadingMaterials((prev) => ({
+        ...prev,
+        ...uploadingFileNameWithId,
+      }));
+      setMaterials((prev) => [...prev, uploadingFile]);
+    },
+    onSuccess: (
+      res: { filename: string; originName: string },
+      file: File,
+      xhr: any
+    ) => {
+      setResponse(res);
+    },
+    onError: (error: Error, response: any, file: File) => {
+      showAlert(`При загрузке файла ${file.name} произошла ошибка`, "error");
+      setMaterials((prev) =>
+        prev.map((material) => {
+          const uploadingMaterialId: number | null = material.originName
+            ? uploadingMaterials[material.originName]
+            : null;
+          if (
+            uploadingMaterialId &&
+            material.materialId === uploadingMaterialId &&
+            material.originName
+          ) {
+            // delete uploadingMaterials[material.originName];
+
+            return {
+              ...material,
+              status:
+                material.status === "uploading" ? "error" : material.status,
+            };
+          } else {
+            return material;
+          }
+        })
+      );
+    },
   };
 
   React.useEffect(() => {
     response?.filename &&
       commit({
-        variables: { data: { link: response.filename, trainingId } },
-        onCompleted: () => {
-          setMaterials((prev) => [...prev, { link: response.filename }]);
-          showAlert(`Материал ${response.filename} успешно добавлен`);
+        variables: {
+          data: {
+            link: response.filename,
+            trainingId,
+            originName: response.originName,
+          },
+        },
+        onCompleted: (res) => {
+          showAlert(
+            `Материал ${res.createMaterial.originName} успешно добавлен`
+          );
+          setMaterials((prev) =>
+            prev.map((material) => {
+              const uploadingMaterialId: number | null = material.originName
+                ? uploadingMaterials[material.originName]
+                : null;
+              if (
+                uploadingMaterialId &&
+                material.materialId === uploadingMaterialId &&
+                material.originName
+              ) {
+                // delete uploadingMaterials[material.originName];
+
+                return {
+                  link: res.createMaterial.link,
+                  originName: res.createMaterial.originName,
+                  materialId: res.createMaterial.materialId,
+                  status:
+                    material.status === "uploading" ? "done" : material.status,
+                };
+              } else {
+                return material;
+              }
+            })
+          );
         },
         onError: () => {
           showAlert(
-            `Ошибка в добавлении материала ${response.filename}`,
+            `Ошибка в добавлении материала ${response.originName}`,
             "error"
           );
         },
@@ -71,22 +171,11 @@ export const TrainingMaterials: React.FC = () => {
 
   return (
     <>
+      <h2>Материалы</h2>
       <div className="training-material-title">
-        <h2>Материалы</h2>
-        <input
-          style={{ visibility: "hidden" }}
-          disabled={isLoadingFile || isInFlight}
-          type="file"
-          id="trainingMaterialFile"
-          onChange={uploadFile}
-        />
-        <Button
-          onClick={() => {
-            document.getElementById("trainingMaterialFile")?.click();
-          }}
-        >
-          Загрузить материал
-        </Button>
+        <Upload {...fileUploadProps}>
+          <Button>Загрузить материал</Button>
+        </Upload>
       </div>
       <Card>
         <div className="training-material-body">

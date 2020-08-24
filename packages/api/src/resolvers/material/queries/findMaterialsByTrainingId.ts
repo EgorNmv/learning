@@ -5,7 +5,7 @@ export const findMaterialsByTrainingId = async (
   connection: Connection,
   trainingId: number
 ): Promise<MaterialEntity[]> => {
-  const materialByTrainingId: MaterialEntity[] = await connection
+  const materialsByTrainingId: MaterialEntity[] = await connection
     .getRepository(MaterialEntity)
     .find({
       relations: [
@@ -17,5 +17,5 @@ export const findMaterialsByTrainingId = async (
       where: { trainingId },
     });
 
-  return materialByTrainingId;
+  return materialsByTrainingId;
 };

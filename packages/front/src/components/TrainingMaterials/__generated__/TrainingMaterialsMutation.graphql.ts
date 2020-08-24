@@ -4,6 +4,7 @@
 import { ConcreteRequest } from "relay-runtime";
 export type InputMaterial = {
     link: string;
+    originName?: string | null;
     trainingId: number;
 };
 export type TrainingMaterialsMutationVariables = {
@@ -12,6 +13,8 @@ export type TrainingMaterialsMutationVariables = {
 export type TrainingMaterialsMutationResponse = {
     readonly createMaterial: {
         readonly link: string;
+        readonly originName: string | null;
+        readonly materialId: number;
     };
 };
 export type TrainingMaterialsMutation = {
@@ -27,6 +30,8 @@ mutation TrainingMaterialsMutation(
 ) {
   createMaterial(data: $data) {
     link
+    originName
+    materialId: id
   }
 }
 */
@@ -61,6 +66,20 @@ v1 = [
         "kind": "ScalarField",
         "name": "link",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "originName",
+        "storageKey": null
+      },
+      {
+        "alias": "materialId",
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -87,9 +106,9 @@ return {
     "metadata": {},
     "name": "TrainingMaterialsMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingMaterialsMutation(\n  $data: InputMaterial!\n) {\n  createMaterial(data: $data) {\n    link\n  }\n}\n"
+    "text": "mutation TrainingMaterialsMutation(\n  $data: InputMaterial!\n) {\n  createMaterial(data: $data) {\n    link\n    originName\n    materialId: id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '36c4d531ed07f40fbd38ad0993f6f0e3';
+(node as any).hash = '2897e399887632ec52129bcbbabfcb3d';
 export default node;

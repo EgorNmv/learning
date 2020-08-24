@@ -7,7 +7,9 @@ export type TrainingMaterialsQueryVariables = {
 };
 export type TrainingMaterialsQueryResponse = {
     readonly materialsByTrainingId: ReadonlyArray<{
+        readonly materialId: number;
         readonly link: string;
+        readonly originName: string | null;
     }>;
 };
 export type TrainingMaterialsQuery = {
@@ -22,7 +24,9 @@ query TrainingMaterialsQuery(
   $trainingId: Float!
 ) {
   materialsByTrainingId(trainingId: $trainingId) {
+    materialId: id
     link
+    originName
   }
 }
 */
@@ -52,10 +56,24 @@ v1 = [
     "plural": true,
     "selections": [
       {
+        "alias": "materialId",
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
         "name": "link",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "originName",
         "storageKey": null
       }
     ],
@@ -83,9 +101,9 @@ return {
     "metadata": {},
     "name": "TrainingMaterialsQuery",
     "operationKind": "query",
-    "text": "query TrainingMaterialsQuery(\n  $trainingId: Float!\n) {\n  materialsByTrainingId(trainingId: $trainingId) {\n    link\n  }\n}\n"
+    "text": "query TrainingMaterialsQuery(\n  $trainingId: Float!\n) {\n  materialsByTrainingId(trainingId: $trainingId) {\n    materialId: id\n    link\n    originName\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'dfda120f65bbbbc45197505c1ed90fb6';
+(node as any).hash = '4fb313191c1ce2400aa13db198d2a1e3';
 export default node;

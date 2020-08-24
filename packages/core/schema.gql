@@ -63,6 +63,7 @@ input InputFeedback {
 
 input InputMaterial {
   link: String!
+  originName: String
   trainingId: Float!
 }
 
@@ -103,6 +104,9 @@ type MaterialEntity {
 
   """ссылка на материалы в файловом хранилище"""
   link: String!
+
+  """имя оригинального файла"""
+  originName: String
 
   """идентификатор обучения"""
   training: TrainingEntity!

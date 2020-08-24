@@ -5,5 +5,7 @@ export interface Material {
   training: Training;
   link: string;
   trainingId: number;
-  deletedAt?: Date;
+  deletedAt: Date;
+  originName: string;
+  createdAt: Date;
 }

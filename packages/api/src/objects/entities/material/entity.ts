@@ -9,6 +9,7 @@ import {
   RelationId,
   ManyToOne,
   DeleteDateColumn,
+  CreateDateColumn,
 } from "typeorm";
 import { Material } from "./type";
 
@@ -47,6 +48,16 @@ export class MaterialEntity extends BaseEntity implements Material {
 
   @DeleteDateColumn()
   public deletedAt: Date;
+
+  @Field(() => String, {
+    nullable: true,
+    description: "имя оригинального файла",
+  })
+  @Column({ nullable: true })
+  public originName: string;
+
+  @CreateDateColumn()
+  public createdAt: Date;
 
   constructor(id: number, training: TrainingEntity, link: string) {
     super();
