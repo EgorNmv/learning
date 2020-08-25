@@ -33,20 +33,37 @@ const query = graphql`
 export const TrainingMaterials: React.FC = () => {
   const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
   const { authState } = useOktaAuth();
-  const [response, setResponse] = React.useState<{
-    filename: string;
-    originName: string;
-  }>();
   const [commit, isInFlight] = useMutation<TrainingMaterialsMutation>(mutation);
   const { materialsByTrainingId } = useLazyLoadQuery<TrainingMaterialsQuery>(
     query,
     { trainingId },
     { fetchPolicy: "store-and-network" }
   );
-  const [materials, setMaterials] = React.useState<Material[]>([]);
   const { showAlert } = React.useContext(AlertContext);
+  const [materials, setMaterials] = React.useState<Material[]>([]);
+  const [response, setResponse] = React.useState<{
+    filename: string;
+    originName: string;
+  }>();
   const [uploadingMaterials, setUploadingMaterials] = React.useState<{
-    [filename: string]: number;
+    [filename: string]: {
+      temporaryId: number;
+      response: {
+        data: { filename: string; originName: string } | null;
+      };
+    };
+  }>({});
+  const [graphqlResponse, setGraphqlResponse] = React.useState<{
+    [filename: string]: {
+      data: {
+        link: string;
+        originName: string;
+        materialId: number;
+      };
+    };
+  }>({});
+  const [materialsWithError, setMaterialsWithError] = React.useState<{
+    [filename: string]: boolean;
   }>({});
 
   const fileUploadProps: any = {
@@ -65,21 +82,24 @@ export const TrainingMaterials: React.FC = () => {
       status: material.status ? material.status : "done",
       url: material.link
         ? `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`
-        : "#",
+        : "#clear",
     })),
     beforeUpload: (file: File, fileList: File[]) => {
-      const uploadingFileId: number = Date.now() + Math.random();
-      const uploadingFile = {
+      const uploadingFileId: number =
+        Date.now() + Math.round(Math.random() * 100);
+      const uploadingFile: Material = {
         materialId: uploadingFileId,
         originName: file.name,
         link: "",
         status: "uploading",
       };
-      const uploadingFileNameWithId = { [file.name]: uploadingFileId };
 
       setUploadingMaterials((prev) => ({
         ...prev,
-        ...uploadingFileNameWithId,
+        [file.name]: {
+          temporaryId: uploadingFileId,
+          response: { data: null },
+        },
       }));
       setMaterials((prev) => [...prev, uploadingFile]);
     },
@@ -88,37 +108,28 @@ export const TrainingMaterials: React.FC = () => {
       file: File,
       xhr: any
     ) => {
-      setResponse(res);
+      setResponse(() => res);
     },
     onError: (error: Error, response: any, file: File) => {
       showAlert(`При загрузке файла ${file.name} произошла ошибка`, "error");
-      setMaterials((prev) =>
-        prev.map((material) => {
-          const uploadingMaterialId: number | null = material.originName
-            ? uploadingMaterials[material.originName]
-            : null;
-          if (
-            uploadingMaterialId &&
-            material.materialId === uploadingMaterialId &&
-            material.originName
-          ) {
-            // delete uploadingMaterials[material.originName];
-
-            return {
-              ...material,
-              status:
-                material.status === "uploading" ? "error" : material.status,
-            };
-          } else {
-            return material;
-          }
-        })
-      );
+      setMaterialsWithError((prev) => ({ ...prev, ...{ [file.name]: true } }));
     },
   };
 
   React.useEffect(() => {
-    response?.filename &&
+    if (response?.originName && response.filename) {
+      const uploadingMaterial = uploadingMaterials[response?.originName];
+
+      uploadingMaterial.response.data = response;
+
+      const oldUploadingFileWithNewResponseData = {
+        [response?.originName]: uploadingMaterial,
+      };
+
+      setUploadingMaterials((prev) => ({
+        ...prev,
+        ...oldUploadingFileWithNewResponseData,
+      }));
       commit({
         variables: {
           data: {
@@ -128,32 +139,23 @@ export const TrainingMaterials: React.FC = () => {
           },
         },
         onCompleted: (res) => {
+          if (res.createMaterial.originName) {
+            const materialFromMutationResponse = {
+              [res.createMaterial.originName]: {
+                data: {
+                  link: res.createMaterial.link,
+                  materialId: res.createMaterial.materialId,
+                  originName: res.createMaterial.originName,
+                },
+              },
+            };
+            setGraphqlResponse((prev) => ({
+              ...prev,
+              ...materialFromMutationResponse,
+            }));
+          }
           showAlert(
             `Материал ${res.createMaterial.originName} успешно добавлен`
-          );
-          setMaterials((prev) =>
-            prev.map((material) => {
-              const uploadingMaterialId: number | null = material.originName
-                ? uploadingMaterials[material.originName]
-                : null;
-              if (
-                uploadingMaterialId &&
-                material.materialId === uploadingMaterialId &&
-                material.originName
-              ) {
-                // delete uploadingMaterials[material.originName];
-
-                return {
-                  link: res.createMaterial.link,
-                  originName: res.createMaterial.originName,
-                  materialId: res.createMaterial.materialId,
-                  status:
-                    material.status === "uploading" ? "done" : material.status,
-                };
-              } else {
-                return material;
-              }
-            })
           );
         },
         onError: () => {
@@ -163,7 +165,57 @@ export const TrainingMaterials: React.FC = () => {
           );
         },
       });
+    }
   }, [response]);
+
+  React.useEffect(() => {
+    setMaterials((prev) =>
+      prev.map((material) => {
+        if (material.originName && materialsWithError[material.originName]) {
+          return {
+            ...material,
+            status: "error",
+          };
+        } else {
+          return material;
+        }
+      })
+    );
+  }, [materialsWithError]);
+
+  React.useEffect(() => {
+    setMaterials((prev) =>
+      prev.map((material) => {
+        if (
+          material.originName &&
+          uploadingMaterials[material.originName] &&
+          uploadingMaterials[material.originName].temporaryId
+        ) {
+          const uploadingMaterialId: number =
+            uploadingMaterials[material.originName].temporaryId;
+          const materialDataFromGraphqlResponse =
+            graphqlResponse[material.originName];
+
+          if (
+            material.materialId === uploadingMaterialId &&
+            materialDataFromGraphqlResponse &&
+            materialDataFromGraphqlResponse.data
+          ) {
+            return {
+              link: materialDataFromGraphqlResponse.data.link,
+              originName: materialDataFromGraphqlResponse.data.originName,
+              materialId: materialDataFromGraphqlResponse.data.materialId,
+              status: "done",
+            };
+          } else {
+            return material;
+          }
+        } else {
+          return material;
+        }
+      })
+    );
+  }, [graphqlResponse]);
 
   React.useEffect(() => {
     setMaterials(materialsByTrainingId as Material[]);
