@@ -5,9 +5,10 @@
 
 .training-material-body > span {
   width: 50%;
+  padding: 5px;
 }
 
-.training-material-title{
+.training-material-title {
   display: flex;
   justify-content: space-between;
 }

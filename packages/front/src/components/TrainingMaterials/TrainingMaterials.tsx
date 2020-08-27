@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Empty, Upload } from "antd";
+import { Card, Button, Empty, Upload, Spin } from "antd";
 import "./TrainingMaterials.css";
 import { graphql } from "react-relay";
 import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
@@ -68,7 +68,7 @@ export const TrainingMaterials: React.FC = () => {
 
   const fileUploadProps: any = {
     name: "file",
-    showUploadList: { showRemoveIcon: false },
+    showUploadList: false,
     action: `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/file/upload`,
     headers: {
       Accept: "application/json",
@@ -76,14 +76,14 @@ export const TrainingMaterials: React.FC = () => {
     },
     multiple: true,
     data: { type: "3" },
-    fileList: materials.map((material) => ({
-      uid: material.materialId,
-      name: material.originName || material.link,
-      status: material.status ? material.status : "done",
-      url: material.link
-        ? `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`
-        : "#clear",
-    })),
+    // fileList: materials.map((material) => ({
+    //   uid: material.materialId + material.link,
+    //   name: material.originName || material.link,
+    //   status: material.status ? material.status : "done",
+    //   url: material.link
+    //     ? `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`
+    //     : "#clear",
+    // })),
     beforeUpload: (file: File, fileList: File[]) => {
       const uploadingFileId: number =
         Date.now() + Math.round(Math.random() * 100);
@@ -223,8 +223,8 @@ export const TrainingMaterials: React.FC = () => {
 
   return (
     <>
-      <h2>Материалы</h2>
       <div className="training-material-title">
+        <h2>Материалы</h2>
         <Upload {...fileUploadProps}>
           <Button>Загрузить материал</Button>
         </Upload>
@@ -232,11 +232,18 @@ export const TrainingMaterials: React.FC = () => {
       <Card>
         <div className="training-material-body">
           {materials.map((material: Material) => (
-            <span>
+            <span key={material.link + material.materialId}>
+              {material.status === "uploading" && <Spin size="small" />}
+
               <a
-                href={`${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`}
+                href={
+                  material.link
+                    ? `${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/material/${material.link}`
+                    : undefined
+                }
+                style={material.status === "error" ? { color: "#ff4d4f" } : {}}
               >
-                {material.link}
+                {material.originName || material.link}
               </a>
             </span>
           ))}
