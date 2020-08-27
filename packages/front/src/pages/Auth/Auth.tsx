@@ -40,7 +40,7 @@ const Auth: React.FC = () => {
             "primaryauth.submit": "Войти",
             "primaryauth.newUser.tooltip": "Новый пользователь",
             "primaryauth.newUser.tooltip.close": "Закрыть",
-            needhelp: "Не получатеся зайти?",
+            needhelp: "Не получается зайти?",
             forgotpassword: "Забыли пароль?",
             help: "Помощь",
             remember: "Запомнить меня",

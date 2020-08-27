@@ -222,7 +222,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                       message: "Количество мест должно быть числом",
                     },
                     {
-                      pattern: new RegExp("^[1-9]*$"),
+                      pattern: new RegExp("^[01-9]*$"),
                       message:
                         "Количество мест должно быть целым, положительным числом",
                     },
