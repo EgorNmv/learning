@@ -1,0 +1,28 @@
+.training-card {
+  display: flex;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 5px 2px 4px #dddddd;
+  border-radius: 15px;
+  width: 650px;
+  height: 206px;
+  margin: 5px;
+}
+
+.training-info {
+  margin-left: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.training-name span {
+  text-decoration: underline;
+  font: normal normal bold 24px/28px Arial;
+  color: #0088bb;
+}
+
+.training-desc {
+  max-height: 3rem;
+  overflow: hidden;
+  padding-top: 1rem;
+}

@@ -1,27 +1,53 @@
 .react-multiple-carousel__arrow::before {
-    font-size: 15px;
-    color: #fff;
-    display: block;
-    font-family: revicons;
-    text-align: center;
-    z-index: 2;
-    position: relative;
+  font-size: 15px;
+  color: #fff;
+  display: block;
+  font-family: revicons;
+  text-align: center;
+  z-index: 2;
+  position: relative;
 }
 
 .react-multiple-carousel__arrow--right {
-    right: calc(3px);
+  right: calc(3px);
 }
 
 .react-multiple-carousel__arrow {
-    position: absolute;
-    outline: 0;
-    transition: all .5s;
-    border-radius: 35px;
-    z-index: 1000;
-    border: 0;
-    background: #7766CC;
-    min-width: 25px;
-    min-height: 25px;
-    opacity: 1;
-    cursor: pointer;
+  position: absolute;
+  outline: 0;
+  transition: all 0.5s;
+  border-radius: 35px;
+  z-index: 1000;
+  border: 0;
+  background: #7766cc;
+  min-width: 25px;
+  min-height: 25px;
+  opacity: 1;
+  cursor: pointer;
+  top: 35%;
+}
+
+.carousel-with-custom-dots {
+  height: 16rem;
+  display: flex;
+  align-items: baseline;
+}
+
+span.custom-dot-for-slider {
+  width: 15px;
+  height: 15px;
+  margin: 15px;
+  border-radius: 50%;
+}
+
+span.custom-dot-for-slider.active {
+  background: #7766cc;
+}
+
+span.custom-dot-for-slider.inactive {
+  background: #dddddd;
+}
+
+.main-section-title {
+  font: normal normal bold 32px/37px Arial;
 }

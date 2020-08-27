@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "antd";
 import { Link } from "react-router-dom";
-import "./TrainingCard.css";
+import "./training-card.css";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 
 type TrainingCardProps = {
@@ -54,7 +54,7 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
           <div
             style={{
               width: "100px",
-              height: "150px",
+              height: "100%",
               background: "gray",
             }}
           />
@@ -62,13 +62,10 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
         <div className="training-info">
           <div className="training-name">
             <Link to={`/category/1/training/${trainingId}`}>
-              <h2>{name}</h2>
+              <span>{name}</span>
             </Link>
           </div>
-          <div
-            className="training-desc"
-            style={{ maxHeight: "3rem", overflow: "hidden" }}
-          >
+          <div className="training-desc">
             <p>{description}</p>
           </div>
           <div>

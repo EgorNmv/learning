@@ -7,6 +7,7 @@ import { MainQuery } from "./__generated__/MainQuery.graphql";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./main.css";
+import { DotProps } from "react-multi-carousel/lib/types";
 
 const query = graphql`
   query MainQuery {
@@ -46,7 +47,6 @@ const Main: React.FC = () => {
   const { newTrainings, comingTrainings, categories } = useLazyLoadQuery<
     MainQuery
   >(query, {});
-
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -67,11 +67,33 @@ const Main: React.FC = () => {
     },
   };
 
+  const CustomDotForSlider: React.FC<
+    DotProps & { isNewTrainings?: boolean }
+  > = ({ index, active, onClick, carouselState, isNewTrainings }) => {
+    if (index && onClick) {
+      const classNames = ["custom-dot-for-slider"].concat(
+        active ? "active" : "inactive"
+      );
+      return (
+        <span className={classNames.join(" ")} onClick={() => onClick()} />
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <>
       <section>
-        <h2>Новые события</h2>
-        <Carousel {...{ responsive }}>
+        <div>
+          <h2 className="main-section-title">Новые события</h2>
+        </div>
+        <Carousel
+          {...{ responsive }}
+          showDots
+          customDot={<CustomDotForSlider isNewTrainings />}
+          containerClass="carousel-with-custom-dots"
+        >
           {newTrainings.map((training) => (
             <TrainingCard
               training={training}
@@ -81,8 +103,13 @@ const Main: React.FC = () => {
         </Carousel>
       </section>
       <section>
-        <h2>Ближайшие события</h2>
-        <Carousel {...{ responsive }}>
+        <h2 className="main-section-title">Ближайшие события</h2>
+        <Carousel
+          {...{ responsive }}
+          showDots
+          customDot={<CustomDotForSlider isNewTrainings />}
+          containerClass="carousel-with-custom-dots"
+        >
           {comingTrainings.map((training) => (
             <TrainingCard
               training={training}
@@ -92,7 +119,7 @@ const Main: React.FC = () => {
         </Carousel>
       </section>
       <section>
-        <h2>Категории событий</h2>
+        <h2 className="main-section-title">Категории событий</h2>
         <div
           style={{
             display: "flex",
