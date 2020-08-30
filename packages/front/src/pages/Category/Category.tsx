@@ -188,7 +188,7 @@ const Category: React.FC = () => {
   return (
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
-        <Breadcrumbs />
+        {/* <Breadcrumbs /> */}
         <h2 className="category-page-content__title">
           {category && category.description}
         </h2>

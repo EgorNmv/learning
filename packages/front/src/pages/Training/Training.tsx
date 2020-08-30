@@ -78,7 +78,7 @@ const Training: React.FC = () => {
   return (
     <>
       <section>
-        <Breadcrumbs />
+        {/* <Breadcrumbs /> */}
         <Card loading={isInFlight}>
           <div style={{ display: "flex" }}>
             <UploadedPicture
