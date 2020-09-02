@@ -22,6 +22,13 @@ const query = graphql`
       end
       isDateSet
       description
+      category {
+        categoryId: id
+        description
+      }
+      format {
+        description
+      }
     }
     comingTrainings {
       trainingId: id
@@ -34,6 +41,13 @@ const query = graphql`
       end
       isDateSet
       description
+      category {
+        categoryId: id
+        description
+      }
+      format {
+        description
+      }
     }
     categories {
       categoryId: id

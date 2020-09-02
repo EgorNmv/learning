@@ -18,8 +18,8 @@ export const UploadedPicture: React.FC<UploadedPictureProps> = ({
   if (filename) {
     return (
       <img
-        className={className || undefined}
-        style={{ ...style } || undefined}
+        className={className}
+        style={{ ...style }}
         src={`${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/${imgType}/${filename}`}
         alt={`${imgType} изображение`}
       />

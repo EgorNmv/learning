@@ -15,6 +15,12 @@ export type MainQueryResponse = {
         readonly end: string | null;
         readonly isDateSet: boolean;
         readonly description: string;
+        readonly category: {
+            readonly description: string;
+        };
+        readonly format: {
+            readonly description: string;
+        };
     }>;
     readonly comingTrainings: ReadonlyArray<{
         readonly trainingId: number;
@@ -27,6 +33,12 @@ export type MainQueryResponse = {
         readonly end: string | null;
         readonly isDateSet: boolean;
         readonly description: string;
+        readonly category: {
+            readonly description: string;
+        };
+        readonly format: {
+            readonly description: string;
+        };
     }>;
     readonly categories: ReadonlyArray<{
         readonly categoryId: number;
@@ -54,6 +66,12 @@ query MainQuery {
     end
     isDateSet
     description
+    category {
+      description
+    }
+    format {
+      description
+    }
   }
   comingTrainings {
     trainingId: id
@@ -66,6 +84,12 @@ query MainQuery {
     end
     isDateSet
     description
+    category {
+      description
+    }
+    format {
+      description
+    }
   }
   categories {
     categoryId: id
@@ -98,6 +122,9 @@ v2 = {
   "storageKey": null
 },
 v3 = [
+  (v2/*: any*/)
+],
+v4 = [
   {
     "alias": "trainingId",
     "args": null,
@@ -140,9 +167,29 @@ v3 = [
     "name": "isDateSet",
     "storageKey": null
   },
-  (v2/*: any*/)
+  (v2/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "CategoryEntity",
+    "kind": "LinkedField",
+    "name": "category",
+    "plural": false,
+    "selections": (v3/*: any*/),
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "FormatEntity",
+    "kind": "LinkedField",
+    "name": "format",
+    "plural": false,
+    "selections": (v3/*: any*/),
+    "storageKey": null
+  }
 ],
-v4 = [
+v5 = [
   {
     "alias": null,
     "args": null,
@@ -150,7 +197,7 @@ v4 = [
     "kind": "LinkedField",
     "name": "newTrainings",
     "plural": true,
-    "selections": (v3/*: any*/),
+    "selections": (v4/*: any*/),
     "storageKey": null
   },
   {
@@ -160,7 +207,7 @@ v4 = [
     "kind": "LinkedField",
     "name": "comingTrainings",
     "plural": true,
-    "selections": (v3/*: any*/),
+    "selections": (v4/*: any*/),
     "storageKey": null
   },
   {
@@ -190,7 +237,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "MainQuery",
-    "selections": (v4/*: any*/),
+    "selections": (v5/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -198,16 +245,16 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "MainQuery",
-    "selections": (v4/*: any*/)
+    "selections": (v5/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "MainQuery",
     "operationKind": "query",
-    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
+    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n    category {\n      description\n    }\n    format {\n      description\n    }\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n    category {\n      description\n    }\n    format {\n      description\n    }\n  }\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'bc832e1fc78a1523630d51bd1b4b0f63';
+(node as any).hash = '4c662197c44d3797a7ee97f2f1c5b842';
 export default node;

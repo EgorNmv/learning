@@ -3,14 +3,13 @@
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 5px 2px 4px #dddddd;
   border-radius: 15px;
-  width: 650px;
   height: 206px;
+  max-width: 716px;
   margin: 5px;
 }
 
 .training-info {
-  margin-left: 10px;
-  margin-top: 20px;
+  margin: 30px 0 0 30px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -22,7 +21,13 @@
 }
 
 .training-desc {
-  max-height: 3rem;
+  max-height: 40px;
   overflow: hidden;
-  padding-top: 1rem;
+  margin-top: 1rem;
+  margin: 1rem 40px 0 0;
+}
+
+.training-card_icon {
+  font-size: xxx-large;
+  margin: auto;
 }
