@@ -16,6 +16,7 @@ export type MainQueryResponse = {
         readonly isDateSet: boolean;
         readonly description: string;
         readonly category: {
+            readonly categoryId: number;
             readonly description: string;
         };
         readonly format: {
@@ -34,6 +35,7 @@ export type MainQueryResponse = {
         readonly isDateSet: boolean;
         readonly description: string;
         readonly category: {
+            readonly categoryId: number;
             readonly description: string;
         };
         readonly format: {
@@ -67,6 +69,7 @@ query MainQuery {
     isDateSet
     description
     category {
+      categoryId: id
       description
     }
     format {
@@ -85,6 +88,7 @@ query MainQuery {
     isDateSet
     description
     category {
+      categoryId: id
       description
     }
     format {
@@ -121,9 +125,13 @@ v2 = {
   "name": "description",
   "storageKey": null
 },
-v3 = [
-  (v2/*: any*/)
-],
+v3 = {
+  "alias": "categoryId",
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
 v4 = [
   {
     "alias": "trainingId",
@@ -175,7 +183,10 @@ v4 = [
     "kind": "LinkedField",
     "name": "category",
     "plural": false,
-    "selections": (v3/*: any*/),
+    "selections": [
+      (v3/*: any*/),
+      (v2/*: any*/)
+    ],
     "storageKey": null
   },
   {
@@ -185,7 +196,9 @@ v4 = [
     "kind": "LinkedField",
     "name": "format",
     "plural": false,
-    "selections": (v3/*: any*/),
+    "selections": [
+      (v2/*: any*/)
+    ],
     "storageKey": null
   }
 ],
@@ -218,13 +231,7 @@ v5 = [
     "name": "categories",
     "plural": true,
     "selections": [
-      {
-        "alias": "categoryId",
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
+      (v3/*: any*/),
       (v2/*: any*/),
       (v1/*: any*/)
     ],
@@ -252,9 +259,9 @@ return {
     "metadata": {},
     "name": "MainQuery",
     "operationKind": "query",
-    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n    category {\n      description\n    }\n    format {\n      description\n    }\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n    category {\n      description\n    }\n    format {\n      description\n    }\n  }\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
+    "text": "query MainQuery {\n  newTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n    category {\n      categoryId: id\n      description\n    }\n    format {\n      description\n    }\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n    category {\n      categoryId: id\n      description\n    }\n    format {\n      description\n    }\n  }\n  categories {\n    categoryId: id\n    description\n    label\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '4c662197c44d3797a7ee97f2f1c5b842';
+(node as any).hash = '613444175205660b92846cf45994e786';
 export default node;

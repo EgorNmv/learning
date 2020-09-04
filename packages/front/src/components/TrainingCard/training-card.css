@@ -31,3 +31,56 @@
   font-size: xxx-large;
   margin: auto;
 }
+
+.training-card__img {
+  width: 100%;
+  height: 100%;
+  max-height: 206px;
+  max-width: 214px;
+  border-radius: 15px 0px 0px 15px;
+  display: flex;
+  background: #dddddd;
+}
+
+.training-card__img__plaques {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.training-card__img__plaques > div {
+  margin-bottom: 15px;
+  height: 30px;
+  width: 138px;
+  background: #00bbee;
+  color: #ffffff;
+  font: normal normal normal 12px/14px Arial;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.training-card__img__plaques > div:nth-child(2) {
+  background: #ff5a5a;
+}
+
+.training-card__img__label {
+  width: 100%;
+  height: 100%;
+  max-height: 206px;
+  max-width: 214px;
+  border-radius: 15px 0px 0px 15px;
+}
+
+.training-organizer {
+  margin: 15px 0;
+}
+
+.training-organizer > span:first-child {
+  font-weight: bold;
+}
+
+.training-dates > span:first-child {
+  font-weight: bold;
+}

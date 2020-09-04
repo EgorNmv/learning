@@ -6,10 +6,12 @@
   border-radius: 15px;
   overflow: hidden;
 }
+
 .category-card * {
   color: white;
   overflow: hidden;
 }
+
 .layer {
   position: absolute;
   width: 437px;
@@ -19,6 +21,7 @@
   opacity: 0.4;
   z-index: 1;
 }
+
 .category-link {
   position: absolute;
   width: 437px;
@@ -27,6 +30,7 @@
   line-height: 177px;
   font-size: 24px;
 }
+
 .category-link a:hover {
   color: white;
   text-decoration: underline;

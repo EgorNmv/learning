@@ -51,3 +51,21 @@ span.custom-dot-for-slider.inactive {
 .main-section-title {
   font: normal normal bold 32px/37px Arial;
 }
+
+.main-section__categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.main-section__trainings-titles {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-section__trainings-titles > a {
+  text-decoration: underline;
+  color: #bbbbbb;
+  font: normal normal normal 20px/23px Arial;
+}

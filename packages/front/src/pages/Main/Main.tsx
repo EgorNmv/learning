@@ -8,6 +8,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./main.css";
 import { DotProps } from "react-multi-carousel/lib/types";
+import { Link } from "react-router-dom";
 
 const query = graphql`
   query MainQuery {
@@ -81,9 +82,12 @@ const Main: React.FC = () => {
     },
   };
 
-  const CustomDotForSlider: React.FC<
-    DotProps & { isNewTrainings?: boolean }
-  > = ({ index, active, onClick, carouselState, isNewTrainings }) => {
+  const CustomDotForSlider: React.FC<DotProps> = ({
+    index,
+    active,
+    onClick,
+    carouselState,
+  }) => {
     if (index && onClick) {
       const classNames = ["custom-dot-for-slider"].concat(
         active ? "active" : "inactive"
@@ -99,13 +103,14 @@ const Main: React.FC = () => {
   return (
     <>
       <section>
-        <div>
+        <div className="main-section__trainings-titles">
           <h2 className="main-section-title">Новые события</h2>
+          <Link to="/categories">Смотреть все</Link>
         </div>
         <Carousel
           {...{ responsive }}
           showDots
-          customDot={<CustomDotForSlider isNewTrainings />}
+          customDot={<CustomDotForSlider />}
           containerClass="carousel-with-custom-dots"
         >
           {newTrainings.map((training) => (
@@ -117,11 +122,14 @@ const Main: React.FC = () => {
         </Carousel>
       </section>
       <section>
-        <h2 className="main-section-title">Ближайшие события</h2>
+        <div className="main-section__trainings-titles">
+          <h2 className="main-section-title">Ближайшие события</h2>
+          <Link to="/categories">Смотреть все</Link>
+        </div>
         <Carousel
           {...{ responsive }}
           showDots
-          customDot={<CustomDotForSlider isNewTrainings />}
+          customDot={<CustomDotForSlider />}
           containerClass="carousel-with-custom-dots"
         >
           {comingTrainings.map((training) => (
@@ -134,13 +142,7 @@ const Main: React.FC = () => {
       </section>
       <section>
         <h2 className="main-section-title">Категории событий</h2>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-          }}
-        >
+        <div className="main-section__categories">
           {categories.map((category) => (
             <CategoryCard
               category={category}
