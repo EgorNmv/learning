@@ -19,6 +19,11 @@ export type CategoryQueryResponse = {
         readonly organizer: {
             readonly name: string;
         };
+        readonly listOfRequestsReviewsAndRecomends: ReadonlyArray<number> | null;
+        readonly averageRating: number | null;
+        readonly format: {
+            readonly description: string;
+        };
     }>;
     readonly category: {
         readonly categoryId: number;
@@ -61,6 +66,11 @@ query CategoryQuery(
     description
     organizer {
       name
+    }
+    listOfRequestsReviewsAndRecomends
+    averageRating
+    format {
+      description
     }
   }
   category(id: $categoryId) {
@@ -197,7 +207,33 @@ v9 = [
       (v5/*: any*/),
       (v6/*: any*/),
       (v7/*: any*/),
-      (v8/*: any*/)
+      (v8/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "listOfRequestsReviewsAndRecomends",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "averageRating",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "FormatEntity",
+        "kind": "LinkedField",
+        "name": "format",
+        "plural": false,
+        "selections": [
+          (v7/*: any*/)
+        ],
+        "storageKey": null
+      }
     ],
     "storageKey": null
   },
@@ -268,9 +304,9 @@ return {
     "metadata": {},
     "name": "CategoryQuery",
     "operationKind": "query",
-    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    isDateSet\n    description\n    organizer {\n      name\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n}\n"
+    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    isDateSet\n    description\n    organizer {\n      name\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n    format {\n      description\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '4b010f4373af5516070ca46c0a02a332';
+(node as any).hash = '3d56e059ecaa2375f37dd409a6c44258';
 export default node;

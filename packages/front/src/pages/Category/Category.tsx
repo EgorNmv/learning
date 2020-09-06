@@ -2,7 +2,7 @@ import React from "react";
 import "./category.css";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { CategoryQuery } from "./__generated__/CategoryQuery.graphql";
 import { Radio, DatePicker } from "antd";
 import { RadioChangeEvent } from "antd/lib/radio";
@@ -33,6 +33,11 @@ const query = graphql`
       description
       organizer {
         name
+      }
+      listOfRequestsReviewsAndRecomends
+      averageRating
+      format {
+        description
       }
     }
     category(id: $categoryId) {
@@ -66,6 +71,11 @@ type Training = {
   end: string | null;
   description: string;
   isDateSet: boolean;
+  listOfRequestsReviewsAndRecomends: number[] | null;
+  averageRating: number | null;
+  format: {
+    description: string;
+  };
 };
 
 moment.locale("ru");
@@ -173,7 +183,7 @@ const Category: React.FC = () => {
             }
           }),
           ...trainingsWithoutDates,
-        ];
+        ] as Training[];
       });
     } else {
       setSelectedDate(null);
@@ -192,23 +202,24 @@ const Category: React.FC = () => {
         <h2 className="category-page-content__title">
           {category && category.description}
         </h2>
-        <span>{constants["SORTBY"]} </span>
-        <Radio.Group
-          onChange={(e: RadioChangeEvent) => setSortBy(e.target.value)}
-          defaultValue="name"
-          buttonStyle="solid"
-        >
-          <Radio.Button value="name" onClick={onClick}>
-            {renderLabelWithSortOrder("name")}
-          </Radio.Button>
-          <Radio.Button value="createDate" onClick={onClick}>
-            {renderLabelWithSortOrder("createDate")}
-          </Radio.Button>
-          <Radio.Button value="recommends" onClick={onClick}>
-            {renderLabelWithSortOrder("recommends")}
-          </Radio.Button>
-        </Radio.Group>
-        <SortableTrainingList trainings={sortedTrainingsList as any} />
+        <div className="category-page-content__sorted-btns">
+          <span>{constants["SORTBY"]} </span>
+          <Radio.Group
+            onChange={(e: RadioChangeEvent) => setSortBy(e.target.value)}
+            defaultValue="name"
+          >
+            <Radio value="name" onClick={onClick}>
+              {renderLabelWithSortOrder("name")}
+            </Radio>
+            <Radio value="createDate" onClick={onClick}>
+              {renderLabelWithSortOrder("createDate")}
+            </Radio>
+            <Radio value="recommends" onClick={onClick}>
+              {renderLabelWithSortOrder("recommends")}
+            </Radio>
+          </Radio.Group>
+        </div>
+        <SortableTrainingList trainings={sortedTrainingsList as Training[]} />
       </section>
       <section className="category-page-content-calendar">
         <CenteredText>
@@ -219,10 +230,15 @@ const Category: React.FC = () => {
             value={selectedDate}
             onChange={onDateChanged as any}
           />
-          <h2>{constants["UPCOMINGEVENTS"]}</h2>
+          <div className="category-page-content-calendar__coming-training-title">
+            <h3>{constants["UPCOMINGEVENTS"]}</h3>
+            <Link to="/categories">Смотреть все</Link>
+          </div>
+          <div className="category-page-content-calendar__trainings">
           {comingTrainings.map((training) => (
-            <TrainingCard training={training} placeInCalendar={true} />
-          ))}
+            <TrainingCard training={training} placeInCalendar />
+            ))}
+            </div>
         </CenteredText>
       </section>
     </div>

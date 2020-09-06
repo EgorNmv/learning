@@ -6,6 +6,40 @@
   height: 206px;
   max-width: 716px;
   margin: 5px;
+  position: relative;
+  display: flex;
+}
+
+.training-card-in-calendar {
+  display: flex;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 5px;
+  height: 100px;
+  max-width: 460px;
+  width: 100%;
+  margin: 15px;
+  display: flex;
+}
+
+.training-card-in-calendar__img__label {
+  width: 100px;
+  height: 100px;
+}
+
+.training-card-in-calendar-name {
+  padding: 15px;
+  font: normal normal bold 20px/23px Arial;
+  text-decoration: underline;
+}
+
+.training-card-in-calendar-desc {
+  max-height: 30px;
+  overflow: hidden;
+}
+
+.no-label {
+  background: #dddddd;
 }
 
 .training-info {
@@ -83,4 +117,20 @@
 
 .training-dates > span:first-child {
   font-weight: bold;
+}
+
+.training-rate {
+  text-align: end;
+  display: flex;
+  flex-direction: column;
+  margin: 30px 30px 30px auto;
+}
+
+.training-rate__recomendations {
+  margin-bottom: auto;
+}
+
+.training-rate__reviews-count {
+  margin-top: 15px;
+  color: #bbbbbb;
 }
