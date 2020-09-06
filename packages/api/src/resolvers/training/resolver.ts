@@ -23,6 +23,7 @@ import { findAllTrainingBySearchText } from "./queries/findAllTrainingBySearchTe
 import { getListOfRequestsReviewsAndRecomendsByTrainingId } from "./queries/getListOfRequestsReviewsAndRecomendsByTrainingId";
 import { findAllTrainingsForReport } from "./queries/findAllTrainingsForReport";
 import { createReportByTrainingIdsAndWriteIt } from "./queries/createReportByTrainingIdsAndWriteIt";
+import { getAverageRatingByTrainingId } from "./queries/getAverageRatingByTrainingId";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -35,6 +36,16 @@ export class TrainingResolver {
       connection,
       training.id
     );
+  }
+
+  @FieldResolver(() => Number || null, {
+    nullable: true,
+  })
+  public async averageRating(
+    @Ctx() { connection }: Context,
+    @Root() training: TrainingEntity
+  ) {
+    return await getAverageRatingByTrainingId(connection, training.id);
   }
 
   @Query(() => TrainingEntity || null, {

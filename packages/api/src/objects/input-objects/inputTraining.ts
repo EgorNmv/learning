@@ -14,6 +14,7 @@ export class InputTraining
       | "createDate"
       | "listOfRequestsReviewsAndRecomends"
       | "deletedAt"
+      | "averageRating"
     > {
   @Field()
   public name: string;

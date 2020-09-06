@@ -234,6 +234,9 @@ type TrainingEntity {
   """целевая аудитория обучения"""
   audience: TargetAudienceEntity!
 
+  """Средняя оценка события"""
+  averageRating: Float
+
   """категория обучения"""
   category: CategoryEntity!
 

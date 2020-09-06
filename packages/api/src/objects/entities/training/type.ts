@@ -24,4 +24,5 @@ export interface Training {
   numberOfParticipants: number;
   deletedAt: Date;
   isDateSet: boolean;
+  averageRating: number;
 }

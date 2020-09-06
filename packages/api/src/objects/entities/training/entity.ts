@@ -81,14 +81,14 @@ export class TrainingEntity extends BaseEntity implements Training {
     nullable: true,
     description: "дата начала обучения",
   })
-  @Column({nullable: true})
+  @Column({ nullable: true })
   public start: string;
 
   @Field(() => String, {
     nullable: true,
     description: "дата окончания обучения",
   })
-  @Column({nullable: true})
+  @Column({ nullable: true })
   public end: string;
 
   @Field(() => TargetAudienceEntity, {
@@ -155,6 +155,12 @@ export class TrainingEntity extends BaseEntity implements Training {
   })
   @Column({ default: true })
   public isDateSet: boolean;
+
+  @Field(() => Number, {
+    nullable: true,
+    description: "Средняя оценка события",
+  })
+  public averageRating: number;
 
   constructor(
     id: number,
