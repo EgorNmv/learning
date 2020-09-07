@@ -84,7 +84,10 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
   return (
     <>
       <div className="training-recomendation-title">
-        <h2>Отзывы</h2>
+        <div className="training-recomendation-title__recomend-count">
+          <h2>Отзывы</h2>
+          <span>{acceptedFeedbacksByTrainingId.length} отзывов</span>
+        </div>
         <Button type="link" onClick={() => setIsVisibleModal(true)}>
           Написать отзыв
         </Button>

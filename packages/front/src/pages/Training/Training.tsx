@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button } from "antd";
+import { Card, Button, Rate } from "antd";
 import { TrainingMaterials } from "../../components/TrainingMaterials/TrainingMaterials";
 import { TrainingRecommendations } from "../../components/TrainingRecommendations/TrainingRecommendations";
 import { TrainingReviews } from "../../components/TrainingReviews/TrainingReviews";
@@ -13,6 +13,7 @@ import { UploadedPicture } from "../../components/UploadedPicture/UploadedPictur
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import "./training.css";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import RecomendSvg from "../../static/ico/recomend.svg";
 
 const mutation = graphql`
   mutation TrainingMutation($data: InputRequest!) {
@@ -41,6 +42,11 @@ const query = graphql`
       end
       site
       audience {
+        description
+      }
+      listOfRequestsReviewsAndRecomends
+      averageRating
+      format {
         description
       }
     }
@@ -77,77 +83,100 @@ const Training: React.FC = () => {
 
   return (
     <>
-      <section>
+      <section className="training">
         {/* <Breadcrumbs /> */}
-        <Card loading={isInFlight}>
-          <div style={{ display: "flex" }}>
-            <UploadedPicture
-              style={{
-                width: "100%",
-                height: "100%",
-                maxHeight: "20rem",
-                maxWidth: "20rem",
-              }}
-              filename={training?.label || null}
-              imgType="training"
-            />
-            <div
-              style={{
-                paddingLeft: "2rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around",
-              }}
-            >
-              <div>
-                <span style={{ fontWeight: "bold" }}>Организатор: </span>
-                <span>{training?.organizer.name}</span>
-              </div>
-              <div>
-                <span style={{ fontWeight: "bold" }}>Место проведения: </span>
-                <span>{training?.organizer.address}</span>
-              </div>
-              {training?.organizer.contactInfo && (
-                <div>
-                  <span style={{ fontWeight: "bold" }}>
-                    Контактная информация:{" "}
-                  </span>
-                  <span>{training?.organizer.contactInfo}</span>
-                </div>
-              )}
-              <div>
-                <span style={{ fontWeight: "bold" }}>Дата: </span>
-                <span>{`${training?.start} - ${training?.end}`}</span>
-              </div>
-              <div>
-                <span style={{ fontWeight: "bold" }}>Аудитория: </span>
-                <span>{training?.audience.description}</span>
-              </div>
-              <div>
-                <span style={{ fontWeight: "bold" }}>Формат обучения: </span>
-                <span>{training?.format.description}</span>
-              </div>
-              {training?.site && (
-                <div>
-                  <span style={{ fontWeight: "bold" }}>Сайт: </span>
-                  <span>{training?.site}</span>
-                </div>
-              )}
-              <div>
-                <Button
-                  type="primary"
-                  onClick={clickHandler}
-                  disabled={isRequestExist || isClickedButton}
-                >
-                  Подать заявку на участие
-                </Button>
-              </div>
-              <div className="training-description-section">
-                {training?.description}
-              </div>
-            </div>
+        <h2>{training?.name}</h2>
+        <div className="training__main-info">
+          <div className="training-card__img__plaques">
+            {training?.format?.description && (
+              <div>{training?.format?.description}</div>
+            )}
           </div>
-        </Card>
+          <UploadedPicture
+            className="training__main-info__label"
+            filename={training?.label || null}
+            imgType="training"
+          />
+          <div className="training__main-info__info">
+            <div>
+              <span className="bold-title">Организатор: </span>
+              <span>{training?.organizer.name}</span>
+            </div>
+            <div>
+              <span className="bold-title">Место проведения: </span>
+              <span>{training?.organizer.address}</span>
+            </div>
+            {training?.organizer.contactInfo && (
+              <div>
+                <span className="bold-title">Контактная информация: </span>
+                <span>{training?.organizer.contactInfo}</span>
+              </div>
+            )}
+            <div>
+              <span className="bold-title">Дата: </span>
+              <span>{`${training?.start} - ${training?.end}`}</span>
+            </div>
+            <div>
+              <span className="bold-title">Аудитория: </span>
+              <span>{training?.audience.description}</span>
+            </div>
+            <div>
+              <span className="bold-title">Формат обучения: </span>
+              <span>{training?.format.description}</span>
+            </div>
+            {training?.site && (
+              <div>
+                <span className="bold-title">Сайт: </span>
+                <a className="training__main-info__site">{training?.site}</a>
+              </div>
+            )}
+            <div>
+              <span className="bold-title">Участников: </span>
+              <span>
+                {training?.listOfRequestsReviewsAndRecomends &&
+                  training.listOfRequestsReviewsAndRecomends[0]}
+              </span>
+            </div>
+            <div className="training__main-info__info_recomends">
+              <img src={RecomendSvg} alt="рекомендация " />
+              <span className="training__main-info__info_count-of-recomends">
+                {" "}
+                {training?.listOfRequestsReviewsAndRecomends
+                  ? training.listOfRequestsReviewsAndRecomends[2]
+                  : 0}{" "}
+                рекомендаций
+              </span>
+            </div>
+            <div>
+              <Rate
+                value={
+                  training?.averageRating
+                    ? Math.round(training.averageRating)
+                    : 0
+                }
+              />
+              <span className="training__main-info__info__average-rating">
+                {training?.averageRating || 0}
+              </span>
+              {training?.listOfRequestsReviewsAndRecomends && (
+                <span className="training__main-info__info__count-of-reviews">
+                  {`(${training.listOfRequestsReviewsAndRecomends[1]} оценок)`}
+                </span>
+              )}
+            </div>
+            <Button
+              type="primary"
+              onClick={clickHandler}
+              disabled={isRequestExist || isClickedButton}
+              className="training__main-info__request-btn"
+            >
+              Подать заявку на участие
+            </Button>
+          </div>
+        </div>
+        <div className="training-description-section">
+          {training?.description}
+        </div>
       </section>
       <section>
         <TrainingMaterials />

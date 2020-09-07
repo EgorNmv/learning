@@ -26,6 +26,8 @@ export type TrainingQueryResponse = {
         readonly audience: {
             readonly description: string;
         };
+        readonly listOfRequestsReviewsAndRecomends: ReadonlyArray<number> | null;
+        readonly averageRating: number | null;
     } | null;
     readonly isRequestExist: boolean;
 };
@@ -60,6 +62,8 @@ query TrainingQuery(
     audience {
       description
     }
+    listOfRequestsReviewsAndRecomends
+    averageRating
   }
   isRequestExist(userId: $userId, trainingId: $trainingId)
 }
@@ -194,6 +198,20 @@ v4 = [
         "plural": false,
         "selections": (v3/*: any*/),
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "listOfRequestsReviewsAndRecomends",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "averageRating",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -238,9 +256,9 @@ return {
     "metadata": {},
     "name": "TrainingQuery",
     "operationKind": "query",
-    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    site\n    audience {\n      description\n    }\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
+    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
   }
 };
 })();
-(node as any).hash = '2792f7d2ba0841368246d56a6bae74ac';
+(node as any).hash = 'eb9f7e5adb48855e8e8c4380e1b96592';
 export default node;

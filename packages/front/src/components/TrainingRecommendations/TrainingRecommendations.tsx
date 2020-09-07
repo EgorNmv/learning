@@ -1,6 +1,6 @@
 import React from "react";
 import { Carousel, Modal, Button, Input, Form, Empty } from "antd";
-import "./TrainingRecomendations.css";
+import "./training-recomendations.css";
 import { UserCard } from "../UserCard/UserCard";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
@@ -88,7 +88,10 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
   return (
     <>
       <div className="training-recomendation-title">
-        <h2>Рекомендации</h2>
+        <div className="training-recomendation-title__recomend-count">
+          <h2>Рекомендации</h2>
+          <span>{acceptedFeedbacksByTrainingId.length} рекомендации</span>
+        </div>
         <Button type="link" onClick={() => setIsVisibleModal(true)}>
           Написать рекомендацию
         </Button>

@@ -25,6 +25,15 @@ export const UploadedPicture: React.FC<UploadedPictureProps> = ({
       />
     );
   } else {
-    return <div style={{ width: 300, height: 300, background: "grey" }} />;
+    return (
+      <div
+        style={
+          className || style
+            ? { ...style }
+            : { width: 300, height: 300, background: "grey" }
+        }
+        className={className}
+      />
+    );
   }
 };

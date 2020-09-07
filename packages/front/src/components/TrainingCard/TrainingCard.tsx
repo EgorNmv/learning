@@ -4,7 +4,6 @@ import "./training-card.css";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 import { Rate } from "antd";
 import RecomendSvg from "../../static/ico/recomend.svg";
-import Icon from "@ant-design/icons";
 
 type TrainingCardProps = {
   training: {

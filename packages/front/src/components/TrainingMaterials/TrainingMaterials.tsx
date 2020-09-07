@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button, Empty, Upload, Spin } from "antd";
-import "./TrainingMaterials.css";
+import "./training-materials.css";
 import { graphql } from "react-relay";
 import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMaterialsMutation } from "./__generated__/TrainingMaterialsMutation.graphql";
@@ -224,9 +224,14 @@ export const TrainingMaterials: React.FC = () => {
   return (
     <>
       <div className="training-material-title">
-        <h2>Материалы</h2>
+        <div className="training-material__material-count">
+          <h2>Материалы</h2>
+          <span>{materials.length} доступно</span>
+        </div>
         <Upload {...fileUploadProps}>
-          <Button>Загрузить материал</Button>
+          <Button type="link" className="training-material__upload-btn">
+            Загрузить материал
+          </Button>
         </Upload>
       </div>
       <Card>
@@ -234,7 +239,6 @@ export const TrainingMaterials: React.FC = () => {
           {materials.map((material: Material) => (
             <span key={material.link + material.materialId}>
               {material.status === "uploading" && <Spin size="small" />}
-
               <a
                 href={
                   material.link

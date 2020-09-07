@@ -1,0 +1,26 @@
+.training-recomendation-title {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+}
+
+.training-recomendation-title h2 {
+  font: normal normal bold 32px/37px Arial;
+}
+
+.training-recomendation-title button span {
+  text-decoration: underline;
+  font: normal normal normal 20px/23px Arial;
+  color: #0088bb;
+}
+
+.training-recomendation-title__recomend-count {
+  display: flex;
+  align-items: baseline;
+}
+
+.training-recomendation-title__recomend-count > span {
+  font: normal normal normal 20px/23px Arial;
+  color: #bbbbbb;
+  margin-left: 30px;
+}

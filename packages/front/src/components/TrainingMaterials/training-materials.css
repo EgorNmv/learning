@@ -1,0 +1,37 @@
+.training-material-body {
+  display: flex;
+  flex-wrap: wrap;
+  font: normal normal normal 24px/31px Stem;
+}
+
+.training-material-body > span {
+  width: 50%;
+  padding: 5px;
+}
+
+.training-material-title {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+}
+
+.training-material-title h2 {
+  font: normal normal bold 32px/37px Arial;
+}
+
+.training-material__material-count {
+  display: flex;
+  align-items: baseline;
+}
+
+.training-material__material-count > span {
+  font: normal normal normal 20px/23px Arial;
+  color: #bbbbbb;
+  margin-left: 30px;
+}
+
+.training-material__upload-btn > span {
+  text-decoration: underline;
+  font: normal normal normal 20px/23px Arial;
+  color: #0088bb;
+}
