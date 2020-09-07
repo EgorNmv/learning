@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "./training-card.css";
 import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 import { Rate } from "antd";
+import RecomendSvg from "../../static/ico/recomend.svg";
+import Icon from "@ant-design/icons";
 
 type TrainingCardProps = {
   training: {
@@ -121,7 +123,12 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
           {placeInCategoryPage && training.listOfRequestsReviewsAndRecomends && (
             <div className="training-rate">
               <div className="training-rate__recomendations">
-                {training.listOfRequestsReviewsAndRecomends[2]}
+                <img
+                  src={RecomendSvg}
+                  alt="Количество рекомендаций: "
+                  className="training-rate__recomendations_icon"
+                />
+                <span>{training.listOfRequestsReviewsAndRecomends[2]}</span>
               </div>
               <div className="training-rate__reviews">
                 <div>

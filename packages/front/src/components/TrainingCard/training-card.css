@@ -31,11 +31,16 @@
   padding: 15px;
   font: normal normal bold 20px/23px Arial;
   text-decoration: underline;
+  text-align: left;
 }
 
 .training-card-in-calendar-desc {
   max-height: 30px;
   overflow: hidden;
+  padding: 0 15px 10px 15px;
+  text-align: left;
+  word-break: break-all;
+  font: normal normal normal 12px/14px Arial;
 }
 
 .no-label {
@@ -128,9 +133,21 @@
 
 .training-rate__recomendations {
   margin-bottom: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
 }
 
 .training-rate__reviews-count {
   margin-top: 15px;
   color: #bbbbbb;
+}
+
+.training-rate__recomendations_icon {
+  margin-right: 15px;
+}
+
+.training-rate__reviews > div:first-child {
+  display: flex;
+  width: max-content;
 }

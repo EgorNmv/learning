@@ -30,3 +30,12 @@ ul.ant-menu.ant-menu-sub.ant-menu-inline li.submenu-item__category {
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
+
+.sider-link-list-menu-submenu ul li {
+  font: normal normal normal 20px/23px Arial !important;
+  padding-bottom: 15px !important;
+}
+
+.sider-link-list-menu-submenu ul li:first-child {
+  padding-top: 15px;
+}

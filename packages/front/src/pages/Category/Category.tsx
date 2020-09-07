@@ -235,10 +235,14 @@ const Category: React.FC = () => {
             <Link to="/categories">Смотреть все</Link>
           </div>
           <div className="category-page-content-calendar__trainings">
-          {comingTrainings.map((training) => (
-            <TrainingCard training={training} placeInCalendar />
+            {comingTrainings.map((training) => (
+              <TrainingCard
+                key={`${training.name}${training.trainingId}`}
+                training={training}
+                placeInCalendar
+              />
             ))}
-            </div>
+          </div>
         </CenteredText>
       </section>
     </div>

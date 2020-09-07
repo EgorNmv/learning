@@ -10,13 +10,14 @@
 
 .category-page-content-calendar {
   margin-left: 2rem;
-  width: 32%;
+  width: 100%;
+  max-width: 541px;
   background: 0% 0% no-repeat padding-box padding-box rgb(255, 255, 255);
   box-shadow: rgb(221, 221, 221) -2px 0px 2px;
   position: relative;
   top: -32px;
   right: -32px;
-  height: calc(100vh - 32px);
+  height: 100%;
 }
 
 .category-page-content-calendar h2 {
