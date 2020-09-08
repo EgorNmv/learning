@@ -13,6 +13,7 @@ import ruRU from "antd/es/locale/ru_RU";
 import { useOktaAuth } from "@okta/okta-react";
 import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
 import { AlertState } from "./hoc/Alert/AlertState";
+import { ErrorBoundary } from "./components/ErrorBoundary/ErrorBoundary";
 
 const Logic = () => {
   const { authState } = useOktaAuth();
@@ -75,7 +76,9 @@ const ComponentWithAccessToHistory = () => {
 const App = () => {
   return (
     <BrowserRouter>
-      <ComponentWithAccessToHistory />
+      <ErrorBoundary>
+        <ComponentWithAccessToHistory />
+      </ErrorBoundary>
     </BrowserRouter>
   );
 };
