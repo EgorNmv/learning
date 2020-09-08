@@ -124,15 +124,22 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           </Form>
         </Modal>
       </div>
-      <Carousel autoplay={acceptedFeedbacksByTrainingId.length > 1}>
-        {acceptedFeedbacksByTrainingId.map((recomendation) => (
-          <UserCard feedback={recomendation} />
-        ))}
-      </Carousel>
-      {acceptedFeedbacksByTrainingId.length === 0 && (
+
+      {acceptedFeedbacksByTrainingId.length === 0 ? (
         <div style={{ margin: "auto" }}>
           <Empty />
         </div>
+      ) : (
+        <Carousel
+          dots={{ className: "custom-dot-for-recomends-slider" }}
+          arrows={true}
+          infinite
+          // lazyLoad="ondemand"
+        >
+          {acceptedFeedbacksByTrainingId.map((recomendation) => (
+            <UserCard feedback={recomendation} />
+          ))}
+        </Carousel>
       )}
     </>
   );

@@ -4,4 +4,35 @@
 
 .user-card-body-user {
   display: flex;
+  height: 100px;
+  width: 270px;
+}
+
+.user-card-body-user > div {
+  height: 100px;
+  width: 270px;
+  font: normal normal normal 20px/23px Arial;
+  color: #333333;
+  padding: 30px 50px 80px 30px;
+}
+
+.user-card__loading {
+  height: 200px;
+}
+
+.user-card-body-user__date {
+  font: normal normal normal 16px/18px Arial;
+  color: #bbbbbb;
+}
+
+.user-card__text {
+  font: normal normal normal 20px/23px Arial;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.user-card__text:hover {
+  overflow: auto;
 }

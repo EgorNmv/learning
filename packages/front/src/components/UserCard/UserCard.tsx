@@ -28,18 +28,18 @@ export const UserCard: React.FC<UserCardProps> = React.memo(
     }, [userId]);
 
     return (
-      <Card loading={!oktaUser}>
+      <Card className="user-card__loading" loading={!oktaUser}>
         <div className="user-card-body">
           <div className="user-card-body-user">
-            <div
+            {/* <div
               style={{
                 width: "2rem",
                 height: "2rem",
                 borderRadius: "50%",
                 background: "grey",
               }}
-            />
-            <div style={{ padding: "0 1rem" }}>
+            /> */}
+            <div>
               {oktaUser && oktaUser.profile && (
                 <p>{`${oktaUser.profile.firstName} ${oktaUser.profile.lastName}`}</p>
               )}
@@ -48,10 +48,10 @@ export const UserCard: React.FC<UserCardProps> = React.memo(
                   <Rate value={rate} disabled />
                 </p>
               )}
-              <p>{date}</p>
+              <p className="user-card-body-user__date">{date}</p>
             </div>
           </div>
-          <div>{text}</div>
+          <div className="user-card__text">{text}</div>
         </div>
       </Card>
     );

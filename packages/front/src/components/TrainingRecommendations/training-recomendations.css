@@ -24,3 +24,64 @@
   color: #bbbbbb;
   margin-left: 30px;
 }
+
+ul.slick-dots.slick-dots-bottom.custom-dot-for-recomends-slider {
+  bottom: -43px;
+}
+
+ul.slick-dots.slick-dots-bottom.custom-dot-for-recomends-slider > li {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #dddddd;
+}
+
+ul.slick-dots.slick-dots-bottom.custom-dot-for-recomends-slider
+  > li.slick-active {
+  background: #7766cc;
+}
+
+ul.slick-dots.slick-dots-bottom.custom-dot-for-recomends-slider > li > button {
+  opacity: 0;
+}
+
+div button.slick-arrow.slick-prev {
+  width: 30px;
+  height: 30px;
+  background: #7766cc 0% 0% no-repeat padding-box !important;
+  border-radius: 35px;
+  position: absolute;
+  z-index: 1;
+  left: -15px;
+}
+
+div button.slick-arrow.slick-prev::before {
+  font-size: 15px;
+  color: #fff;
+  display: block;
+  font-family: revicons;
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  content: "ᐸ";
+}
+
+div button.slick-arrow.slick-next {
+  width: 30px;
+  height: 30px;
+  background: #7766cc 0% 0% no-repeat padding-box !important;
+  border-radius: 35px;
+  position: absolute;
+  right: -15px;
+}
+
+div button.slick-arrow.slick-next::before {
+  font-size: 15px;
+  color: #fff;
+  display: block;
+  font-family: revicons;
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  content: "ᐳ";
+}
