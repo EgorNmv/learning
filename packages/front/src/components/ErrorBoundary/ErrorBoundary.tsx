@@ -1,25 +1,24 @@
-import React from "react";
+import React, { ErrorInfo } from "react";
 
-export class ErrorBoundary extends React.Component<{}, { hasError: boolean }> {
-  constructor(props: any) {
-    super(props);
-    this.state = { hasError: false };
-  }
+export class ErrorBoundary extends React.Component {
+  public state = {
+    hasError: false,
+  };
 
-  static getDerivedStateFromError(error: Error) {
+  public static getDerivedStateFromError(error: Error) {
     // Обновить состояние с тем, чтобы следующий рендер показал запасной UI.
     return { hasError: true };
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Можно также сохранить информацию об ошибке в соответствующую службу журнала ошибок
-    //   logErrorToMyService(error, errorInfo);
+    console.error("ErrorBoundary caught an error", error, errorInfo);
   }
 
-  render() {
+  public render() {
     if (this.state.hasError) {
       // Можно отрендерить запасной UI произвольного вида
-      return <h1>Что-то пошло не так.</h1>;
+      return <h1>Что-то пошло не так))).</h1>;
     }
 
     return this.props.children;
