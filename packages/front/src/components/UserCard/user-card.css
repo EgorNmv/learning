@@ -36,3 +36,7 @@
 .user-card__text:hover {
   overflow: auto;
 }
+
+.user-card__review-card {
+  margin-bottom: 30px;
+}

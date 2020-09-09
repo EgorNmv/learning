@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Spin, Rate } from "antd";
-import "./UserCard.css";
+import "./user-card.css";
 import { useOktaFetchedUser } from "../../utils/utils";
 
 type UserCardProps = {
@@ -10,10 +10,11 @@ type UserCardProps = {
     date: string;
     rate?: number | null;
   };
+  className?: string;
 };
 
 export const UserCard: React.FC<UserCardProps> = React.memo(
-  ({ feedback: { text, date, userId, rate } }) => {
+  ({ feedback: { text, date, userId, rate }, className }) => {
     const [oktaUser, setOktauser] = React.useState<any>(null);
     const getOktaUserBySub = React.useMemo(() => useOktaFetchedUser(userId), [
       userId,
@@ -28,7 +29,10 @@ export const UserCard: React.FC<UserCardProps> = React.memo(
     }, [userId]);
 
     return (
-      <Card className="user-card__loading" loading={!oktaUser}>
+      <Card
+        className={`user-card__loading${className ? ` ${className}` : ""}`}
+        loading={!oktaUser}
+      >
         <div className="user-card-body">
           <div className="user-card-body-user">
             {/* <div

@@ -124,7 +124,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
         </Modal>
       </div>
       {acceptedFeedbacksByTrainingId.map((review) => (
-        <UserCard feedback={review} />
+        <UserCard feedback={review} className="user-card__review-card" />
       ))}
       {acceptedFeedbacksByTrainingId.length <= 0 && (
         <div style={{ margin: "auto" }}>
