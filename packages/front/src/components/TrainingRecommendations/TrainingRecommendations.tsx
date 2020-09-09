@@ -9,6 +9,7 @@ import { TrainingRecommendationsMutation } from "./__generated__/TrainingRecomme
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { formatDate } from "../../utils/utils";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
+import RecomendSvg from "../../static/img/recomendation.svg";
 
 const query = graphql`
   query TrainingRecommendationsQuery(
@@ -96,32 +97,58 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           Написать рекомендацию
         </Button>
         <Modal
-          closable={false}
+          closable={true}
+          closeIcon={
+            <span
+              className="recomend-modal__all__close-ico"
+              onClick={() => setIsVisibleModal(false)}
+            >
+              Закрыть
+            </span>
+          }
           visible={isVisibleModal}
-          footer={[
-            <Button key="back" onClick={() => setIsVisibleModal(false)}>
-              Отмена
-            </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={isInFlight}
-              onClick={sendRecommendation}
-            >
-              Отправить
-            </Button>,
-          ]}
+          footer={null}
+          className="recomend-modal__all"
         >
-          <div />
-          <Form layout={"vertical"} form={form} name="training-create">
-            <Form.Item
-              name="recomendation"
-              label="Рекомендация:"
-              rules={[{ required: true }]}
-            >
-              <Input.TextArea rows={10} />
-            </Form.Item>
-          </Form>
+          <div className="recomend-modal">
+            <div className="recomend-modal__main-part__img">
+              <div className="recomend-modal__main-part__img__text__write-recomend">
+                Написать рекомендацию
+              </div>
+              <img src={RecomendSvg} alt="рекомендация" />
+            </div>
+            <div className="recomend-modal__main-part">
+              <div className="recomend-modal__main-part__form">
+                <Form layout={"vertical"} form={form} name="training-create">
+                  <Form.Item
+                    name="recomendation"
+                    label="Рекомендация:"
+                    rules={[{ required: true }]}
+                  >
+                    <Input.TextArea rows={15} />
+                  </Form.Item>
+                </Form>
+              </div>
+              <div className="recomend-modal__footer">
+                <Button
+                  key="back"
+                  onClick={() => setIsVisibleModal(false)}
+                  className="recomend-modal__footer__cancel-btn"
+                >
+                  Отмена
+                </Button>
+                <Button
+                  key="submit"
+                  type="primary"
+                  loading={isInFlight}
+                  onClick={sendRecommendation}
+                  className="recomend-modal__footer__ok-btn"
+                >
+                  Отправить
+                </Button>
+              </div>
+            </div>
+          </div>
         </Modal>
       </div>
 

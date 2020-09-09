@@ -85,3 +85,11 @@ div button.slick-arrow.slick-next::before {
   position: relative;
   content: "ᐳ";
 }
+
+.recomend-modal__main-part__img__text__write-recomend {
+  height: 73px;
+  width: 240px;
+  text-align: center;
+  font: normal normal bold 32px/37px Arial;
+  color: #ffffff;
+}

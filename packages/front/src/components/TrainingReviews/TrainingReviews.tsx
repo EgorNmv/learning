@@ -8,6 +8,8 @@ import { TrainingReviewsMutation } from "./__generated__/TrainingReviewsMutation
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { formatDate } from "../../utils/utils";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
+import ReviewSvg from "../../static/img/review.svg";
+import "./training-reviews.css";
 
 const query = graphql`
   query TrainingReviewsQuery($trainingId: Float!, $feedbackType: Float!) {
@@ -92,35 +94,66 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
           Написать отзыв
         </Button>
         <Modal
-          closable={false}
+          closable={true}
+          closeIcon={
+            <span
+              className="recomend-modal__all__close-ico"
+              onClick={() => setIsVisibleModal(false)}
+            >
+              Закрыть
+            </span>
+          }
           visible={isVisibleModal}
-          footer={[
-            <Button key="back" onClick={() => setIsVisibleModal(false)}>
-              Отмена
-            </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={isInFlight}
-              onClick={sendReview}
-            >
-              Отправить
-            </Button>,
-          ]}
+          footer={null}
+          className="recomend-modal__all"
         >
-          <div />
-          <Form layout={"vertical"} form={form} name="training-create">
-            <Form.Item name="rate" label="Рейтинг" initialValue={3}>
-              <Rate />
-            </Form.Item>
-            <Form.Item
-              name="review"
-              label="Отзыв:"
-              rules={[{ required: true }]}
-            >
-              <Input.TextArea rows={10} />
-            </Form.Item>
-          </Form>
+          <div className="recomend-modal">
+            <div className="recomend-modal__main-part__img">
+              <div className="recomend-modal__main-part__img__text">
+                Оставить отзыв
+              </div>
+              <img src={ReviewSvg} alt="отзывй" />
+            </div>
+            <div className="recomend-modal__main-part">
+              <div className="recomend-modal__main-part__form">
+                <Form layout={"vertical"} form={form} name="training-create">
+                  <Form.Item
+                    name="rate"
+                    label="Рейтинг:"
+                    initialValue={3}
+                    rules={[{ required: true }]}
+                  >
+                    <Rate />
+                  </Form.Item>
+                  <Form.Item
+                    name="review"
+                    label="Отзыв:"
+                    rules={[{ required: true }]}
+                  >
+                    <Input.TextArea rows={12} />
+                  </Form.Item>
+                </Form>
+              </div>
+              <div className="recomend-modal__footer">
+                <Button
+                  key="back"
+                  onClick={() => setIsVisibleModal(false)}
+                  className="recomend-modal__footer__cancel-btn"
+                >
+                  Отмена
+                </Button>
+                <Button
+                  key="submit"
+                  type="primary"
+                  loading={isInFlight}
+                  onClick={sendReview}
+                  className="recomend-modal__footer__ok-btn"
+                >
+                  Отправить
+                </Button>
+              </div>
+            </div>
+          </div>
         </Modal>
       </div>
       {acceptedFeedbacksByTrainingId.map((review) => (
