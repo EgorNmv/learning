@@ -5,6 +5,7 @@ import { useLazyLoadQuery } from "react-relay/hooks";
 import { UserProfileRequestsQuery } from "./__generated__/UserProfileRequestsQuery.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import "./user-profile-requests.css";
 
 const query = graphql`
   query UserProfileRequestsQuery($userId: String!) {
@@ -58,15 +59,13 @@ const UserProfileRequests: React.FC = () => {
   ];
 
   React.useEffect(() => {
-    setData(requestsBySub);
+    requestsBySub && setData(requestsBySub);
   }, [requestsBySub]);
 
   return (
-    <section>
+    <section className="user-requests">
       <Breadcrumbs />
-      <span>
-        <h1>Мои заявки</h1>
-      </span>
+      <h1>Мои заявки</h1>
       <Card>
         <Table bordered columns={columns} dataSource={data} />
       </Card>
