@@ -18,6 +18,8 @@
 
 .user-card__loading {
   height: 200px;
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
 }
 
 .user-card-body-user__date {

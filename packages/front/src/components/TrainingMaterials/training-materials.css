@@ -35,3 +35,9 @@
   font: normal normal normal 20px/23px Arial;
   color: #0088bb;
 }
+
+.training-material-card {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}

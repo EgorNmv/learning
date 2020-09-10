@@ -234,7 +234,7 @@ export const TrainingMaterials: React.FC = () => {
           </Button>
         </Upload>
       </div>
-      <Card>
+      <Card className="training-material-card">
         <div className="training-material-body">
           {materials.map((material: Material) => (
             <span key={material.link + material.materialId}>

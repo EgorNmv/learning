@@ -93,3 +93,8 @@ div button.slick-arrow.slick-next::before {
   font: normal normal bold 32px/37px Arial;
   color: #ffffff;
 }
+
+div.slick-list {
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}
