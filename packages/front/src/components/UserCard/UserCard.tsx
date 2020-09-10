@@ -20,8 +20,6 @@ export const UserCard: React.FC<UserCardProps> = React.memo(
       userId,
     ]);
 
-    React.useEffect(() => console.info(oktaUser), [oktaUser]);
-
     React.useEffect(() => {
       (async () => {
         setOktauser(await getOktaUserBySub);
