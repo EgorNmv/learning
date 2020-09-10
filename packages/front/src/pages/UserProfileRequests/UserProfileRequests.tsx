@@ -6,6 +6,7 @@ import { UserProfileRequestsQuery } from "./__generated__/UserProfileRequestsQue
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 import "./user-profile-requests.css";
+import { ColumnsType } from "antd/es/table";
 
 const query = graphql`
   query UserProfileRequestsQuery($userId: String!) {
@@ -21,13 +22,23 @@ const query = graphql`
   }
 `;
 
+type Request = {
+  requestId: number;
+  userId: string;
+  date: string;
+  status: string;
+  training: {
+    name: string;
+  };
+};
+
 const UserProfileRequests: React.FC = () => {
-  const [data, setData] = React.useState<any>([]);
+  const [data, setData] = React.useState<Request[]>([]);
   const user = useContext(UserContext);
   const { requestsBySub } = useLazyLoadQuery<UserProfileRequestsQuery>(query, {
     userId: user ? user.sub : "",
   });
-  const columns = [
+  const columns: ColumnsType<Request> = [
     {
       title: "№",
       dataIndex: "requestId",
@@ -35,7 +46,7 @@ const UserProfileRequests: React.FC = () => {
     {
       title: "Событие",
       dataIndex: "training",
-      render: (text: string, record: any) => (
+      render: (text: string, record: Request) => (
         <span>{record.training.name}</span>
       ),
     },
@@ -46,7 +57,7 @@ const UserProfileRequests: React.FC = () => {
     {
       title: "Статус",
       dataIndex: "status",
-      render: (text: string, record: any) => {
+      render: (text: string, record: Request) => {
         if (text == "0") {
           return <span>В обработке</span>;
         } else if (text == "1") {
@@ -59,15 +70,21 @@ const UserProfileRequests: React.FC = () => {
   ];
 
   React.useEffect(() => {
-    requestsBySub && setData(requestsBySub);
+    requestsBySub && setData((requestsBySub as any) as Request[]);
   }, [requestsBySub]);
 
   return (
     <section className="user-requests">
       <Breadcrumbs />
-      <h1>Мои заявки</h1>
+      <h2>Мои заявки</h2>
       <Card>
-        <Table bordered columns={columns} dataSource={data} />
+        <Table
+          bordered
+          columns={columns}
+          dataSource={data}
+          rowKey={"requestId"}
+         
+        />
       </Card>
     </section>
   );
