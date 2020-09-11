@@ -5,6 +5,7 @@ import { UserContext } from "../../hoc/UserContext/UserContext";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { UserProfileReviewsQuery } from "./__generated__/UserProfileReviewsQuery.graphql";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import "./user-profile-reviews.css";
 
 const query = graphql`
   query UserProfileReviewsQuery($userId: String!, $feedbackType: Float!) {
@@ -12,7 +13,11 @@ const query = graphql`
       feedbackId: id
       text
       training {
+        trainindId: id
         name
+        category {
+          categoryId: id
+        }
       }
       status
       rate

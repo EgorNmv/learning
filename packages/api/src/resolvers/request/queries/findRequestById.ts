@@ -9,7 +9,7 @@ export const findRequestById = async (
     .getRepository(RequestEntity)
     .findOne({
       where: { id },
-      relations: ["training"],
+      relations: ["training", "training.organizer", "training.category"],
     });
 
   if (!request) {

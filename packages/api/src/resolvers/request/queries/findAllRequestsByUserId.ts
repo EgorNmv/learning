@@ -10,7 +10,10 @@ export const findAllRequestsByUserId = async (
   }
   const requestsByUserId: RequestEntity[] = await connection
     .getRepository(RequestEntity)
-    .find({ where: { userId }, relations: ["training"] });
+    .find({
+      where: { userId },
+      relations: ["training", "training.organizer", "training.category"],
+    });
 
   return requestsByUserId;
 };

@@ -7,6 +7,8 @@ import { UserContext } from "../../hoc/UserContext/UserContext";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 import "./user-profile-requests.css";
 import { ColumnsType } from "antd/es/table";
+import { SearchOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const query = graphql`
   query UserProfileRequestsQuery($userId: String!) {
@@ -16,7 +18,16 @@ const query = graphql`
       date
       status
       training {
+        trainindId: id
         name
+        organizer {
+          name
+        }
+        start
+        end
+        category {
+          categoryId: id
+        }
       }
     }
   }
@@ -28,7 +39,16 @@ type Request = {
   date: string;
   status: string;
   training: {
+    trainindId: number;
     name: string;
+    organizer: {
+      name: string;
+    };
+    start: string;
+    end: string;
+    category: {
+      categoryId: number;
+    };
   };
 };
 
@@ -42,28 +62,56 @@ const UserProfileRequests: React.FC = () => {
     {
       title: "№",
       dataIndex: "requestId",
+      align: "center",
+      render: (text: string, record: Request, index: number) =>
+        requestsBySub.indexOf(record as any) + 1,
     },
     {
-      title: "Событие",
+      title: (
+        <div className="requests-table__event-col">
+          <span>Событие</span>
+          <SearchOutlined />
+        </div>
+      ),
       dataIndex: "training",
       render: (text: string, record: Request) => (
-        <span>{record.training.name}</span>
+        <div className="requests-table__training-info">
+          <p>
+            <Link
+              to={`/category/${record.training.category.categoryId}/training/${record.training.trainindId}`}
+            >
+              {record.training.name}
+            </Link>
+          </p>
+          <p>
+            <span>Организатор: </span>
+            {record.training.organizer.name}
+          </p>
+          <p>
+            <span>Дата: </span>
+            {record.training.start && record.training.end
+              ? `${record.training.start} - ${record.training.end}`
+              : "Не определена"}
+          </p>
+        </div>
       ),
     },
     {
       title: "Дата подачи",
       dataIndex: "date",
+      align: "center",
     },
     {
       title: "Статус",
+      align: "center",
       dataIndex: "status",
       render: (text: string, record: Request) => {
         if (text == "0") {
-          return <span>В обработке</span>;
+          return <span className="request-status__yellow">В обработке</span>;
         } else if (text == "1") {
-          return <span>Принята</span>;
+          return <span className="request-status__green">Принята</span>;
         } else {
-          return <span>Отклонена</span>;
+          return <span className="request-status__red">Отклонена</span>;
         }
       },
     },
@@ -77,13 +125,43 @@ const UserProfileRequests: React.FC = () => {
     <section className="user-requests">
       <Breadcrumbs />
       <h2>Мои заявки</h2>
-      <Card>
+      <Card className="requests-table__card">
         <Table
+          className="requests-table"
           bordered
           columns={columns}
           dataSource={data}
           rowKey={"requestId"}
-         
+          onHeaderRow={(column) => {
+            return {
+              className: "requests-table__header",
+            };
+          }}
+          pagination={{
+            position: ["bottomCenter"],
+            itemRender: (page, type, originalElement) => {
+              switch (type) {
+                case "page":
+                  return (
+                    <div className="requests-table__footer-page">{page}</div>
+                  );
+                case "prev":
+                  return (
+                    <div className="requests-table__footer-prev-btn">
+                      ᐸ Пред.
+                    </div>
+                  );
+                case "next":
+                  return (
+                    <div className="requests-table__footer-next-btn">
+                      След. ᐳ
+                    </div>
+                  );
+                default:
+                  return originalElement;
+              }
+            },
+          }}
         />
       </Card>
     </section>

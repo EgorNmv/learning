@@ -14,6 +14,7 @@ export const findFeedbacksByUserId = async (
         "training.format",
         "training.organizer",
         "training.audience",
+        "training.category",
       ],
       where: { userId, type: feedbackType },
     });

@@ -11,7 +11,11 @@ export type UserProfileReviewsQueryResponse = {
         readonly feedbackId: number;
         readonly text: string;
         readonly training: {
+            readonly trainindId: number;
             readonly name: string;
+            readonly category: {
+                readonly categoryId: number;
+            };
         };
         readonly status: number | null;
         readonly rate: number | null;
@@ -34,7 +38,11 @@ query UserProfileReviewsQuery(
     feedbackId: id
     text
     training {
+      trainindId: id
       name
+      category {
+        categoryId: id
+      }
     }
     status
     rate
@@ -101,10 +109,35 @@ v1 = [
         "plural": false,
         "selections": [
           {
+            "alias": "trainindId",
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
             "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "CategoryEntity",
+            "kind": "LinkedField",
+            "name": "category",
+            "plural": false,
+            "selections": [
+              {
+                "alias": "categoryId",
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           }
         ],
@@ -156,9 +189,9 @@ return {
     "metadata": {},
     "name": "UserProfileReviewsQuery",
     "operationKind": "query",
-    "text": "query UserProfileReviewsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      name\n    }\n    status\n    rate\n    date\n  }\n}\n"
+    "text": "query UserProfileReviewsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      trainindId: id\n      name\n      category {\n        categoryId: id\n      }\n    }\n    status\n    rate\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '6c7c8270b22df93e245f579f8d9a6005';
+(node as any).hash = '0e817d8d2b2ec116aab23ee7aeeb8f5c';
 export default node;

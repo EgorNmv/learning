@@ -139,7 +139,9 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
                     }
                   />
                   <span style={{ marginLeft: 15 }}>
-                    {training.averageRating || 0}
+                    {training.averageRating
+                      ? Math.round(training.averageRating)
+                      : 0}
                   </span>
                 </div>
                 <div className="training-rate__reviews-count">

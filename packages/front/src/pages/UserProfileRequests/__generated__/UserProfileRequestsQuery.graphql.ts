@@ -12,7 +12,16 @@ export type UserProfileRequestsQueryResponse = {
         readonly date: string;
         readonly status: number | null;
         readonly training: {
+            readonly trainindId: number;
             readonly name: string;
+            readonly organizer: {
+                readonly name: string;
+            };
+            readonly start: string | null;
+            readonly end: string | null;
+            readonly category: {
+                readonly categoryId: number;
+            };
         };
     }>;
 };
@@ -33,7 +42,16 @@ query UserProfileRequestsQuery(
     date
     status
     training {
+      trainindId: id
       name
+      organizer {
+        name
+      }
+      start
+      end
+      category {
+        categoryId: id
+      }
     }
   }
 }
@@ -48,7 +66,14 @@ var v0 = [
     "type": "String!"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -100,10 +125,55 @@ v1 = [
         "plural": false,
         "selections": [
           {
+            "alias": "trainindId",
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          (v1/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "OrganizerEntity",
+            "kind": "LinkedField",
+            "name": "organizer",
+            "plural": false,
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "name",
+            "name": "start",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "end",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "CategoryEntity",
+            "kind": "LinkedField",
+            "name": "category",
+            "plural": false,
+            "selections": [
+              {
+                "alias": "categoryId",
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           }
         ],
@@ -119,7 +189,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "UserProfileRequestsQuery",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -127,16 +197,16 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UserProfileRequestsQuery",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "UserProfileRequestsQuery",
     "operationKind": "query",
-    "text": "query UserProfileRequestsQuery(\n  $userId: String!\n) {\n  requestsBySub(userId: $userId) {\n    requestId: id\n    userId\n    date\n    status\n    training {\n      name\n    }\n  }\n}\n"
+    "text": "query UserProfileRequestsQuery(\n  $userId: String!\n) {\n  requestsBySub(userId: $userId) {\n    requestId: id\n    userId\n    date\n    status\n    training {\n      trainindId: id\n      name\n      organizer {\n        name\n      }\n      start\n      end\n      category {\n        categoryId: id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '86891af354b7ce7add38732f82dfd5a0';
+(node as any).hash = '6f4312c771ef82365c846896b5aaee65';
 export default node;
