@@ -11,9 +11,14 @@ export type UserProfileRecomendationsQueryResponse = {
         readonly feedbackId: number;
         readonly text: string;
         readonly training: {
+            readonly trainingId: number;
             readonly name: string;
+            readonly category: {
+                readonly categoryId: number;
+            };
         };
         readonly status: number | null;
+        readonly date: string;
     }>;
 };
 export type UserProfileRecomendationsQuery = {
@@ -32,9 +37,14 @@ query UserProfileRecomendationsQuery(
     feedbackId: id
     text
     training {
+      trainingId: id
       name
+      category {
+        categoryId: id
+      }
     }
     status
+    date
   }
 }
 */
@@ -97,10 +107,35 @@ v1 = [
         "plural": false,
         "selections": [
           {
+            "alias": "trainingId",
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
             "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "CategoryEntity",
+            "kind": "LinkedField",
+            "name": "category",
+            "plural": false,
+            "selections": [
+              {
+                "alias": "categoryId",
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           }
         ],
@@ -111,6 +146,13 @@ v1 = [
         "args": null,
         "kind": "ScalarField",
         "name": "status",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "date",
         "storageKey": null
       }
     ],
@@ -138,9 +180,9 @@ return {
     "metadata": {},
     "name": "UserProfileRecomendationsQuery",
     "operationKind": "query",
-    "text": "query UserProfileRecomendationsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      name\n    }\n    status\n  }\n}\n"
+    "text": "query UserProfileRecomendationsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      trainingId: id\n      name\n      category {\n        categoryId: id\n      }\n    }\n    status\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'd6c0adb76ef95dd80ab0421bacd804cd';
+(node as any).hash = '2d9d7b69f3e723de0231d1afcd6ef957';
 export default node;

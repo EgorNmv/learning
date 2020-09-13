@@ -1,33 +1,33 @@
-.user-reviews h2 {
+.user-recomends h2 {
   margin: 30px 0;
   font: normal normal bold 32px/37px Arial;
   color: #333333;
 }
 
-.reviews-table__event-col {
+.recomends-table__event-col {
   display: flex;
   justify-content: space-between;
 }
 
-.reviews-table__training-info {
+.recomends-table__training-info {
   padding: 30px;
 }
 
-.reviews-table__training-info > p > span {
+.recomends-table__training-info > p > span {
   font-weight: bold;
 }
 
-.reviews-table__training-info > p:not(:first-child) {
+.recomends-table__training-info > p:not(:first-child) {
   font: normal normal normal 16px/18px Arial;
 }
 
-.reviews-table__training-info > p > a {
+.recomends-table__training-info > p > a {
   color: #0088bb;
   text-decoration: underline;
   font-weight: bold;
 }
 
-.reviews-table__header > th.ant-table-cell {
+.recomends-table__header > th.ant-table-cell {
   background: #443377 0% 0% no-repeat padding-box;
   font: normal normal bold 20px/23px Arial;
   color: #ffffff;
@@ -35,44 +35,44 @@
   height: 80px;
 }
 
-.reviews-table tr td {
+.recomends-table tr td {
   font: normal normal normal 20px/23px Arial;
 }
 
-.reviews-table__header > th.ant-table-cell:first-child {
+.recomends-table__header > th.ant-table-cell:first-child {
   border-top-left-radius: 5px !important;
 }
 
-.reviews-table__header > th.ant-table-cell:last-child {
+.recomends-table__header > th.ant-table-cell:last-child {
   border-top-right-radius: 5px !important;
 }
 
-.reviews-table__card {
+.recomends-table__card {
   box-shadow: 2px 2px 4px #dddddd;
   border-radius: 15px;
 }
 
-.review-status__yellow {
+.recomend-status__yellow {
   color: #ffbb44;
 }
 
-.review-status__green {
+.recomend-status__green {
   color: #70aa70;
 }
 
-.review-status__red {
+.recomend-status__red {
   color: #ee1133;
 }
 
-.reviews-table__footer-prev-btn,
-.reviews-table__footer-next-btn {
+.recomends-table__footer-prev-btn,
+.recomends-table__footer-next-btn {
   font: normal normal normal 20px/26px Stem;
   color: #bbbbbb;
   text-align: center;
   margin: 0 30px;
 }
 
-.reviews-table__footer-page {
+.recomends-table__footer-page {
   background: #7766cc25 0% 0% no-repeat padding-box;
   font: normal normal normal 20px/26px Stem;
   width: 40px;
@@ -89,7 +89,7 @@ li.ant-pagination-item {
   border-radius: 5px;
 }
 
-li.ant-pagination-item-active > .reviews-table__footer-page {
+li.ant-pagination-item-active > .recomends-table__footer-page {
   background: #443377 0% 0% no-repeat padding-box;
   color: #ffffff;
   opacity: 1;

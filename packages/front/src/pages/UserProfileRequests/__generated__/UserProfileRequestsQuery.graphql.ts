@@ -12,7 +12,7 @@ export type UserProfileRequestsQueryResponse = {
         readonly date: string;
         readonly status: number | null;
         readonly training: {
-            readonly trainindId: number;
+            readonly trainingId: number;
             readonly name: string;
             readonly organizer: {
                 readonly name: string;
@@ -42,7 +42,7 @@ query UserProfileRequestsQuery(
     date
     status
     training {
-      trainindId: id
+      trainingId: id
       name
       organizer {
         name
@@ -125,7 +125,7 @@ v2 = [
         "plural": false,
         "selections": [
           {
-            "alias": "trainindId",
+            "alias": "trainingId",
             "args": null,
             "kind": "ScalarField",
             "name": "id",
@@ -204,9 +204,9 @@ return {
     "metadata": {},
     "name": "UserProfileRequestsQuery",
     "operationKind": "query",
-    "text": "query UserProfileRequestsQuery(\n  $userId: String!\n) {\n  requestsBySub(userId: $userId) {\n    requestId: id\n    userId\n    date\n    status\n    training {\n      trainindId: id\n      name\n      organizer {\n        name\n      }\n      start\n      end\n      category {\n        categoryId: id\n      }\n    }\n  }\n}\n"
+    "text": "query UserProfileRequestsQuery(\n  $userId: String!\n) {\n  requestsBySub(userId: $userId) {\n    requestId: id\n    userId\n    date\n    status\n    training {\n      trainingId: id\n      name\n      organizer {\n        name\n      }\n      start\n      end\n      category {\n        categoryId: id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '6f4312c771ef82365c846896b5aaee65';
+(node as any).hash = 'd04fe086b917f029f741ade9efe478bf';
 export default node;

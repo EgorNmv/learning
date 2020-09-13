@@ -2,13 +2,17 @@ import React, { useContext } from "react";
 import { Table, Card } from "antd";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
-import { UserProfileRequestsQuery } from "./__generated__/UserProfileRequestsQuery.graphql";
+import {
+  UserProfileRequestsQuery,
+  UserProfileRequestsQueryResponse,
+} from "./__generated__/UserProfileRequestsQuery.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 import "./user-profile-requests.css";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { UserProfileEventsQueryResponse } from "../UserProfileEvents/__generated__/UserProfileEventsQuery.graphql";
 
 const query = graphql`
   query UserProfileRequestsQuery($userId: String!) {
@@ -18,7 +22,7 @@ const query = graphql`
       date
       status
       training {
-        trainindId: id
+        trainingId: id
         name
         organizer {
           name
@@ -33,24 +37,7 @@ const query = graphql`
   }
 `;
 
-type Request = {
-  requestId: number;
-  userId: string;
-  date: string;
-  status: string;
-  training: {
-    trainindId: number;
-    name: string;
-    organizer: {
-      name: string;
-    };
-    start: string;
-    end: string;
-    category: {
-      categoryId: number;
-    };
-  };
-};
+type Request = UserProfileRequestsQueryResponse["requestsBySub"][number];
 
 const UserProfileRequests: React.FC = () => {
   const [data, setData] = React.useState<Request[]>([]);
@@ -63,8 +50,7 @@ const UserProfileRequests: React.FC = () => {
       title: "№",
       dataIndex: "requestId",
       align: "center",
-      render: (text: string, record: Request, index: number) =>
-        requestsBySub.indexOf(record as any) + 1,
+      render: (text, record) => requestsBySub.indexOf(record) + 1,
     },
     {
       title: (
@@ -74,11 +60,11 @@ const UserProfileRequests: React.FC = () => {
         </div>
       ),
       dataIndex: "training",
-      render: (text: string, record: Request) => (
+      render: (text, record) => (
         <div className="requests-table__training-info">
           <p>
             <Link
-              to={`/category/${record.training.category.categoryId}/training/${record.training.trainindId}`}
+              to={`/category/${record.training.category.categoryId}/training/${record.training.trainingId}`}
             >
               {record.training.name}
             </Link>
@@ -105,10 +91,10 @@ const UserProfileRequests: React.FC = () => {
       title: "Статус",
       align: "center",
       dataIndex: "status",
-      render: (text: string, record: Request) => {
-        if (text == "0") {
+      render: (text, record) => {
+        if (text === 0) {
           return <span className="request-status__yellow">В обработке</span>;
-        } else if (text == "1") {
+        } else if (text === 1) {
           return <span className="request-status__green">Принята</span>;
         } else {
           return <span className="request-status__red">Отклонена</span>;
@@ -118,7 +104,7 @@ const UserProfileRequests: React.FC = () => {
   ];
 
   React.useEffect(() => {
-    requestsBySub && setData((requestsBySub as any) as Request[]);
+    setData(requestsBySub as Request[]);
   }, [requestsBySub]);
 
   return (

@@ -11,7 +11,7 @@ export type UserProfileReviewsQueryResponse = {
         readonly feedbackId: number;
         readonly text: string;
         readonly training: {
-            readonly trainindId: number;
+            readonly trainingId: number;
             readonly name: string;
             readonly category: {
                 readonly categoryId: number;
@@ -38,7 +38,7 @@ query UserProfileReviewsQuery(
     feedbackId: id
     text
     training {
-      trainindId: id
+      trainingId: id
       name
       category {
         categoryId: id
@@ -109,7 +109,7 @@ v1 = [
         "plural": false,
         "selections": [
           {
-            "alias": "trainindId",
+            "alias": "trainingId",
             "args": null,
             "kind": "ScalarField",
             "name": "id",
@@ -189,9 +189,9 @@ return {
     "metadata": {},
     "name": "UserProfileReviewsQuery",
     "operationKind": "query",
-    "text": "query UserProfileReviewsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      trainindId: id\n      name\n      category {\n        categoryId: id\n      }\n    }\n    status\n    rate\n    date\n  }\n}\n"
+    "text": "query UserProfileReviewsQuery(\n  $userId: String!\n  $feedbackType: Float!\n) {\n  feedbacksByUserId(userId: $userId, feedbackType: $feedbackType) {\n    feedbackId: id\n    text\n    training {\n      trainingId: id\n      name\n      category {\n        categoryId: id\n      }\n    }\n    status\n    rate\n    date\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '0e817d8d2b2ec116aab23ee7aeeb8f5c';
+(node as any).hash = '867f4ae1a1201cbcd5f8a4ba99af66cf';
 export default node;
