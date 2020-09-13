@@ -12,7 +12,6 @@ import "./user-profile-requests.css";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { UserProfileEventsQueryResponse } from "../UserProfileEvents/__generated__/UserProfileEventsQuery.graphql";
 
 const query = graphql`
   query UserProfileRequestsQuery($userId: String!) {

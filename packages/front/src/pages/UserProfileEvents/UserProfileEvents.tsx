@@ -1,16 +1,24 @@
 import React from "react";
 import { Table, Card, Button } from "antd";
 import { Link } from "react-router-dom";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
-import { UserProfileEventsQuery } from "./__generated__/UserProfileEventsQuery.graphql";
-import { Event } from "../../utils/types";
+import {
+  UserProfileEventsQuery,
+  UserProfileEventsQueryResponse,
+} from "./__generated__/UserProfileEventsQuery.graphql";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Modal } from "../../components/Modal/Modal";
 import { UserProfileEventsMutation } from "./__generated__/UserProfileEventsMutation.graphql";
 import { ModalWithSteps } from "../../components/ModalWithSteps/ModalWithSteps";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import "./user-profile-events.css";
+import { ColumnsType } from "antd/es/table";
 
 const query = graphql`
   query UserProfileEventsQuery {
@@ -31,6 +39,8 @@ const mutation = graphql`
   }
 `;
 
+type Training = UserProfileEventsQueryResponse["trainings"][number];
+
 const UserProfileEvents: React.FC = () => {
   const { trainings } = useLazyLoadQuery<UserProfileEventsQuery>(
     query,
@@ -38,7 +48,7 @@ const UserProfileEvents: React.FC = () => {
     { fetchPolicy: "store-and-network" }
   );
   const [commit, isInFlight] = useMutation<UserProfileEventsMutation>(mutation);
-  const [data, setData] = React.useState<Event[]>([]);
+  const [data, setData] = React.useState<Training[]>([]);
   const { showAlert } = React.useContext(AlertContext);
   const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
   const [deletingTraining, setDeletingTraining] = React.useState<{
@@ -49,48 +59,63 @@ const UserProfileEvents: React.FC = () => {
     boolean
   >(false);
 
-  const columns = [
+  const columns: ColumnsType<Training> = [
     {
       title: "№",
-      dataIndex: "id",
-      width: "4rem",
+      dataIndex: "trainingId",
+      width: "5rem",
+      align: "center",
+      render: (text, record) => data.indexOf(record) + 1,
     },
     {
-      title: "Название",
+      title: (
+        <div className="events-table__event-col">
+          <span>Название</span>
+          <SearchOutlined />
+        </div>
+      ),
       dataIndex: "name",
-      width: "15rem",
       ellipsis: true,
+      render: (text, record) => (
+        <span className="events-table__event-col__data">{text}</span>
+      ),
     },
     {
       title: "Даты",
       dataIndex: "start",
-      render: (text: string, record: Event) =>
-        record.isDateSet ? (
-          <span>{`${text} - ${record.end}`}</span>
-        ) : (
-          <span>Дата не определена</span>
-        ),
+      align: "center",
+      render: (text, record) => (
+        <span>
+          {record.isDateSet ? `${text} - ${record.end}` : "Дата не определена"}
+        </span>
+      ),
     },
     {
       title: "Заявки / Отзывы / Рекомендации",
       dataIndex: "listOfRequestsReviewsAndRecomends",
-      width: "20rem",
-      render: (text: string, record: Event) => (
-        <span>{record.listOfRequestsReviewsAndRecomends.join("/")}</span>
+      align: "center",
+      render: (text, record) => (
+        <span>
+          {record.listOfRequestsReviewsAndRecomends
+            ? text.join("/")
+            : "Не опеределено"}
+        </span>
       ),
     },
     {
       title: "Действия",
-      dataIndex: "actions",
-      render: (text: string, record: Event) => (
+      dataIndex: "end", // потому что нужен уникальный key(dataIndex в данном случае)
+      align: "center",
+      width: "10rem",
+      render: (text, record) => (
         <>
-          <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
+          <span className="events-table__edit-btn">
             <Link to={`/profile/trainings/edit/${record.trainingId}`}>
               <EditOutlined />
             </Link>
           </span>
-          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
-            <span
+          <span className="events-table__delete-btn">
+            <DeleteOutlined
               onClick={() => {
                 setDeletingTraining({
                   trainingId: record.trainingId,
@@ -98,28 +123,23 @@ const UserProfileEvents: React.FC = () => {
                 });
                 setIsModalVisible(true);
               }}
-            >
-              <DeleteOutlined />
-            </span>
+            />
           </span>
         </>
       ),
     },
   ];
 
-  const deleteCategory = (): void => {
+  const deleteTraining = (): void => {
     if (deletingTraining) {
       commit({
         variables: { id: deletingTraining.trainingId },
         onCompleted: () => {
           showAlert(`Событие ${deletingTraining.name} успешно удалено`);
           setData((prev) =>
-            prev
-              .filter(
-                (training) =>
-                  training.trainingId !== deletingTraining.trainingId
-              )
-              .map((training, index) => ({ ...training, id: index + 1 }))
+            prev.filter(
+              (training) => training.trainingId !== deletingTraining.trainingId
+            )
           );
           setIsModalVisible(false);
         },
@@ -133,12 +153,7 @@ const UserProfileEvents: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(
-      trainings.map((training, index) => ({
-        ...training,
-        id: index + 1,
-      })) as Event[]
-    );
+    setData(trainings as Training[]);
   }, [trainings]);
 
   return (
@@ -150,27 +165,61 @@ const UserProfileEvents: React.FC = () => {
         deletingObjectType="training"
         isLoading={isInFlight}
         onCancel={() => setIsModalVisible(false)}
-        onOk={() => deleteCategory()}
+        onOk={() => deleteTraining()}
       />
       <ModalWithSteps
         isOpen={isReportModalVisible}
         onClose={() => setIsReportModalVisible(false)}
       />
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
-          <h1>События</h1>
+      <div className="user-events-title">
+        <div className="user-events-title__text">
+          <h2>События</h2>
         </div>
         <div>
-          <Button onClick={() => setIsReportModalVisible(true)}>
+          <Button
+            className="user-events__report-btn"
+            onClick={() => setIsReportModalVisible(true)}
+          >
             Выгрузить в XLS
           </Button>
-          <Button type="primary">
+          <Button className="user-events__create-btn" type="primary">
             <Link to="/profile/trainings/create">Создать событие</Link>
           </Button>
         </div>
       </div>
-      <Card>
-        <Table bordered columns={columns} dataSource={data} />
+      <Card className="events-table__card">
+        <Table<Training>
+          className="events-table"
+          bordered
+          columns={columns}
+          dataSource={data}
+          onHeaderRow={(column) => {
+            return {
+              className: "events-table__header",
+            };
+          }}
+          pagination={{
+            position: ["bottomCenter"],
+            itemRender: (page, type, originalElement) => {
+              switch (type) {
+                case "page":
+                  return (
+                    <div className="events-table__footer-page">{page}</div>
+                  );
+                case "prev":
+                  return (
+                    <div className="events-table__footer-prev-btn">ᐸ Пред.</div>
+                  );
+                case "next":
+                  return (
+                    <div className="events-table__footer-next-btn">След. ᐳ</div>
+                  );
+                default:
+                  return originalElement;
+              }
+            },
+          }}
+        />
       </Card>
     </section>
   );
