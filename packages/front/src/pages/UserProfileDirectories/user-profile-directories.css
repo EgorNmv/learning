@@ -1,0 +1,39 @@
+.directories-table__link {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.directories-table__row {
+    height: 80px;
+}
+
+.user-directories h2 {
+  margin: 30px 0;
+  font: normal normal bold 32px/37px Arial;
+  color: #333333;
+}
+
+.directories-table__header > th.ant-table-cell {
+  background: #443377 0% 0% no-repeat padding-box;
+  font: normal normal bold 20px/23px Arial;
+  color: #ffffff;
+  border-right: 1px solid #7766cc !important;
+  height: 80px;
+}
+
+.directories-table tr td {
+  font: normal normal normal 20px/23px Arial;
+}
+
+.directories-table__header > th.ant-table-cell:first-child {
+  border-top-left-radius: 5px !important;
+}
+
+.directories-table__header > th.ant-table-cell:last-child {
+  border-top-right-radius: 5px !important;
+}
+
+.directories-table__card {
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}
