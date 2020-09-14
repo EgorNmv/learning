@@ -7,6 +7,7 @@ import {
   InputNumber,
   DatePicker,
   Checkbox,
+  Upload,
 } from "antd";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
@@ -15,13 +16,14 @@ import { useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingFormQuery } from "./__generated__/TrainingFormQuery.graphql";
 import { InputTraining } from "../../pages/TrainingCreate/__generated__/TrainingCreateMutation.graphql";
 import { TrainingFormValues } from "../../utils/types";
-import { useFileUpload } from "../../utils/utils";
-import { UploadedPicture } from "../UploadedPicture/UploadedPicture";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/ru";
 import "./training-form.css";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
+import { useOktaAuth } from "@okta/okta-react";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { UploadChangeParam, UploadFile } from "antd/es/upload/interface";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -60,12 +62,13 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     TrainingFormQuery
   >(query, {});
-  const [isLoadingFile, sendFile] = useFileUpload<{ filename: string }>();
-  const [response, setResponse] = useState<{ filename: string }>();
+  const [response, setResponse] = useState<string | null>(null);
   const { showAlert } = React.useContext(AlertContext);
   const [isDatePickerDisabled, setIsDatePickerDisables] = React.useState<
     boolean
   >(false);
+  const [isFileLoading, setIsFileLoading] = React.useState<boolean>(false);
+  const { authState } = useOktaAuth();
 
   const onFinishHandler = ({
     name,
@@ -86,7 +89,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         end: !isDateSet ? startAndEndDates[1].format("DD.MM.YYYY") : null,
         description: description.trim(),
         formatId: trainingFormat,
-        label: response?.filename,
+        label: response,
         name: name.trim(),
         organizerId: organizer,
         site: site && site.trim(),
@@ -102,15 +105,6 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         `Название события "${name.trim()}" содержит менее трёх символов`,
         "error"
       );
-    }
-  };
-
-  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    let file: File;
-
-    if (event.target.files) {
-      file = event.target.files[0];
-      setResponse(await sendFile(file, "training"));
     }
   };
 
@@ -279,28 +273,54 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         </div>
         <div style={{ padding: "0 1rem" }}>
           <Form.Item name="label" label="Загрузите фотографию:">
-            <UploadedPicture
-              style={{
-                width: "100%",
-                height: "100%",
-                maxHeight: "20rem",
-                maxWidth: "20rem",
-              }}
-              filename={response?.filename || formValues?.label || null}
-              imgType="training"
-            />
-            <input
-              disabled={isLoadingFile}
-              type="file"
+            <Upload
               id="file"
-              onChange={uploadFile}
-            />
+              name="file"
+              data={{ type: 1 }}
+              listType="picture-card"
+              showUploadList={false}
+              onChange={(
+                info: UploadChangeParam<
+                  UploadFile<{ filename: string; originName: string }>
+                >
+              ): void => {
+                if (info.file.status === "uploading") {
+                  setIsFileLoading(true);
+                  return;
+                }
+                if (info.file.status === "done" && info.file.response) {
+                  setIsFileLoading(false);
+                  setResponse(info.file.response?.filename);
+                }
+              }}
+              action={`${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/file/upload`}
+              headers={{
+                Accept: "application/json",
+                Authorization: `Bearer ${authState.accessToken}`,
+              }}
+            >
+              {response || formValues?.label ? (
+                <img
+                  src={`${
+                    process.env.REACT_APP_SERVER_HOST_WITH_PORT
+                  }/training/${response ? response : formValues?.label}`}
+                  alt="Изображение события"
+                  style={{ width: "100%" }}
+                />
+              ) : (
+                <div>
+                  {isFileLoading ? <LoadingOutlined /> : <PlusOutlined />}
+                </div>
+              )}
+            </Upload>
+            {isFileLoading && (response || formValues?.label) && (
+              <div>
+                <LoadingOutlined /> Загрузка изображения
+              </div>
+            )}
           </Form.Item>
         </div>
       </div>
-      {/* <Form.Item name="tags" label="Теги:">
-        <Input />
-      </Form.Item> */}
       <Form.Item
         name="description"
         label="Описание:"
@@ -323,7 +343,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 type="primary"
                 htmlType="submit"
                 disabled={
-                  isLoadingFile ||
+                  isFileLoading ||
                   !form.isFieldTouched("name") ||
                   !form.isFieldTouched("description") ||
                   form.getFieldsError().filter(({ errors }) => errors.length)
