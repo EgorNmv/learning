@@ -14,8 +14,17 @@ const query = graphql`
       description
       start
       end
+      isDateSet
       organizer {
         name
+      }
+      listOfRequestsReviewsAndRecomends
+      averageRating
+      format {
+        description
+      }
+      category {
+        description
       }
     }
   }
