@@ -132,9 +132,10 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
       form={form}
       name="training-create"
       onFinish={onFinishHandler}
+      className="training-form"
     >
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ flex: 1 }}>
+      <div className="training-form__main-part">
+        <div className="training-form__main-part__text">
           <Form.Item
             name="name"
             label="Название:"
@@ -154,8 +155,8 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
           >
             <Input />
           </Form.Item>
-          <div style={{ display: "flex" }}>
-            <div style={{ flex: 1, marginRight: "1rem" }}>
+          <div className="training-form__main-part__text__flex">
+            <div className="training-form__main-part__text__flex-main">
               <Form.Item
                 name="category"
                 label="Категория:"
@@ -183,7 +184,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 </Select>
               </Form.Item>
               <div className="training-form__startAndEndDates-and-countOfSeats">
-                <div>
+                <div className="training-form__startAndEndDates-and-countOfSeats__dates">
                   <Form.Item
                     name="startAndEndDates"
                     label="Даты проведения:"
@@ -226,7 +227,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 </Form.Item>
               </div>
             </div>
-            <div style={{ flex: 1 }}>
+            <div className="training-form__main-part__text">
               <Form.Item
                 name="trainingFormat"
                 label="Формат обучения:"
@@ -271,9 +272,10 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
             </div>
           </div>
         </div>
-        <div style={{ padding: "0 1rem" }}>
+        <div className="training-form__main-part__photo">
           <Form.Item name="label" label="Загрузите фотографию:">
             <Upload
+              className="training-form__upload"
               id="file"
               name="file"
               data={{ type: 1 }}
@@ -301,11 +303,11 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
             >
               {response || formValues?.label ? (
                 <img
+                  className="trainin-form__upload-img"
                   src={`${
                     process.env.REACT_APP_SERVER_HOST_WITH_PORT
                   }/training/${response ? response : formValues?.label}`}
                   alt="Изображение события"
-                  style={{ width: "100%" }}
                 />
               ) : (
                 <div>
@@ -314,9 +316,9 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
               )}
             </Upload>
             {isFileLoading && (response || formValues?.label) && (
-              <div>
+              <CenteredText>
                 <LoadingOutlined /> Загрузка изображения
-              </div>
+              </CenteredText>
             )}
           </Form.Item>
         </div>
@@ -333,6 +335,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
           {() => (
             <>
               <Button
+                className="training-form__cancel-btn"
                 htmlType="button"
                 style={{ marginRight: "1rem" }}
                 onClick={() => history.goBack()}
@@ -340,6 +343,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 Отмена
               </Button>
               <Button
+                className="training-form__create-btn"
                 type="primary"
                 htmlType="submit"
                 disabled={

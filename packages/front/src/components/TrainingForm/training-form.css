@@ -3,6 +3,83 @@
   justify-content: space-between;
 }
 
+.training-form__startAndEndDates-and-countOfSeats__dates {
+  margin-right: 30px;
+}
+
 .training-form__input-number div.ant-input-number {
   width: 100%;
+}
+
+.training-form label,
+input:placeholder-shown,
+div.ant-select-item-option-content {
+  font: normal normal normal 20px/23px Arial;
+}
+
+div.ant-select-selector,
+div.ant-input-number,
+div.ant-picker.ant-picker-range,
+.training-form textarea,
+.training-form input {
+  border-radius: 5px !important;
+}
+
+.training-form div.ant-select-selector,
+.training-form input,
+.training-form
+  div.ant-select-item.ant-select-item-option.ant-select-item-option-active {
+  height: 40px !important;
+}
+
+.training-form__main-part {
+  display: flex;
+  justify-content: space-between;
+}
+
+.training-form__main-part__text {
+  flex: 1;
+}
+
+.training-form__main-part__text__flex {
+  display: flex;
+}
+
+.training-form__main-part__text__flex-main {
+  flex: 1;
+  margin-right: 30px;
+}
+
+.training-form__main-part__photo {
+  padding: 0 1rem;
+}
+
+.training-form__cancel-btn {
+  width: 167px;
+  height: 52px;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  color: #bbbbbb;
+  font: normal normal normal 20px/23px Arial;
+}
+
+.training-form__create-btn {
+  width: 167px;
+  height: 52px;
+  border-radius: 5px;
+  color: #ffffff;
+  font: normal normal normal 20px/23px Arial;
+  background: #0088bb 0% 0% no-repeat padding-box;
+}
+
+.training-form__upload
+  > div.ant-upload.ant-upload-select.ant-upload-select-picture-card {
+  width: 386px;
+  height: 386px;
+  border-radius: 15px;
+}
+
+.trainin-form__upload-img {
+  max-width: 386px;
+  max-height: 386px;
 }
