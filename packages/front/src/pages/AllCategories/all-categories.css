@@ -1,0 +1,9 @@
+.all-categories-page h2 {
+  margin: 30px 0;
+  font: normal normal bold 32px/37px Arial;
+  color: #333333;
+}
+
+.all-categories-page .training-card {
+  margin-bottom: 30px;
+}
