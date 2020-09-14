@@ -10,6 +10,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import "./training-create.css";
 
 const mutation = graphql`
   mutation TrainingCreateMutation($data: InputTraining!) {
@@ -61,10 +62,10 @@ const TrainingCreate: React.FC = () => {
 
   return (
     <>
-      <section>
+      <section className="training-create-page">
         <Breadcrumbs />
-        <h1>Создание события</h1>
-        <Card loading={isInFlight}>
+        <h2>Создание события</h2>
+        <Card loading={isInFlight} className="training-create-page__card">
           <TrainingForm onFinish={sendForm} />
         </Card>
       </section>
