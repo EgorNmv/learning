@@ -1,0 +1,64 @@
+.organizers-form label,
+input:placeholder-shown,
+div.ant-select-item-option-content {
+  font: normal normal normal 20px/23px Arial;
+}
+
+div.ant-select-selector,
+div.ant-input-number,
+div.ant-picker.ant-picker-range,
+.organizers-form textarea,
+.organizers-form input {
+  border-radius: 5px !important;
+}
+
+.organizers-form div.ant-select-selector,
+.organizers-form input,
+.organizers-form
+  div.ant-select-item.ant-select-item-option.ant-select-item-option-active {
+  height: 40px !important;
+}
+
+.organizers-form__flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.organizers-form__flex-auto {
+  flex: auto;
+}
+
+.organizers-form__flex-auto-padding {
+  flex: auto;
+  padding: 0 1rem;
+}
+
+.organizers-form__cancel-btn {
+  width: 167px;
+  height: 52px;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  color: #bbbbbb;
+  font: normal normal normal 20px/23px Arial;
+  margin-right: 30px;
+}
+
+.organizers-form__edit-btn {
+  width: 167px;
+  height: 52px;
+  border-radius: 5px;
+  color: #ffffff;
+  font: normal normal normal 20px/23px Arial;
+  background: #0088bb 0% 0% no-repeat padding-box;
+}
+
+.organizers-edit-page h2 {
+  margin: 30px 0;
+  font: normal normal bold 32px/37px Arial;
+  color: #333333;
+}
+
+.organizers-edit-page__card {
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}

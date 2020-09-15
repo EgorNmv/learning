@@ -50,6 +50,7 @@ const Categories: React.FC = () => {
       title: "№",
       dataIndex: "categoryId",
       align: "center",
+      width: "5rem",
       render: (text, record) => data.indexOf(record) + 1,
     },
     {
@@ -68,6 +69,7 @@ const Categories: React.FC = () => {
       title: "Действия",
       align: "center",
       dataIndex: "actions",
+      width: "10rem",
       render: (text, record) => (
         <div className="td-cell__category-actions">
           <span className="categories-table__edit-btn">
@@ -155,7 +157,6 @@ const Categories: React.FC = () => {
           bordered
           columns={columns}
           dataSource={data}
-          pagination={false}
           rowKey={(record): string =>
             `${record.categoryId}${record.description}`
           }
@@ -163,6 +164,33 @@ const Categories: React.FC = () => {
             return {
               className: "dic-categories-table__header",
             };
+          }}
+          pagination={{
+            position: ["bottomCenter"],
+            itemRender: (page, type, originalElement) => {
+              switch (type) {
+                case "page":
+                  return (
+                    <div className="dic-categories-table__footer-page">
+                      {page}
+                    </div>
+                  );
+                case "prev":
+                  return (
+                    <div className="dic-categories-table__footer-prev-btn">
+                      ᐸ Пред.
+                    </div>
+                  );
+                case "next":
+                  return (
+                    <div className="dic-categories-table__footer-next-btn">
+                      След. ᐳ
+                    </div>
+                  );
+                default:
+                  return originalElement;
+              }
+            },
           }}
         />
       </Card>

@@ -8,6 +8,7 @@ import { OrganizersEditQuery } from "./__generated__/OrganizersEditQuery.graphql
 import { OrganizersEditMutation } from "./__generated__/OrganizersEditMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import "./organizers-edit.css";
 
 const query = graphql`
   query OrganizersEditQuery($organizerId: Float!) {
@@ -93,15 +94,16 @@ const OrganizersEdit: React.FC = () => {
   );
 
   return (
-    <section>
+    <section className="organizers-edit-page">
       <Breadcrumbs />
-      <Card>
+      <h2>Редактирование организатора</h2>
+      <Card className="organizers-edit-page__card">
         <Form
           layout={"vertical"}
           form={form}
-          name="training-create"
+          name="organizers-edit"
           onFinish={onFinish}
-          onChange={() => console.info(form)}
+          className="organizers-form"
         >
           <div>
             <div>
@@ -130,9 +132,9 @@ const OrganizersEdit: React.FC = () => {
                 <Input autoFocus disabled={isInFlight} />
               </Form.Item>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="organizers-form__flex">
               <Form.Item
-                style={{ flex: "auto" }}
+                className="organizers-form__flex-auto"
                 name="address"
                 label="Адрес:"
                 rules={[
@@ -147,7 +149,7 @@ const OrganizersEdit: React.FC = () => {
                 <Input disabled={isInFlight} />
               </Form.Item>
               <Form.Item
-                style={{ flex: "auto", padding: "0 1rem" }}
+                className="organizers-form__flex-auto-padding"
                 name="type"
                 label="Тип:"
                 rules={[{ required: true }]}
@@ -158,7 +160,7 @@ const OrganizersEdit: React.FC = () => {
                 </Select>
               </Form.Item>
               <Form.Item
-                style={{ flex: "auto" }}
+                className="organizers-form__flex-auto"
                 name="site"
                 label="Сайт:"
                 rules={[
@@ -187,6 +189,7 @@ const OrganizersEdit: React.FC = () => {
               {() => (
                 <>
                   <Button
+                    className="organizers-form__cancel-btn"
                     htmlType="button"
                     style={{ marginRight: "1rem" }}
                     onClick={() => history.goBack()}
@@ -194,6 +197,7 @@ const OrganizersEdit: React.FC = () => {
                     Отмена
                   </Button>
                   <Button
+                    className="organizers-form__edit-btn"
                     type="primary"
                     htmlType="submit"
                     loading={isInFlight}

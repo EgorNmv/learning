@@ -7,6 +7,7 @@ import { OrganizersCreateMutation } from "./__generated__/OrganizersCreateMutati
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import "./organizers-create.css";
 
 const mutation = graphql`
   mutation OrganizersCreateMutation($data: InputOrganizer!) {
@@ -58,14 +59,16 @@ const CategoriesCreate: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className="organizers-create-page">
       <Breadcrumbs />
-      <Card>
+      <h2>Создание организатора</h2>
+      <Card className="organizers-create-page__card">
         <Form
           layout={"vertical"}
           form={form}
-          name="training-create"
+          name="organizers-create"
           onFinish={onFinish}
+          className="organizers-form"
         >
           <div>
             <div>
@@ -94,9 +97,9 @@ const CategoriesCreate: React.FC = () => {
                 <Input autoFocus disabled={isInFlight} />
               </Form.Item>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="organizers-form__flex">
               <Form.Item
-                style={{ flex: "auto" }}
+                className="organizers-form__flex-auto"
                 name="address"
                 label="Адрес:"
                 rules={[
@@ -111,7 +114,7 @@ const CategoriesCreate: React.FC = () => {
                 <Input disabled={isInFlight} />
               </Form.Item>
               <Form.Item
-                style={{ flex: "auto", padding: "0 1rem" }}
+                className="organizers-form__flex-auto-padding"
                 name="type"
                 label="Тип:"
                 rules={[{ required: true }]}
@@ -122,7 +125,7 @@ const CategoriesCreate: React.FC = () => {
                 </Select>
               </Form.Item>
               <Form.Item
-                style={{ flex: "auto" }}
+                className="organizers-form__flex-auto"
                 name="site"
                 label="Сайт:"
                 rules={[
@@ -151,13 +154,14 @@ const CategoriesCreate: React.FC = () => {
               {() => (
                 <>
                   <Button
+                    className="organizers-form__cancel-btn"
                     htmlType="button"
-                    style={{ marginRight: "1rem" }}
                     onClick={() => history.goBack()}
                   >
                     Отмена
                   </Button>
                   <Button
+                    className="organizers-form__create-btn"
                     type="primary"
                     htmlType="submit"
                     loading={isInFlight}

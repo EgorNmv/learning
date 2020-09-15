@@ -2,6 +2,117 @@ div.td-cell__organizer-name {
   overflow-wrap: anywhere;
 }
 
+div.td-cell__organizer-name > p:first-child {
+  font-weight: bold;
+}
+
+div.td-cell__organizer-name > p:not(:first-child) {
+  font: normal normal normal 16px/18px Arial;
+}
+
 div.td-cell__organizer-actions {
   min-width: max-content;
+}
+
+.dic-organizers-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dic-organizers-page h2 {
+  margin: 30px 0;
+  font: normal normal bold 32px/37px Arial;
+  color: #333333;
+}
+
+.organizers-table__edit-btn,
+.organizers-table__delete-btn {
+  font-size: xx-large;
+  cursor: pointer;
+}
+
+.organizers-table__edit-btn {
+  padding-right: 2rem;
+}
+
+.organizers-table__event-col {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dic-organizers__create-btn {
+  background: #0088bb 0% 0% no-repeat padding-box;
+  border: 1px solid #0088bb;
+  border-radius: 5px;
+  font: normal normal normal 20px/23px Arial;
+  color: #ffffff;
+  width: 250px;
+  height: 52px;
+}
+
+.dic-organizers-table__header > th.ant-table-cell {
+  background: #443377 0% 0% no-repeat padding-box;
+  font: normal normal bold 20px/23px Arial;
+  color: #ffffff;
+  border-right: 1px solid #7766cc !important;
+  height: 80px;
+}
+
+.dic-organizers-table tr td {
+  font: normal normal normal 20px/23px Arial;
+}
+
+.dic-organizers-table__header > th.ant-table-cell:first-child {
+  border-top-left-radius: 5px !important;
+}
+
+.dic-organizers-table__header > th.ant-table-cell:last-child {
+  border-top-right-radius: 5px !important;
+}
+
+.dic-organizers-table__card {
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}
+
+.dic-organizers-table__footer-prev-btn,
+.dic-organizers-table__footer-next-btn {
+  font: normal normal normal 20px/26px Stem;
+  color: #bbbbbb;
+  text-align: center;
+  margin: 0 30px;
+}
+
+.dic-organizers-table__footer-page {
+  background: #7766cc25 0% 0% no-repeat padding-box;
+  font: normal normal normal 20px/26px Stem;
+  width: 40px;
+  height: 40px;
+  padding-top: 5px;
+  border-radius: 5px;
+  /* opacity: 0.15; */
+}
+
+li.ant-pagination-item {
+  margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+li.ant-pagination-item-active > .events-table__footer-page {
+  background: #443377 0% 0% no-repeat padding-box;
+  color: #ffffff;
+  opacity: 1;
+}
+
+li.ant-pagination-item:focus,
+li.ant-pagination-item:hover {
+  border: 0;
+  box-shadow: 2px 2px 4px #dddddd;
+}
+
+li.ant-pagination-item-active {
+  border: 0;
 }

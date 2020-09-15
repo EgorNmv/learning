@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
-import { OrganizersQuery } from "./__generated__/OrganizersQuery.graphql";
-import { Organizer } from "../../../../utils/types";
+import {
+  OrganizersQuery,
+  OrganizersQueryResponse,
+} from "./__generated__/OrganizersQuery.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { OrganizersMutation } from "./__generated__/OrganizersMutation.graphql";
 import { Modal } from "../../../../components/Modal/Modal";
 import "./organizers.css";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { ColumnsType } from "antd/es/table";
+import { SearchOutlined } from "@ant-design/icons";
 
 const query = graphql`
   query OrganizersQuery {
@@ -30,6 +34,8 @@ const mutation = graphql`
   }
 `;
 
+type Organizer = OrganizersQueryResponse["organizers"][number];
+
 const Organizers: React.FC = () => {
   const { organizers } = useLazyLoadQuery<OrganizersQuery>(
     query,
@@ -45,42 +51,55 @@ const Organizers: React.FC = () => {
     name: string;
   } | null>(null);
 
-  const columns = [
+  const columns: ColumnsType<Organizer> = [
     {
       title: "№",
-      dataIndex: "id",
+      dataIndex: "organizerId",
+      align: "center",
+      width: "5rem",
+      render: (text, record) => data.indexOf(record) + 1,
     },
     {
-      title: "Название",
+      title: (
+        <div className="organizers-table__event-col">
+          <span>Название</span>
+          <SearchOutlined />
+        </div>
+      ),
       dataIndex: "name",
-      render: (text: string, record: Organizer) => (
+      render: (text, record) => (
         <div className="td-cell__organizer-name">
           <p>{text}</p>
           <p>{record.address}</p>
-          <p>{record.site}</p>
+          <p>
+            <a>{record.site}</a>
+          </p>
         </div>
       ),
     },
     {
       title: "Тип",
       dataIndex: "type",
-      render: (text: string, record: Organizer) =>
-        record.type === 1 ? "Внешний" : "Внутренний",
+      align: "center",
+      width: "15rem",
+      render: (text, record) => (record.type === 1 ? "Внешний" : "Внутренний"),
     },
     {
       title: "Действия",
       dataIndex: "actions",
-      render: (text: string, record: Organizer) => (
+      align: "center",
+      width: "10rem",
+      render: (text, record) => (
         <div className="td-cell__organizer-actions">
-          <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
+          <span className="organizers-table__edit-btn">
             <Link
               to={`/profile/directories/organizers/edit/${record.organizerId}`}
             >
               <EditOutlined />
             </Link>
           </span>
-          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
-            <span
+          <span className="organizers-table__delete-btn">
+            <DeleteOutlined
               onClick={() => {
                 setDeletingOrganizer({
                   organizerId: record.organizerId,
@@ -88,9 +107,7 @@ const Organizers: React.FC = () => {
                 });
                 setIsModalVisible(true);
               }}
-            >
-              <DeleteOutlined />
-            </span>
+            />
           </span>
         </div>
       ),
@@ -104,12 +121,10 @@ const Organizers: React.FC = () => {
         onCompleted: () => {
           showAlert(`Организатор ${deletingOrganizer.name} успешно удалён`);
           setData((prev) =>
-            prev
-              .filter(
-                (organizer) =>
-                  organizer.organizerId !== deletingOrganizer.organizerId
-              )
-              .map((organizer, index) => ({ ...organizer, id: index + 1 }))
+            prev.filter(
+              (organizer) =>
+                organizer.organizerId !== deletingOrganizer.organizerId
+            )
           );
           setIsModalVisible(false);
         },
@@ -123,12 +138,7 @@ const Organizers: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(
-      organizers.map((organizer, index) => ({
-        ...organizer,
-        id: index + 1,
-      })) as Organizer[]
-    );
+    setData(organizers as Organizer[]);
   }, [organizers]);
 
   return (
@@ -142,22 +152,53 @@ const Organizers: React.FC = () => {
         onCancel={() => setIsModalVisible(false)}
         onOk={() => deleteCategory()}
       />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingBottom: "1rem",
-        }}
-      >
-        <h1>Организаторы</h1>
-        <Button type="primary">
+      <div className="dic-organizers-page">
+        <h2>Организаторы</h2>
+        <Button className="dic-organizers__create-btn" type="primary">
           <Link to="/profile/directories/organizers/create">
             Создать организатора
           </Link>
         </Button>
       </div>
-      <Card>
-        <Table bordered columns={columns} dataSource={data} />
+      <Card className="dic-organizers-table__card">
+        <Table
+          className="dic-organizers-table"
+          bordered
+          columns={columns}
+          dataSource={data}
+          onHeaderRow={(column) => {
+            return {
+              className: "dic-organizers-table__header",
+            };
+          }}
+          pagination={{
+            position: ["bottomCenter"],
+            itemRender: (page, type, originalElement) => {
+              switch (type) {
+                case "page":
+                  return (
+                    <div className="dic-organizers-table__footer-page">
+                      {page}
+                    </div>
+                  );
+                case "prev":
+                  return (
+                    <div className="dic-organizers-table__footer-prev-btn">
+                      ᐸ Пред.
+                    </div>
+                  );
+                case "next":
+                  return (
+                    <div className="dic-organizers-table__footer-next-btn">
+                      След. ᐳ
+                    </div>
+                  );
+                default:
+                  return originalElement;
+              }
+            },
+          }}
+        />
       </Card>
     </section>
   );
