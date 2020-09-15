@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 import { graphql, GraphQLTaggedNode } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { TrainingFormatsQuery } from "./__generated__/TrainingFormatsQuery.graphql";
-import { TrainingFormat } from "../../../../utils/types";
+import {
+  TrainingFormatsQuery,
+  TrainingFormatsQueryResponse,
+} from "./__generated__/TrainingFormatsQuery.graphql";
 import { Modal } from "../../../../components/Modal/Modal";
 import { TrainingFormatsMutation } from "./__generated__/TrainingFormatsMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import "./training-formats.css";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { ColumnsType } from "antd/es/table";
+import { SearchOutlined } from "@ant-design/icons";
 
 const query: GraphQLTaggedNode = graphql`
   query TrainingFormatsQuery {
@@ -27,6 +31,8 @@ const mutation = graphql`
   }
 `;
 
+type TrainingFormat = TrainingFormatsQueryResponse["formats"][number];
+
 const TrainingFormats: React.FC = () => {
   const { formats } = useLazyLoadQuery<TrainingFormatsQuery>(
     query,
@@ -42,32 +48,42 @@ const TrainingFormats: React.FC = () => {
     name: string;
   } | null>(null);
 
-  const columns = [
+  const columns: ColumnsType<TrainingFormat> = [
     {
       title: "№",
-      dataIndex: "id",
+      dataIndex: "trainingFormatId",
+      align: "center",
+      width: "5rem",
+      render: (text, record) => data.indexOf(record) + 1,
     },
     {
-      title: "Название",
+      title: (
+        <div className="training-formats-table__event-col">
+          <span>Название</span>
+          <SearchOutlined />
+        </div>
+      ),
       dataIndex: "description",
-      render: (text: string) => (
+      render: (text) => (
         <div className="td-cell__training-format-name">{text}</div>
       ),
     },
     {
       title: "Действия",
       dataIndex: "actions",
-      render: (text: string, record: TrainingFormat) => (
+      align: "center",
+      width: "10rem",
+      render: (text, record) => (
         <div className="td-cell__training-format-actions">
-          <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
+          <span className="training-formats-table__edit-btn">
             <Link
               to={`/profile/directories/trainingformats/edit/${record.trainingFormatId}`}
             >
               <EditOutlined />
             </Link>
           </span>
-          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
-            <span
+          <span className="training-formats-table__delete-btn">
+            <DeleteOutlined
               onClick={() => {
                 setTrainingFormat({
                   trainingFormatId: record.trainingFormatId,
@@ -75,9 +91,7 @@ const TrainingFormats: React.FC = () => {
                 });
                 setIsModalVisible(true);
               }}
-            >
-              <DeleteOutlined />
-            </span>
+            />
           </span>
         </div>
       ),
@@ -93,16 +107,11 @@ const TrainingFormats: React.FC = () => {
             `Формат обучения ${deletingTrainingFormat.name} успешно удалён`
           );
           setData((prev) =>
-            prev
-              .filter(
-                (trainingFormat) =>
-                  trainingFormat.trainingFormatId !==
-                  deletingTrainingFormat.trainingFormatId
-              )
-              .map((trainingFormat, index) => ({
-                ...trainingFormat,
-                id: index + 1,
-              }))
+            prev.filter(
+              (trainingFormat) =>
+                trainingFormat.trainingFormatId !==
+                deletingTrainingFormat.trainingFormatId
+            )
           );
           setIsModalVisible(false);
         },
@@ -116,12 +125,7 @@ const TrainingFormats: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(
-      formats.map((trainingFormat, index) => ({
-        ...trainingFormat,
-        id: index + 1,
-      })) as TrainingFormat[]
-    );
+    setData(formats as TrainingFormat[]);
   }, [formats]);
 
   return (
@@ -137,22 +141,53 @@ const TrainingFormats: React.FC = () => {
         onCancel={() => setIsModalVisible(false)}
         onOk={() => deleteCategory()}
       />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingBottom: "1rem",
-        }}
-      >
-        <h1>Форматы обучения</h1>
-        <Button type="primary">
+      <div className="dic-training-formats-page">
+        <h2>Форматы обучения</h2>
+        <Button className="dic-training-formats__create-btn" type="primary">
           <Link to="/profile/directories/trainingformats/create">
             Создать формат обучения
           </Link>
         </Button>
       </div>
-      <Card>
-        <Table bordered columns={columns} dataSource={data} />
+      <Card className="dic-training-formats-table__card">
+        <Table
+          className="dic-training-formats-table"
+          bordered
+          columns={columns}
+          dataSource={data}
+          onHeaderRow={(column) => {
+            return {
+              className: "dic-training-formats-table__header",
+            };
+          }}
+          pagination={{
+            position: ["bottomCenter"],
+            itemRender: (page, type, originalElement) => {
+              switch (type) {
+                case "page":
+                  return (
+                    <div className="dic-training-formats-table__footer-page">
+                      {page}
+                    </div>
+                  );
+                case "prev":
+                  return (
+                    <div className="dic-training-formats-table__footer-prev-btn">
+                      ᐸ Пред.
+                    </div>
+                  );
+                case "next":
+                  return (
+                    <div className="dic-training-formats-table__footer-next-btn">
+                      След. ᐳ
+                    </div>
+                  );
+                default:
+                  return originalElement;
+              }
+            },
+          }}
+        />
       </Card>
     </section>
   );

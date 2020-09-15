@@ -7,6 +7,7 @@ import { TrainingFormatsCreateMutation } from "./__generated__/TrainingFormatsCr
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import "./training-formats-create.css";
 
 const mutation = graphql`
   mutation TrainingFormatsCreateMutation($description: String!) {
@@ -49,14 +50,16 @@ const TrainingFormatsCreate: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className="training-format-create-page">
       <Breadcrumbs />
-      <Card>
+      <h2>Создание формата обучения</h2>
+      <Card className="training-format-create-page__card">
         <Form
           layout={"vertical"}
           form={form}
-          name="training-create"
+          name="training-format-create"
           onFinish={onFinish}
+          className="training-format-form"
         >
           <Form.Item
             name="name"
@@ -89,11 +92,12 @@ const TrainingFormatsCreate: React.FC = () => {
                   <Button
                     htmlType="button"
                     onClick={() => history.goBack()}
-                    style={{ marginRight: "1rem" }}
+                    className="training-format-form__cancel-btn"
                   >
                     Отмена
                   </Button>
                   <Button
+                    className="training-format-form__create-btn"
                     type="primary"
                     htmlType="submit"
                     loading={isInFlight}

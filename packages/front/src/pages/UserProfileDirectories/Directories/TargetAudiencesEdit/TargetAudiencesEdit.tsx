@@ -11,6 +11,7 @@ import {
 import { TargetAudiencesEditMutation } from "./__generated__/TargetAudiencesEditMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import "./target-audiences-edit.css";
 
 const query = graphql`
   query TargetAudiencesEditQuery($targetAudienceId: Float!) {
@@ -78,14 +79,16 @@ const TargetAudiencesEdit: React.FC = () => {
   );
 
   return (
-    <section>
+    <section className="target-audience-create-page">
       <Breadcrumbs />
-      <Card>
+      <h2>Редактирование целевой аудитории</h2>
+      <Card className="target-audience-create-page__card">
         <Form
           layout={"vertical"}
           form={form}
-          name="training-create"
+          name="target-audience-create"
           onFinish={onFinish}
+          className="target-audience-form"
         >
           <Form.Item
             name="name"
@@ -117,12 +120,13 @@ const TargetAudiencesEdit: React.FC = () => {
                 <>
                   <Button
                     htmlType="button"
-                    style={{ marginRight: "1rem" }}
                     onClick={() => history.goBack()}
+                    className="target-audience-form__cancel-btn"
                   >
                     Отмена
                   </Button>
                   <Button
+                    className="target-audience-form__create-btn"
                     type="primary"
                     htmlType="submit"
                     loading={isInFlight}

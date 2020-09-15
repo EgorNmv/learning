@@ -8,12 +8,13 @@ import {
   TargetAudiencesQueryResponse,
   TargetAudiencesQuery,
 } from "./__generated__/TargetAudiencesQuery.graphql";
-import { TargetAudience } from "../../../../utils/types";
 import { Modal } from "../../../../components/Modal/Modal";
 import { TargetAudienceMutation } from "./__generated__/TargetAudienceMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import "./target-audience.css";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { ColumnsType } from "antd/es/table";
+import { SearchOutlined } from "@ant-design/icons";
 
 const query: GraphQLTaggedNode = graphql`
   query TargetAudiencesQuery {
@@ -30,6 +31,8 @@ const mutation = graphql`
   }
 `;
 
+type TargetAudience = TargetAudiencesQueryResponse["targetAudiences"][number];
+
 const TargetAudiences: React.FC = () => {
   const { targetAudiences }: TargetAudiencesQueryResponse = useLazyLoadQuery<
     TargetAudiencesQuery
@@ -43,13 +46,21 @@ const TargetAudiences: React.FC = () => {
     name: string;
   } | null>(null);
 
-  const columns = [
+  const columns: ColumnsType<TargetAudience> = [
     {
       title: "№",
-      dataIndex: "id",
+      dataIndex: "targetAudienceId",
+      align: "center",
+      width: "5rem",
+      render: (text, record) => data.indexOf(record) + 1,
     },
     {
-      title: "Название",
+      title: (
+        <div className="target-audiences-table__event-col">
+          <span>Название</span>
+          <SearchOutlined />
+        </div>
+      ),
       dataIndex: "description",
       render: (text: string) => (
         <div className="td-cell__target-audience-name">{text}</div>
@@ -58,17 +69,19 @@ const TargetAudiences: React.FC = () => {
     {
       title: "Действия",
       dataIndex: "actions",
+      align: "center",
+      width: "10rem",
       render: (text: string, record: TargetAudience) => (
         <div className="td-cell__target-audience-actions">
-          <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
+          <span className="target-audiences-table__edit-btn">
             <Link
               to={`/profile/directories/targetaudiences/edit/${record.targetAudienceId}`}
             >
               <EditOutlined />
             </Link>
           </span>
-          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
-            <span
+          <span className="target-audiences-table__delete-btn">
+            <DeleteOutlined
               onClick={() => {
                 setDeletingOrganizer({
                   targetAudienceId: record.targetAudienceId,
@@ -76,9 +89,7 @@ const TargetAudiences: React.FC = () => {
                 });
                 setIsModalVisible(true);
               }}
-            >
-              <DeleteOutlined />
-            </span>
+            />
           </span>
         </div>
       ),
@@ -94,16 +105,11 @@ const TargetAudiences: React.FC = () => {
             `Целевая аудитория ${deletingTargetAudience.name} успешно удалена`
           );
           setData((prev) =>
-            prev
-              .filter(
-                (targetAudience) =>
-                  targetAudience.targetAudienceId !==
-                  deletingTargetAudience.targetAudienceId
-              )
-              .map((targetAudience, index) => ({
-                ...targetAudience,
-                id: index + 1,
-              }))
+            prev.filter(
+              (targetAudience) =>
+                targetAudience.targetAudienceId !==
+                deletingTargetAudience.targetAudienceId
+            )
           );
           setIsModalVisible(false);
         },
@@ -117,12 +123,7 @@ const TargetAudiences: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(
-      targetAudiences.map((targetAudience, index) => ({
-        ...targetAudience,
-        id: index + 1,
-      })) as TargetAudience[]
-    );
+    setData(targetAudiences as TargetAudience[]);
   }, [targetAudiences]);
 
   return (
@@ -138,22 +139,53 @@ const TargetAudiences: React.FC = () => {
         onCancel={() => setIsModalVisible(false)}
         onOk={() => deleteCategory()}
       />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingBottom: "1rem",
-        }}
-      >
-        <h1>Целевые аудитории</h1>
-        <Button type="primary">
+      <div className="dic-target-audiences-page">
+        <h2>Целевые аудитории</h2>
+        <Button className="dic-target-audiences__create-btn" type="primary">
           <Link to="/profile/directories/targetaudiences/create">
             Создать целевую аудиторию
           </Link>
         </Button>
       </div>
-      <Card>
-        <Table bordered columns={columns} dataSource={data} />
+      <Card className="dic-target-audiences-table__card">
+        <Table
+          className="dic-target-audiences-table"
+          bordered
+          columns={columns}
+          dataSource={data}
+          onHeaderRow={(column) => {
+            return {
+              className: "dic-target-audiences-table__header",
+            };
+          }}
+          pagination={{
+            position: ["bottomCenter"],
+            itemRender: (page, type, originalElement) => {
+              switch (type) {
+                case "page":
+                  return (
+                    <div className="dic-target-audiences-table__footer-page">
+                      {page}
+                    </div>
+                  );
+                case "prev":
+                  return (
+                    <div className="dic-target-audiences-table__footer-prev-btn">
+                      ᐸ Пред.
+                    </div>
+                  );
+                case "next":
+                  return (
+                    <div className="dic-target-audiences-table__footer-next-btn">
+                      След. ᐳ
+                    </div>
+                  );
+                default:
+                  return originalElement;
+              }
+            },
+          }}
+        />
       </Card>
     </section>
   );

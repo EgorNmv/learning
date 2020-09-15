@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { TargetAudiencesCreateMutation } from "./__generated__/TargetAudiencesCreateMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import "./target-audiences-create.css";
 
 const mutation = graphql`
   mutation TargetAudiencesCreateMutation($description: String!) {
@@ -49,14 +50,16 @@ const TargetAudiencesCreate: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className="target-audience-create-page">
       <Breadcrumbs />
-      <Card>
+      <h2>Создание целевой аудитории</h2>
+      <Card className="target-audience-create-page__card">
         <Form
           layout={"vertical"}
           form={form}
-          name="training-create"
+          name="target-audience-create"
           onFinish={onFinish}
+          className="target-audience-form"
         >
           <Form.Item
             name="name"
@@ -87,13 +90,14 @@ const TargetAudiencesCreate: React.FC = () => {
               {() => (
                 <>
                   <Button
+                    className="target-audience-form__cancel-btn"
                     htmlType="button"
                     onClick={() => history.goBack()}
-                    style={{ marginRight: "1rem" }}
                   >
                     Отмена
                   </Button>
                   <Button
+                    className="target-audience-form__create-btn"
                     type="primary"
                     htmlType="submit"
                     loading={isInFlight}

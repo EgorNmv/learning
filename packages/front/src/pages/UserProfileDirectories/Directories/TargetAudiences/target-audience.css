@@ -5,3 +5,106 @@ div.td-cell__target-audience-name {
 div.td-cell__target-audience-actions {
   min-width: max-content;
 }
+
+.dic-target-audiences-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dic-target-audiences-page h2 {
+  margin: 30px 0;
+  font: normal normal bold 32px/37px Arial;
+  color: #333333;
+}
+
+.target-audiences-table__edit-btn,
+.target-audiences-table__delete-btn {
+  font-size: xx-large;
+  cursor: pointer;
+}
+
+.target-audiences-table__edit-btn {
+  padding-right: 2rem;
+}
+
+.target-audiences-table__event-col {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dic-target-audiences__create-btn {
+  background: #0088bb 0% 0% no-repeat padding-box;
+  border: 1px solid #0088bb;
+  border-radius: 5px;
+  font: normal normal normal 20px/23px Arial;
+  color: #ffffff;
+  width: 357px;
+  height: 52px;
+}
+
+.dic-target-audiences-table__header > th.ant-table-cell {
+  background: #443377 0% 0% no-repeat padding-box;
+  font: normal normal bold 20px/23px Arial;
+  color: #ffffff;
+  border-right: 1px solid #7766cc !important;
+  height: 80px;
+}
+
+.dic-target-audiences-table tr td {
+  font: normal normal normal 20px/23px Arial;
+}
+
+.dic-target-audiences-table__header > th.ant-table-cell:first-child {
+  border-top-left-radius: 5px !important;
+}
+
+.dic-target-audiences-table__header > th.ant-table-cell:last-child {
+  border-top-right-radius: 5px !important;
+}
+
+.dic-target-audiences-table__card {
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}
+
+.dic-target-audiences-table__footer-prev-btn,
+.dic-target-audiences-table__footer-next-btn {
+  font: normal normal normal 20px/26px Stem;
+  color: #bbbbbb;
+  text-align: center;
+  margin: 0 30px;
+}
+
+.dic-target-audiences-table__footer-page {
+  background: #7766cc25 0% 0% no-repeat padding-box;
+  font: normal normal normal 20px/26px Stem;
+  width: 40px;
+  height: 40px;
+  padding-top: 5px;
+  border-radius: 5px;
+  /* opacity: 0.15; */
+}
+
+li.ant-pagination-item {
+  margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+li.ant-pagination-item-active > .events-table__footer-page {
+  background: #443377 0% 0% no-repeat padding-box;
+  color: #ffffff;
+  opacity: 1;
+}
+
+li.ant-pagination-item:focus,
+li.ant-pagination-item:hover {
+  border: 0;
+  box-shadow: 2px 2px 4px #dddddd;
+}
+
+li.ant-pagination-item-active {
+  border: 0;
+}
