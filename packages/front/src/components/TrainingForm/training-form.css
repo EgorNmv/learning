@@ -7,6 +7,10 @@
   margin-right: 30px;
 }
 
+.training-form__startAndEndDates-and-countOfSeats__checkbox {
+  width: max-content;
+}
+
 .training-form__input-number div.ant-input-number {
   width: 100%;
 }
@@ -82,4 +86,17 @@ div.ant-picker.ant-picker-range,
 .trainin-form__upload-img {
   max-width: 386px;
   max-height: 386px;
+}
+
+@media only screen and (max-width: 1250px) {
+  .trainin-form__upload-img {
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  .training-form__upload
+    > div.ant-upload.ant-upload-select.ant-upload-select-picture-card {
+    width: 150px;
+    height: 150px;
+  }
 }

@@ -24,6 +24,7 @@ import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { useOktaAuth } from "@okta/okta-react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { UploadChangeParam, UploadFile } from "antd/es/upload/interface";
+import PhotoSvg from "../../static/img/photograph.svg";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -196,7 +197,11 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                       disabled={isDatePickerDisabled}
                     />
                   </Form.Item>
-                  <Form.Item name="isDateSet" valuePropName="checked">
+                  <Form.Item
+                    className="training-form__startAndEndDates-and-countOfSeats__checkbox"
+                    name="isDateSet"
+                    valuePropName="checked"
+                  >
                     <Checkbox
                       onChange={() => {
                         setIsDatePickerDisables(!isDatePickerDisabled);
@@ -288,6 +293,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
               ): void => {
                 if (info.file.status === "uploading") {
                   setIsFileLoading(true);
+                  setResponse(null);
                   return;
                 }
                 if (info.file.status === "done" && info.file.response) {
@@ -311,15 +317,18 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 />
               ) : (
                 <div>
-                  {isFileLoading ? <LoadingOutlined /> : <PlusOutlined />}
+                  {isFileLoading ? (
+                    <LoadingOutlined />
+                  ) : (
+                    <img
+                      className="trainin-form__upload-img"
+                      src={PhotoSvg}
+                      alt="Изображение"
+                    />
+                  )}
                 </div>
               )}
             </Upload>
-            {isFileLoading && (response || formValues?.label) && (
-              <CenteredText>
-                <LoadingOutlined /> Загрузка изображения
-              </CenteredText>
-            )}
           </Form.Item>
         </div>
       </div>
