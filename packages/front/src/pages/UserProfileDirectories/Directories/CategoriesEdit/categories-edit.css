@@ -1,0 +1,88 @@
+.categories-edit-page h2 {
+  margin: 30px 0;
+  font: normal normal bold 32px/37px Arial;
+  color: #333333;
+}
+
+.categories-edit-page__card {
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}
+
+.categories-form__main-part {
+  display: flex;
+  justify-content: space-between;
+}
+
+.categories-form__main-part__flex {
+  flex: 1;
+}
+
+.categories-form label,
+input:placeholder-shown,
+div.ant-select-item-option-content {
+  font: normal normal normal 20px/23px Arial;
+}
+
+div.ant-select-selector,
+div.ant-input-number,
+div.ant-picker.ant-picker-range,
+.categories-form textarea,
+.categories-form input {
+  border-radius: 5px !important;
+}
+
+.categories-form div.ant-select-selector,
+.categories-form input,
+.categories-form
+  div.ant-select-item.ant-select-item-option.ant-select-item-option-active {
+  height: 40px !important;
+}
+
+.categories-form__main-part__photo {
+  padding: 0 1rem;
+}
+
+.categories-form__upload
+  > div.ant-upload.ant-upload-select.ant-upload-select-picture-card {
+  width: 386px;
+  height: 386px;
+  border-radius: 15px;
+}
+
+.categories-form__upload-img {
+  max-width: 386px;
+  max-height: 386px;
+}
+
+@media only screen and (max-width: 1250px) {
+  .categories-form__upload-img {
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  .categories-form__upload
+    > div.ant-upload.ant-upload-select.ant-upload-select-picture-card {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.categories-form__cancel-btn {
+  width: 167px;
+  height: 52px;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  color: #bbbbbb;
+  font: normal normal normal 20px/23px Arial;
+  margin-right: 30px;
+}
+
+.categories-form__create-btn {
+  width: 167px;
+  height: 52px;
+  border-radius: 5px;
+  color: #ffffff;
+  font: normal normal normal 20px/23px Arial;
+  background: #0088bb 0% 0% no-repeat padding-box;
+}

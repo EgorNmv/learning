@@ -22,7 +22,7 @@ import "moment/locale/ru";
 import "./training-form.css";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { useOktaAuth } from "@okta/okta-react";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { UploadChangeParam, UploadFile } from "antd/es/upload/interface";
 import PhotoSvg from "../../static/img/photograph.svg";
 

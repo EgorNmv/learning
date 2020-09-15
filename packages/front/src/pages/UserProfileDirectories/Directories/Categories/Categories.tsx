@@ -8,12 +8,13 @@ import {
   CategoriesQueryResponse,
 } from "./__generated__/CategoriesQuery.graphql";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Category } from "../../../../utils/types";
 import { CategoriesMutation } from "./__generated__/CategoriesMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Modal } from "../../../../components/Modal/Modal";
 import "./categories.css";
 import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { ColumnsType } from "antd/es/table";
+import { SearchOutlined } from "@ant-design/icons";
 
 const query: GraphQLTaggedNode = graphql`
   query CategoriesQuery {
@@ -29,6 +30,8 @@ const mutation = graphql`
   }
 `;
 
+type Category = CategoriesQueryResponse["categories"][number];
+
 const Categories: React.FC = () => {
   const { categories }: CategoriesQueryResponse = useLazyLoadQuery<
     CategoriesQuery
@@ -40,46 +43,50 @@ const Categories: React.FC = () => {
   const [deletingCategory, setDeletingCategory] = React.useState<{
     categoryId: number;
     name: string;
-    id: number | null;
   } | null>(null);
 
-  const columns = [
+  const columns: ColumnsType<Category> = [
     {
       title: "№",
-      dataIndex: "id",
+      dataIndex: "categoryId",
+      align: "center",
+      render: (text, record) => data.indexOf(record) + 1,
     },
     {
-      title: "Название",
+      title: (
+        <div className="categories-table__event-col">
+          <span>Название</span>
+          <SearchOutlined />
+        </div>
+      ),
       dataIndex: "description",
-      render: (text: string) => (
+      render: (text, record) => (
         <div className="td-cell__category-name">{text}</div>
       ),
     },
     {
       title: "Действия",
+      align: "center",
       dataIndex: "actions",
-      render: (text: string, record: Category) => (
+      render: (text, record) => (
         <div className="td-cell__category-actions">
-          <span style={{ fontSize: "xx-large", paddingRight: "2rem" }}>
+          <span className="categories-table__edit-btn">
             <Link
               to={`/profile/directories/categories/edit/${record.categoryId}`}
             >
               <EditOutlined />
             </Link>
           </span>
-          <span style={{ fontSize: "xx-large", cursor: "pointer" }}>
-            <span
+          <span className="categories-table__delete-btn">
+            <DeleteOutlined
               onClick={() => {
                 setDeletingCategory({
                   categoryId: record.categoryId,
                   name: record.description,
-                  id: record.id || null,
                 });
                 setIsModalVisible(true);
               }}
-            >
-              <DeleteOutlined />
-            </span>
+            />
           </span>
         </div>
       ),
@@ -93,13 +100,9 @@ const Categories: React.FC = () => {
         onCompleted: () => {
           showAlert(`Категория ${deletingCategory.name} успешно удалена`);
           setData((prev) =>
-            prev
-              .filter(
-                (category) =>
-                  category.categoryId !== deletingCategory.categoryId
-              )
-              .filter(Boolean)
-              .map((category, index) => ({ ...category, id: index + 1 }))
+            prev.filter(
+              (category) => category.categoryId !== deletingCategory.categoryId
+            )
           );
           setIsModalVisible(false);
         },
@@ -109,7 +112,7 @@ const Categories: React.FC = () => {
             "error"
           ),
         updater: (proxyStore) => {
-          if (deletingCategory && deletingCategory.id) {
+          if (deletingCategory) {
             for (let i = 0; i < categories.length; i++) {
               const category = proxyStore.get(`client:root:categories:${i}`);
 
@@ -124,19 +127,7 @@ const Categories: React.FC = () => {
   };
 
   React.useEffect(() => {
-    setData(
-      categories
-        .map((category, index) => {
-          if (!category) {
-            return null;
-          }
-          return {
-            ...category,
-            id: index + 1,
-          };
-        })
-        .filter(Boolean) as Category[]
-    );
+    categories && setData(categories.filter(Boolean) as Category[]);
   }, [categories]);
 
   return (
@@ -148,30 +139,31 @@ const Categories: React.FC = () => {
         deletingObjectType="category"
         isLoading={isInFlight}
         onCancel={() => setIsModalVisible(false)}
-        onOk={() => deleteCategory()}
+        onOk={deleteCategory}
       />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingBottom: "1rem",
-        }}
-      >
-        <h1>Категории</h1>
-        <Button type="primary">
+      <div className="dic-categories-page">
+        <h2>Категории</h2>
+        <Button className="dic-categories__create-btn" type="primary">
           <Link to="/profile/directories/categories/create">
             Создать категорию
           </Link>
         </Button>
       </div>
-      <Card>
+      <Card className="dic-categories-table__card">
         <Table
+          className="dic-categories-table"
           bordered
           columns={columns}
           dataSource={data}
-          rowKey={(record: Category): string =>
+          pagination={false}
+          rowKey={(record): string =>
             `${record.categoryId}${record.description}`
           }
+          onHeaderRow={(column) => {
+            return {
+              className: "dic-categories-table__header",
+            };
+          }}
         />
       </Card>
     </section>
