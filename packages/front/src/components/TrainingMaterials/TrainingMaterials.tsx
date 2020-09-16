@@ -9,6 +9,7 @@ import { TrainingMaterialsQuery } from "./__generated__/TrainingMaterialsQuery.g
 import { Material } from "../../utils/types";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { useOktaAuth } from "@okta/okta-react";
+import { FileIcon } from "../FileIcon/FileIcon";
 
 const mutation = graphql`
   mutation TrainingMaterialsMutation($data: InputMaterial!) {
@@ -239,6 +240,7 @@ export const TrainingMaterials: React.FC = () => {
           {materials.map((material: Material) => (
             <span key={material.link + material.materialId}>
               {material.status === "uploading" && <Spin size="small" />}
+              <FileIcon filename={material.originName} />
               <a
                 href={
                   material.link
