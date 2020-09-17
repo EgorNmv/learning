@@ -15,6 +15,11 @@ type CategoryEntity {
   label: String
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 """Рекомендации и отзывы"""
 type FeedbackEntity {
   """дата предоставления фидбека"""
@@ -241,7 +246,7 @@ type TrainingEntity {
   category: CategoryEntity!
 
   """дата создания обучения"""
-  createDate: String!
+  createDate: DateTime!
 
   """описание обучения"""
   description: String!
