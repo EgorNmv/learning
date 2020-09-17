@@ -53,6 +53,12 @@
   text-overflow: ellipsis;
 }
 
+.training-name {
+  max-width: 340px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .training-name span {
   text-decoration: underline;
   font: normal normal bold 24px/28px Arial;
