@@ -88,7 +88,7 @@ const Main: React.FC = () => {
     onClick,
     carouselState,
   }) => {
-    if (index && onClick) {
+    if (onClick) {
       const classNames = ["custom-dot-for-slider"].concat(
         active ? "active" : "inactive"
       );
