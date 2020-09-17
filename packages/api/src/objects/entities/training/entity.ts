@@ -11,10 +11,10 @@ import {
   JoinColumn,
   RelationId,
   DeleteDateColumn,
+  CreateDateColumn,
 } from "typeorm";
 import { Training } from "./type";
 import { CategoryEntity } from "../category/entity";
-import { formatDate } from "../../../utils/utils";
 
 @Entity({ name: "Training" })
 @ObjectType({
@@ -126,12 +126,12 @@ export class TrainingEntity extends BaseEntity implements Training {
   @RelationId((training: TrainingEntity) => training.category)
   public categoryId: number;
 
-  @Field(() => String, {
+  @Field(() => Date, {
     nullable: false,
     description: "дата создания обучения",
   })
-  @Column({ default: formatDate(new Date()) })
-  public createDate: string;
+  @CreateDateColumn()
+  public createDate: Date;
 
   @Field(() => [Number], {
     nullable: true,

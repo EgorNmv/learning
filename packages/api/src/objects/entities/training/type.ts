@@ -19,7 +19,7 @@ export interface Training {
   audienceId: number;
   category: Category;
   categoryId: number;
-  createDate: string;
+  createDate: Date;
   listOfRequestsReviewsAndRecomends: number[];
   numberOfParticipants: number;
   deletedAt: Date;
