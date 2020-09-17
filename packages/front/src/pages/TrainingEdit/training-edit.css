@@ -1,0 +1,29 @@
+.training-edit-page h2 {
+  margin: 30px 0;
+  font: normal normal bold 32px/37px Arial;
+  color: #333333;
+}
+
+.training-edit-page__card {
+  box-shadow: 2px 2px 4px #dddddd;
+  border-radius: 15px;
+}
+
+.training-edit-page__menu {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.training-edit-page__menu-item {
+  font: normal normal normal 24px/28px Arial;
+  padding-bottom: 15px;
+  width: 366px;
+  text-align: center;
+  color: #bbbbbb;
+}
+
+.training-edit-page__menu-item.ant-menu-item-selected {
+  color: #333333 !important;
+  border-bottom: 2px solid #ffbb44 !important;
+}

@@ -16,6 +16,7 @@ import {
 } from "./__generated__/TrainingEditMutation.graphql";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import "./training-edit.css";
 
 const query = graphql`
   query TrainingEditQuery($trainingId: Float!) {
@@ -146,21 +147,31 @@ const TrainingEdit: React.FC = () => {
   }, [training]);
 
   return (
-    <section>
+    <section className="training-edit-page">
       <Breadcrumbs />
-      <span>
-        <h1>Редактирование события</h1>
-      </span>
-      <Card loading={isInFlight}>
+      <h2>Редактирование события</h2>
+      <Card loading={isInFlight} className="training-edit-page__card">
         <Menu
           onClick={handleClick}
           selectedKeys={[currentMenu]}
           mode="horizontal"
+          className="training-edit-page__menu"
         >
-          <Menu.Item key="options">Параметры</Menu.Item>
-          <Menu.Item key="requests">Заявки</Menu.Item>
-          <Menu.Item key="reviews">Отзывы</Menu.Item>
-          <Menu.Item key="recomendations">Рекомендации</Menu.Item>
+          <Menu.Item key="options" className="training-edit-page__menu-item">
+            Параметры
+          </Menu.Item>
+          <Menu.Item key="requests" className="training-edit-page__menu-item">
+            Заявки
+          </Menu.Item>
+          <Menu.Item key="reviews" className="training-edit-page__menu-item">
+            Отзывы
+          </Menu.Item>
+          <Menu.Item
+            key="recomendations"
+            className="training-edit-page__menu-item"
+          >
+            Рекомендации
+          </Menu.Item>
         </Menu>
         {menu[currentMenu]}
       </Card>
