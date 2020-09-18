@@ -1,4 +1,6 @@
 import React, { ErrorInfo } from "react";
+import "./error-boundary.css";
+import LogoSvg from "../../static/img/logo_rcr.svg";
 
 export class ErrorBoundary extends React.Component {
   public state = {
@@ -18,7 +20,26 @@ export class ErrorBoundary extends React.Component {
   public render() {
     if (this.state.hasError) {
       // Можно отрендерить запасной UI произвольного вида
-      return <h1>Что-то пошло не так))).</h1>;
+      return (
+        <section className="error-page">
+          <div className="error-container">
+            <h1>Упс...</h1>
+            <p>
+              Что-то пошло не так <span className="error-smile">:-(</span>
+            </p>
+            <p>
+              Скорее всего, наша команда уже занимается решением этой проблемы.
+            </p>
+            <p>
+              В ближайшее время мы устраним данную неполадку и приведём систему
+              в рабочее состояние.
+            </p>
+            <div className="error-logo">
+              <img src={LogoSvg} alt="Лого" />
+            </div>
+          </div>
+        </section>
+      );
     }
 
     return this.props.children;
