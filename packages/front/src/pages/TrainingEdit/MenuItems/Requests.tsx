@@ -65,7 +65,7 @@ export const Requests: React.FC = () => {
           <span>
             {objWithFullnames[`${text}`]
               ? objWithFullnames[`${text}`]
-              : "Loading..."}
+              : "Загрузка..."}
           </span>
         );
       },

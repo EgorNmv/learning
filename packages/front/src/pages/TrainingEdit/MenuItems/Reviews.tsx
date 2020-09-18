@@ -61,12 +61,10 @@ export const Reviews: React.FC = () => {
   };
 
   return (
-    <div>
-      <TrainingEditReviewsAndRecomendsTable
-        feedbacks={feedbacksByTrainingId as any}
-        onChangeFeedbackStatus={changeStatusOfFeedback}
-        isRecomendations={false}
-      />
-    </div>
+    <TrainingEditReviewsAndRecomendsTable
+      feedbacks={feedbacksByTrainingId as any}
+      onChangeFeedbackStatus={changeStatusOfFeedback}
+      isRecomendations={false}
+    />
   );
 };

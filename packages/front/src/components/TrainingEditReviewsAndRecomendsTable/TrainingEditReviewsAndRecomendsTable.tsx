@@ -3,6 +3,9 @@ import { Table, Button, Rate } from "antd";
 import { InputFeedback } from "../TrainingReviews/__generated__/TrainingReviewsMutation.graphql";
 import { formatDate } from "../../utils/utils";
 import { useParams } from "react-router-dom";
+import "./training-edit-reviews-and-recomends-table.css";
+import { ColumnsType } from "antd/es/table";
+import { SearchOutlined } from "@ant-design/icons";
 
 type TrainingEditReviewsAndRecomendsTableProps = {
   feedbacks: {
@@ -24,21 +27,29 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
   const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
   const [objWithFullnames, setObjWithFullnames] = React.useState<any>({});
   const [data, setData] = React.useState<any[]>(feedbacks);
-  const columns = [
+  const columns: ColumnsType = [
     {
       title: "№",
       dataIndex: "feedbackId",
+      align: "center",
+      width: "5rem",
+      render: (text, record) => data.indexOf(record) + 1,
     },
     {
-      title: "Информация",
+      title: (
+        <div className="reviews-and-recomends-table__event-col">
+          <span>Информация</span>
+          <SearchOutlined />
+        </div>
+      ),
       dataIndex: "userId",
       render: (text: string, record: any) => {
         return (
-          <>
+          <div className="reviews-and-recomends-table__user-info">
             <p>
               {objWithFullnames[`${text}`]
                 ? objWithFullnames[`${text}`]
-                : "Loading..."}
+                : "Загрузка..."}
             </p>
             <p>{record.date}</p>
             {record.rate && (
@@ -46,23 +57,28 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
                 <Rate disabled value={record.rate} />
               </p>
             )}
-          </>
+          </div>
         );
       },
     },
     {
       title: "Содержание",
       dataIndex: "text",
+      width: 800,
+      className: "reviews-and-recomends-table__text",
     },
     {
       title: "Статус",
       dataIndex: "status",
+      align: "center",
+      width: "20rem",
       render: (text: string, record: any) => {
         if (text == "0") {
           return (
             <>
               <span>
                 <Button
+                  className="reviews-and-recomends-table__actions-ok"
                   type="link"
                   onClick={() => {
                     onChangeFeedbackStatus(record.feedbackId, {
@@ -89,6 +105,7 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
               </span>
               <span>
                 <Button
+                  className="reviews-and-recomends-table__actions-cancel"
                   type="link"
                   onClick={() => {
                     onChangeFeedbackStatus(record.feedbackId, {
@@ -116,9 +133,17 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
             </>
           );
         } else if (text == "1") {
-          return <span>Принят</span>;
+          return (
+            <span className="reviews-and-recomends-table-status__green">
+              Принят
+            </span>
+          );
         } else {
-          return <span>Отклонен</span>;
+          return (
+            <span className="reviews-and-recomends-table-status__red">
+              Отклонен
+            </span>
+          );
         }
       },
     },
@@ -157,5 +182,44 @@ export const TrainingEditReviewsAndRecomendsTable: React.FC<TrainingEditReviewsA
     feedbacks && setData(feedbacks);
   }, [feedbacks]);
 
-  return <Table bordered columns={columns} dataSource={data} />;
+  return (
+    <Table
+      className="reviews-and-recomends-table"
+      bordered
+      columns={columns}
+      dataSource={data}
+      onHeaderRow={(column) => {
+        return {
+          className: "reviews-and-recomends-table__header",
+        };
+      }}
+      pagination={{
+        position: ["bottomCenter"],
+        itemRender: (page, type, originalElement) => {
+          switch (type) {
+            case "page":
+              return (
+                <div className="reviews-and-recomends-table__footer-page">
+                  {page}
+                </div>
+              );
+            case "prev":
+              return (
+                <div className="reviews-and-recomends-table__footer-prev-btn">
+                  ᐸ Пред.
+                </div>
+              );
+            case "next":
+              return (
+                <div className="reviews-and-recomends-table__footer-next-btn">
+                  След. ᐳ
+                </div>
+              );
+            default:
+              return originalElement;
+          }
+        },
+      }}
+    />
+  );
 };
