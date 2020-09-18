@@ -11,6 +11,7 @@ import { graphql } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { ModalWithStepsQuery } from "./__generated__/ModalWithStepsQuery.graphql";
 import { ModalWithStepsMutation } from "./__generated__/ModalWithStepsMutation.graphql";
+import "./modal-with-steps.css";
 
 const query = graphql`
   query ModalWithStepsQuery(
@@ -169,14 +170,19 @@ export const ModalWithSteps: React.FC<{
 
   return (
     <Modal
-      width={"80vw"}
-      closable={false}
+      closable={true}
+      closeIcon={
+        <span className="steps-modal__all__close-ico" onClick={onClose}>
+          Закрыть
+        </span>
+      }
       visible={isOpen}
       onCancel={onClose}
       footer={null}
+      className="steps-modal__all"
     >
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
+      <div className="steps-modal">
+        <div className="steps-modal__left-part">
           <h2>Выгрузка заявок на события</h2>
           <Steps direction="vertical" current={currentStep}>
             <Steps.Step
@@ -193,7 +199,9 @@ export const ModalWithSteps: React.FC<{
             ></Steps.Step>
           </Steps>
         </div>
-        <div>{stepsContent[currentStep]}</div>
+        <div className="steps-modal__right-part">
+          {stepsContent[currentStep]}
+        </div>
       </div>
     </Modal>
   );

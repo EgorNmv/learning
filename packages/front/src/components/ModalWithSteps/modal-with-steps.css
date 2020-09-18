@@ -1,0 +1,46 @@
+.steps-modal__all__close-ico {
+  text-decoration: underline;
+  font: normal normal normal 17px/22px Stem;
+  color: #cccccc;
+  position: absolute;
+  bottom: 60px;
+}
+
+.steps-modal__all {
+  width: 1226px !important;
+  height: 648px;
+}
+
+.steps-modal__all .ant-modal-body {
+  padding: 0;
+}
+
+.steps-modal {
+  display: flex;
+  justify-content: space-between;
+}
+
+.steps-modal__left-part {
+  margin-right: 15px;
+  background: #0088bb 0% 0% no-repeat padding-box;
+  padding: 30px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.steps-modal label {
+  font: normal normal normal 20px/23px Arial;
+}
+
+.steps-modal__left-part h2 {
+  font: normal normal bold 32px/37px Arial;
+  color: #ffffff;
+}
+
+.steps-modal__right-part {
+  flex: 1;
+  padding: 30px;
+}
+
+.ant-modal-content {
+  border-radius: 15px;
+}
