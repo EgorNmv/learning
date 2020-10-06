@@ -24,6 +24,7 @@ import { getListOfRequestsReviewsAndRecomendsByTrainingId } from "./queries/getL
 import { findAllTrainingsForReport } from "./queries/findAllTrainingsForReport";
 import { createReportByTrainingIdsAndWriteIt } from "./queries/createReportByTrainingIdsAndWriteIt";
 import { getAverageRatingByTrainingId } from "./queries/getAverageRatingByTrainingId";
+import { createReportOnAllEventsAndWriteIt } from "./queries/createReportOnAllEventsAndWriteIt";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -155,5 +156,10 @@ export class TrainingResolver {
     @Arg("ids", (type) => [Number]) ids: number[]
   ) {
     return await createReportByTrainingIdsAndWriteIt(connection, ids);
+  }
+
+  @Mutation(() => String)
+  public async createReportOnAllEvents(@Ctx() { connection }: Context) {
+    return await createReportOnAllEventsAndWriteIt(connection);
   }
 }
