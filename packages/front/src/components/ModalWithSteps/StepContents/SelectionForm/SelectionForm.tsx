@@ -118,6 +118,7 @@ export const SelectionForm: React.FC<{
         {() => (
           <>
             <Button
+              className="report-modal__next-btn"
               type="primary"
               disabled={checkOnDisabledBtn()}
               onClick={() => {

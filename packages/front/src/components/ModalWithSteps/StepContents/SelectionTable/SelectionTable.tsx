@@ -30,10 +30,12 @@ export const SelectionTable: React.FC<SelectionTableProps> = ({
     {
       title: "№",
       dataIndex: "id",
+      width: "5rem",
     },
     {
       title: "Событие",
       dataIndex: "name",
+      ellipsis: true,
     },
     {
       title: "Организатор",
@@ -74,12 +76,22 @@ export const SelectionTable: React.FC<SelectionTableProps> = ({
         rowKey={(record: Training): string =>
           `${record.trainingId}${record.name}`
         }
+        pagination={{ pageSize: 5 }}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button type="ghost" onClick={onClickBack}>
+        <Button
+          className="report-modal__cancel-btn report-modal__all-trainings-btn"
+          type="ghost"
+          onClick={onClickBack}
+        >
           Назад
         </Button>
-        <Button onClick={onClickNext}>Сформировать отчёт</Button>
+        <Button
+          className="report-modal__next-btn report-modal__all-trainings-btn"
+          onClick={onClickNext}
+        >
+          Сформировать отчёт
+        </Button>
       </div>
     </>
   );

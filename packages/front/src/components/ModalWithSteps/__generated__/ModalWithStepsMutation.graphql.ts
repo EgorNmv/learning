@@ -4,9 +4,11 @@
 import { ConcreteRequest } from "relay-runtime";
 export type ModalWithStepsMutationVariables = {
     ids: Array<number>;
+    onlyAllTrainingsReport: boolean;
 };
 export type ModalWithStepsMutationResponse = {
-    readonly createReportByTrainingIds: string;
+    readonly createReportByTrainingIds?: string;
+    readonly createReportOnAllEvents?: string;
 };
 export type ModalWithStepsMutation = {
     readonly response: ModalWithStepsMutationResponse;
@@ -18,8 +20,10 @@ export type ModalWithStepsMutation = {
 /*
 mutation ModalWithStepsMutation(
   $ids: [Float!]!
+  $onlyAllTrainingsReport: Boolean!
 ) {
-  createReportByTrainingIds(ids: $ids)
+  createReportByTrainingIds(ids: $ids) @skip(if: $onlyAllTrainingsReport)
+  createReportOnAllEvents @include(if: $onlyAllTrainingsReport)
 }
 */
 
@@ -30,21 +34,48 @@ var v0 = [
     "kind": "LocalArgument",
     "name": "ids",
     "type": "[Float!]!"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "onlyAllTrainingsReport",
+    "type": "Boolean!"
   }
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
+    "condition": "onlyAllTrainingsReport",
+    "kind": "Condition",
+    "passingValue": false,
+    "selections": [
       {
-        "kind": "Variable",
-        "name": "ids",
-        "variableName": "ids"
+        "alias": null,
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "ids",
+            "variableName": "ids"
+          }
+        ],
+        "kind": "ScalarField",
+        "name": "createReportByTrainingIds",
+        "storageKey": null
       }
-    ],
-    "kind": "ScalarField",
-    "name": "createReportByTrainingIds",
-    "storageKey": null
+    ]
+  },
+  {
+    "condition": "onlyAllTrainingsReport",
+    "kind": "Condition",
+    "passingValue": true,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "createReportOnAllEvents",
+        "storageKey": null
+      }
+    ]
   }
 ];
 return {
@@ -68,9 +99,9 @@ return {
     "metadata": {},
     "name": "ModalWithStepsMutation",
     "operationKind": "mutation",
-    "text": "mutation ModalWithStepsMutation(\n  $ids: [Float!]!\n) {\n  createReportByTrainingIds(ids: $ids)\n}\n"
+    "text": "mutation ModalWithStepsMutation(\n  $ids: [Float!]!\n  $onlyAllTrainingsReport: Boolean!\n) {\n  createReportByTrainingIds(ids: $ids) @skip(if: $onlyAllTrainingsReport)\n  createReportOnAllEvents @include(if: $onlyAllTrainingsReport)\n}\n"
   }
 };
 })();
-(node as any).hash = '3b3807da9a4f6af32c6953b94db99052';
+(node as any).hash = 'b4fdc2fb72555e206a8f1e578a6514b2';
 export default node;

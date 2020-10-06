@@ -18,6 +18,7 @@
 .steps-modal {
   display: flex;
   justify-content: space-between;
+  font: normal normal normal 20px/23px Arial;
 }
 
 .steps-modal__left-part {
@@ -43,4 +44,28 @@
 
 .ant-modal-content {
   border-radius: 15px;
+}
+
+.report-modal__cancel-btn {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #0088bb;
+  border-radius: 5px;
+  font: normal normal normal 20px/23px Arial;
+  color: #0088bb;
+  width: 245px;
+  height: 52px;
+}
+
+.report-modal__all-trainings-btn {
+  margin-top: 15px;
+}
+
+.report-modal__next-btn {
+  background: #0088bb 0% 0% no-repeat padding-box;
+  border: 1px solid #0088bb;
+  border-radius: 5px;
+  font: normal normal normal 20px/23px Arial;
+  color: #ffffff;
+  width: 250px;
+  height: 52px;
 }

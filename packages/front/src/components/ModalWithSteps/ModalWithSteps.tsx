@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Steps, Button } from "antd";
+import { Modal, Steps, Button, Divider } from "antd";
 import { useForm } from "antd/lib/form/util";
 import { SelectionForm } from "./StepContents/SelectionForm/SelectionForm";
 import {
@@ -42,8 +42,12 @@ const query = graphql`
 `;
 
 const mutation = graphql`
-  mutation ModalWithStepsMutation($ids: [Float!]!) {
-    createReportByTrainingIds(ids: $ids)
+  mutation ModalWithStepsMutation(
+    $ids: [Float!]!
+    $onlyAllTrainingsReport: Boolean!
+  ) {
+    createReportByTrainingIds(ids: $ids) @skip(if: $onlyAllTrainingsReport)
+    createReportOnAllEvents @include(if: $onlyAllTrainingsReport)
   }
 `;
 
@@ -103,9 +107,12 @@ export const ModalWithSteps: React.FC<{
         commit({
           variables: {
             ids,
+            onlyAllTrainingsReport: false,
           },
           onCompleted: (response) => {
-            setReportFileName(response.createReportByTrainingIds);
+            if (response.createReportByTrainingIds) {
+              setReportFileName(response.createReportByTrainingIds);
+            }
           },
         });
       } else {
@@ -136,6 +143,18 @@ export const ModalWithSteps: React.FC<{
           : training
       )
     );
+  };
+
+  const onGenerateReportOnAllTrainings = (): void => {
+    setCurrentStep(2);
+    commit({
+      variables: { onlyAllTrainingsReport: true, ids: [] },
+      onCompleted: (response) => {
+        if (response.createReportOnAllEvents) {
+          setReportFileName(response.createReportOnAllEvents);
+        }
+      },
+    });
   };
 
   const stepsContent: JSX.Element[] = [
@@ -198,6 +217,19 @@ export const ModalWithSteps: React.FC<{
               description="Скачайте готовый отчёт"
             ></Steps.Step>
           </Steps>
+          <Divider />
+          <Steps>
+            <Steps.Step
+              status="finish"
+              title="Отчёт по всем событиям"
+            ></Steps.Step>
+          </Steps>
+          <Button
+            className="report-modal__cancel-btn report-modal__all-trainings-btn"
+            onClick={onGenerateReportOnAllTrainings}
+          >
+            Сгенерировать
+          </Button>
         </div>
         <div className="steps-modal__right-part">
           {stepsContent[currentStep]}

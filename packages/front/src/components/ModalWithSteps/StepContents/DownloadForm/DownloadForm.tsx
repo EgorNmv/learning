@@ -7,8 +7,13 @@ export const DownloadForm: React.FC<{
   isDownloadBtnDisabled: boolean;
 }> = ({ filename, isDownloadBtnDisabled }) => (
   <>
-    <span>Ваш отчёт готов!</span>
-    <Button type="primary" disabled={!filename} loading={isDownloadBtnDisabled}>
+    <div>Ваш отчёт готов!</div>
+    <Button
+      className="report-modal__next-btn report-modal__all-trainings-btn"
+      type="primary"
+      disabled={!filename}
+      loading={isDownloadBtnDisabled}
+    >
       <a
         href={`${process.env.REACT_APP_SERVER_HOST_WITH_PORT}/report/${filename}`}
       >
