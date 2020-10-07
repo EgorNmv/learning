@@ -3,7 +3,7 @@ import { Card, Button, Rate } from "antd";
 import { TrainingMaterials } from "../../components/TrainingMaterials/TrainingMaterials";
 import { TrainingRecommendations } from "../../components/TrainingRecommendations/TrainingRecommendations";
 import { TrainingReviews } from "../../components/TrainingReviews/TrainingReviews";
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { graphql } from "react-relay";
 import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMutation } from "./__generated__/TrainingMutation.graphql";
@@ -81,6 +81,10 @@ const Training: React.FC = () => {
         },
       });
   };
+
+  if (!id || !training) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>

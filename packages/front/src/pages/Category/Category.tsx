@@ -2,7 +2,7 @@ import React from "react";
 import "./category.css";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Redirect } from "react-router-dom";
 import { CategoryQuery } from "./__generated__/CategoryQuery.graphql";
 import { Radio, DatePicker } from "antd";
 import { RadioChangeEvent } from "antd/lib/radio";
@@ -194,6 +194,10 @@ const Category: React.FC = () => {
   React.useEffect(() => {
     sortedTraining && setSortedTrainingList(sortedTraining as Training[]);
   }, [sortedTraining]);
+
+  if (!id || !category) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="category-page-content">
