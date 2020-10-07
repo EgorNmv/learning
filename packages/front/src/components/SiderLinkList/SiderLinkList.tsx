@@ -6,6 +6,7 @@ import SubMenu from "antd/lib/menu/SubMenu";
 import "./sider-link-list.css";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
 import { SiderLinkListQuery } from "./__generated__/SiderLinkListQuery.graphql";
+import { SafeLink } from "../SafeLink/SafeLink";
 // import { FixedSizeList } from "react-window";
 
 const query = graphql`
@@ -71,14 +72,14 @@ export const SiderLinkList: React.FC = () => {
               key={`${category.categoryId + category.description}`}
               className="submenu-item__category"
             >
-              <Link to={`/category/${category.categoryId}`}>
+              <SafeLink to={`/category/${category.categoryId}`}>
                 {category.description}
-              </Link>
+              </SafeLink>
             </Menu.Item>
           );
         })}
         <Menu.Item>
-          <Link to="/categories">{constants["SEEALLCATEGORY"]}</Link>
+          <SafeLink to="/categories">{constants["SEEALLCATEGORY"]}</SafeLink>
         </Menu.Item>
       </SubMenu>
       {/* <Menu.Item>
