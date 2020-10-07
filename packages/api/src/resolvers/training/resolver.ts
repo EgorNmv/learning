@@ -111,8 +111,9 @@ export class TrainingResolver {
     @Arg("organizerId") organizerId: number,
     @Arg("targetAudienceId") targetAudienceId: number,
     @Arg("formatId") formatId: number,
-    @Arg("startDate") startDate: string,
-    @Arg("endDate") endDate: string
+    @Arg("startDate", { nullable: true }) startDate: string,
+    @Arg("endDate", { nullable: true }) endDate: string,
+    @Arg("withTrainingsWithoutDate") withTrainingsWithoutDate: boolean
   ) {
     return await findAllTrainingsForReport(
       connection,
@@ -121,7 +122,8 @@ export class TrainingResolver {
       targetAudienceId,
       formatId,
       startDate,
-      endDate
+      endDate,
+      withTrainingsWithoutDate
     );
   }
 

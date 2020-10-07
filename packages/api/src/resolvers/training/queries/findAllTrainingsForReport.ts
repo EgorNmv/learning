@@ -23,10 +23,11 @@ export const findAllTrainingsForReport = async (
   organizerId: number,
   targetAudienceId: number,
   formatId: number,
-  startDate: string,
-  endDate: string
+  startDate: string | null,
+  endDate: string | null,
+  withTrainingsWithoutDate: boolean
 ): Promise<TrainingEntity[]> => {
-  if (!startDate || !endDate) {
+  if ((!startDate || !endDate) && !withTrainingsWithoutDate) {
     return [];
   }
 
@@ -62,7 +63,9 @@ export const findAllTrainingsForReport = async (
   const endSelectedTime: number = endSelectedDate.getTime();
   const trainingsFilteredByDates: TrainingEntity[] = trainings.filter(
     (training) => {
-      if (!training.start || !training.end) {
+      if (withTrainingsWithoutDate && !training.isDateSet) {
+        return true;
+      } else if (!training.start || !training.end) {
         return false;
       }
 
