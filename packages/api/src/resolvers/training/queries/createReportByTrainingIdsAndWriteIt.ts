@@ -62,7 +62,9 @@ export const createReportByTrainingIdsAndWriteIt = async (
     } else {
       acc[`${cur.trainingId}`] = {
         name: cur.training.name,
-        dates: `${cur.training.start} - ${cur.training.end}`,
+        dates: cur.training.isDateSet
+          ? `${cur.training.start} - ${cur.training.end}`
+          : "Дата не определена",
         countOfRequests: 1,
       };
 
@@ -75,7 +77,7 @@ export const createReportByTrainingIdsAndWriteIt = async (
   } = trainingsWithoutRequests.reduce((acc, cur) => {
     acc[`${cur.id}`] = {
       name: cur.name,
-      dates: `${cur.start} - ${cur.end}`,
+      dates: cur.isDateSet ? `${cur.start} - ${cur.end}` : "Дата не определена",
       countOfRequests: 0,
     };
 
