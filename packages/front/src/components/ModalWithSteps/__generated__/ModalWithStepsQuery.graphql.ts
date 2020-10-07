@@ -7,8 +7,9 @@ export type ModalWithStepsQueryVariables = {
     organizerId: number;
     targetAudienceId: number;
     formatId: number;
-    startDate: string;
-    endDate: string;
+    startDate?: string | null;
+    endDate?: string | null;
+    withTrainingsWithoutDate: boolean;
 };
 export type ModalWithStepsQueryResponse = {
     readonly trainingsForReport: ReadonlyArray<{
@@ -34,10 +35,11 @@ query ModalWithStepsQuery(
   $organizerId: Float!
   $targetAudienceId: Float!
   $formatId: Float!
-  $startDate: String!
-  $endDate: String!
+  $startDate: String
+  $endDate: String
+  $withTrainingsWithoutDate: Boolean!
 ) {
-  trainingsForReport(categoryId: $categoryId, organizerId: $organizerId, targetAudienceId: $targetAudienceId, formatId: $formatId, startDate: $startDate, endDate: $endDate) {
+  trainingsForReport(categoryId: $categoryId, organizerId: $organizerId, targetAudienceId: $targetAudienceId, formatId: $formatId, startDate: $startDate, endDate: $endDate, withTrainingsWithoutDate: $withTrainingsWithoutDate) {
     trainingId: id
     name
     organizer {
@@ -79,13 +81,19 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "startDate",
-    "type": "String!"
+    "type": "String"
   },
   {
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "endDate",
-    "type": "String!"
+    "type": "String"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "withTrainingsWithoutDate",
+    "type": "Boolean!"
   }
 ],
 v1 = {
@@ -128,6 +136,11 @@ v2 = [
         "kind": "Variable",
         "name": "targetAudienceId",
         "variableName": "targetAudienceId"
+      },
+      {
+        "kind": "Variable",
+        "name": "withTrainingsWithoutDate",
+        "variableName": "withTrainingsWithoutDate"
       }
     ],
     "concreteType": "TrainingEntity",
@@ -194,9 +207,9 @@ return {
     "metadata": {},
     "name": "ModalWithStepsQuery",
     "operationKind": "query",
-    "text": "query ModalWithStepsQuery(\n  $categoryId: Float!\n  $organizerId: Float!\n  $targetAudienceId: Float!\n  $formatId: Float!\n  $startDate: String!\n  $endDate: String!\n) {\n  trainingsForReport(categoryId: $categoryId, organizerId: $organizerId, targetAudienceId: $targetAudienceId, formatId: $formatId, startDate: $startDate, endDate: $endDate) {\n    trainingId: id\n    name\n    organizer {\n      name\n    }\n    start\n    end\n  }\n}\n"
+    "text": "query ModalWithStepsQuery(\n  $categoryId: Float!\n  $organizerId: Float!\n  $targetAudienceId: Float!\n  $formatId: Float!\n  $startDate: String\n  $endDate: String\n  $withTrainingsWithoutDate: Boolean!\n) {\n  trainingsForReport(categoryId: $categoryId, organizerId: $organizerId, targetAudienceId: $targetAudienceId, formatId: $formatId, startDate: $startDate, endDate: $endDate, withTrainingsWithoutDate: $withTrainingsWithoutDate) {\n    trainingId: id\n    name\n    organizer {\n      name\n    }\n    start\n    end\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '766ec616764e04da27f5bd05f0a06a77';
+(node as any).hash = 'eb1dadb44cca71b48772395541b506c0';
 export default node;

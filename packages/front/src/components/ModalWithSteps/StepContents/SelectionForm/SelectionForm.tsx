@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Select, DatePicker, Button } from "antd";
+import { Form, Select, DatePicker, Button, Checkbox } from "antd";
 import { FormInstance } from "antd/lib/form/util";
 import "moment/locale/ru";
 import { graphql } from "react-relay";
@@ -113,6 +113,9 @@ export const SelectionForm: React.FC<{
           format={"DD.MM.YYYY"}
           placeholder={["Дата начала", "Дата конца"]}
         />
+      </Form.Item>
+      <Form.Item name="withTrainingsWithoutDate" valuePropName="checked">
+        <Checkbox>Включая события с неопределённой датой</Checkbox>
       </Form.Item>
       <Form.Item shouldUpdate={true}>
         {() => (

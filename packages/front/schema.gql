@@ -205,7 +205,7 @@ type Query {
   training(id: Float!): TrainingEntity
   trainings: [TrainingEntity!]!
   trainingsByCategoryId(categoryId: Float!): [TrainingEntity!]!
-  trainingsForReport(categoryId: Float!, endDate: String!, formatId: Float!, organizerId: Float!, startDate: String!, targetAudienceId: Float!): [TrainingEntity!]!
+  trainingsForReport(categoryId: Float!, endDate: String, formatId: Float!, organizerId: Float!, startDate: String, targetAudienceId: Float!, withTrainingsWithoutDate: Boolean!): [TrainingEntity!]!
 }
 
 """Заявка на обучение"""

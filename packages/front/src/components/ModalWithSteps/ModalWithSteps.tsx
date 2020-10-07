@@ -19,8 +19,9 @@ const query = graphql`
     $organizerId: Float!
     $targetAudienceId: Float!
     $formatId: Float!
-    $startDate: String!
-    $endDate: String!
+    $startDate: String
+    $endDate: String
+    $withTrainingsWithoutDate: Boolean!
   ) {
     trainingsForReport(
       categoryId: $categoryId
@@ -29,6 +30,7 @@ const query = graphql`
       formatId: $formatId
       startDate: $startDate
       endDate: $endDate
+      withTrainingsWithoutDate: $withTrainingsWithoutDate
     ) {
       trainingId: id
       name
@@ -65,9 +67,18 @@ export const ModalWithSteps: React.FC<{
     format: number;
     organizer: number;
     target: number;
-    start: string;
-    end: string;
-  }>({ category: 0, format: 0, organizer: 0, target: 0, start: "", end: "" });
+    start: string | null;
+    end: string | null;
+    withTrainingsWithoutDate: boolean;
+  }>({
+    category: 0,
+    format: 0,
+    organizer: 0,
+    target: 0,
+    start: null,
+    end: null,
+    withTrainingsWithoutDate: false,
+  });
   const [trainingsWithStatuses, setTrainingsWithStatuses] = React.useState<
     Training[]
   >([]);
@@ -88,6 +99,8 @@ export const ModalWithSteps: React.FC<{
       targetAudienceId: filterFieldsForTrainings.target,
       startDate: filterFieldsForTrainings.start,
       endDate: filterFieldsForTrainings.end,
+      withTrainingsWithoutDate:
+        filterFieldsForTrainings.withTrainingsWithoutDate,
     },
     { fetchPolicy: "network-only" }
   );
@@ -127,6 +140,9 @@ export const ModalWithSteps: React.FC<{
         target: form.getFieldValue("targetAudience"),
         start: form.getFieldValue("startAndEndDates")[0],
         end: form.getFieldValue("startAndEndDates")[1],
+        withTrainingsWithoutDate: form.getFieldValue(
+          "withTrainingsWithoutDate"
+        ),
       });
     }
   };
