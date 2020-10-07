@@ -22,6 +22,7 @@ export type TrainingQueryResponse = {
         };
         readonly start: string | null;
         readonly end: string | null;
+        readonly isDateSet: boolean;
         readonly site: string | null;
         readonly audience: {
             readonly description: string;
@@ -58,6 +59,7 @@ query TrainingQuery(
     }
     start
     end
+    isDateSet
     site
     audience {
       description
@@ -186,6 +188,13 @@ v4 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "isDateSet",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "site",
         "storageKey": null
       },
@@ -256,9 +265,9 @@ return {
     "metadata": {},
     "name": "TrainingQuery",
     "operationKind": "query",
-    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
+    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    isDateSet\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
   }
 };
 })();
-(node as any).hash = 'eb9f7e5adb48855e8e8c4380e1b96592';
+(node as any).hash = '801d92c84296d093ff8ea1e2b2f2abff';
 export default node;

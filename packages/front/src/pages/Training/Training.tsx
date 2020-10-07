@@ -40,6 +40,7 @@ const query = graphql`
       }
       start
       end
+      isDateSet
       site
       audience {
         description
@@ -114,7 +115,11 @@ const Training: React.FC = () => {
             )}
             <div>
               <span className="bold-title">Дата: </span>
-              <span>{`${training?.start} - ${training?.end}`}</span>
+              <span>
+                {training?.isDateSet
+                  ? `${training?.start} - ${training?.end}`
+                  : "Не определена"}
+              </span>
             </div>
             <div>
               <span className="bold-title">Аудитория: </span>
