@@ -20,6 +20,7 @@ export type ModalWithStepsQueryResponse = {
         };
         readonly start: string | null;
         readonly end: string | null;
+        readonly isDateSet: boolean;
     }>;
 };
 export type ModalWithStepsQuery = {
@@ -47,6 +48,7 @@ query ModalWithStepsQuery(
     }
     start
     end
+    isDateSet
   }
 }
 */
@@ -181,6 +183,13 @@ v2 = [
         "kind": "ScalarField",
         "name": "end",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "isDateSet",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -207,9 +216,9 @@ return {
     "metadata": {},
     "name": "ModalWithStepsQuery",
     "operationKind": "query",
-    "text": "query ModalWithStepsQuery(\n  $categoryId: Float!\n  $organizerId: Float!\n  $targetAudienceId: Float!\n  $formatId: Float!\n  $startDate: String\n  $endDate: String\n  $withTrainingsWithoutDate: Boolean!\n) {\n  trainingsForReport(categoryId: $categoryId, organizerId: $organizerId, targetAudienceId: $targetAudienceId, formatId: $formatId, startDate: $startDate, endDate: $endDate, withTrainingsWithoutDate: $withTrainingsWithoutDate) {\n    trainingId: id\n    name\n    organizer {\n      name\n    }\n    start\n    end\n  }\n}\n"
+    "text": "query ModalWithStepsQuery(\n  $categoryId: Float!\n  $organizerId: Float!\n  $targetAudienceId: Float!\n  $formatId: Float!\n  $startDate: String\n  $endDate: String\n  $withTrainingsWithoutDate: Boolean!\n) {\n  trainingsForReport(categoryId: $categoryId, organizerId: $organizerId, targetAudienceId: $targetAudienceId, formatId: $formatId, startDate: $startDate, endDate: $endDate, withTrainingsWithoutDate: $withTrainingsWithoutDate) {\n    trainingId: id\n    name\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'eb1dadb44cca71b48772395541b506c0';
+(node as any).hash = '1a4a5dd9a6b64a71dc0e44e9458bee88';
 export default node;

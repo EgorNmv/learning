@@ -39,6 +39,7 @@ const query = graphql`
       }
       start
       end
+      isDateSet
     }
   }
 `;

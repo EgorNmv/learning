@@ -1,14 +1,9 @@
 import React from "react";
 import { Table, Switch, Button } from "antd";
+import { ModalWithStepsQueryResponse } from "../../__generated__/ModalWithStepsQuery.graphql";
 
-export type Training = {
-  trainingId: number;
-  name: string;
-  organizer: { name: string };
-  start: string;
-  end: string;
+export type Training = ModalWithStepsQueryResponse["trainingsForReport"][number] & {
   status: boolean;
-  id: number;
 };
 
 type SelectionTableProps = {
@@ -45,8 +40,11 @@ export const SelectionTable: React.FC<SelectionTableProps> = ({
     {
       title: "Даты",
       dataIndex: "dates",
-      render: (text: string, record: Training) =>
-        `${record.start}-${record.end}`,
+      render: (text: string, record: Training) => {
+        return record.isDateSet
+          ? `${record.start}-${record.end}`
+          : "Дата не определена";
+      },
     },
     {
       title: "Статус",
