@@ -8,8 +8,11 @@ export class ErrorBoundary extends React.Component {
   };
 
   public static getDerivedStateFromError(error: Error) {
-    // Обновить состояние с тем, чтобы следующий рендер показал запасной UI.
-    return { hasError: true };
+    // Чтобы Окно ошибки не вылазило при авторизации, так как в браузере FIREFOX идёт NetworkError
+    if (window.location.pathname !== "/implicit/callback") {
+      // Обновить состояние с тем, чтобы следующий рендер показал запасной UI.
+      return { hasError: true };
+    }
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
