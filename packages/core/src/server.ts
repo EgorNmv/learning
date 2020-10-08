@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import * as path from "path";
-import * as fs from "fs";
 import cors = require("cors");
 import express = require("express");
 import { Connection } from "typeorm";
@@ -11,37 +10,11 @@ import { resolvers } from "../../api/src/resolvers";
 import { ApolloServer } from "apollo-server-express";
 import OktaJwtVerifier = require("@okta/jwt-verifier");
 import fileRoutes from "../../api/src/routes/file.routes";
-import { getLocallyConnection } from "./database-connection/database-connection";
-
-const checkIsUploadsFolderExists = () => {
-  const uploadFolderPath: string = "../../uploads";
-  const foldersInUpload: string[] = [
-    "/category",
-    "/training",
-    "/material",
-    "/report",
-  ];
-
-  if (!fs.existsSync(uploadFolderPath)) {
-    fs.mkdir(uploadFolderPath, () => {
-      console.info("created /uploads folder");
-      foldersInUpload.forEach((name) =>
-        fs.mkdir(uploadFolderPath.concat(name), () =>
-          console.info(`created ${name} folder`)
-        )
-      );
-    });
-  }
-
-  if (!fs.existsSync("./logs")) {
-    fs.mkdir("./logs", () => {
-      console.info("created /logs folder");
-    });
-  }
-};
+import { getLocallyConnection } from "./services/database-connection";
+import { checkIsUploadsFolderExists } from "./services/directories-checker";
 
 const startServer = async (): Promise<void> => {
-  dotenvConfig();
+  dotenvConfig({ path: process.env.TEST_ENV ? "./test.env" : "./.env" });
   checkIsUploadsFolderExists();
 
   const oktaJwtVerifier = new OktaJwtVerifier({
@@ -58,7 +31,7 @@ const startServer = async (): Promise<void> => {
   });
   const server: ApolloServer = new ApolloServer({
     schema,
-    context: async ({ req }) => {
+    context: async ({ req, res }) => {
       const authHeader = req.headers.authorization || "";
       const match = authHeader.match(/Bearer (.+)/);
       let token = null;
