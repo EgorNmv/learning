@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as multer from "multer";
 import * as path from "path";
 import { Connection } from "typeorm";
-import { getLocallyConnection } from "../../../core/src/database-connection/database-connection";
+import { getLocallyConnection } from "../../../core/src/services/database-connection";
 import { TrainingEntity } from "../objects/entities/training/entity";
 import { findTrainingById } from "../resolvers/training/queries/findTrainingById";
 import { CategoryEntity } from "../objects/entities/category/entity";
