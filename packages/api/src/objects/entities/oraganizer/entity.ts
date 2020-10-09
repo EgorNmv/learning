@@ -58,6 +58,13 @@ export class OrganizerEntity extends BaseEntity implements Organizer {
   @Column({ nullable: true })
   public contactInfo: string;
 
+  @Field(() => String, {
+    nullable: true,
+    description: "спикер/преподаватель/докладчик",
+  })
+  @Column({ nullable: true })
+  public speaker: string;
+
   constructor(
     id: number,
     name: string,

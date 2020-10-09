@@ -77,6 +77,7 @@ input InputOrganizer {
   contactInfo: String
   name: String!
   site: String
+  speaker: String
   type: Float!
 }
 
@@ -162,6 +163,9 @@ type OrganizerEntity {
 
   """сайт организатора обучения"""
   site: String
+
+  """спикер/преподаватель/докладчик"""
+  speaker: String
 
   """тип организатора обучения"""
   type: Float!

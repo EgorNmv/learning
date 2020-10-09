@@ -4,6 +4,7 @@ export interface Organizer {
   address: string;
   site: string;
   type: number;
-  deletedAt?: Date;
+  deletedAt: Date;
   contactInfo: string;
+  speaker: string;
 }
