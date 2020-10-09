@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Form,
   Input,
@@ -9,22 +9,22 @@ import {
   Checkbox,
   Upload,
 } from "antd";
-import { CenteredText } from "../../hoc/CenteredText/CenteredText";
-import { Store } from "antd/lib/form/interface";
+import "moment/locale/ru";
+import moment from "moment";
+import "./training-form.css";
 import { graphql } from "react-relay";
+import { useHistory } from "react-router-dom";
+import { useOktaAuth } from "@okta/okta-react";
+import { Store } from "antd/lib/form/interface";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useLazyLoadQuery } from "react-relay/hooks";
+import PhotoSvg from "../../static/img/photograph.svg";
+import { AlertContext } from "../../hoc/Alert/AlertContext";
+import { CenteredText } from "../../hoc/CenteredText/CenteredText";
+import { UploadChangeParam, UploadFile } from "antd/es/upload/interface";
 import { TrainingFormQuery } from "./__generated__/TrainingFormQuery.graphql";
 import { InputTraining } from "../../pages/TrainingCreate/__generated__/TrainingCreateMutation.graphql";
-import { TrainingFormValues } from "../../utils/types";
-import { useHistory } from "react-router-dom";
-import moment from "moment";
-import "moment/locale/ru";
-import "./training-form.css";
-import { AlertContext } from "../../hoc/Alert/AlertContext";
-import { useOktaAuth } from "@okta/okta-react";
-import { LoadingOutlined } from "@ant-design/icons";
-import { UploadChangeParam, UploadFile } from "antd/es/upload/interface";
-import PhotoSvg from "../../static/img/photograph.svg";
+import { InputTraining as InputTrainingForEdit } from "../../pages/TrainingEdit/__generated__/TrainingEditMutation.graphql";
 
 const query = graphql`
   query TrainingFormQuery {
@@ -48,7 +48,7 @@ const query = graphql`
 `;
 
 type TrainingFormProps = {
-  formValues?: TrainingFormValues | null;
+  formValues?: InputTrainingForEdit | null;
   onFinish: (data: InputTraining) => void;
   isEditing?: boolean;
 };
@@ -63,7 +63,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const { formats, organizers, targetAudiences, categories } = useLazyLoadQuery<
     TrainingFormQuery
   >(query, {});
-  const [response, setResponse] = useState<string | null>(null);
+  const [response, setResponse] = React.useState<string | null>(null);
   const { showAlert } = React.useContext(AlertContext);
   const [isDatePickerDisabled, setIsDatePickerDisables] = React.useState<
     boolean
@@ -73,34 +73,35 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
 
   const onFinishHandler = ({
     name,
-    category,
-    targetAudience,
-    organizer,
-    trainingFormat,
-    // tags,
-    description,
-    countOfSeats,
     site,
-    startAndEndDates,
+    speaker,
+    formatId,
     isDateSet,
+    audienceId,
+    description,
+    categoryId,
+    organizerId,
+    startAndEndDates,
+    numberOfParticipants,
   }: Store) => {
     if (name.trim().length >= 3) {
       const data: InputTraining = {
-        audienceId: targetAudience,
-        end: !isDateSet ? startAndEndDates[1].format("DD.MM.YYYY") : null,
-        description: description.trim(),
-        formatId: trainingFormat,
-        label: response || formValues?.label,
+        formatId,
+        categoryId,
+        audienceId,
+        organizerId,
         name: name.trim(),
-        organizerId: organizer,
-        site: site && site.trim(),
-        start: !isDateSet ? startAndEndDates[0].format("DD.MM.YYYY") : null,
-        categoryId: category,
-        numberOfParticipants: Number(countOfSeats),
         isDateSet: !isDateSet,
+        site: site && site.trim(),
+        description: description.trim(),
+        speaker: speaker.trim() || null,
+        label: response || formValues?.label,
+        numberOfParticipants: Number(numberOfParticipants),
+        end: !isDateSet ? startAndEndDates[1].format("DD.MM.YYYY") : null,
+        start: !isDateSet ? startAndEndDates[0].format("DD.MM.YYYY") : null,
       };
 
-      onFinish && onFinish(data);
+      onFinish(data);
     } else {
       showAlert(
         `Название события "${name.trim()}" содержит менее трёх символов`,
@@ -119,8 +120,8 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         isDateSet: !formValues.isDateSet,
         startAndEndDates: formValues.isDateSet
           ? [
-              moment(formValues?.startDate, "DD.MM.YYYY"),
-              moment(formValues?.endDate, "DD.MM.YYYY"),
+              moment(formValues?.start, "DD.MM.YYYY"),
+              moment(formValues?.end, "DD.MM.YYYY"),
             ]
           : [],
       });
@@ -159,7 +160,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
           <div className="training-form__main-part__text__flex">
             <div className="training-form__main-part__text__flex-main">
               <Form.Item
-                name="category"
+                name="categoryId"
                 label="Категория:"
                 rules={[{ required: true }]}
               >
@@ -172,7 +173,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 </Select>
               </Form.Item>
               <Form.Item
-                name="targetAudience"
+                name="audienceId"
                 label="Целевая аудитория:"
                 rules={[{ required: true }]}
               >
@@ -213,7 +214,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                   </Form.Item>
                 </div>
                 <Form.Item
-                  name="countOfSeats"
+                  name="numberOfParticipants"
                   className="training-form__input-number"
                   label="Количество мест:"
                   rules={[
@@ -234,7 +235,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
             </div>
             <div className="training-form__main-part__text">
               <Form.Item
-                name="trainingFormat"
+                name="formatId"
                 label="Формат обучения:"
                 rules={[{ required: true }]}
               >
@@ -247,7 +248,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 </Select>
               </Form.Item>
               <Form.Item
-                name="organizer"
+                name="organizerId"
                 label="Организатор:"
                 rules={[{ required: true }]}
               >
@@ -270,6 +271,15 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                     message: "Недопустимый формат сайта",
                   },
                   { max: 255, message: "Слишком длинное имя сайта" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="speaker"
+                label="Докладчик:"
+                rules={[
+                  { max: 255, message: "Слишком длинное имя докладчика" },
                 ]}
               >
                 <Input />

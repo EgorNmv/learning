@@ -14,6 +14,7 @@ export type InputTraining = {
     numberOfParticipants?: number | null;
     organizerId: number;
     site?: string | null;
+    speaker?: string | null;
     start?: string | null;
 };
 export type TrainingCreateMutationVariables = {

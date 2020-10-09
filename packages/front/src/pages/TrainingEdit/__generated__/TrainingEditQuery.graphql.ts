@@ -35,6 +35,7 @@ export type TrainingEditQueryResponse = {
         };
         readonly site: string | null;
         readonly numberOfParticipants: number | null;
+        readonly speaker: string | null;
     } | null;
 };
 export type TrainingEditQuery = {
@@ -77,6 +78,7 @@ query TrainingEditQuery(
     }
     site
     numberOfParticipants
+    speaker
   }
 }
 */
@@ -261,6 +263,13 @@ v4 = [
         "kind": "ScalarField",
         "name": "numberOfParticipants",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "speaker",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -287,9 +296,9 @@ return {
     "metadata": {},
     "name": "TrainingEditQuery",
     "operationKind": "query",
-    "text": "query TrainingEditQuery(\n  $trainingId: Float!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    category {\n      categoryId: id\n      description\n    }\n    site\n    numberOfParticipants\n  }\n}\n"
+    "text": "query TrainingEditQuery(\n  $trainingId: Float!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    category {\n      categoryId: id\n      description\n    }\n    site\n    numberOfParticipants\n    speaker\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '3457f59675e54a055a97b40537e39467';
+(node as any).hash = '2a53b7c2240c3a1ac2ed6dbfd8098fa3';
 export default node;

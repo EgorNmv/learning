@@ -1,22 +1,21 @@
 import React from "react";
+import "./training-edit.css";
 import { Menu, Card } from "antd";
-import { Options } from "./MenuItems/Options";
-import { Requests } from "./MenuItems/Requests";
-import { Reviews } from "./MenuItems/Reviews";
-import { Recomendations } from "./MenuItems/Recomendations";
-import { TrainingFormValues } from "../../utils/types";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
-import { TrainingEditQuery } from "./__generated__/TrainingEditQuery.graphql";
-import { useParams, useHistory } from "react-router-dom";
 import { ClickParam } from "antd/lib/menu";
+import { Options } from "./MenuItems/Options";
+import { Reviews } from "./MenuItems/Reviews";
+import { Requests } from "./MenuItems/Requests";
 import {
   TrainingEditMutation,
   InputTraining,
 } from "./__generated__/TrainingEditMutation.graphql";
+import { useParams, useHistory } from "react-router-dom";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
+import { Recomendations } from "./MenuItems/Recomendations";
+import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
-import "./training-edit.css";
+import { TrainingEditQuery } from "./__generated__/TrainingEditQuery.graphql";
 
 const query = graphql`
   query TrainingEditQuery($trainingId: Float!) {
@@ -49,6 +48,7 @@ const query = graphql`
       }
       site
       numberOfParticipants
+      speaker
     }
   }
 `;
@@ -80,6 +80,7 @@ const mutation = graphql`
       }
       site
       numberOfParticipants
+      speaker
     }
   }
 `;
@@ -93,10 +94,23 @@ const TrainingEdit: React.FC = () => {
   });
   const [commit, isInFlight] = useMutation<TrainingEditMutation>(mutation);
   const [currentMenu, setCurrentMenu] = React.useState<string>("options");
-  const [
-    dataForTrainingForm,
-    setDataForTrainingForm,
-  ] = React.useState<TrainingFormValues | null>(null);
+  const dataForTrainingForm: InputTraining | null = training
+    ? {
+        categoryId: training.category.categoryId,
+        label: training.label,
+        description: training.description,
+        end: training.end,
+        name: training.name,
+        organizerId: training.organizer.organizerId,
+        start: training.start,
+        audienceId: training.audience.audienceId,
+        formatId: training.format.formatId,
+        numberOfParticipants: training.numberOfParticipants,
+        site: training.site,
+        isDateSet: training.isDateSet,
+        speaker: training.speaker,
+      }
+    : null;
 
   const handleClick = (e: ClickParam) => {
     setCurrentMenu(e.key);
@@ -126,25 +140,6 @@ const TrainingEdit: React.FC = () => {
     reviews: <Reviews />,
     recomendations: <Recomendations />,
   };
-
-  React.useEffect(() => {
-    if (training) {
-      setDataForTrainingForm({
-        category: training?.category.categoryId,
-        label: training?.label,
-        description: training?.description,
-        endDate: training?.end,
-        name: training?.name,
-        organizer: training?.organizer.organizerId,
-        startDate: training?.start,
-        targetAudience: training?.audience.audienceId,
-        trainingFormat: training?.format.formatId,
-        countOfSeats: training.numberOfParticipants,
-        site: training.site,
-        isDateSet: training.isDateSet,
-      });
-    }
-  }, [training]);
 
   return (
     <section className="training-edit-page">

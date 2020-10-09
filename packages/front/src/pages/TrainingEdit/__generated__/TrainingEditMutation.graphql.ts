@@ -14,6 +14,7 @@ export type InputTraining = {
     numberOfParticipants?: number | null;
     organizerId: number;
     site?: string | null;
+    speaker?: string | null;
     start?: string | null;
 };
 export type TrainingEditMutationVariables = {
@@ -46,6 +47,7 @@ export type TrainingEditMutationResponse = {
         };
         readonly site: string | null;
         readonly numberOfParticipants: number | null;
+        readonly speaker: string | null;
     };
 };
 export type TrainingEditMutation = {
@@ -85,6 +87,7 @@ mutation TrainingEditMutation(
     }
     site
     numberOfParticipants
+    speaker
   }
 }
 */
@@ -261,6 +264,13 @@ v4 = [
         "kind": "ScalarField",
         "name": "numberOfParticipants",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "speaker",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -287,9 +297,9 @@ return {
     "metadata": {},
     "name": "TrainingEditMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    numberOfParticipants\n  }\n}\n"
+    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    numberOfParticipants\n    speaker\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '985da10dbe26f69402fb1c7d10cd1483';
+(node as any).hash = '75b13e5811c46f04b10392ce50e4eeb0';
 export default node;

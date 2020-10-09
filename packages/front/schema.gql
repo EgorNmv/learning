@@ -99,6 +99,7 @@ input InputTraining {
   numberOfParticipants: Float
   organizerId: Float!
   site: String
+  speaker: String
   start: String
 }
 
@@ -281,6 +282,9 @@ type TrainingEntity {
 
   """ссылка на информацию по обучению"""
   site: String
+
+  """спикер/преподаватель/докладчик"""
+  speaker: String
 
   """дата начала обучения"""
   start: String
