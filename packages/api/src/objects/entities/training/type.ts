@@ -25,4 +25,5 @@ export interface Training {
   deletedAt: Date;
   isDateSet: boolean;
   averageRating: number;
+  speaker: string;
 }

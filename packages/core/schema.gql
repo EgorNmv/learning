@@ -77,7 +77,6 @@ input InputOrganizer {
   contactInfo: String
   name: String!
   site: String
-  speaker: String
   type: Float!
 }
 
@@ -100,6 +99,7 @@ input InputTraining {
   numberOfParticipants: Float
   organizerId: Float!
   site: String
+  speaker: String
   start: String
 }
 
@@ -163,9 +163,6 @@ type OrganizerEntity {
 
   """сайт организатора обучения"""
   site: String
-
-  """спикер/преподаватель/докладчик"""
-  speaker: String
 
   """тип организатора обучения"""
   type: Float!
@@ -285,6 +282,9 @@ type TrainingEntity {
 
   """ссылка на информацию по обучению"""
   site: String
+
+  """спикер/преподаватель/докладчик"""
+  speaker: String
 
   """дата начала обучения"""
   start: String

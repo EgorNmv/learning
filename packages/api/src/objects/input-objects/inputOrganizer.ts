@@ -17,7 +17,4 @@ export class InputOrganizer implements Omit<Organizer, "id" | "deletedAt"> {
 
   @Field({ nullable: true })
   public contactInfo: string;
-
-  @Field({ nullable: true })
-  public speaker: string;
 }

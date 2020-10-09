@@ -6,5 +6,4 @@ export interface Organizer {
   type: number;
   deletedAt: Date;
   contactInfo: string;
-  speaker: string;
 }

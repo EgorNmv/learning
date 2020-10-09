@@ -51,4 +51,7 @@ export class InputTraining
 
   @Field({ defaultValue: true })
   public isDateSet: boolean;
+
+  @Field({ nullable: true })
+  public speaker: string;
 }

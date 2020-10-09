@@ -162,6 +162,13 @@ export class TrainingEntity extends BaseEntity implements Training {
   })
   public averageRating: number;
 
+  @Field(() => String, {
+    nullable: true,
+    description: "спикер/преподаватель/докладчик",
+  })
+  @Column({ nullable: true })
+  public speaker: string;
+
   constructor(
     id: number,
     label: string,
