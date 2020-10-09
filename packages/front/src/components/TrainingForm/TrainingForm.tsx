@@ -90,7 +90,7 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
         end: !isDateSet ? startAndEndDates[1].format("DD.MM.YYYY") : null,
         description: description.trim(),
         formatId: trainingFormat,
-        label: response,
+        label: response || formValues?.label,
         name: name.trim(),
         organizerId: organizer,
         site: site && site.trim(),
