@@ -30,6 +30,8 @@ const query = graphql`
       label
       name
       description
+      cost
+      duration
       format {
         description
       }
@@ -133,6 +135,18 @@ const Training: React.FC = () => {
               <span className="bold-title">Формат обучения: </span>
               <span>{training?.format.description}</span>
             </div>
+            {training.cost && (
+              <div>
+                <span className="bold-title">Стоимость: </span>
+                <span>{training.cost}</span>
+              </div>
+            )}
+            {training.duration && (
+              <div>
+                <span className="bold-title">Продолжительность: </span>
+                <span>{training.duration}</span>
+              </div>
+            )}
             {training?.site && (
               <div>
                 <span className="bold-title">Сайт: </span>
@@ -140,7 +154,7 @@ const Training: React.FC = () => {
               </div>
             )}
             <div>
-              <span className="bold-title">Участников: </span>
+              <span className="bold-title">Заявок: </span>
               <span>
                 {training?.listOfRequestsReviewsAndRecomends &&
                   training.listOfRequestsReviewsAndRecomends[0]}

@@ -49,6 +49,8 @@ const query = graphql`
       site
       numberOfParticipants
       speaker
+      cost
+      duration
     }
   }
 `;
@@ -81,6 +83,8 @@ const mutation = graphql`
       site
       numberOfParticipants
       speaker
+      cost
+      duration
     }
   }
 `;
@@ -109,6 +113,8 @@ const TrainingEdit: React.FC = () => {
         site: training.site,
         isDateSet: training.isDateSet,
         speaker: training.speaker,
+        cost: training.cost,
+        duration: training.duration,
       }
     : null;
 

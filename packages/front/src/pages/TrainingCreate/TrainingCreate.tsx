@@ -38,6 +38,8 @@ const mutation = graphql`
         description
       }
       site
+      cost
+      duration
     }
   }
 `;

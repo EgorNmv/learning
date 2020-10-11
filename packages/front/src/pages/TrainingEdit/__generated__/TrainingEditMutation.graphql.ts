@@ -5,7 +5,9 @@ import { ConcreteRequest } from "relay-runtime";
 export type InputTraining = {
     audienceId: number;
     categoryId: number;
+    cost?: number | null;
     description: string;
+    duration?: number | null;
     end?: string | null;
     formatId: number;
     isDateSet?: boolean | null;
@@ -48,6 +50,8 @@ export type TrainingEditMutationResponse = {
         readonly site: string | null;
         readonly numberOfParticipants: number | null;
         readonly speaker: string | null;
+        readonly cost: number | null;
+        readonly duration: number | null;
     };
 };
 export type TrainingEditMutation = {
@@ -88,6 +92,8 @@ mutation TrainingEditMutation(
     site
     numberOfParticipants
     speaker
+    cost
+    duration
   }
 }
 */
@@ -271,6 +277,20 @@ v4 = [
         "kind": "ScalarField",
         "name": "speaker",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "cost",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "duration",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -297,9 +317,9 @@ return {
     "metadata": {},
     "name": "TrainingEditMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    numberOfParticipants\n    speaker\n  }\n}\n"
+    "text": "mutation TrainingEditMutation(\n  $trainingId: Float!\n  $data: InputTraining!\n) {\n  updateTrainingById(id: $trainingId, data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    numberOfParticipants\n    speaker\n    cost\n    duration\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '75b13e5811c46f04b10392ce50e4eeb0';
+(node as any).hash = '32bd19ced72e85673ac98e26d8d12ff3';
 export default node;
