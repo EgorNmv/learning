@@ -54,4 +54,10 @@ export class InputTraining
 
   @Field({ nullable: true })
   public speaker: string;
+
+  @Field({ nullable: true })
+  public cost: number;
+
+  @Field({ nullable: true })
+  public duration: number;
 }
