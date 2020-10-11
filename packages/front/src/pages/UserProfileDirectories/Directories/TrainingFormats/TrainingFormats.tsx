@@ -68,34 +68,34 @@ const TrainingFormats: React.FC = () => {
         <div className="td-cell__training-format-name">{text}</div>
       ),
     },
-    {
-      title: "Действия",
-      dataIndex: "actions",
-      align: "center",
-      width: "10rem",
-      render: (text, record) => (
-        <div className="td-cell__training-format-actions">
-          <span className="training-formats-table__edit-btn">
-            <Link
-              to={`/profile/directories/trainingformats/edit/${record.trainingFormatId}`}
-            >
-              <EditOutlined />
-            </Link>
-          </span>
-          <span className="training-formats-table__delete-btn">
-            <DeleteOutlined
-              onClick={() => {
-                setTrainingFormat({
-                  trainingFormatId: record.trainingFormatId,
-                  name: record.description,
-                });
-                setIsModalVisible(true);
-              }}
-            />
-          </span>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Действия",
+    //   dataIndex: "actions",
+    //   align: "center",
+    //   width: "10rem",
+    //   render: (text, record) => (
+    //     <div className="td-cell__training-format-actions">
+    //       <span className="training-formats-table__edit-btn">
+    //         <Link
+    //           to={`/profile/directories/trainingformats/edit/${record.trainingFormatId}`}
+    //         >
+    //           <EditOutlined />
+    //         </Link>
+    //       </span>
+    //       <span className="training-formats-table__delete-btn">
+    //         <DeleteOutlined
+    //           onClick={() => {
+    //             setTrainingFormat({
+    //               trainingFormatId: record.trainingFormatId,
+    //               name: record.description,
+    //             });
+    //             setIsModalVisible(true);
+    //           }}
+    //         />
+    //       </span>
+    //     </div>
+    //   ),
+    // },
   ];
 
   const deleteCategory = (): void => {

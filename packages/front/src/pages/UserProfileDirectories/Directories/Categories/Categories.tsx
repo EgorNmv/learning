@@ -65,34 +65,34 @@ const Categories: React.FC = () => {
         <div className="td-cell__category-name">{text}</div>
       ),
     },
-    {
-      title: "Действия",
-      align: "center",
-      dataIndex: "actions",
-      width: "10rem",
-      render: (text, record) => (
-        <div className="td-cell__category-actions">
-          <span className="categories-table__edit-btn">
-            <Link
-              to={`/profile/directories/categories/edit/${record.categoryId}`}
-            >
-              <EditOutlined />
-            </Link>
-          </span>
-          <span className="categories-table__delete-btn">
-            <DeleteOutlined
-              onClick={() => {
-                setDeletingCategory({
-                  categoryId: record.categoryId,
-                  name: record.description,
-                });
-                setIsModalVisible(true);
-              }}
-            />
-          </span>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Действия",
+    //   align: "center",
+    //   dataIndex: "actions",
+    //   width: "10rem",
+    //   render: (text, record) => (
+    //     <div className="td-cell__category-actions">
+    //       <span className="categories-table__edit-btn">
+    //         <Link
+    //           to={`/profile/directories/categories/edit/${record.categoryId}`}
+    //         >
+    //           <EditOutlined />
+    //         </Link>
+    //       </span>
+    //       <span className="categories-table__delete-btn">
+    //         <DeleteOutlined
+    //           onClick={() => {
+    //             setDeletingCategory({
+    //               categoryId: record.categoryId,
+    //               name: record.description,
+    //             });
+    //             setIsModalVisible(true);
+    //           }}
+    //         />
+    //       </span>
+    //     </div>
+    //   ),
+    // },
   ];
 
   const deleteCategory = (): void => {

@@ -114,7 +114,7 @@ const UserProfileEvents: React.FC = () => {
               <EditOutlined />
             </Link>
           </span>
-          <span className="events-table__delete-btn">
+          {/* <span className="events-table__delete-btn">
             <DeleteOutlined
               onClick={() => {
                 setDeletingTraining({
@@ -124,7 +124,7 @@ const UserProfileEvents: React.FC = () => {
                 setIsModalVisible(true);
               }}
             />
-          </span>
+          </span> */}
         </>
       ),
     },
