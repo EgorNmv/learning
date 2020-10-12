@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node ./src/server.ts",
-    "start-test": "TEST_ENV=1 ts-node ./src/server.ts"
+    "start-test-linux": "TEST_ENV=1 ts-node ./src/server.ts",
+    "start-test-windows": "set TEST_ENV=1 && ts-node ./src/server.ts"
   },
   "keywords": [],
   "author": "",
