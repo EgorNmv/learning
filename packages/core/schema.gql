@@ -90,7 +90,9 @@ input InputRequest {
 input InputTraining {
   audienceId: Float!
   categoryId: Float!
+  cost: Float
   description: String!
+  duration: Float
   end: String
   formatId: Float!
   isDateSet: Boolean = true
@@ -247,11 +249,17 @@ type TrainingEntity {
   """категория обучения"""
   category: CategoryEntity!
 
+  """стоимость события"""
+  cost: Float
+
   """дата создания обучения"""
   createDate: DateTime!
 
   """описание обучения"""
   description: String!
+
+  """продолжительность курса"""
+  duration: Float
 
   """дата окончания обучения"""
   end: String

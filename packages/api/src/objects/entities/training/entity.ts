@@ -169,6 +169,20 @@ export class TrainingEntity extends BaseEntity implements Training {
   @Column({ nullable: true })
   public speaker: string;
 
+  @Field(() => Number, {
+    nullable: true,
+    description: "стоимость события",
+  })
+  @Column({ nullable: true })
+  public cost: number;
+
+  @Field(() => Number, {
+    nullable: true,
+    description: "продолжительность курса",
+  })
+  @Column({ nullable: true })
+  public duration: number;
+
   constructor(
     id: number,
     label: string,

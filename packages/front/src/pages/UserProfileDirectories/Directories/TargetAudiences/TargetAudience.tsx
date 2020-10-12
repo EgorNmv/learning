@@ -66,34 +66,34 @@ const TargetAudiences: React.FC = () => {
         <div className="td-cell__target-audience-name">{text}</div>
       ),
     },
-    {
-      title: "Действия",
-      dataIndex: "actions",
-      align: "center",
-      width: "10rem",
-      render: (text: string, record: TargetAudience) => (
-        <div className="td-cell__target-audience-actions">
-          <span className="target-audiences-table__edit-btn">
-            <Link
-              to={`/profile/directories/targetaudiences/edit/${record.targetAudienceId}`}
-            >
-              <EditOutlined />
-            </Link>
-          </span>
-          <span className="target-audiences-table__delete-btn">
-            <DeleteOutlined
-              onClick={() => {
-                setDeletingOrganizer({
-                  targetAudienceId: record.targetAudienceId,
-                  name: record.description,
-                });
-                setIsModalVisible(true);
-              }}
-            />
-          </span>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Действия",
+    //   dataIndex: "actions",
+    //   align: "center",
+    //   width: "10rem",
+    //   render: (text: string, record: TargetAudience) => (
+    //     <div className="td-cell__target-audience-actions">
+    //       <span className="target-audiences-table__edit-btn">
+    //         <Link
+    //           to={`/profile/directories/targetaudiences/edit/${record.targetAudienceId}`}
+    //         >
+    //           <EditOutlined />
+    //         </Link>
+    //       </span>
+    //       <span className="target-audiences-table__delete-btn">
+    //         <DeleteOutlined
+    //           onClick={() => {
+    //             setDeletingOrganizer({
+    //               targetAudienceId: record.targetAudienceId,
+    //               name: record.description,
+    //             });
+    //             setIsModalVisible(true);
+    //           }}
+    //         />
+    //       </span>
+    //     </div>
+    //   ),
+    // },
   ];
 
   const deleteCategory = (): void => {

@@ -84,34 +84,34 @@ const Organizers: React.FC = () => {
       width: "15rem",
       render: (text, record) => (record.type === 1 ? "Внешний" : "Внутренний"),
     },
-    {
-      title: "Действия",
-      dataIndex: "actions",
-      align: "center",
-      width: "10rem",
-      render: (text, record) => (
-        <div className="td-cell__organizer-actions">
-          <span className="organizers-table__edit-btn">
-            <Link
-              to={`/profile/directories/organizers/edit/${record.organizerId}`}
-            >
-              <EditOutlined />
-            </Link>
-          </span>
-          <span className="organizers-table__delete-btn">
-            <DeleteOutlined
-              onClick={() => {
-                setDeletingOrganizer({
-                  organizerId: record.organizerId,
-                  name: record.name,
-                });
-                setIsModalVisible(true);
-              }}
-            />
-          </span>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Действия",
+    //   dataIndex: "actions",
+    //   align: "center",
+    //   width: "10rem",
+    //   render: (text, record) => (
+    //     <div className="td-cell__organizer-actions">
+    //       <span className="organizers-table__edit-btn">
+    //         <Link
+    //           to={`/profile/directories/organizers/edit/${record.organizerId}`}
+    //         >
+    //           <EditOutlined />
+    //         </Link>
+    //       </span>
+    //       <span className="organizers-table__delete-btn">
+    //         <DeleteOutlined
+    //           onClick={() => {
+    //             setDeletingOrganizer({
+    //               organizerId: record.organizerId,
+    //               name: record.name,
+    //             });
+    //             setIsModalVisible(true);
+    //           }}
+    //         />
+    //       </span>
+    //     </div>
+    //   ),
+    // },
   ];
 
   const deleteCategory = (): void => {

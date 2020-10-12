@@ -5,7 +5,9 @@ import { ConcreteRequest } from "relay-runtime";
 export type InputTraining = {
     audienceId: number;
     categoryId: number;
+    cost?: number | null;
     description: string;
+    duration?: number | null;
     end?: string | null;
     formatId: number;
     isDateSet?: boolean | null;
@@ -45,6 +47,8 @@ export type TrainingCreateMutationResponse = {
             readonly description: string;
         };
         readonly site: string | null;
+        readonly cost: number | null;
+        readonly duration: number | null;
     };
 };
 export type TrainingCreateMutation = {
@@ -82,6 +86,8 @@ mutation TrainingCreateMutation(
       description
     }
     site
+    cost
+    duration
   }
 }
 */
@@ -240,7 +246,21 @@ v4 = [
         ],
         "storageKey": null
       },
-      (v3/*: any*/)
+      (v3/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "cost",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "duration",
+        "storageKey": null
+      }
     ],
     "storageKey": null
   }
@@ -266,9 +286,9 @@ return {
     "metadata": {},
     "name": "TrainingCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingCreateMutation(\n  $data: InputTraining!\n) {\n  createTraining(data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n  }\n}\n"
+    "text": "mutation TrainingCreateMutation(\n  $data: InputTraining!\n) {\n  createTraining(data: $data) {\n    trainingId: id\n    label\n    name\n    description\n    format {\n      formatId: id\n      description\n    }\n    organizer {\n      organizerId: id\n      name\n      address\n      site\n      type\n    }\n    start\n    end\n    isDateSet\n    audience {\n      audienceId: id\n      description\n    }\n    site\n    cost\n    duration\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '9109c22ad50fa8a7f4264e54540a297d';
+(node as any).hash = '7ab8e22e5e361c70e61b93ea77b5fb57';
 export default node;

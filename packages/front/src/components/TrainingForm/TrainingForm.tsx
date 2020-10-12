@@ -74,7 +74,9 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   const onFinishHandler = ({
     name,
     site,
+    cost,
     speaker,
+    duration,
     formatId,
     isDateSet,
     audienceId,
@@ -86,15 +88,17 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
   }: Store) => {
     if (name.trim().length >= 3) {
       const data: InputTraining = {
+        cost,
+        duration,
         formatId,
         categoryId,
         audienceId,
         organizerId,
         name: name.trim(),
         isDateSet: !isDateSet,
-        site: site && site.trim(),
+        site: site ? site.trim() : null,
         description: description.trim(),
-        speaker: speaker.trim() || null,
+        speaker: speaker ? speaker.trim() : null,
         label: response || formValues?.label,
         numberOfParticipants: Number(numberOfParticipants),
         end: !isDateSet ? startAndEndDates[1].format("DD.MM.YYYY") : null,
@@ -198,40 +202,48 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                       disabled={isDatePickerDisabled}
                     />
                   </Form.Item>
-                  <Form.Item
-                    className="training-form__startAndEndDates-and-countOfSeats__checkbox"
-                    name="isDateSet"
-                    valuePropName="checked"
-                  >
-                    <Checkbox
-                      onChange={() => {
-                        setIsDatePickerDisables(!isDatePickerDisabled);
-                        form.resetFields(["startAndEndDates"]);
-                      }}
-                    >
-                      Дата не определена
-                    </Checkbox>
-                  </Form.Item>
                 </div>
                 <Form.Item
-                  name="numberOfParticipants"
-                  className="training-form__input-number"
-                  label="Количество мест:"
-                  rules={[
-                    {
-                      type: "number",
-                      message: "Количество мест должно быть числом",
-                    },
-                    {
-                      pattern: new RegExp("^[01-9]*$"),
-                      message:
-                        "Количество мест должно быть целым, положительным числом",
-                    },
-                  ]}
+                  className="training-form__startAndEndDates-and-countOfSeats__checkbox"
+                  name="isDateSet"
+                  valuePropName="checked"
                 >
-                  <InputNumber />
+                  <Checkbox
+                    onChange={() => {
+                      setIsDatePickerDisables(!isDatePickerDisabled);
+                      form.resetFields(["startAndEndDates"]);
+                    }}
+                  >
+                    Дата не определена
+                  </Checkbox>
                 </Form.Item>
               </div>
+              <Form.Item
+                name="numberOfParticipants"
+                className="training-form__input-number"
+                label="Количество мест:"
+                rules={[
+                  {
+                    pattern: new RegExp("^[01-9]*$"),
+                    message: "Количество мест должно быть числом",
+                  },
+                ]}
+              >
+                <InputNumber />
+              </Form.Item>
+              <Form.Item
+                name="cost"
+                className="training-form__input-number"
+                label="Стоимость события (₽):"
+                rules={[
+                  {
+                    pattern: new RegExp("^[01-9]*$"),
+                    message: "Стоимость события должна быть числом",
+                  },
+                ]}
+              >
+                <InputNumber />
+              </Form.Item>
             </div>
             <div className="training-form__main-part__text">
               <Form.Item
@@ -283,6 +295,19 @@ export const TrainingForm: React.FC<TrainingFormProps> = ({
                 ]}
               >
                 <Input />
+              </Form.Item>
+              <Form.Item
+                name="duration"
+                className="training-form__input-number"
+                label="Продолжительность события (ч):"
+                rules={[
+                  {
+                    pattern: new RegExp("^[01-9]*$"),
+                    message: "Продолжительность события должна быть числом",
+                  },
+                ]}
+              >
+                <InputNumber />
               </Form.Item>
             </div>
           </div>

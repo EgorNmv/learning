@@ -26,4 +26,6 @@ export interface Training {
   isDateSet: boolean;
   averageRating: number;
   speaker: string;
+  cost: number;
+  duration: number;
 }
