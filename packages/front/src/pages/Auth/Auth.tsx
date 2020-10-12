@@ -51,7 +51,7 @@ const Auth: React.FC = () => {
           issuer,
           display: "page",
           scopes,
-          responseMode: "fragment",
+          responseMode: "query",
         },
       });
 
