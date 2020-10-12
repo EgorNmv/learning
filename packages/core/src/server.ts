@@ -1,40 +1,42 @@
 import "reflect-metadata";
 import * as path from "path";
-import cors = require("cors");
-import express = require("express");
+import * as cors from "cors";
+import * as express from "express";
 import { Connection } from "typeorm";
 import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import { config as dotenvConfig } from "dotenv";
 import { resolvers } from "../../api/src/resolvers";
 import { ApolloServer } from "apollo-server-express";
-import OktaJwtVerifier = require("@okta/jwt-verifier");
+import * as OktaJwtVerifier from "@okta/jwt-verifier";
 import fileRoutes from "../../api/src/routes/file.routes";
 import { getLocallyConnection } from "./services/database-connection";
 import { checkIsUploadsFolderExists } from "./services/directories-checker";
+import { Context } from "../../api/src/objects/context";
+import { createOktaSdkClient } from "./services/okta-sdk-client-creator";
 
 const startServer = async (): Promise<void> => {
   dotenvConfig({ path: process.env.TEST_ENV ? "./test.env" : "./.env" });
   checkIsUploadsFolderExists();
 
   const oktaJwtVerifier = new OktaJwtVerifier({
-    issuer: "https://dev-690537.okta.com/oauth2/default",
-    clientId: "0oaob6rcxfmyiKQob4x6",
+    issuer: process.env.OKTA_ISSUER,
+    clientId: process.env.OKTA_CLIENT_ID,
     assertClaims: {
       aud: "api://default",
     },
   });
   const connection: Connection = await getLocallyConnection();
+  const oktaSdkClient = createOktaSdkClient();
   const schema: GraphQLSchema = await buildSchema({
     resolvers,
     emitSchemaFile: path.resolve(__dirname, "../", "schema.gql"),
   });
   const server: ApolloServer = new ApolloServer({
     schema,
-    context: async ({ req, res }) => {
-      const authHeader = req.headers.authorization || "";
+    context: async ({ req, res }): Promise<Context> => {
+      const authHeader = req.headers.authorization;
       const match = authHeader.match(/Bearer (.+)/);
-      let token = null;
 
       if (!match) {
         throw new Error("You must be logged in");
@@ -42,20 +44,21 @@ const startServer = async (): Promise<void> => {
 
       const accessToken = match[1];
       const expectedAudience = "api://default";
+      let validJwt = null;
 
       try {
         const jwt = await oktaJwtVerifier.verifyAccessToken(
           accessToken,
           expectedAudience
         );
-        token = jwt;
-        console.info("authHeader: TRUE", authHeader);
+
+        validJwt = jwt;
       } catch (e) {
-        console.info("authHeader: FALSE", authHeader);
+        console.info("invalid authHeader: ", authHeader);
         // throw new Error("Error in verifyAccessToken");
       }
 
-      return { connection, token };
+      return { connection, validJwt, oktaSdkClient };
     },
     introspection: true,
     playground: false,
