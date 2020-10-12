@@ -129,10 +129,10 @@ export class TrainingResolver {
 
   @Mutation(() => TrainingEntity)
   public async createTraining(
-    @Ctx() { connection }: Context,
+    @Ctx() context: Context,
     @Arg("data") data: InputTraining
   ) {
-    return await createTraining(connection, data);
+    return await createTraining(context, data);
   }
 
   @Mutation(() => TrainingEntity)

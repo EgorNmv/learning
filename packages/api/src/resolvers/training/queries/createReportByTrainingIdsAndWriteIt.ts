@@ -3,7 +3,7 @@ import { In } from "../../../../../core/node_modules/typeorm";
 import { RequestEntity } from "../../../objects/entities/request/entity";
 import { Workbook } from "exceljs";
 import * as path from "path";
-import { getUserBySub } from "../../okta/getUserBySub";
+import { getUserBySubOrEmail } from "../../okta/queries/getUserBySub";
 import { TrainingEntity } from "../../../objects/entities/training/entity";
 
 export const createReportByTrainingIdsAndWriteIt = async (
@@ -112,7 +112,7 @@ export const createReportByTrainingIdsAndWriteIt = async (
   fullReportSheet.getRow(1).font = { bold: true };
 
   const usersFromOkta: Promise<any>[] = requests.map((request) =>
-    getUserBySub(request.userId)
+    getUserBySubOrEmail(request.userId)
   );
 
   Promise.all(usersFromOkta)
