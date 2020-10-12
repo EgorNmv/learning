@@ -1,10 +1,14 @@
-import { Resolver, Query, Arg } from "type-graphql";
-import { getUserGroupBySub } from "./getUserGroupBySub";
+import { Resolver, Query, Arg, Ctx } from "type-graphql";
+import { Context } from "../../objects/context";
+import { getUserGroupBySub } from "./queries/getUserGroupBySub";
 
 @Resolver()
 export class OktaResolver {
   @Query(() => String)
-  public async getUserGroups(@Arg("sub") sub: string) {
-    return await getUserGroupBySub(sub);
+  public async getUserGroups(
+    @Ctx() { oktaSdkClient }: Context,
+    @Arg("sub") sub: string
+  ) {
+    return await getUserGroupBySub(oktaSdkClient, sub);
   }
 }

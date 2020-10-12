@@ -28,4 +28,6 @@ export interface Training {
   speaker: string;
   cost: number;
   duration: number;
+  creatorUid: string;
+  creatorName: string;
 }

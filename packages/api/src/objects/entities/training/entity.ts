@@ -183,6 +183,19 @@ export class TrainingEntity extends BaseEntity implements Training {
   @Column({ nullable: true })
   public duration: number;
 
+  /**
+   * Nullable false
+   */
+  @Field(() => String, {
+    nullable: false,
+    description: "uid создателя события",
+  })
+  @Column({ nullable: true })
+  public creatorUid: string;
+
+  @Column({ nullable: true })
+  public creatorName: string;
+
   constructor(
     id: number,
     label: string,

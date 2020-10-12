@@ -71,7 +71,7 @@ export class FeedbackEntity extends BaseEntity implements Feedback {
     nullable: true,
     description: "статус фидбека(0-pending, 1-accepted, 2-rejected)",
   })
-  @Column({ default: 0 })
+  @Column({ default: 1 })
   public status: number;
 
   @Field(() => Number, {

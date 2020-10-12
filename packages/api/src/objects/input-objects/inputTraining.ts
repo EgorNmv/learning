@@ -15,6 +15,8 @@ export class InputTraining
       | "listOfRequestsReviewsAndRecomends"
       | "deletedAt"
       | "averageRating"
+      | "creatorUid"
+      | "creatorName"
     > {
   @Field()
   public name: string;
