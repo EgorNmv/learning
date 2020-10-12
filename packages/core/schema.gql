@@ -255,6 +255,9 @@ type TrainingEntity {
   """дата создания обучения"""
   createDate: DateTime!
 
+  """uid создателя события"""
+  creatorUid: String!
+
   """описание обучения"""
   description: String!
 
