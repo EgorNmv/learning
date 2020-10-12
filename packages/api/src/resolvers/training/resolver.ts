@@ -6,6 +6,7 @@ import {
   Ctx,
   FieldResolver,
   Root,
+  Authorized,
 } from "type-graphql";
 import { TrainingEntity } from "../../objects/entities/training/entity";
 import { findTrainingById } from "./queries/findTrainingById";
@@ -126,7 +127,7 @@ export class TrainingResolver {
       withTrainingsWithoutDate
     );
   }
-
+  @Authorized()
   @Mutation(() => TrainingEntity)
   public async createTraining(
     @Ctx() context: Context,
@@ -135,6 +136,7 @@ export class TrainingResolver {
     return await createTraining(context, data);
   }
 
+  @Authorized()
   @Mutation(() => TrainingEntity)
   public async updateTrainingById(
     @Ctx() { connection }: Context,
@@ -144,6 +146,7 @@ export class TrainingResolver {
     return await updateTrainingById(connection, id, data);
   }
 
+  @Authorized()
   @Mutation(() => Boolean)
   public async deleteTrainingById(
     @Ctx() { connection }: Context,
@@ -152,6 +155,7 @@ export class TrainingResolver {
     return await deleteTrainingById(connection, id);
   }
 
+  @Authorized()
   @Mutation(() => String)
   public async createReportByTrainingIds(
     @Ctx() { connection }: Context,
@@ -160,6 +164,7 @@ export class TrainingResolver {
     return await createReportByTrainingIdsAndWriteIt(connection, ids);
   }
 
+  @Authorized()
   @Mutation(() => String)
   public async createReportOnAllEvents(@Ctx() { connection }: Context) {
     return await createReportOnAllEventsAndWriteIt(connection);

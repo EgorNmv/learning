@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver, Ctx } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, Ctx, Authorized } from "type-graphql";
 import { FeedbackEntity } from "../../objects/entities/feedback/entity";
 import { findAllFeedbacks } from "./queries/findAllFeedbacks";
 import { findFeedbackById } from "./queries/findFeedbackById";
@@ -62,6 +62,7 @@ export class FeedbackResolver {
     return await findFeedbacksByUserId(connection, userId, feedbackType);
   }
 
+  @Authorized()
   @Mutation(() => FeedbackEntity)
   public async createFeedback(
     @Ctx() { connection }: Context,
@@ -70,6 +71,7 @@ export class FeedbackResolver {
     return await createFeedback(connection, data);
   }
 
+  @Authorized()
   @Mutation(() => FeedbackEntity)
   public async updateFeedbackById(
     @Ctx() { connection }: Context,
@@ -79,6 +81,7 @@ export class FeedbackResolver {
     return await updateFeedbackById(connection, id, data);
   }
 
+  @Authorized()
   @Mutation(() => Boolean)
   public async deleteFeedbackById(
     @Ctx() { connection }: Context,

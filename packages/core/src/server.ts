@@ -7,6 +7,7 @@ import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import { config as dotenvConfig } from "dotenv";
 import { resolvers } from "../../api/src/resolvers";
+import { authChecker } from "../../api/src/middlewares/auth-checker";
 import { ApolloServer } from "apollo-server-express";
 import * as OktaJwtVerifier from "@okta/jwt-verifier";
 import fileRoutes from "../../api/src/routes/file.routes";
@@ -31,6 +32,7 @@ const startServer = async (): Promise<void> => {
   const schema: GraphQLSchema = await buildSchema({
     resolvers,
     emitSchemaFile: path.resolve(__dirname, "../", "schema.gql"),
+    authChecker: authChecker,
   });
   const server: ApolloServer = new ApolloServer({
     schema,
