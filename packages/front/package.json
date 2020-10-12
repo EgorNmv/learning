@@ -21,7 +21,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-window": "^1.8.2",
     "@types/relay-runtime": "^8.0.10",
-    "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "antd": "^4.3.0",
     "babel-eslint": "10.1.0",
@@ -161,6 +160,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.10.2",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
     "babel-plugin-relay": "^9.1.0",
     "graphql": "^15.0.0",
     "relay-compiler": "^9.1.0",
