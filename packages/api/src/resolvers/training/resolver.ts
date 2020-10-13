@@ -26,6 +26,7 @@ import { findAllTrainingsForReport } from "./queries/findAllTrainingsForReport";
 import { createReportByTrainingIdsAndWriteIt } from "./queries/createReportByTrainingIdsAndWriteIt";
 import { getAverageRatingByTrainingId } from "./queries/getAverageRatingByTrainingId";
 import { createReportOnAllEventsAndWriteIt } from "./queries/createReportOnAllEventsAndWriteIt";
+import { findTrainingsByContext } from "./queries/findTrainingsByContext";
 
 @Resolver(TrainingEntity)
 export class TrainingResolver {
@@ -106,6 +107,14 @@ export class TrainingResolver {
   }
 
   @Query(() => [TrainingEntity])
+  public async searchableTrainingsByContext(
+    @Ctx() { connection }: Context,
+    @Arg("searchText") searchText: string
+  ) {
+    return await findTrainingsByContext(connection, searchText);
+  }
+
+  @Query(() => [TrainingEntity])
   public async trainingsForReport(
     @Ctx() { connection }: Context,
     @Arg("categoryId") categoryId: number,
@@ -127,6 +136,7 @@ export class TrainingResolver {
       withTrainingsWithoutDate
     );
   }
+
   @Authorized()
   @Mutation(() => TrainingEntity)
   public async createTraining(
