@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Card, Button } from "antd";
+import { Table, Card, Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import {
   EditOutlined,
@@ -19,6 +19,7 @@ import { ModalWithSteps } from "../../components/ModalWithSteps/ModalWithSteps";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
 import "./user-profile-events.css";
 import { ColumnsType } from "antd/es/table";
+import { UserProfileEventsSearchableInput } from "./UserProfileEventsSearchableInput/UserProfileEventsSearchableInput";
 
 const query = graphql`
   query UserProfileEventsQuery {
@@ -188,6 +189,7 @@ const UserProfileEvents: React.FC = () => {
         </div>
       </div>
       <Card className="events-table__card">
+        <UserProfileEventsSearchableInput onFetched={setData} />
         <Table<Training>
           className="events-table"
           bordered

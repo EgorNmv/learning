@@ -202,6 +202,7 @@ type Query {
   requestsBySub(userId: String!): [RequestEntity!]!
   requestsByTrainingId(trainingId: Float!): [RequestEntity!]!
   searchableTrainings(searchBy: String!, searchText: String): [TrainingEntity!]!
+  searchableTrainingsByContext(searchText: String!): [TrainingEntity!]!
   sortedTraining(categoryId: Float!, sortBy: String!, sortOrder: String!): [TrainingEntity!]!
   targetAudience(id: Float!): TargetAudienceEntity
   targetAudiences: [TargetAudienceEntity!]!
@@ -254,6 +255,9 @@ type TrainingEntity {
 
   """дата создания обучения"""
   createDate: DateTime!
+
+  """uid создателя события"""
+  creatorUid: String!
 
   """описание обучения"""
   description: String!

@@ -115,3 +115,11 @@ li.ant-pagination-item:hover {
 li.ant-pagination-item-active {
   border: 0;
 }
+
+.events-table__card-input {
+  margin-bottom: 30px;
+}
+
+.events-table__card-input span button {
+  background: #0088bb 0% 0% no-repeat padding-box;
+}
