@@ -132,6 +132,7 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
               <div className="training-rate__reviews">
                 <div>
                   <Rate
+                    disabled
                     value={
                       training.averageRating
                         ? Math.round(training.averageRating)

@@ -172,6 +172,7 @@ const Training: React.FC = () => {
             </div>
             <div>
               <Rate
+                disabled
                 value={
                   training?.averageRating
                     ? Math.round(training.averageRating)
