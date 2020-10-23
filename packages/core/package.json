@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node ./src/server.ts",
+    "start:dev": "nodemon",
     "start-test-linux": "TEST_ENV=1 ts-node ./src/server.ts",
     "start-test-windows": "set TEST_ENV=1 && ts-node ./src/server.ts"
   },
@@ -33,5 +34,8 @@
     "type-graphql": "^1.0.0-rc.2",
     "typeorm": "^0.2.25",
     "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.5"
   }
 }
