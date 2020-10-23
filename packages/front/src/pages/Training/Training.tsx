@@ -32,6 +32,7 @@ const query = graphql`
       description
       cost
       duration
+      speaker
       format {
         description
       }
@@ -145,6 +146,12 @@ const Training: React.FC = () => {
               <div>
                 <span className="bold-title">Продолжительность: </span>
                 <span>{training.duration}</span>
+              </div>
+            )}
+            {training.speaker && (
+              <div>
+                <span className="bold-title">Спикер: </span>
+                <span>{training.speaker}</span>
               </div>
             )}
             {training?.site && (

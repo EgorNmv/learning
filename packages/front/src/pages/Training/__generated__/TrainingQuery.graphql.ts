@@ -14,6 +14,7 @@ export type TrainingQueryResponse = {
         readonly description: string;
         readonly cost: number | null;
         readonly duration: number | null;
+        readonly speaker: string | null;
         readonly format: {
             readonly description: string;
         };
@@ -53,6 +54,7 @@ query TrainingQuery(
     description
     cost
     duration
+    speaker
     format {
       description
     }
@@ -150,6 +152,13 @@ v4 = [
         "args": null,
         "kind": "ScalarField",
         "name": "duration",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "speaker",
         "storageKey": null
       },
       {
@@ -283,9 +292,9 @@ return {
     "metadata": {},
     "name": "TrainingQuery",
     "operationKind": "query",
-    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    cost\n    duration\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    isDateSet\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
+    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    cost\n    duration\n    speaker\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    isDateSet\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
   }
 };
 })();
-(node as any).hash = 'fd16b743c7f9d9c97d7fe11fe0fecf1a';
+(node as any).hash = 'bf3a91f6ccf75c916ef39a89d72d3144';
 export default node;
