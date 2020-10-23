@@ -22,11 +22,13 @@ export const UserMenuWithLinks: React.FC = () => {
       <Menu.Item key="2">
         <Link to="/profile/reviews">{constants["MYREVIEWS"]}</Link>
       </Menu.Item>
-      <Menu.Item key="3">
-        <Link to="/profile/recomendations">
-          {constants["MYRECOMENDATIONS"]}
-        </Link>
-      </Menu.Item>
+      {group === "0" && (
+        <Menu.Item key="3">
+          <Link to="/profile/recomendations">
+            {constants["MYRECOMENDATIONS"]}
+          </Link>
+        </Menu.Item>
+      )}
       {group === "0" && (
         <Menu.Item key="4">
           <Link to="/profile/trainings">{constants["EVENTS"]}</Link>

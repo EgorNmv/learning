@@ -96,9 +96,11 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           <h2>Рекомендации</h2>
           <span>{acceptedFeedbacksByTrainingId.length} рекомендации</span>
         </div>
-        <Button type="link" onClick={() => setIsVisibleModal(true)}>
-          Написать рекомендацию
-        </Button>
+        {user?.group === "0" && (
+          <Button type="link" onClick={() => setIsVisibleModal(true)}>
+            Написать рекомендацию
+          </Button>
+        )}
         <Modal
           closable={true}
           closeIcon={
