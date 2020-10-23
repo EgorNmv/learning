@@ -63,7 +63,9 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
   const user = React.useContext(UserContext);
 
   const sendRecommendation = () => {
-    user &&
+    const text: string = form.getFieldValue("recomendation").trim();
+
+    if (user && text) {
       commit({
         variables: {
           data: {
@@ -71,7 +73,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
             userId: user.sub,
             date: formatDate(new Date()),
             type: 1,
-            text: form.getFieldValue("recomendation"),
+            text,
           },
         },
         onCompleted: () => {
@@ -84,6 +86,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           showAlert("Ошибка при добавлении рекомендации", "error");
         },
       });
+    }
   };
 
   return (
@@ -124,6 +127,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
                     name="recomendation"
                     label="Рекомендация:"
                     rules={[{ required: true }]}
+                    initialValue=""
                   >
                     <Input.TextArea rows={15} />
                   </Form.Item>

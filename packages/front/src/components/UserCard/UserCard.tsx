@@ -45,11 +45,13 @@ export const UserCard: React.FC<UserCardProps> = React.memo(
               {oktaUser && oktaUser.profile && (
                 <p>{`${oktaUser.profile.firstName} ${oktaUser.profile.lastName}`}</p>
               )}
-              {rate && (
-                <p>
+              <p>
+                {rate ? (
                   <Rate value={rate} disabled />
-                </p>
-              )}
+                ) : (
+                  <Rate value={0} disabled />
+                )}
+              </p>
               <p className="user-card-body-user__date">{date}</p>
             </div>
           </div>

@@ -59,7 +59,12 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
   const { showAlert } = React.useContext(AlertContext);
 
   const sendReview = () => {
-    user &&
+    const text: string = form.getFieldValue("review").trim();
+    const rate: number = form.getFieldValue("rate")
+      ? Number(form.getFieldValue("rate"))
+      : 0;
+
+    if (user && text) {
       commit({
         variables: {
           data: {
@@ -67,8 +72,8 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
             userId: user.sub,
             date: formatDate(new Date()),
             type: 2,
-            text: form.getFieldValue("review"),
-            rate: Number(form.getFieldValue("rate")),
+            rate,
+            text,
           },
         },
         onCompleted: () => {
@@ -81,6 +86,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
           showAlert("Ошибка при добавлении отзыва", "error");
         },
       });
+    }
   };
 
   return (
@@ -129,6 +135,7 @@ export const TrainingReviews: React.FC<TrainingReviewsProps> = ({
                     name="review"
                     label="Отзыв:"
                     rules={[{ required: true }]}
+                    initialValue=""
                   >
                     <Input.TextArea rows={12} />
                   </Form.Item>
