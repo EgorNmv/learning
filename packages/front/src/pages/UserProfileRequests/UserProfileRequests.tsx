@@ -122,31 +122,37 @@ const UserProfileRequests: React.FC = () => {
               className: "requests-table__header",
             };
           }}
-          pagination={{
-            position: ["bottomCenter"],
-            itemRender: (page, type, originalElement) => {
-              switch (type) {
-                case "page":
-                  return (
-                    <div className="requests-table__footer-page">{page}</div>
-                  );
-                case "prev":
-                  return (
-                    <div className="requests-table__footer-prev-btn">
-                      ᐸ Пред.
-                    </div>
-                  );
-                case "next":
-                  return (
-                    <div className="requests-table__footer-next-btn">
-                      След. ᐳ
-                    </div>
-                  );
-                default:
-                  return originalElement;
-              }
-            },
-          }}
+          pagination={
+            requestsBySub.length > 10
+              ? {
+                  position: ["bottomCenter"],
+                  itemRender: (page, type, originalElement) => {
+                    switch (type) {
+                      case "page":
+                        return (
+                          <div className="requests-table__footer-page">
+                            {page}
+                          </div>
+                        );
+                      case "prev":
+                        return (
+                          <div className="requests-table__footer-prev-btn">
+                            ᐸ Пред.
+                          </div>
+                        );
+                      case "next":
+                        return (
+                          <div className="requests-table__footer-next-btn">
+                            След. ᐳ
+                          </div>
+                        );
+                      default:
+                        return originalElement;
+                    }
+                  },
+                }
+              : false
+          }
         />
       </Card>
     </section>

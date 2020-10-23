@@ -158,33 +158,37 @@ const TargetAudiences: React.FC = () => {
               className: "dic-target-audiences-table__header",
             };
           }}
-          pagination={{
-            position: ["bottomCenter"],
-            itemRender: (page, type, originalElement) => {
-              switch (type) {
-                case "page":
-                  return (
-                    <div className="dic-target-audiences-table__footer-page">
-                      {page}
-                    </div>
-                  );
-                case "prev":
-                  return (
-                    <div className="dic-target-audiences-table__footer-prev-btn">
-                      ᐸ Пред.
-                    </div>
-                  );
-                case "next":
-                  return (
-                    <div className="dic-target-audiences-table__footer-next-btn">
-                      След. ᐳ
-                    </div>
-                  );
-                default:
-                  return originalElement;
-              }
-            },
-          }}
+          pagination={
+            data.length > 10
+              ? {
+                  position: ["bottomCenter"],
+                  itemRender: (page, type, originalElement) => {
+                    switch (type) {
+                      case "page":
+                        return (
+                          <div className="dic-target-audiences-table__footer-page">
+                            {page}
+                          </div>
+                        );
+                      case "prev":
+                        return (
+                          <div className="dic-target-audiences-table__footer-prev-btn">
+                            ᐸ Пред.
+                          </div>
+                        );
+                      case "next":
+                        return (
+                          <div className="dic-target-audiences-table__footer-next-btn">
+                            След. ᐳ
+                          </div>
+                        );
+                      default:
+                        return originalElement;
+                    }
+                  },
+                }
+              : false
+          }
         />
       </Card>
     </section>
