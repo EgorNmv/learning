@@ -1,6 +1,11 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "install": "cd ./packages/api && npm i && cd ../core && npm i && cd ../front && npm i",
+    "start:front": "cd ./packages/front && npm run start",
+    "start:back": "cd ./packages/core && npm run start:dev"
+  },
   "devDependencies": {
     "lerna": "^3.22.0"
   }
