@@ -1,6 +1,7 @@
 import React, { ErrorInfo } from "react";
 import "./error-boundary.css";
 import LogoSvg from "../../static/img/logo_rcr.svg";
+import { Button } from "antd";
 
 export class ErrorBoundary extends React.Component {
   public state = {
@@ -20,6 +21,10 @@ export class ErrorBoundary extends React.Component {
     console.error("ErrorBoundary caught an error", error, errorInfo);
   }
 
+  private goToMainPageAndRefresh = () => {
+    window.location.replace("/");
+  };
+
   public render() {
     if (this.state.hasError) {
       // Можно отрендерить запасной UI произвольного вида
@@ -37,6 +42,9 @@ export class ErrorBoundary extends React.Component {
               В ближайшее время мы устраним данную неполадку и приведём систему
               в рабочее состояние.
             </p>
+            <Button type="primary" onClick={this.goToMainPageAndRefresh}>
+              Вернуться на главную страницу
+            </Button>
             <div className="error-logo">
               <img src={LogoSvg} alt="Лого" />
             </div>
