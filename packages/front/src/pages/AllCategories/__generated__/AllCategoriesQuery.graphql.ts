@@ -21,6 +21,7 @@ export type AllCategoriesQueryResponse = {
             readonly description: string;
         };
         readonly category: {
+            readonly categoryId: number;
             readonly description: string;
         };
     }>;
@@ -51,6 +52,7 @@ query AllCategoriesQuery {
       description
     }
     category {
+      categoryId: id
       description
     }
   }
@@ -73,9 +75,6 @@ v1 = {
   "storageKey": null
 },
 v2 = [
-  (v1/*: any*/)
-],
-v3 = [
   {
     "alias": null,
     "args": null,
@@ -154,7 +153,9 @@ v3 = [
         "kind": "LinkedField",
         "name": "format",
         "plural": false,
-        "selections": (v2/*: any*/),
+        "selections": [
+          (v1/*: any*/)
+        ],
         "storageKey": null
       },
       {
@@ -164,7 +165,16 @@ v3 = [
         "kind": "LinkedField",
         "name": "category",
         "plural": false,
-        "selections": (v2/*: any*/),
+        "selections": [
+          {
+            "alias": "categoryId",
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          (v1/*: any*/)
+        ],
         "storageKey": null
       }
     ],
@@ -177,7 +187,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "AllCategoriesQuery",
-    "selections": (v3/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -185,16 +195,16 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "AllCategoriesQuery",
-    "selections": (v3/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "AllCategoriesQuery",
     "operationKind": "query",
-    "text": "query AllCategoriesQuery {\n  trainings {\n    trainingId: id\n    name\n    label\n    description\n    start\n    end\n    isDateSet\n    organizer {\n      name\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n    format {\n      description\n    }\n    category {\n      description\n    }\n  }\n}\n"
+    "text": "query AllCategoriesQuery {\n  trainings {\n    trainingId: id\n    name\n    label\n    description\n    start\n    end\n    isDateSet\n    organizer {\n      name\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n    format {\n      description\n    }\n    category {\n      categoryId: id\n      description\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'af3364c0e63947b430c13c772dff2970';
+(node as any).hash = 'abd69567df7dca693e261d00e41783d5';
 export default node;

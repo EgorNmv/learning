@@ -6,7 +6,7 @@ type Route = {
 export const routes: Route[] = [
   {
     link: /^\/categories$/g,
-    label: 'Все события',
+    label: "Все события",
   },
   {
     link: /^\/category\/[0-9]+$/g,
@@ -16,81 +16,81 @@ export const routes: Route[] = [
   },
   {
     link: /^\/profile\/requests$/g,
-    label: 'Мои запросы',
+    label: "Мои заявки",
   },
   {
     link: /^\/profile\/reviews$/g,
-    label: 'Мои отзывы',
+    label: "Мои отзывы",
   },
   {
     link: /^\/profile\/recomendations$/g,
-    label: 'Мои рекомендации',
+    label: "Мои рекомендации",
   },
   {
     link: /^\/help$/g,
-    label: 'Помощь',
+    label: "Помощь",
   },
   {
     link: /^\/profile\/trainings$/g,
-    label: 'Все события',
+    label: "Все события",
   },
   {
     link: /^\/profile\/directories$/g,
-    label: 'Справочники',
+    label: "Справочники",
   },
   {
     link: /^\/profile\/directories\/categories$/g,
-    label: 'Категории',
+    label: "Категории",
   },
   {
     link: /^\/profile\/directories\/categories\/create$/g,
-    label: 'Создание категории',
+    label: "Создание категории",
   },
   {
     link: /^\/profile\/directories\/categories\/create$/g,
-    label: 'Создание категории',
+    label: "Создание категории",
   },
   {
     link: /^\/profile\/directories\/categories\/edit\/[0-9]+$/g,
   },
   {
     link: /^\/profile\/directories\/targetaudiences$/g,
-    label: 'Целевые аудитории',
+    label: "Целевые аудитории",
   },
   {
     link: /^\/profile\/directories\/targetaudiences\/create$/g,
-    label: 'Создание целевой аудитории',
+    label: "Создание целевой аудитории",
   },
   {
     link: /^\/profile\/directories\/targetaudiences\/edit\/[0-9]+$/g,
   },
   {
     link: /^\/profile\/directories\/trainingformats$/g,
-    label: 'Форматы обучения',
+    label: "Форматы обучения",
   },
   {
     link: /^\/profile\/directories\/trainingformats\/create$/g,
-    label: 'Создание формата обучения',
+    label: "Создание формата обучения",
   },
   {
     link: /^\/profile\/directories\/trainingformats\/edit\/[0-9]+$/g,
   },
   {
     link: /^\/profile\/directories\/organizers$/g,
-    label: 'Организаторы',
+    label: "Организаторы",
   },
   {
     link: /^\/profile\/directories\/organizers\/create$/g,
-    label: 'Создание организатора',
+    label: "Создание организатора",
   },
   {
     link: /^\/profile\/directories\/organizers\/edit\/[0-9]+$/g,
   },
   {
     link: /^\/profile\/trainings\/create$/g,
-    label: 'Создание события',
+    label: "Создание события",
   },
   {
     link: /^\/profile\/trainings\/edit\/[0-9]+$/g,
-  }
+  },
 ];

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Card, Button, Rate } from "antd";
+import { Button, Rate } from "antd";
 import { TrainingMaterials } from "../../components/TrainingMaterials/TrainingMaterials";
 import { TrainingRecommendations } from "../../components/TrainingRecommendations/TrainingRecommendations";
 import { TrainingReviews } from "../../components/TrainingReviews/TrainingReviews";
-import { Redirect, useLocation, useParams, useRouteMatch } from "react-router-dom";
+import { Redirect, useParams, useRouteMatch } from "react-router-dom";
 import { graphql } from "react-relay";
 import { useMutation, useLazyLoadQuery } from "react-relay/hooks";
 import { TrainingMutation } from "./__generated__/TrainingMutation.graphql";
@@ -12,7 +12,11 @@ import { formatDate } from "../../utils/utils";
 import { UploadedPicture } from "../../components/UploadedPicture/UploadedPicture";
 import { UserContext } from "../../hoc/UserContext/UserContext";
 import "./training.css";
-import { addRoute, Breadcrumbs, useBreadCrumbContext } from "../../components/Breadcrumbs";
+import {
+  addRoute,
+  Breadcrumbs,
+  useBreadCrumbContext,
+} from "../../components/Breadcrumbs";
 import RecomendSvg from "../../static/ico/recomend.svg";
 
 const mutation = graphql`
@@ -20,8 +24,8 @@ const mutation = graphql`
     createRequest(data: $data) {
       requestId: id
       date
-      training{
-        trainingId: id,
+      training {
+        trainingId: id
         listOfRequestsReviewsAndRecomends
       }
     }
@@ -69,10 +73,7 @@ const query = graphql`
 const Training: React.FC = () => {
   const params = useParams<{ trainingId: string }>();
   const { url } = useRouteMatch();
-  console.log('----------------------------------------------------------');
-  console.log(url, params);
-  console.log('----------------------------------------------------------');
-  const { dispatch, state } = useBreadCrumbContext();
+  const { dispatch } = useBreadCrumbContext();
   const id: number = Number(params.trainingId);
   const user = React.useContext(UserContext);
   const [commit, isInFlight] = useMutation<TrainingMutation>(mutation);
@@ -81,20 +82,6 @@ const Training: React.FC = () => {
     userId: user ? user.sub : "",
   });
   const [isClickedButton, setIsClickedButton] = React.useState<boolean>(false);
-
-  useEffect(() => {
-
-    dispatch(addRoute(
-      url.slice(0, url.lastIndexOf('training') - 1),
-      training ? training.category.description : ''
-    ));
-
-    dispatch(addRoute(
-      url,
-      training ? training.name : ''
-    ));
-
-  }, [training]);
 
   const clickHandler = () => {
     user &&
@@ -110,18 +97,33 @@ const Training: React.FC = () => {
           setIsClickedButton(true);
         },
         updater: (store) => {
-          const createdRequest = store.getRootField('createRequest');
-          const training = store.getRoot().getLinkedRecord('training', { id, });
+          const createdRequest = store.getRootField("createRequest");
+          const training = store.getRoot().getLinkedRecord("training", { id });
           if (training && createdRequest) {
-            const updatedTraining = createdRequest.getLinkedRecord('training');
+            const updatedTraining = createdRequest.getLinkedRecord("training");
             if (updatedTraining) {
-              const newListOfRequestsReviewsAndRecomends = updatedTraining.getValue('listOfRequestsReviewsAndRecomends');
-              training.setValue(newListOfRequestsReviewsAndRecomends, 'listOfRequestsReviewsAndRecomends');
+              const newListOfRequestsReviewsAndRecomends = updatedTraining.getValue(
+                "listOfRequestsReviewsAndRecomends"
+              );
+              training.setValue(
+                newListOfRequestsReviewsAndRecomends,
+                "listOfRequestsReviewsAndRecomends"
+              );
             }
           }
-        }
+        },
       });
   };
+
+  useEffect(() => {
+    dispatch(
+      addRoute(
+        url.slice(0, url.lastIndexOf("training") - 1),
+        training ? training.category.description : ""
+      )
+    );
+    dispatch(addRoute(url, training ? training.name : ""));
+  }, [training]);
 
   if (!id || !training) {
     return <Redirect to="/" />;
@@ -237,7 +239,7 @@ const Training: React.FC = () => {
               <Button
                 type="primary"
                 onClick={clickHandler}
-                disabled={isClickedButton}
+                disabled={isClickedButton || isRequestExist}
                 className="training__main-info__request-btn"
               >
                 Подать заявку на участие

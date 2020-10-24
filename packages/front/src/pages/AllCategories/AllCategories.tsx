@@ -25,6 +25,7 @@ const query = graphql`
         description
       }
       category {
+        categoryId: id
         description
       }
     }

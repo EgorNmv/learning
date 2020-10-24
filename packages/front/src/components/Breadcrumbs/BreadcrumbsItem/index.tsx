@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
-import { useRouteMatch, Route } from 'react-router';
-import { Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
-import { routes } from '../../../utils/routes';
-import { useBreadCrumbContext } from '../BreadcrumbsContext';
-import BreadcrumbSeparator from 'antd/lib/breadcrumb/BreadcrumbSeparator';
+import React, { useContext } from "react";
+import { useRouteMatch, Route } from "react-router";
+import { Breadcrumb } from "antd";
+import { Link } from "react-router-dom";
+import { routes } from "../../../utils/routes";
+import { useBreadCrumbContext } from "../BreadcrumbsContext";
+import BreadcrumbSeparator from "antd/lib/breadcrumb/BreadcrumbSeparator";
 
 export const BreadcrumbsItem: React.FC = () => {
   const match = useRouteMatch();
   const { state } = useBreadCrumbContext();
   const label = (() => {
-    let routeLabel = '';
+    let routeLabel = "";
     routes.forEach((route) => {
       const isMatch = match.url.match(route.link);
       if (isMatch) {
@@ -25,12 +25,12 @@ export const BreadcrumbsItem: React.FC = () => {
   })();
   return (
     <>
-      {
-        label.length > 0 && <Breadcrumb.Item>
-          <Link to={match.url || ''}>{label}</Link>
+      {label.length > 0 && (
+        <Breadcrumb.Item>
+          <Link to={match.url || ""}>{label}</Link>
           <BreadcrumbSeparator />
         </Breadcrumb.Item>
-      }
+      )}
       <Route path={`${match.url}/:path`} component={BreadcrumbsItem} />
     </>
   );

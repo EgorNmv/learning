@@ -2,7 +2,7 @@ import React from "react";
 import "./category.css";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
 import { graphql, useLazyLoadQuery } from "react-relay/hooks";
-import { useParams, Link, Redirect } from "react-router-dom";
+import { useParams, Link, Redirect, useRouteMatch } from "react-router-dom";
 import { CategoryQuery } from "./__generated__/CategoryQuery.graphql";
 import { Radio, DatePicker } from "antd";
 import { RadioChangeEvent } from "antd/lib/radio";
@@ -11,7 +11,11 @@ import moment from "moment";
 import "moment/locale/ru";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
-import { Breadcrumbs } from "../../components/Breadcrumbs";
+import {
+  addRoute,
+  Breadcrumbs,
+  useBreadCrumbContext,
+} from "../../components/Breadcrumbs";
 
 const query = graphql`
   query CategoryQuery(
@@ -39,6 +43,10 @@ const query = graphql`
       format {
         description
       }
+      category {
+        categoryId: id
+        description
+      }
     }
     category(id: $categoryId) {
       categoryId: id
@@ -60,28 +68,14 @@ const query = graphql`
   }
 `;
 
-type Training = {
-  trainingId: number;
-  name: string;
-  label: string | null;
-  organizer: {
-    name: string;
-  };
-  start: string | null;
-  end: string | null;
-  description: string;
-  isDateSet: boolean;
-  listOfRequestsReviewsAndRecomends: number[] | null;
-  averageRating: number | null;
-  format: {
-    description: string;
-  };
-};
+type Training = CategoryQuery["response"]["sortedTraining"][number];
 
 moment.locale("ru");
 
 const Category: React.FC = () => {
   const id = Number(useParams<{ id: string }>().id);
+  const { url } = useRouteMatch();
+  const { dispatch } = useBreadCrumbContext();
   const [sortBy, setSortBy] = React.useState<
     "name" | "createDate" | "recommends"
   >("name");
@@ -195,6 +189,10 @@ const Category: React.FC = () => {
     sortedTraining && setSortedTrainingList(sortedTraining as Training[]);
   }, [sortedTraining]);
 
+  React.useEffect(() => {
+    dispatch(addRoute(url, category ? category.description : ""));
+  }, [category]);
+
   if (!id || !category) {
     return <Redirect to="/" />;
   }
@@ -202,7 +200,7 @@ const Category: React.FC = () => {
   return (
     <div className="category-page-content">
       <section style={{ flex: 1 }}>
-        {/* <Breadcrumbs /> */}
+        <Breadcrumbs />
         <h2 className="category-page-content__title">
           {category && category.description}
         </h2>
@@ -223,7 +221,7 @@ const Category: React.FC = () => {
             </Radio>
           </Radio.Group>
         </div>
-        <SortableTrainingList trainings={sortedTrainingsList as Training[]} />
+        <SortableTrainingList trainings={sortedTrainingsList} />
       </section>
       <section className="category-page-content-calendar">
         <CenteredText>

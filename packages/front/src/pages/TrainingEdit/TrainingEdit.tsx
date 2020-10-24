@@ -10,12 +10,16 @@ import {
   TrainingEditMutation,
   InputTraining,
 } from "./__generated__/TrainingEditMutation.graphql";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useRouteMatch } from "react-router-dom";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Recomendations } from "./MenuItems/Recomendations";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
-import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { TrainingEditQuery } from "./__generated__/TrainingEditQuery.graphql";
+import {
+  addRoute,
+  Breadcrumbs,
+  useBreadCrumbContext,
+} from "../../components/Breadcrumbs";
 
 const query = graphql`
   query TrainingEditQuery($trainingId: Float!) {
@@ -92,6 +96,8 @@ const mutation = graphql`
 const TrainingEdit: React.FC = () => {
   const history = useHistory();
   const trainingId = Number(useParams<{ trainingId: string }>().trainingId);
+  const { url } = useRouteMatch();
+  const { dispatch } = useBreadCrumbContext();
   const { showAlert } = React.useContext(AlertContext);
   const { training } = useLazyLoadQuery<TrainingEditQuery>(query, {
     trainingId,
@@ -146,6 +152,10 @@ const TrainingEdit: React.FC = () => {
     reviews: <Reviews />,
     recomendations: <Recomendations />,
   };
+
+  React.useEffect(() => {
+    dispatch(addRoute(url, training ? training.name : ""));
+  }, [training]);
 
   return (
     <section className="training-edit-page">

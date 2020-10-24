@@ -24,6 +24,10 @@ export type CategoryQueryResponse = {
         readonly format: {
             readonly description: string;
         };
+        readonly category: {
+            readonly categoryId: number;
+            readonly description: string;
+        };
     }>;
     readonly category: {
         readonly categoryId: number;
@@ -70,6 +74,10 @@ query CategoryQuery(
     listOfRequestsReviewsAndRecomends
     averageRating
     format {
+      description
+    }
+    category {
+      categoryId: id
       description
     }
   }
@@ -175,7 +183,14 @@ v8 = {
   ],
   "storageKey": null
 },
-v9 = [
+v9 = {
+  "alias": "categoryId",
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v10 = [
   {
     "alias": null,
     "args": [
@@ -233,6 +248,19 @@ v9 = [
           (v7/*: any*/)
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "CategoryEntity",
+        "kind": "LinkedField",
+        "name": "category",
+        "plural": false,
+        "selections": [
+          (v9/*: any*/),
+          (v7/*: any*/)
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -251,13 +279,7 @@ v9 = [
     "name": "category",
     "plural": false,
     "selections": [
-      {
-        "alias": "categoryId",
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
+      (v9/*: any*/),
       (v7/*: any*/),
       (v3/*: any*/)
     ],
@@ -289,7 +311,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "CategoryQuery",
-    "selections": (v9/*: any*/),
+    "selections": (v10/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -297,16 +319,16 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "CategoryQuery",
-    "selections": (v9/*: any*/)
+    "selections": (v10/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "CategoryQuery",
     "operationKind": "query",
-    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    isDateSet\n    description\n    organizer {\n      name\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n    format {\n      description\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n}\n"
+    "text": "query CategoryQuery(\n  $sortBy: String!\n  $sortOrder: String!\n  $categoryId: Float!\n) {\n  sortedTraining(sortBy: $sortBy, sortOrder: $sortOrder, categoryId: $categoryId) {\n    trainingId: id\n    name\n    label\n    start\n    end\n    isDateSet\n    description\n    organizer {\n      name\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n    format {\n      description\n    }\n    category {\n      categoryId: id\n      description\n    }\n  }\n  category(id: $categoryId) {\n    categoryId: id\n    description\n    label\n  }\n  comingTrainings {\n    trainingId: id\n    name\n    label\n    organizer {\n      name\n    }\n    start\n    end\n    isDateSet\n    description\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '3d56e059ecaa2375f37dd409a6c44258';
+(node as any).hash = '9930eb82d4e007ba5c36717c711127bb';
 export default node;
