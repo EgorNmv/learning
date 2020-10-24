@@ -20,6 +20,10 @@ const mutation = graphql`
     createRequest(data: $data) {
       requestId: id
       date
+      training{
+        trainingId: id,
+        listOfRequestsReviewsAndRecomends
+      }
     }
   }
 `;
@@ -105,6 +109,17 @@ const Training: React.FC = () => {
         onCompleted: () => {
           setIsClickedButton(true);
         },
+        updater: (store) => {
+          const createdRequest = store.getRootField('createRequest');
+          const training = store.getRoot().getLinkedRecord('training', { id, });
+          if (training && createdRequest) {
+            const updatedTraining = createdRequest.getLinkedRecord('training');
+            if (updatedTraining) {
+              const newListOfRequestsReviewsAndRecomends = updatedTraining.getValue('listOfRequestsReviewsAndRecomends');
+              training.setValue(newListOfRequestsReviewsAndRecomends, 'listOfRequestsReviewsAndRecomends');
+            }
+          }
+        }
       });
   };
 
@@ -222,7 +237,7 @@ const Training: React.FC = () => {
               <Button
                 type="primary"
                 onClick={clickHandler}
-                disabled={isRequestExist || isClickedButton}
+                disabled={isClickedButton}
                 className="training__main-info__request-btn"
               >
                 Подать заявку на участие

@@ -15,6 +15,10 @@ export type TrainingMutationResponse = {
     readonly createRequest: {
         readonly requestId: number;
         readonly date: string;
+        readonly training: {
+            readonly trainingId: number;
+            readonly listOfRequestsReviewsAndRecomends: ReadonlyArray<number> | null;
+        };
     };
 };
 export type TrainingMutation = {
@@ -31,6 +35,10 @@ mutation TrainingMutation(
   createRequest(data: $data) {
     requestId: id
     date
+    training {
+      trainingId: id
+      listOfRequestsReviewsAndRecomends
+    }
   }
 }
 */
@@ -72,6 +80,31 @@ v1 = [
         "kind": "ScalarField",
         "name": "date",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "TrainingEntity",
+        "kind": "LinkedField",
+        "name": "training",
+        "plural": false,
+        "selections": [
+          {
+            "alias": "trainingId",
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "listOfRequestsReviewsAndRecomends",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -98,9 +131,9 @@ return {
     "metadata": {},
     "name": "TrainingMutation",
     "operationKind": "mutation",
-    "text": "mutation TrainingMutation(\n  $data: InputRequest!\n) {\n  createRequest(data: $data) {\n    requestId: id\n    date\n  }\n}\n"
+    "text": "mutation TrainingMutation(\n  $data: InputRequest!\n) {\n  createRequest(data: $data) {\n    requestId: id\n    date\n    training {\n      trainingId: id\n      listOfRequestsReviewsAndRecomends\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '495ad1fbb1a42f0519fd826467e46209';
+(node as any).hash = '7b277c9b00fd0719b72e039575a84e5b';
 export default node;
