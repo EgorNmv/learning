@@ -36,7 +36,6 @@ type Review = UserProfileReviewsQueryResponse["feedbacksByUserId"][number];
 
 const UserProfileReviews: React.FC = () => {
   const user = React.useContext(UserContext);
-  const [data, setData] = React.useState<Review[]>([]);
   const { feedbacksByUserId } = useLazyLoadQuery<UserProfileReviewsQuery>(
     query,
     {
@@ -96,10 +95,6 @@ const UserProfileReviews: React.FC = () => {
     },
   ];
 
-  React.useEffect(() => {
-    setData(feedbacksByUserId as Review[]);
-  }, [feedbacksByUserId]);
-
   return (
     <section className="user-reviews">
       <Breadcrumbs />
@@ -111,7 +106,7 @@ const UserProfileReviews: React.FC = () => {
           className="reviews-table"
           bordered
           columns={columns}
-          dataSource={data}
+          dataSource={feedbacksByUserId as Review[]}
           rowKey={"feedbackId"}
           onHeaderRow={(column) => {
             return {
@@ -119,7 +114,7 @@ const UserProfileReviews: React.FC = () => {
             };
           }}
           pagination={
-            data.length > 10
+            feedbacksByUserId.length > 10
               ? {
                   position: ["bottomCenter"],
                   itemRender: (page, type, originalElement) => {

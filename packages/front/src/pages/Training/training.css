@@ -14,7 +14,7 @@
   border-radius: 15px;
   display: flex;
   width: 100%;
-  height: 440px;
+  height: auto;
   position: relative;
 }
 
@@ -24,10 +24,9 @@
 
 .training__main-info__label {
   width: 100%;
-  height: 100%;
   max-width: 440px;
-  max-height: 440px;
   background: #dddddd;
+  flex: 0 1 auto;
 }
 
 .training-card__img__plaques {
