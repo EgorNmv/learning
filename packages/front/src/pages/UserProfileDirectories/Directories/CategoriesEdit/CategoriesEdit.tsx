@@ -12,7 +12,7 @@ import { CategoriesEditMutation } from "./__generated__/CategoriesEditMutation.g
 import { UploadedPicture } from "../../../../components/UploadedPicture/UploadedPicture";
 import { useFileUpload } from "../../../../utils/utils";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import "./categories-edit.css";
 import PhotoSvg from "../../../../static/img/photograph.svg";
 import { UploadChangeParam, UploadFile } from "antd/es/upload/interface";

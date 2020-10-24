@@ -6,7 +6,7 @@ import { graphql, useMutation } from "react-relay/hooks";
 import { CategoriesCreateMutation } from "./__generated__/CategoriesCreateMutation.graphql";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import "./categories-create.css";
 import PhotoSvg from "../../../../static/img/photograph.svg";
 import { UploadChangeParam, UploadFile } from "antd/es/upload/interface";

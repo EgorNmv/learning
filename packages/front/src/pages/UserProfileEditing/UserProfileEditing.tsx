@@ -4,7 +4,7 @@ import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { Store } from "antd/lib/form/interface";
 import { PictureFilled } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 
 const UserProfileEditing: React.FC = () => {
   const [form] = Form.useForm();

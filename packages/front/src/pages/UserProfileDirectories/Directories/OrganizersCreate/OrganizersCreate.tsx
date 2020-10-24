@@ -6,7 +6,7 @@ import { graphql, useMutation } from "react-relay/hooks";
 import { OrganizersCreateMutation } from "./__generated__/OrganizersCreateMutation.graphql";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import "./organizers-create.css";
 
 const mutation = graphql`

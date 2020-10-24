@@ -10,7 +10,7 @@ import {
 } from "./__generated__/TargetAudiencesEditQuery.graphql";
 import { TargetAudiencesEditMutation } from "./__generated__/TargetAudiencesEditMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import "./target-audiences-edit.css";
 
 const query = graphql`

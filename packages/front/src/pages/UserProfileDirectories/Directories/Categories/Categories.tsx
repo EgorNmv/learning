@@ -12,7 +12,7 @@ import { CategoriesMutation } from "./__generated__/CategoriesMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { Modal } from "../../../../components/Modal/Modal";
 import "./categories.css";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 

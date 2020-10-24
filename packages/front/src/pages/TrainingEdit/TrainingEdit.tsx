@@ -14,7 +14,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Recomendations } from "./MenuItems/Recomendations";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { TrainingEditQuery } from "./__generated__/TrainingEditQuery.graphql";
 
 const query = graphql`

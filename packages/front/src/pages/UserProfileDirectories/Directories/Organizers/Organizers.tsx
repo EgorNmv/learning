@@ -12,7 +12,7 @@ import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import { OrganizersMutation } from "./__generated__/OrganizersMutation.graphql";
 import { Modal } from "../../../../components/Modal/Modal";
 import "./organizers.css";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 

@@ -12,7 +12,7 @@ import { Modal } from "../../../../components/Modal/Modal";
 import { TargetAudienceMutation } from "./__generated__/TargetAudienceMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import "./target-audience.css";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 

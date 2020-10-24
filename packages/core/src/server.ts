@@ -63,7 +63,7 @@ const startServer = async (): Promise<void> => {
       return { connection, validJwt, oktaSdkClient };
     },
     introspection: true,
-    playground: false,
+    playground: true,
   });
   const app = express();
 
