@@ -33,6 +33,7 @@ const query = graphql`
       cost
       duration
       speaker
+      numberOfParticipants
       format {
         description
       }
@@ -195,14 +196,24 @@ const Training: React.FC = () => {
                 </span>
               )}
             </div>
-            <Button
-              type="primary"
-              onClick={clickHandler}
-              disabled={isRequestExist || isClickedButton}
-              className="training__main-info__request-btn"
-            >
-              Подать заявку на участие
-            </Button>
+            <div>
+              <Button
+                type="primary"
+                onClick={clickHandler}
+                disabled={isRequestExist || isClickedButton}
+                className="training__main-info__request-btn"
+              >
+                Подать заявку на участие
+              </Button>
+              {training.numberOfParticipants &&
+                training.listOfRequestsReviewsAndRecomends && (
+                  <span className="training__main-info__free-seats">
+                    Осталось мест:{" "}
+                    {training.numberOfParticipants -
+                      training.listOfRequestsReviewsAndRecomends[0]}
+                  </span>
+                )}
+            </div>
           </div>
         </div>
         <div className="training-description-section">

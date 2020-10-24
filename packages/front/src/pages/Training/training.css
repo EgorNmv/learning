@@ -95,3 +95,9 @@
   font: normal normal normal 20px/23px Arial;
   color: #0088bb;
 }
+
+.training__main-info__free-seats {
+  margin-left: 15px;
+  font: normal normal normal 16px/18px Arial;
+  color: #bbbbbb;
+}

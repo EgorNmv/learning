@@ -15,6 +15,7 @@ export type TrainingQueryResponse = {
         readonly cost: number | null;
         readonly duration: number | null;
         readonly speaker: string | null;
+        readonly numberOfParticipants: number | null;
         readonly format: {
             readonly description: string;
         };
@@ -55,6 +56,7 @@ query TrainingQuery(
     cost
     duration
     speaker
+    numberOfParticipants
     format {
       description
     }
@@ -159,6 +161,13 @@ v4 = [
         "args": null,
         "kind": "ScalarField",
         "name": "speaker",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "numberOfParticipants",
         "storageKey": null
       },
       {
@@ -292,9 +301,9 @@ return {
     "metadata": {},
     "name": "TrainingQuery",
     "operationKind": "query",
-    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    cost\n    duration\n    speaker\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    isDateSet\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
+    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    cost\n    duration\n    speaker\n    numberOfParticipants\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    isDateSet\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
   }
 };
 })();
-(node as any).hash = 'bf3a91f6ccf75c916ef39a89d72d3144';
+(node as any).hash = 'b186e10eb24fa8ed537ad27a87c1d5c8';
 export default node;
