@@ -1,5 +1,13 @@
-import React, { createContext, PropsWithChildren, useContext, useReducer } from "react";
-import { breadcrumbsContextInitialState, breadcrumbsContextReducer } from "./reducer";
+import React, {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useReducer,
+} from "react";
+import {
+  breadcrumbsContextInitialState,
+  breadcrumbsContextReducer,
+} from "./reducer";
 import { BreadcrumbsContext } from "./types";
 
 const breadcrumbContextInitialContext = {
@@ -7,14 +15,21 @@ const breadcrumbContextInitialContext = {
   dispatch: () => ({}),
 };
 
-const BreadcrumbContext = createContext<BreadcrumbsContext>(breadcrumbContextInitialContext);
+const BreadcrumbContext = createContext<BreadcrumbsContext>(
+  breadcrumbContextInitialContext
+);
 
-type BreadCrumbContextProviderProps = PropsWithChildren<{}>
+type BreadCrumbContextProviderProps = PropsWithChildren<{}>;
 
+export * from "./actions";
+export const BreadCrumbContextProvider = ({
+  children,
+}: BreadCrumbContextProviderProps) => {
+  const [state, dispatch] = useReducer(
+    breadcrumbsContextReducer,
+    breadcrumbsContextInitialState
+  );
 
-export * from './actions';
-export const BreadCrumbContextProvider = ({ children }: BreadCrumbContextProviderProps) => {
-  const [state, dispatch] = useReducer(breadcrumbsContextReducer, breadcrumbsContextInitialState);
   return (
     <BreadcrumbContext.Provider value={{ state, dispatch }}>
       {children}

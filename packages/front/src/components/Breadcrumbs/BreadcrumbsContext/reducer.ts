@@ -4,18 +4,17 @@ import { BreadcrumbsContextAcions, BreadcrumbsContextState } from "./types";
 export const breadcrumbsContextInitialState: BreadcrumbsContextState = {};
 export const breadcrumbsContextReducer = (
   state: BreadcrumbsContextState,
-  action: BreadcrumbsContextAcions,
+  action: BreadcrumbsContextAcions
 ): BreadcrumbsContextState => {
   switch (action.type) {
     case ADD_ROUTE: {
-      state[action.payload.key] = action.payload.value;
-      return state;
+      return { ...state, [action.payload.key]: action.payload.value };
     }
     case REMOVE_ROUTE: {
       delete state[action.payload.key];
-      return state;
+      return { ...state };
     }
     default:
       return state;
-  };
+  }
 };
