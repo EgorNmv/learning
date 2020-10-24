@@ -57,8 +57,8 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
               imgType="training"
             />
           ) : (
-            <div className="training-card-in-calendar__img__label no-label" />
-          )}
+              <div className="training-card-in-calendar__img__label no-label" />
+            )}
           <div className="training-card-in-calendar-info">
             <div className="training-card-in-calendar-name">
               <Link
@@ -80,13 +80,13 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
             {category?.description && <div>{category?.description}</div>}
             {format?.description && <div>{format?.description}</div>}
           </div>
-          {training.label ? (
-            <UploadedPicture
-              className="training-card__img__label"
-              filename={training.label}
-              imgType="training"
-            />
-          ) : null}
+
+          <UploadedPicture
+            className="training-card__img__label"
+            filename={training.label}
+            imgType="training"
+          />
+
         </div>
       );
 
@@ -115,8 +115,8 @@ export const TrainingCard: React.FC<TrainingCardProps> = ({
                   {start} - {end}
                 </span>
               ) : (
-                <span>Дата не определена</span>
-              )}
+                  <span>Дата не определена</span>
+                )}
             </div>
           </div>
           {placeInCategoryPage && training.listOfRequestsReviewsAndRecomends && (

@@ -1,10 +1,10 @@
 import React from "react";
-
+import PhotoSvg from "../../static/img/photograph.svg";
 type UploadedPictureProps = {
   imgType: "user" | "training" | "category";
   style?: { [key: string]: string };
   className?: string;
-  filename: string | null;
+  filename?: string | null;
   size?: "small" | "medium";
 };
 
@@ -28,12 +28,14 @@ export const UploadedPicture: React.FC<UploadedPictureProps> = ({
     return (
       <div
         style={
-          className || style
+          style
             ? { ...style }
-            : { width: 300, height: 300, background: "grey" }
+            : { width: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }
         }
         className={className}
-      />
+      >
+        <img src={PhotoSvg} />
+      </div>
     );
   }
 };

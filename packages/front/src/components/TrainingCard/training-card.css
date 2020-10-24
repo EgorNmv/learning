@@ -4,7 +4,6 @@
   box-shadow: 5px 2px 4px #dddddd;
   border-radius: 15px;
   height: 206px;
-  max-width: 716px;
   margin: 5px;
   position: relative;
   display: flex;
@@ -53,8 +52,12 @@
   text-overflow: ellipsis;
 }
 
+.training-info div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .training-name {
-  max-width: 340px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
