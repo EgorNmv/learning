@@ -7,7 +7,7 @@ import {
   UserProfileRequestsQueryResponse,
 } from "./__generated__/UserProfileRequestsQuery.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import "./user-profile-requests.css";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";

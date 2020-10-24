@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Table } from "antd";
 import { Link } from "react-router-dom";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { ColumnsType } from "antd/es/table";
 import "./user-profile-directories.css";
 

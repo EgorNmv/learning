@@ -7,7 +7,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { TrainingFormatsEditQuery } from "./__generated__/TrainingFormatsEditQuery.graphql";
 import { TrainingFormatsEditMutation } from "./__generated__/TrainingFormatsEditMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import "./training-formats-edit.css";
 
 const query = graphql`

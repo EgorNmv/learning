@@ -6,7 +6,7 @@ import { graphql, useMutation } from "react-relay/hooks";
 import { useHistory } from "react-router-dom";
 import { TargetAudiencesCreateMutation } from "./__generated__/TargetAudiencesCreateMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import "./target-audiences-create.css";
 
 const mutation = graphql`

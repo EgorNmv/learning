@@ -16,7 +16,7 @@ import { AlertContext } from "../../hoc/Alert/AlertContext";
 import { Modal } from "../../components/Modal/Modal";
 import { UserProfileEventsMutation } from "./__generated__/UserProfileEventsMutation.graphql";
 import { ModalWithSteps } from "../../components/ModalWithSteps/ModalWithSteps";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import "./user-profile-events.css";
 import { ColumnsType } from "antd/es/table";
 import { UserProfileEventsSearchableInput } from "./UserProfileEventsSearchableInput/UserProfileEventsSearchableInput";

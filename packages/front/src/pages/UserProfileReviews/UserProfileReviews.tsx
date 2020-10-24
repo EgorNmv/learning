@@ -7,7 +7,7 @@ import {
   UserProfileReviewsQuery,
   UserProfileReviewsQueryResponse,
 } from "./__generated__/UserProfileReviewsQuery.graphql";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import "./user-profile-reviews.css";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";

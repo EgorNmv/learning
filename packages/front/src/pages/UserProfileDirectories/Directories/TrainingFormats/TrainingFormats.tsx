@@ -12,7 +12,7 @@ import { Modal } from "../../../../components/Modal/Modal";
 import { TrainingFormatsMutation } from "./__generated__/TrainingFormatsMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
 import "./training-formats.css";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 

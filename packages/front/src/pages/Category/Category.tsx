@@ -11,7 +11,7 @@ import moment from "moment";
 import "moment/locale/ru";
 import { CenteredText } from "../../hoc/CenteredText/CenteredText";
 import { TrainingCard } from "../../components/TrainingCard/TrainingCard";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 
 const query = graphql`
   query CategoryQuery(

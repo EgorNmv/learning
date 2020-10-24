@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { AllCategoriesQuery } from "./__generated__/AllCategoriesQuery.graphql";
 import { SortableTrainingList } from "../../components/SortableTrainingList/SortableTrainingList";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import "./all-categories.css";
 
 const query = graphql`

@@ -16,6 +16,9 @@ export type TrainingQueryResponse = {
         readonly duration: number | null;
         readonly speaker: string | null;
         readonly numberOfParticipants: number | null;
+        readonly category: {
+            readonly description: string;
+        };
         readonly format: {
             readonly description: string;
         };
@@ -57,6 +60,9 @@ query TrainingQuery(
     duration
     speaker
     numberOfParticipants
+    category {
+      description
+    }
     format {
       description
     }
@@ -168,6 +174,16 @@ v4 = [
         "args": null,
         "kind": "ScalarField",
         "name": "numberOfParticipants",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "CategoryEntity",
+        "kind": "LinkedField",
+        "name": "category",
+        "plural": false,
+        "selections": (v3/*: any*/),
         "storageKey": null
       },
       {
@@ -301,9 +317,9 @@ return {
     "metadata": {},
     "name": "TrainingQuery",
     "operationKind": "query",
-    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    cost\n    duration\n    speaker\n    numberOfParticipants\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    isDateSet\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
+    "text": "query TrainingQuery(\n  $trainingId: Float!\n  $userId: String!\n) {\n  training(id: $trainingId) {\n    trainingId: id\n    label\n    name\n    description\n    cost\n    duration\n    speaker\n    numberOfParticipants\n    category {\n      description\n    }\n    format {\n      description\n    }\n    organizer {\n      name\n      address\n      contactInfo\n    }\n    start\n    end\n    isDateSet\n    site\n    audience {\n      description\n    }\n    listOfRequestsReviewsAndRecomends\n    averageRating\n  }\n  isRequestExist(userId: $userId, trainingId: $trainingId)\n}\n"
   }
 };
 })();
-(node as any).hash = 'b186e10eb24fa8ed537ad27a87c1d5c8';
+(node as any).hash = 'e9adc65d487b0ec3ba4dac52e4095260';
 export default node;

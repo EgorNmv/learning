@@ -7,7 +7,7 @@ import {
   UserProfileRecomendationsQueryResponse,
 } from "./__generated__/UserProfileRecomendationsQuery.graphql";
 import { UserContext } from "../../hoc/UserContext/UserContext";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";

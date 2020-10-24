@@ -9,7 +9,7 @@ import {
 } from "./__generated__/TrainingCreateMutation.graphql";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import "./training-create.css";
 
 const mutation = graphql`

@@ -7,7 +7,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { OrganizersEditQuery } from "./__generated__/OrganizersEditQuery.graphql";
 import { OrganizersEditMutation } from "./__generated__/OrganizersEditMutation.graphql";
 import { AlertContext } from "../../../../hoc/Alert/AlertContext";
-import { Breadcrumbs } from "../../../../components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "../../../../components/Breadcrumbs";
 import "./organizers-edit.css";
 
 const query = graphql`

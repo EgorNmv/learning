@@ -14,6 +14,7 @@ import { useOktaAuth } from "@okta/okta-react";
 import { MainWrapper } from "./hoc/MainWrapper/MainWrapper";
 import { AlertState } from "./hoc/Alert/AlertState";
 import { ErrorBoundary } from "./components/ErrorBoundary/ErrorBoundary";
+import { BreadCrumbContextProvider } from "./components/Breadcrumbs/BreadcrumbsContext";
 
 const Logic = () => {
   const { authState } = useOktaAuth();
@@ -31,30 +32,32 @@ const Logic = () => {
 
   return (
     <RelayEnvironmentProvider environment={environment}>
-      <Suspense fallback={<Spin className="centred-spin" />}>
-        <MainWrapper>
-          <ConfigProvider locale={ruRU}>
-            <Layout>
-              <Sider />
+      <BreadCrumbContextProvider>
+        <Suspense fallback={<Spin className="centred-spin" />}>
+          <MainWrapper>
+            <ConfigProvider locale={ruRU}>
               <Layout>
                 <Sider />
                 <Layout>
-                  <Header />
-                  <Suspense
-                    fallback={
-                      <Spin className="centred-spin__with-header-and-sider" />
-                    }
-                  >
-                    <AlertState>
-                      <Content />
-                    </AlertState>
-                  </Suspense>
+                  <Sider />
+                  <Layout>
+                    <Header />
+                    <Suspense
+                      fallback={
+                        <Spin className="centred-spin__with-header-and-sider" />
+                      }
+                    >
+                      <AlertState>
+                        <Content />
+                      </AlertState>
+                    </Suspense>
+                  </Layout>
                 </Layout>
               </Layout>
-            </Layout>
-          </ConfigProvider>
-        </MainWrapper>
-      </Suspense>
+            </ConfigProvider>
+          </MainWrapper>
+        </Suspense>
+      </BreadCrumbContextProvider>
     </RelayEnvironmentProvider>
   );
 };
