@@ -166,21 +166,21 @@ export class TrainingEntity extends BaseEntity implements Training {
     nullable: true,
     description: "спикер/преподаватель/докладчик",
   })
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   public speaker: string;
 
   @Field(() => Number, {
     nullable: true,
     description: "стоимость события",
   })
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   public cost: number;
 
   @Field(() => Number, {
     nullable: true,
     description: "продолжительность курса",
   })
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   public duration: number;
 
   /**
@@ -190,10 +190,10 @@ export class TrainingEntity extends BaseEntity implements Training {
     nullable: false,
     description: "uid создателя события",
   })
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   public creatorUid: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   public creatorName: string;
 
   constructor(
