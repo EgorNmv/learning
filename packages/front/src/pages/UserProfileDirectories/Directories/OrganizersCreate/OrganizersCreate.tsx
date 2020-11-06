@@ -118,6 +118,7 @@ const CategoriesCreate: React.FC = () => {
                 name="type"
                 label="Тип:"
                 rules={[{ required: true }]}
+                style={{ width: "100%", maxWidth: "400px" }}
               >
                 <Select disabled={isInFlight}>
                   <Select.Option value={2}>Внутренний ресурс</Select.Option>
