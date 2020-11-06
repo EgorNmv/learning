@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Table, Button } from "antd";
+import { Card, Table, Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { graphql, GraphQLTaggedNode } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
@@ -45,6 +45,10 @@ const TargetAudiences: React.FC = () => {
     targetAudienceId: number;
     name: string;
   } | null>(null);
+  const [
+    isVisibleSearchableInput,
+    setIsVisibleSearchableInput,
+  ] = React.useState<boolean>(false);
 
   const columns: ColumnsType<TargetAudience> = [
     {
@@ -58,7 +62,11 @@ const TargetAudiences: React.FC = () => {
       title: (
         <div className="target-audiences-table__event-col">
           <span>Название</span>
-          <SearchOutlined />
+          <SearchOutlined
+            onClick={() =>
+              setIsVisibleSearchableInput(!isVisibleSearchableInput)
+            }
+          />
         </div>
       ),
       dataIndex: "description",
@@ -122,6 +130,19 @@ const TargetAudiences: React.FC = () => {
     }
   };
 
+  const onSearch = (searchValue: string) => {
+    if (searchValue) {
+      setData((prev) =>
+        prev.filter(
+          (targetAudience) =>
+            targetAudience.description.indexOf(searchValue) !== -1
+        )
+      );
+    } else {
+      setData(targetAudiences as TargetAudience[]);
+    }
+  };
+
   React.useEffect(() => {
     setData(targetAudiences as TargetAudience[]);
   }, [targetAudiences]);
@@ -148,6 +169,15 @@ const TargetAudiences: React.FC = () => {
         </Button>
       </div>
       <Card className="dic-target-audiences-table__card">
+        {isVisibleSearchableInput && (
+          <Input.Search
+            className="dic-target-audiences-table__card-input"
+            enterButton="Искать"
+            size="large"
+            placeholder="Поиск целевых аудиторий по названию"
+            onSearch={onSearch}
+          />
+        )}
         <Table
           className="dic-target-audiences-table"
           bordered

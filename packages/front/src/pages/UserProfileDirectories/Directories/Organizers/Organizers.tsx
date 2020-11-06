@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Table } from "antd";
+import { Button, Card, Input, Table } from "antd";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { graphql } from "react-relay";
@@ -50,6 +50,10 @@ const Organizers: React.FC = () => {
     organizerId: number;
     name: string;
   } | null>(null);
+  const [
+    isVisibleSearchableInput,
+    setIsVisibleSearchableInput,
+  ] = React.useState<boolean>(false);
 
   const columns: ColumnsType<Organizer> = [
     {
@@ -63,7 +67,11 @@ const Organizers: React.FC = () => {
       title: (
         <div className="organizers-table__event-col">
           <span>Название</span>
-          <SearchOutlined />
+          <SearchOutlined
+            onClick={() =>
+              setIsVisibleSearchableInput(!isVisibleSearchableInput)
+            }
+          />
         </div>
       ),
       dataIndex: "name",
@@ -137,6 +145,16 @@ const Organizers: React.FC = () => {
     }
   };
 
+  const onSearch = (searchValue: string) => {
+    if (searchValue) {
+      setData((prev) =>
+        prev.filter((organizer) => organizer.name.indexOf(searchValue) !== -1)
+      );
+    } else {
+      setData(organizers as Organizer[]);
+    }
+  };
+
   React.useEffect(() => {
     setData(organizers as Organizer[]);
   }, [organizers]);
@@ -161,6 +179,15 @@ const Organizers: React.FC = () => {
         </Button>
       </div>
       <Card className="dic-organizers-table__card">
+        {isVisibleSearchableInput && (
+          <Input.Search
+            className="dic-organizers-table__card-input"
+            enterButton="Искать"
+            size="large"
+            placeholder="Поиск организаторов по названию"
+            onSearch={onSearch}
+          />
+        )}
         <Table
           className="dic-organizers-table"
           bordered

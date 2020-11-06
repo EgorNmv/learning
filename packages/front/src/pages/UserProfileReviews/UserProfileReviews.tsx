@@ -54,7 +54,7 @@ const UserProfileReviews: React.FC = () => {
       title: (
         <div className="reviews-table__event-col">
           <span>Информация</span>
-          <SearchOutlined />
+          {/* <SearchOutlined /> */}
         </div>
       ),
       dataIndex: "training",

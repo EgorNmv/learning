@@ -56,7 +56,7 @@ const UserProfileRecomendations: React.FC = () => {
       title: (
         <div className="recomends-table__event-col">
           <span>Информация</span>
-          <SearchOutlined />
+          {/* <SearchOutlined /> */}
         </div>
       ),
       dataIndex: "training",

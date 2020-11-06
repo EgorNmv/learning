@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Table, Button } from "antd";
+import { Card, Table, Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { graphql, GraphQLTaggedNode } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
@@ -44,6 +44,10 @@ const Categories: React.FC = () => {
     categoryId: number;
     name: string;
   } | null>(null);
+  const [
+    isVisibleSearchableInput,
+    setIsVisibleSearchableInput,
+  ] = React.useState<boolean>(false);
 
   const columns: ColumnsType<Category> = [
     {
@@ -57,7 +61,11 @@ const Categories: React.FC = () => {
       title: (
         <div className="categories-table__event-col">
           <span>Название</span>
-          <SearchOutlined />
+          <SearchOutlined
+            onClick={() =>
+              setIsVisibleSearchableInput(!isVisibleSearchableInput)
+            }
+          />
         </div>
       ),
       dataIndex: "description",
@@ -128,6 +136,18 @@ const Categories: React.FC = () => {
     }
   };
 
+  const onSearch = (searchValue: string) => {
+    if (searchValue) {
+      setData((prev) =>
+        prev.filter(
+          (category) => category.description.indexOf(searchValue) !== -1
+        )
+      );
+    } else {
+      setData(categories as Category[]);
+    }
+  };
+
   React.useEffect(() => {
     categories && setData(categories.filter(Boolean) as Category[]);
   }, [categories]);
@@ -152,6 +172,15 @@ const Categories: React.FC = () => {
         </Button>
       </div>
       <Card className="dic-categories-table__card">
+        {isVisibleSearchableInput && (
+          <Input.Search
+            className="categories-table__card-input"
+            enterButton="Искать"
+            size="large"
+            placeholder="Поиск категорий по названию"
+            onSearch={onSearch}
+          />
+        )}
         <Table
           className="dic-categories-table"
           bordered

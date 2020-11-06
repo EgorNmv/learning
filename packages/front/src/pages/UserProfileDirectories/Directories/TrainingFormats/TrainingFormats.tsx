@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Table, Button } from "antd";
+import { Card, Table, Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { graphql, GraphQLTaggedNode } from "react-relay";
 import { useLazyLoadQuery, useMutation } from "react-relay/hooks";
@@ -47,6 +47,10 @@ const TrainingFormats: React.FC = () => {
     trainingFormatId: number;
     name: string;
   } | null>(null);
+  const [
+    isVisibleSearchableInput,
+    setIsVisibleSearchableInput,
+  ] = React.useState<boolean>(false);
 
   const columns: ColumnsType<TrainingFormat> = [
     {
@@ -60,7 +64,11 @@ const TrainingFormats: React.FC = () => {
       title: (
         <div className="training-formats-table__event-col">
           <span>Название</span>
-          <SearchOutlined />
+          <SearchOutlined
+            onClick={() =>
+              setIsVisibleSearchableInput(!isVisibleSearchableInput)
+            }
+          />
         </div>
       ),
       dataIndex: "description",
@@ -124,6 +132,16 @@ const TrainingFormats: React.FC = () => {
     }
   };
 
+  const onSearch = (searchValue: string) => {
+    if (searchValue) {
+      setData((prev) =>
+        prev.filter((format) => format.description.indexOf(searchValue) !== -1)
+      );
+    } else {
+      setData(formats as TrainingFormat[]);
+    }
+  };
+
   React.useEffect(() => {
     setData(formats as TrainingFormat[]);
   }, [formats]);
@@ -150,6 +168,15 @@ const TrainingFormats: React.FC = () => {
         </Button>
       </div>
       <Card className="dic-training-formats-table__card">
+        {isVisibleSearchableInput && (
+          <Input.Search
+            className="dic-training-formats-table__card-input"
+            enterButton="Искать"
+            size="large"
+            placeholder="Поиск форматов обучения по названию"
+            onSearch={onSearch}
+          />
+        )}
         <Table
           className="dic-training-formats-table"
           bordered

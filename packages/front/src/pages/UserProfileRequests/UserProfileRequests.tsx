@@ -47,7 +47,7 @@ const UserProfileRequests: React.FC = () => {
   const [
     isVisibleSearchableInput,
     setIsVisibleSearchableInput,
-  ] = React.useState(false);
+  ] = React.useState<boolean>(false);
   const columns: ColumnsType<Request> = [
     {
       title: "№",
