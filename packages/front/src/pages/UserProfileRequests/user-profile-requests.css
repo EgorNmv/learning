@@ -46,6 +46,7 @@
 .requests-table__card {
   box-shadow: 2px 2px 4px #dddddd;
   border-radius: 15px;
+  height: 80vh;
 }
 
 .request-status__yellow {
@@ -99,4 +100,8 @@ li.ant-pagination-item:hover {
 
 li.ant-pagination-item-active {
   border: 0;
+}
+
+.requests-table__card-input {
+  padding-bottom: 15px;
 }

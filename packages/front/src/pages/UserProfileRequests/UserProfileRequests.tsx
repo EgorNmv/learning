@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Table, Card } from "antd";
+import { Table, Card, Input } from "antd";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import {
@@ -39,11 +39,15 @@ const query = graphql`
 type Request = UserProfileRequestsQueryResponse["requestsBySub"][number];
 
 const UserProfileRequests: React.FC = () => {
-  const [data, setData] = React.useState<Request[]>([]);
   const user = useContext(UserContext);
   const { requestsBySub } = useLazyLoadQuery<UserProfileRequestsQuery>(query, {
     userId: user ? user.sub : "",
   });
+  const [data, setData] = React.useState<Request[]>(requestsBySub as Request[]);
+  const [
+    isVisibleSearchableInput,
+    setIsVisibleSearchableInput,
+  ] = React.useState(false);
   const columns: ColumnsType<Request> = [
     {
       title: "№",
@@ -55,7 +59,11 @@ const UserProfileRequests: React.FC = () => {
       title: (
         <div className="requests-table__event-col">
           <span>Событие</span>
-          <SearchOutlined />
+          <SearchOutlined
+            onClick={() =>
+              setIsVisibleSearchableInput(!isVisibleSearchableInput)
+            }
+          />
         </div>
       ),
       dataIndex: "training",
@@ -102,20 +110,37 @@ const UserProfileRequests: React.FC = () => {
     },
   ];
 
-  React.useEffect(() => {
-    setData(requestsBySub as Request[]);
-  }, [requestsBySub]);
+  const onSearch = (searchValue: string) => {
+    if (searchValue) {
+      setData((prev) =>
+        prev.filter(
+          (request) => request.training.name.indexOf(searchValue) !== -1
+        )
+      );
+    } else {
+      setData(requestsBySub as Request[]);
+    }
+  };
 
   return (
     <section className="user-requests">
       <Breadcrumbs />
       <h2>Мои заявки</h2>
       <Card className="requests-table__card">
+        {isVisibleSearchableInput && (
+          <Input.Search
+            className="requests-table__card-input"
+            enterButton="Искать"
+            size="large"
+            placeholder="Поиск заявок по названию событий"
+            onSearch={onSearch}
+          />
+        )}
         <Table
           className="requests-table"
           bordered
           columns={columns}
-          dataSource={data}
+          dataSource={data as Request[]}
           rowKey={"requestId"}
           onHeaderRow={(column) => {
             return {
