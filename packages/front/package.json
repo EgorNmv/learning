@@ -2,6 +2,7 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.19.0",
     "@okta/okta-auth-js": "^3.2.3",
