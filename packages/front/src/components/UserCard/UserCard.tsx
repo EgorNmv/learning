@@ -11,10 +11,15 @@ type UserCardProps = {
     rate?: number | null;
   };
   className?: string;
+  isRecomendation?: boolean;
 };
 
 export const UserCard: React.FC<UserCardProps> = React.memo(
-  ({ feedback: { text, date, userId, rate }, className }) => {
+  ({
+    feedback: { text, date, userId, rate },
+    className,
+    isRecomendation = false,
+  }) => {
     const [oktaUser, setOktauser] = React.useState<any>(null);
     const getOktaUserBySub = React.useMemo(() => useOktaFetchedUser(userId), [
       userId,
@@ -45,13 +50,15 @@ export const UserCard: React.FC<UserCardProps> = React.memo(
               {oktaUser && oktaUser.profile && (
                 <p>{`${oktaUser.profile.firstName} ${oktaUser.profile.lastName}`}</p>
               )}
-              <p>
-                {rate ? (
-                  <Rate value={rate} disabled />
-                ) : (
-                  <Rate value={0} disabled />
-                )}
-              </p>
+              {!isRecomendation && (
+                <p>
+                  {rate ? (
+                    <Rate value={rate} disabled />
+                  ) : (
+                    <Rate value={0} disabled />
+                  )}
+                </p>
+              )}
               <p className="user-card-body-user__date">{date}</p>
             </div>
           </div>

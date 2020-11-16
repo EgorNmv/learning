@@ -170,7 +170,7 @@ export const TrainingRecommendations: React.FC<TrainingRecommendationsProps> = (
           // lazyLoad="ondemand"
         >
           {acceptedFeedbacksByTrainingId.map((recomendation) => (
-            <UserCard feedback={recomendation} />
+            <UserCard feedback={recomendation} isRecomendation={true} />
           ))}
         </Carousel>
       )}
