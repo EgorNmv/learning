@@ -11,3 +11,5 @@ ssh.txt
 .DS_Store
 logs/
 pgdata/
+backups/
+resourse_CYC.rar
