@@ -60,7 +60,7 @@
     "postcss-safe-parser": "4.0.1",
     "react": "0.0.0-experimental-4ead6b530",
     "react-app-polyfill": "^1.0.6",
-    "react-dev-utils": "^10.2.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "0.0.0-experimental-4ead6b530",
     "react-multi-carousel": "^2.5.5",
     "react-relay": "^0.0.0-experimental-94e87455",
